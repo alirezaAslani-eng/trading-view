@@ -10,6 +10,27 @@ const theme = {
   typography,
   palette: lightPalette, // * lightPalette as defult theme
   breakpoints,
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: "unset",
+        },
+      },
+    },
+    MuiSvgIcon: {
+      defaultProps: {
+        cursor: "pointer",
+      },
+    },
+  },
 };
 
 export default theme;
