@@ -1,6 +1,6 @@
 import { ThemeOptions } from "@mui/material";
 import typography from "./typography";
-import lightPalette from "./palette/lightPalette";
+import darkPalette from "./palette/darkPalette";
 import breakpoints from "./breakpoints";
 
 /**
@@ -8,7 +8,7 @@ import breakpoints from "./breakpoints";
  */
 const theme = {
   typography,
-  palette: lightPalette, // * lightPalette as defult theme
+  palette: darkPalette, // * darkPalette as defult theme
   breakpoints,
   components: {
     MuiButton: {
