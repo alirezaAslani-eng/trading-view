@@ -56,6 +56,7 @@ const darkPalette = {
   ...darkCustomColors,
   mode: setMode("dark"),
   background: {
+    ...darkCustomColors.background,
     default: darkCustomColors.background.surface,
     paper: notDefinedColors["#595B5F"],
   },
