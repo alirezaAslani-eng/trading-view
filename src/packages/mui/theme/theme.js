@@ -10,6 +10,7 @@ const theme = {
   typography,
   palette: darkPalette, // * darkPalette as defult theme
   // breakpoints,
+  direction: "rtl",
   components: {
     MuiButton: {
       styleOverrides: {
