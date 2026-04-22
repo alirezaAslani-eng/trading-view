@@ -2,3 +2,4 @@ export { default as nuetral } from "./nuetral";
 export { default as green } from "./green";
 export { default as blue } from "./blue";
 export { default as white } from "./white";
+export { default as red } from "./red";
