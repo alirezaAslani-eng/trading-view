@@ -4,3 +4,4 @@ export { default as blue } from "./blue";
 export { default as white } from "./white";
 export { default as red } from "./red";
 export { default as gray } from "./gray";
+export { default as notDefinedColors } from "./notDefinedColors";
