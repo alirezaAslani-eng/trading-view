@@ -119,6 +119,14 @@ const theme = {
         },
       },
     },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          cursor: "pointer",
+          userSelect: "none",
+        },
+      },
+    },
   },
 };
 
