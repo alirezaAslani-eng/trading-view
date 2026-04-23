@@ -16,7 +16,7 @@ const theme = {
   components: {
     MuiButton: {
       styleOverrides: {
-        root: {
+        root: ({ theme, ownerState }) => ({
           // *---start--- reset mui defult style on button --start---
           textTransform: "none",
           border: "none",
@@ -26,27 +26,8 @@ const theme = {
             boxShadow: undefined,
           },
           // *---end--- reset mui defult style on button --end---
-
-          // * ---start--- button variants ---start---
-          variants: [
-            {
-              props: { variant: "outlined" },
-              style: ({ theme }) => ({
-                border: "1px solid",
-                borderColor: theme.palette.border.primary,
-                color: notDefinedColors["#57A8FF"],
-              }),
-            },
-            {
-              props: { variant: "contained" },
-              style: ({ theme }) => ({
-                backgroundColor: theme.palette.background.primary,
-                color: theme.palette.text.onPrimary,
-              }),
-            },
-          ],
-          // * ---end--- button variants ---end---
-        },
+          ...buttonTheme(theme, ownerState),
+        }),
 
         // * ---start--- button sizing ---start---
         sizeSmall: {
@@ -80,42 +61,7 @@ const theme = {
           ":last-of-type": {
             border: "none",
           },
-          // * ---end--- reset default style of ToggleButton ---end---
-
-          // * ---start--- define variants for ToggleButton's state ---start---
-          // * success
-          ...(ownerState?.["color"] === "success" && {
-            ...(!ownerState.selected && {
-              backgroundColor: "transparent",
-              color: theme.palette.text.disabled,
-            }),
-            ...(ownerState.selected && {
-              backgroundColor: `${theme.palette.background.buy} !important`,
-              color: `${theme.palette.text.onPrimary} !important`,
-            }),
-          }),
-          // * primary
-          ...(ownerState?.["color"] === "primary" && {
-            ...(ownerState.selected && {
-              backgroundColor: `${theme.palette.background.primary} !important`,
-              color: `${theme.palette.text.onPrimary} !important`,
-            }),
-            ...(!ownerState.selected && {
-              backgroundColor: `transparent`,
-              color: theme.palette.text.onPrimary,
-            }),
-          }),
-          // * gray
-          ...(ownerState?.["color"] === "gray" && {
-            ...(ownerState.selected && {
-              backgroundColor: `${theme.palette.background.toggleActive} !important`,
-              color: theme.palette.text.onPrimary,
-            }),
-            ...(!ownerState.selected && {
-              backgroundColor: `transparent`,
-              color: theme.palette.text.linkSecondary,
-            }),
-          }),
+          ...toggleButtonTheme(theme, ownerState),
         }),
         // * ---end--- define colors for ToggleButton's state ---end---
 
@@ -157,3 +103,87 @@ const theme = {
 };
 
 export default theme;
+
+function buttonTheme(theme, ownerState) {
+  const variant = ownerState?.variant;
+  const color = ownerState?.color;
+  // * -------- primary theme --------
+  if (color === "primary") {
+    if (variant === "contained") {
+      return {
+        backgroundColor: theme.palette.background.primary,
+        color: theme.palette.text.onPrimary,
+      };
+    }
+    if (variant === "outlined") {
+      return {
+        border: "1px solid",
+        borderColor: theme.palette.border.primary,
+        color: notDefinedColors["#57A8FF"],
+      };
+    }
+    if (variant === "text") {
+      return {
+        color: notDefinedColors["#57A8FF"],
+      };
+    }
+  }
+  // * -------- success theme --------
+  if (color === "success") {
+    if (variant === "contained") {
+      return {
+        backgroundColor: theme.palette.background.buy,
+        color: theme.palette.text.onPrimary,
+      };
+    }
+  }
+}
+function toggleButtonTheme(theme, ownerState) {
+  const variant = ownerState?.["data-variant"] ?? "contained";
+  const color = ownerState?.color ?? "primary";
+  // * -------- primary theme --------
+  if (color === "primary") {
+    if (variant === "contained") {
+      return {
+        ...(ownerState.selected && {
+          backgroundColor: `${theme.palette.background.primary} !important`,
+          color: `${theme.palette.text.onPrimary} !important`,
+        }),
+        ...(!ownerState.selected && {
+          backgroundColor: `transparent`,
+          color: theme.palette.text.onPrimary,
+        }),
+      };
+    }
+  }
+  // * -------- success theme --------
+  if (color === "success") {
+    if (variant === "contained") {
+      return {
+        ...(!ownerState.selected && {
+          backgroundColor: "transparent",
+          color: theme.palette.text.disabled,
+        }),
+        ...(ownerState.selected && {
+          backgroundColor: `${theme.palette.background.buy} !important`,
+          color: `${theme.palette.text.onPrimary} !important`,
+        }),
+      };
+    }
+  }
+  // * -------- gray theme --------
+  if (color === "gray") {
+    if (variant === "contained") {
+      return {
+        ...(ownerState.selected && {
+          backgroundColor: `${theme.palette.background.toggleActive} !important`,
+          color: theme.palette.text.onPrimary,
+        }),
+        ...(!ownerState.selected && {
+          backgroundColor: `transparent`,
+          color: theme.palette.text.linkSecondary,
+        }),
+      };
+    }
+  }
+}
