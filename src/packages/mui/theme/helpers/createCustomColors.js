@@ -13,6 +13,7 @@ const paletteStructure = {
     caption: "",
     placeHolder: "",
     error: "",
+    inputText: "",
   },
   background: {
     primary: "",

@@ -24,6 +24,7 @@ const darkCustomColors = createCustomColors({
     caption: nuetral[700],
     error: red[600],
     placeholder: nuetral[800],
+    inputText: white.white,
   },
   background: {
     primary: blue[500],
