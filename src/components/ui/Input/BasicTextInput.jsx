@@ -9,6 +9,9 @@ const BasicTextInput = styled("input")(({ theme }) => ({
   fontFamily: theme.typography.button2.fontFamily,
   width: "100%",
   color: theme.palette.text.inputText,
+  "::placeholder": {
+    color: theme.palette.text.caption,
+  },
 }));
 
 export default BasicTextInput;
