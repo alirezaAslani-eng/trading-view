@@ -15,11 +15,16 @@ function SignupForm({ sx }) {
       sx={(tm) => ({ mt: "56px", width: "100%", ...identifySxProp(tm, sx) })}
       component={"form"}
     >
-      <Stack direction={"row"} sx={{ gap: "38px", alignSelf: "start" }}>
+      <Stack
+        direction={"row"}
+        sx={{ gap: "38px", alignSelf: "start", px: "calc(50px - 18px)" }}
+      >
         <CheckBox
+          color="primary"
           label={<Typography variant="button2">{"حساب حقیقی"}</Typography>}
         />
         <CheckBox
+          color="primary"
           label={<Typography variant="button2">{"حساب حقوقی"}</Typography>}
         />
       </Stack>
