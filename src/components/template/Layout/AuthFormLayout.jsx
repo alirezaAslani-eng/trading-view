@@ -42,7 +42,7 @@ AuthFormLayout.Heading = function ({ sx, subTitle, title }) {
     <Stack
       sx={(tm) => ({
         textAlign: "center",
-        mb: "52px",
+        mb: "64px",
         color: tm.palette.text.onPrimary,
         gap: "8px",
         ...identifySxProp(tm, sx),
