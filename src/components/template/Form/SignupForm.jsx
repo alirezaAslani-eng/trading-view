@@ -2,8 +2,8 @@
 import { Box, Button, FormLabel, Stack, Typography } from "@mui/material";
 import useRndomID from "@/hooks/app/useRndomID";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
-import PhoneNumberField from "@/components/ui/Input/PhoneNumberField";
 import CheckBox from "@/components/ui/Checkbox/CheckBox";
+import InputPhoneNumber from "@/components/ui/Input/InputPhoneNumber";
 
 /**
  * @param {{sx:import("@mui/material").BoxProps}} p1
@@ -29,7 +29,7 @@ function SignupForm({ sx }) {
           {"شماره موبایل"}
         </FormLabel>
         <Box sx={{ mt: "10px" }}>
-          <PhoneNumberField />
+          <InputPhoneNumber />
         </Box>
       </Box>
 
