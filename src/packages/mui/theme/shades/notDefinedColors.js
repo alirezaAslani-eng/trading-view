@@ -9,6 +9,7 @@ const notDefinedColors = {
   "#C6C6C6": "#C6C6C6",
   "#474747": "#474747",
   "#676767": "#676767",
+  "#CBCBCB": "#CBCBCB",
 };
 
 export default notDefinedColors;
