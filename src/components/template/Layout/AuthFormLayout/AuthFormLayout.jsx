@@ -15,7 +15,7 @@ function AuthFormLayout({ children, sx }) {
         borderRadius: "24px",
         bgcolor: alpha(notDefinedColors["#363636"], 0.18),
         p: "56px 18px 68px 18px ",
-        minWidth: "calc(503px, 100%)",
+        width: "min(503px, 100%)",
         ...identifySxProp(tm, sx),
       })}
     >
