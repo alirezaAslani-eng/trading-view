@@ -7,23 +7,14 @@ import React from "react";
 
 function page() {
   return (
-    <Box
-      sx={{
-        height: "100svh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <AuthFormLayout>
-        <AuthFormLayoutHeading
-          title="به آیرونکس خوش آمدید"
-          subTitle="جهت عضویت و ورود به پلتفرم، شماره تماس خود را وارد کنید"
-        />
-        <AuthFormLayoutToggleButoon activeButton="signup" />
-        <SignupForm />
-      </AuthFormLayout>
-    </Box>
+    <AuthFormLayout>
+      <AuthFormLayoutHeading
+        title="به آیرونکس خوش آمدید"
+        subTitle="جهت عضویت و ورود به پلتفرم، شماره تماس خود را وارد کنید"
+      />
+      <AuthFormLayoutToggleButoon activeButton="signup" />
+      <SignupForm />
+    </AuthFormLayout>
   );
 }
 
