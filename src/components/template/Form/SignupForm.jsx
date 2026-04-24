@@ -30,8 +30,10 @@ function SignupForm({ sx }) {
       </Stack>
 
       <Box sx={{ width: "100%", mt: "32px", px: "calc(50px - 18px)" }}>
-        <FormLabel htmlFor={phoneLabelID} variant="button2">
-          {"شماره موبایل"}
+        <FormLabel htmlFor={phoneLabelID}>
+          <Typography variant="button2" sx={{ color: "text.onPrimary" }}>
+            {"شماره موبایل"}
+          </Typography>
         </FormLabel>
         <Box sx={{ mt: "10px" }}>
           <InputPhoneNumber />

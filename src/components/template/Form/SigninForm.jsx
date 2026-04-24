@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, FormLabel } from "@mui/material";
+import { Box, Button, FormLabel, Typography } from "@mui/material";
 import useRndomID from "@/hooks/app/useRndomID";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import InputPhoneNumber from "@/components/ui/Input/InputPhoneNumber";
@@ -15,8 +15,10 @@ function SigninForm({ sx }) {
       component={"form"}
     >
       <Box sx={{ width: "100%", px: "calc(50px - 18px)" }}>
-        <FormLabel htmlFor={phoneLabelID} variant="button2">
-          {"شماره موبایل"}
+        <FormLabel htmlFor={phoneLabelID}>
+          <Typography variant="button2" sx={{ color: "text.onPrimary" }}>
+            {"شماره موبایل"}
+          </Typography>
         </FormLabel>
         <Box sx={{ mt: "10px" }}>
           <InputPhoneNumber />

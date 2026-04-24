@@ -25,7 +25,9 @@ function VerifyAuthForm({ sx }) {
     >
       <Box sx={{ px: "14.5px" }}>
         <FormLabel htmlFor={verifyInputLabelID}>
-          <Typography variant="button2">{"کد تایید"}</Typography>
+          <Typography variant="button2" sx={{ color: "text.onPrimary" }}>
+            {"کد تایید"}
+          </Typography>
         </FormLabel>
 
         <InputVerifyCode sx={{ mt: "10px" }} />
