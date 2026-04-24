@@ -5,21 +5,23 @@ import { notDefinedColors } from "@/packages/mui/theme/shades";
 import PhoneCountryCode from "@/components/ui/CountryCode/PhoneCountryCode";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 /**
- * @param {React.ComponentProps<typeof InputText>} props
+ * @param {React.ComponentProps<typeof InputText> & {countryCode:boolean}} props
  */
-function InputPhoneNumber(props) {
+function InputPhoneNumber({ countryCode = true, ...props }) {
   return (
     <Box sx={{ position: "relative" }}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          transform: "translateY(-50%)",
-          left: "16px",
-        }}
-      >
-        <PhoneCountryCode />
-      </Box>
+      {countryCode && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            transform: "translateY(-50%)",
+            left: "16px",
+          }}
+        >
+          <PhoneCountryCode />
+        </Box>
+      )}
       <InputText
         type="tel"
         {...props}
