@@ -5,16 +5,15 @@ import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { usePathname } from "next/navigation";
 
 /**
- * @param {{sx:import("@mui/material").StackProps["sx"]}} p0
+ * @param {{sx:import("@mui/material").StackProps["sx"],activeButton:"signin" | "signup"}} p0
  */
-export default function AuthFormLayoutToggleButoon({ sx }) {
-  const pathname = usePathname();
+export default function AuthFormLayoutToggleButoon({ sx, activeButton }) {
   return (
     <Box
       sx={(tm) => ({ px: "50px", width: "100%", ...identifySxProp(tm, sx) })}
     >
       <ToggleButtonGroup
-        value={pathname}
+        value={activeButton}
         fullWidth
         sx={({ palette }) => ({
           border: "1.4px solid",
@@ -25,12 +24,12 @@ export default function AuthFormLayoutToggleButoon({ sx }) {
         })}
       >
         <NextLink href={"/signin"} sx={{ flex: 1 }}>
-          <ToggleButton value="/signin" size="large" color="primary" fullWidth>
+          <ToggleButton value="signin" size="large" color="primary" fullWidth>
             {"ورود"}
           </ToggleButton>
         </NextLink>
         <NextLink href={"/signup"} sx={{ flex: 1 }}>
-          <ToggleButton value="/signup" size="large" color="primary" fullWidth>
+          <ToggleButton value="signup" size="large" color="primary" fullWidth>
             {"ثبت نام"}
           </ToggleButton>
         </NextLink>

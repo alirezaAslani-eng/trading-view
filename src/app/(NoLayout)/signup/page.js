@@ -20,7 +20,7 @@ function page() {
           title="به آیرونکس خوش آمدید"
           subTitle="جهت عضویت و ورود به پلتفرم، شماره تماس خود را وارد کنید"
         />
-        <AuthFormLayoutToggleButoon />
+        <AuthFormLayoutToggleButoon activeButton="signup" />
         <SignupForm />
       </AuthFormLayout>
     </Box>
