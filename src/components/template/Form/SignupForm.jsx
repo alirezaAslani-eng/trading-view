@@ -38,18 +38,17 @@ function SignupForm({ sx }) {
         <Box sx={{ mt: "10px" }}>
           <InputPhoneNumber />
         </Box>
+        <Button
+          fullWidth
+          sx={{ mt: "32px" }}
+          size={"large"}
+          variant="contained"
+          color="primary"
+          type="submit"
+        >
+          {"تایید و دریافت کد"}
+        </Button>
       </Box>
-
-      <Button
-        fullWidth
-        sx={{ mt: "32px" }}
-        size={"large"}
-        variant="contained"
-        color="primary"
-        type="submit"
-      >
-        {"تایید و دریافت کد"}
-      </Button>
     </Box>
   );
 }

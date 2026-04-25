@@ -23,17 +23,16 @@ function SigninForm({ sx }) {
         <Box sx={{ mt: "10px" }}>
           <InputPhoneNumber />
         </Box>
+        <Button
+          fullWidth
+          sx={{ mt: "32px" }}
+          variant="contained"
+          size={"large"}
+          type="submit"
+        >
+          {"تایید و دریافت کد"}
+        </Button>
       </Box>
-
-      <Button
-        fullWidth
-        sx={{ mt: "32px" }}
-        variant="contained"
-        size={"large"}
-        type="submit"
-      >
-        {"تایید و دریافت کد"}
-      </Button>
     </Box>
   );
 }
