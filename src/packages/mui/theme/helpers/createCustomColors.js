@@ -33,6 +33,7 @@ const paletteStructure = {
     secondary: "",
     error: "",
     white: "",
+    dark:""
   },
   status: {
     profit: "",

@@ -44,6 +44,7 @@ const darkCustomColors = createCustomColors({
     primary: blue[500],
     secondary: gray[180],
     white: white.white,
+    dark: gray[230],
   },
   status: {
     loss: red[500],
@@ -59,7 +60,7 @@ const darkPalette = {
   background: {
     ...darkCustomColors.background,
     default: darkCustomColors.background.surface,
-    paper: notDefinedColors["#595B5F"],
+    paper: notDefinedColors["#1B1C20"],
   },
 };
 
