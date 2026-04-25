@@ -3,8 +3,8 @@ import { notDefinedColors } from "@/packages/mui/theme/shades";
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import BrandIcon from "@/assets/svg/brand.svg";
 import React from "react";
-import { brandName } from "@/constant/app/staticData";
 import NextImage from "@/components/ui/Image/NextImage";
+import BrandName from "@/components/ui/Brand/BrandName";
 
 const footerTypographyProps = {
   variant: "button3",
@@ -15,7 +15,7 @@ const footerDividerProps = {
   flexItem: true,
   sx: { mx: "12px", color: notDefinedColors["#676767"] },
 };
-function LayoutAuthPage({children}) {
+function LayoutAuthPage({ children }) {
   return (
     <>
       <Stack
@@ -40,16 +40,7 @@ function LayoutAuthPage({children}) {
         />
         <Stack sx={{ alignItems: "center", mt: "52px  " }}>
           <BrandIcon />
-          <Typography
-            variant="h7"
-            sx={{
-              color: "text.onPrimary",
-              letterSpacing: 4,
-              mt: "8px",
-            }}
-          >
-            {brandName}
-          </Typography>
+          <BrandName sx={{ mt: "8px" }} />
         </Stack>
 
         {children}
