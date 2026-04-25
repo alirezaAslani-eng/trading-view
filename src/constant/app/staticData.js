@@ -1,3 +1,3 @@
-const brandName = "IRONEX";
+const brandName = "ironex";
 
 export { brandName };
