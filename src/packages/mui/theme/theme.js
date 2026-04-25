@@ -15,6 +15,19 @@ const theme = {
 
   direction: "rtl",
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        li: {
+          listStyle: "none",
+          padding: 0,
+          margin: 0,
+        },
+        ul: {
+          padding: 0,
+          margin: 0,
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: ({ theme, ownerState }) => ({
