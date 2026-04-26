@@ -1,13 +1,14 @@
 "use client";
 import BrandName from "@/components/ui/Brand/BrandName";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
-import { Badge, Box, Stack, Typography } from "@mui/material";
+import { Badge, Box, Stack, SvgIcon, Typography } from "@mui/material";
 import React from "react";
 import { hideScrollBar } from "@/packages/mui/theme/shared-style";
-import FakeIcon from "@/components/ui/Icon/FakeIcon";
 import SwitchTheme from "../Button/SwitchTheme";
 import UserProfileCard from "@/components/ui/Card/UserProfileCard";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
+import BrandIcon from "@/assets/svg/brand-icon.svg";
+import sidebarNavigators from "@/constant/app/sidebarNavigators";
 import {
   PanelSidebarDropdown,
   PanelSidebarNestedItem,
@@ -53,7 +54,9 @@ function SidebarPanel(props) {
         }}
       >
         <BrandName />
-        <FakeIcon />
+        <SvgIcon sx={{ width: "51px", height: "38px" }}>
+          <BrandIcon />
+        </SvgIcon>
       </Box>
 
       {/* // * -------- Menu list -------- */}
@@ -66,39 +69,31 @@ function SidebarPanel(props) {
           borderColor: "border.dark",
         }}
       >
-        <Badge color="error" slotProps={{ badge: { sx: badge_sx } }}>
-          <PanelSidebarDropdown
-            icon={<FakeIcon />}
-            text={"داشبورد"}
-            href={"/overview"}
-          >
-            <PanelSidebarNestedItem href={"/overview"}>
-              <Typography variant="button3" sx={{ color: "text.heading" }}>
-                {"متن تستی"}
-              </Typography>
-            </PanelSidebarNestedItem>
-          </PanelSidebarDropdown>
-        </Badge>
-
-        <Badge
-          badgeContent={"4"}
-          color="error"
-          slotProps={{ badge: { sx: badge_sx } }}
-        >
-          <PanelSidebarDropdown
-            icon={<FakeIcon />}
-            text={"داشبورد"}
-            href={""}
-          />
-        </Badge>
-
-        <Badge color="error" slotProps={{ badge: { sx: badge_sx } }}>
-          <PanelSidebarDropdown
-            icon={<FakeIcon />}
-            text={"داشبورد"}
-            href={""}
-          />
-        </Badge>
+        {sidebarNavigators.map((nav) => {
+          return (
+            <Badge color="error" slotProps={{ badge: { sx: badge_sx } }}>
+              <PanelSidebarDropdown
+                icon={<SvgIcon>{nav.icon}</SvgIcon>}
+                text={nav.text}
+                href={nav.link}
+              >
+                {!!nav.submenus.length &&
+                  nav.submenus.map((subNav) => {
+                    return (
+                      <PanelSidebarNestedItem href={subNav.link}>
+                        <Typography
+                          variant="button3"
+                          sx={{ color: "text.heading" }}
+                        >
+                          {subNav.text}
+                        </Typography>
+                      </PanelSidebarNestedItem>
+                    );
+                  })}
+              </PanelSidebarDropdown>
+            </Badge>
+          );
+        })}
       </Stack>
 
       {/* // * -------- Dark/Light Button -------- */}
