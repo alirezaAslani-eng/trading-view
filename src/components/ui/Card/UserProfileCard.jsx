@@ -46,7 +46,7 @@ function UserProfileCard() {
           </Typography>
         </Stack>
       </Box>
-      <SvgIcon>
+      <SvgIcon sx={{ cursor: "pointer" }}>
         <MoreIcon />
       </SvgIcon>
     </Box>

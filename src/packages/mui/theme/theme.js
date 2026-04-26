@@ -109,9 +109,6 @@ const theme = {
       },
     },
     MuiSvgIcon: {
-      defaultProps: {
-        cursor: "pointer",
-      },
       styleOverrides: {
         root: ({ theme }) => ({
           width: "20px",
