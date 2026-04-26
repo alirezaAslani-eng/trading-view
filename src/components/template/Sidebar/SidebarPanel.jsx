@@ -13,6 +13,7 @@ import {
   PanelSidebarDropdown,
   PanelSidebarNestedItem,
 } from "@/components/template/Dropdown/PanelSidebarDropdown";
+import { ActiveItemProvider } from "@/context/app/ActiveItem";
 
 const badge_sx = {
   right: "initial",
@@ -69,31 +70,41 @@ function SidebarPanel(props) {
           borderColor: "border.dark",
         }}
       >
-        {sidebarNavigators.map((nav) => {
-          return (
-            <Badge color="error" slotProps={{ badge: { sx: badge_sx } }}>
-              <PanelSidebarDropdown
-                icon={<SvgIcon>{nav.icon}</SvgIcon>}
-                text={nav.text}
-                href={nav.link}
+        <ActiveItemProvider>
+          {sidebarNavigators.map((nav) => {
+            return (
+              <Badge
+                key={nav.id}
+                color="error"
+                slotProps={{ badge: { sx: badge_sx } }}
               >
-                {!!nav.submenus.length &&
-                  nav.submenus.map((subNav) => {
-                    return (
-                      <PanelSidebarNestedItem href={subNav.link}>
-                        <Typography
-                          variant="button3"
-                          sx={{ color: "text.heading" }}
+                <PanelSidebarDropdown
+                  icon={<SvgIcon>{nav.icon}</SvgIcon>}
+                  text={nav.text}
+                  href={nav.link}
+                  id={nav.id}
+                >
+                  {!!nav.submenus.length &&
+                    nav.submenus.map((subNav) => {
+                      return (
+                        <PanelSidebarNestedItem
+                          key={subNav.id}
+                          href={subNav.link}
                         >
-                          {subNav.text}
-                        </Typography>
-                      </PanelSidebarNestedItem>
-                    );
-                  })}
-              </PanelSidebarDropdown>
-            </Badge>
-          );
-        })}
+                          <Typography
+                            variant="button3"
+                            sx={{ color: "text.heading" }}
+                          >
+                            {subNav.text}
+                          </Typography>
+                        </PanelSidebarNestedItem>
+                      );
+                    })}
+                </PanelSidebarDropdown>
+              </Badge>
+            );
+          })}
+        </ActiveItemProvider>
       </Stack>
 
       {/* // * -------- Dark/Light Button -------- */}

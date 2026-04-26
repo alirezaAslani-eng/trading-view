@@ -1,36 +1,33 @@
 "use client";
 import React from "react";
 import { Box } from "@mui/system";
-import { SvgIcon, Typography } from "@mui/material";
+import {  SvgIcon, Typography } from "@mui/material";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
-import { usePathname } from "next/navigation";
 import ArrowDownIcon from "@/assets/svg/arrow-down.svg";
-const svg_sx = { width: "14px", height: "14px" };
-/**
- * @param {React.ComponentProps<typeof NextLink> & {text:string , icon:string,children:import("react").ReactNode}} param0
- */
-function PanelSidebarDropdown({ icon, text, children, ...linkProps }) {
-  const pathname = usePathname();
-  const isOpenNestedMenu = pathname === linkProps.href;
+import useIsActiveLink from "@/hooks/app/useIsActiveLink";
+import { useActiveItemContext } from "@/context/app/ActiveItem";
+const svg_sx = { width: "14px", height: "14px", cursor: "pointer" };
+
+function PanelSidebarDropdown({ icon, text, href, children, id }) {
+  const isActiveLink = useIsActiveLink(href);
+  const { activeId, removeId, setId } = useActiveItemContext();
+  const isOpenNestedMenu = activeId === id;
   const LiOrUl = !!children ? "ul" : "li";
   return (
     <LiOrUl>
-      <NextLink
-        {...linkProps}
-        sx={(tm) => ({
+      <Box
+        sx={{
           px: "16px",
           height: "42px",
           borderRadius: "12px",
           display: "flex",
           alignItems: "center",
-          ...identifySxProp(tm, linkProps.sx),
-        })}
-        activeSx={(tm) => ({
-          backgroundColor: "background.sidebarActive",
-          ...identifySxProp(tm, linkProps.activeSx),
-        })}
+          ...(isActiveLink && {
+            backgroundColor: "background.sidebarActive",
+          }),
+        }}
       >
         <Box
           sx={{
@@ -40,26 +37,34 @@ function PanelSidebarDropdown({ icon, text, children, ...linkProps }) {
             flex: 1,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          {/* // * ---------- Link ---------- */}
+          <NextLink
+            href={href}
+            sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+          >
             {icon}
             <Typography variant="button3" sx={{ color: "text.heading" }}>
               {text}
             </Typography>
-          </Box>
+          </NextLink>
 
           {/* // * ---------- Arrow Icon ---------- */}
+
           {!!children &&
             (!isOpenNestedMenu ? (
-              <SvgIcon sx={svg_sx}>
+              <SvgIcon sx={svg_sx} onClick={() => setId(id)}>
                 <ArrowDownIcon />
               </SvgIcon>
             ) : (
-              <SvgIcon sx={{ ...svg_sx, transform: "rotate(180deg)" }}>
+              <SvgIcon
+                onClick={removeId}
+                sx={{ ...svg_sx, transform: "rotate(180deg)" }}
+              >
                 <ArrowDownIcon />
               </SvgIcon>
             ))}
         </Box>
-      </NextLink>
+      </Box>
 
       {/* // * ------ nesetd items ------ */}
       {isOpenNestedMenu && !!children && (
