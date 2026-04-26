@@ -242,7 +242,7 @@ function toggleButtonTheme(theme, ownerState) {
     }
   }
   // * -------- gray theme --------
-  if (color === "gray") {
+  if (color === "nuteral") {
     if (variant === "contained") {
       return {
         ...(ownerState.selected && {
