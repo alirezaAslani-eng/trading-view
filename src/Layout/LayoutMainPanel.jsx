@@ -2,11 +2,10 @@ import { Box } from "@mui/material";
 import React from "react";
 import SidebarPanel from "@/components/template/Sidebar/SidebarPanel";
 
-function LayoutMainPanel({children}) {
+function LayoutMainPanel({ children }) {
   return (
     <>
-      <Box sx={{ display: "flex", height: "2000px" }}>
-
+      <Box sx={{ display: "flex" }}>
         {/* // * --- sidebar --- */}
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box
@@ -23,9 +22,7 @@ function LayoutMainPanel({children}) {
         </Box>
 
         {/* // * --- main content --- */}
-        <Box sx={{ flex: 1, minWidth: "0px" }}>
-          {children}
-        </Box>
+        <Box sx={{ flex: 1, minWidth: "0px" }}>{children}</Box>
       </Box>
     </>
   );
