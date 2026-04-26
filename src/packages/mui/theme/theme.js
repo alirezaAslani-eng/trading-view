@@ -112,6 +112,13 @@ const theme = {
       defaultProps: {
         cursor: "pointer",
       },
+      styleOverrides: {
+        root: ({ theme }) => ({
+          width: "20px",
+          height: "20px",
+          color: theme.palette.text.heading,
+        }),
+      },
     },
     MuiCheckbox: {
       defaultProps: {
