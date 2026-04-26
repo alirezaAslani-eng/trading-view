@@ -6,7 +6,7 @@ function LayoutMainPanel() {
   return (
     <>
       <Box sx={{ display: "flex", height: "2000px" }}>
-        
+
         {/* // * --- sidebar --- */}
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box
@@ -23,7 +23,7 @@ function LayoutMainPanel() {
         </Box>
 
         {/* // * --- main content --- */}
-        <Box component={"main"} sx={{ flex: 1, minWidth: "0px" }}>
+        <Box sx={{ flex: 1, minWidth: "0px" }}>
           {children}
         </Box>
       </Box>
