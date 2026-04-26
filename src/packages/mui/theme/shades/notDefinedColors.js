@@ -13,6 +13,7 @@ const notDefinedColors = {
   "#1B1C20": "#1B1C20", // * < gray 230
   "#2F2F31": "#2F2F31", // * * < gray 220
   "#2F3035": "#2F3035",
+  "#9D9D9D":"#9D9D9D"
 };
 
 export default notDefinedColors;
