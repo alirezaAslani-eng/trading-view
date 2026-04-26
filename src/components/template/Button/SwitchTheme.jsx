@@ -9,7 +9,6 @@ function SwitchTheme() {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        mt: "32px",
       }}
     >
       <Typography
@@ -29,6 +28,5 @@ function SwitchTheme() {
     </Box>
   );
 }
-
 
 export default SwitchTheme;

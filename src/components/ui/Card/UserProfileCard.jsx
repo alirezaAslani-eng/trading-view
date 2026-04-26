@@ -16,8 +16,7 @@ function UserProfileCard() {
         pl: "4px",
         height: "52px",
         borderRadius: "12px",
-        mt: "144px",
-        gap:"30px"
+        gap: "30px",
       }}
     >
       <Box
