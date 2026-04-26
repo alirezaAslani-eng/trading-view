@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import DropdownButton from "@/components/ui/DropdownButton/DropdownButton";
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
@@ -9,51 +8,51 @@ import NextLink from "@/components/ui/Link/NextLink";
 import { usePathname } from "next/navigation";
 import FakeIcon from "@/components/ui/Icon/FakeIcon";
 /**
- * @param {React.ComponentProps<typeof NextLink> & {text:string , icon:string, hasNestedItems:boolean,children:import("react").ReactNode}} param0
+ * @param {React.ComponentProps<typeof NextLink> & {text:string , icon:string,children:import("react").ReactNode}} param0
  */
-function PanelSidebarDropdown({
-  icon,
-  text,
-  hasNestedItems,
-  children,
-  ...linkProps
-}) {
+function PanelSidebarDropdown({ icon, text, children, ...linkProps }) {
   const pathname = usePathname();
   const isOpenNestedMenu = pathname === linkProps.href;
-  const LiOrUl = hasNestedItems ? "ul" : "li";
+  const LiOrUl = !!children ? "ul" : "li";
   return (
     <LiOrUl>
-      <NextLink {...linkProps}>
-        <DropdownButton
-          active={isOpenNestedMenu}
-          size="large"
-          color="nuteral"
-          sx={{ justifyContent: "space-between" }}
+      <NextLink
+        {...linkProps}
+        sx={(tm) => ({
+          px: "16px",
+          height: "42px",
+          borderRadius: "12px",
+          display: "flex",
+          alignItems: "center",
+          ...identifySxProp(tm, linkProps.sx),
+        })}
+        activeSx={(tm) => ({
+          backgroundColor: "background.sidebarActive",
+          ...identifySxProp(tm, linkProps.activeSx),
+        })}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flex: 1,
+          }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flex: 1,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              {icon}
-              <Typography variant="button3" sx={{ color: "text.heading" }}>
-                {text}
-              </Typography>
-            </Box>
-
-            {/* // * ---------- Arrow Icon ---------- */}
-            {hasNestedItems &&
-              (!isOpenNestedMenu ? <FakeIcon /> : <FakeIcon />)}
+          <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {icon}
+            <Typography variant="button3" sx={{ color: "text.heading" }}>
+              {text}
+            </Typography>
           </Box>
-        </DropdownButton>
+
+          {/* // * ---------- Arrow Icon ---------- */}
+          {!!children && (!isOpenNestedMenu ? <FakeIcon /> : <FakeIcon />)}
+        </Box>
       </NextLink>
 
       {/* // * ------ nesetd items ------ */}
-      {isOpenNestedMenu && hasNestedItems && (
+      {isOpenNestedMenu && !!children && (
         <Box component={"ul"} sx={{ pr: "20px", mt: "18px", mb: "8px" }}>
           <Box
             sx={{
@@ -87,7 +86,7 @@ function PanelSidebarNestedItem({ activeSx, ...props }) {
           ...identifySxProp(tm, props.sx),
         })}
         activeSx={(tm) => ({
-          backgroundColor: tm.palette.background.sidebarActive,
+          backgroundColor: "background.sidebarActive",
           ...identifySxProp(tm, activeSx),
         })}
       >
