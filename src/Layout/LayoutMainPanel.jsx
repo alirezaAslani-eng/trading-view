@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import SidebarPanel from "@/components/template/Sidebar/SidebarPanel";
 
-function LayoutMainPanel() {
+function LayoutMainPanel({children}) {
   return (
     <>
       <Box sx={{ display: "flex", height: "2000px" }}>
