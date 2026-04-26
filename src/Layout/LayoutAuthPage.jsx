@@ -1,10 +1,10 @@
 import NextLink from "@/components/ui/Link/NextLink";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import { Box, Divider, Stack, Typography } from "@mui/material";
-import BrandIcon from "@/assets/svg/brand.svg";
 import React from "react";
 import NextImage from "@/components/ui/Image/NextImage";
 import BrandName from "@/components/ui/Brand/BrandName";
+import FakeIcon from "@/components/ui/Icon/FakeIcon";
 
 const footerTypographyProps = {
   variant: "button3",
@@ -39,7 +39,7 @@ function LayoutAuthPage({ children }) {
           }}
         />
         <Stack sx={{ alignItems: "center", mt: "52px  " }}>
-          <BrandIcon />
+          <FakeIcon />
           <BrandName sx={{ mt: "8px" }} />
         </Stack>
 

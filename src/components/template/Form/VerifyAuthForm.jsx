@@ -3,11 +3,11 @@ import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { Box, Button, FormLabel, Stack, Typography } from "@mui/material";
 import React from "react";
 import useRndomID from "@/hooks/app/useRndomID";
-import RestartIcon from "@/assets/svg/restart.svg";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
 import InputVerifyCode from "@/components/template/Input/InputVerifyCode";
 import SendAuthOTP from "@/components/template/Button/SendAuthOTP";
+import FakeIcon from "@/components/ui/Icon/FakeIcon";
 /**
  * @param {{sx:import('@mui/material').StackProps["sx"]}} props
  */
@@ -56,7 +56,7 @@ function VerifyAuthForm({ sx }) {
         </NextLink>
 
         <SendAuthOTP>
-          <RestartIcon />
+          <FakeIcon />
           {"اصلاح شماره موبایل"}
         </SendAuthOTP>
       </Box>
