@@ -1,7 +1,7 @@
 const notDefinedColors = {
   "#595B5F": "#595B5F",
   "#363636": "#363636",
-  "#57A8FF": "#57A8FF",// * < blue 400
+  "#57A8FF": "#57A8FF", // * < blue 400
   "#282828": "#282828",
   "#3A3A3A": "#3A3A3A",
   "#434343": "#434343",
@@ -13,7 +13,8 @@ const notDefinedColors = {
   "#1B1C20": "#1B1C20", // * < gray 230
   "#2F2F31": "#2F2F31", // * * < gray 220
   "#2F3035": "#2F3035",
-  "#9D9D9D":"#9D9D9D"
+  "#9D9D9D": "#9D9D9D",
+  "#FD5064": "#FD5064",
 };
 
 export default notDefinedColors;
