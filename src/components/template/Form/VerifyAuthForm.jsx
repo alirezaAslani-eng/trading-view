@@ -1,13 +1,20 @@
 "use client";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
-import { Box, Button, FormLabel, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormLabel,
+  Stack,
+  SvgIcon,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import useRndomID from "@/hooks/app/useRndomID";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
 import InputVerifyCode from "@/components/template/Input/InputVerifyCode";
 import SendAuthOTP from "@/components/template/Button/SendAuthOTP";
-import FakeIcon from "@/components/ui/Icon/FakeIcon";
+import RotateRight from "@/assets/svg/rotate-right.svg";
 /**
  * @param {{sx:import('@mui/material').StackProps["sx"]}} props
  */
@@ -56,7 +63,9 @@ function VerifyAuthForm({ sx }) {
         </NextLink>
 
         <SendAuthOTP>
-          <FakeIcon />
+          <SvgIcon >
+            <RotateRight />
+          </SvgIcon>
           {"اصلاح شماره موبایل"}
         </SendAuthOTP>
       </Box>

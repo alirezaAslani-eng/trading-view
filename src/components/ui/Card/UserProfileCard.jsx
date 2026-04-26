@@ -1,8 +1,7 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, SvgIcon, Typography } from "@mui/material";
 import { lineClamp } from "@/packages/mui/theme/helpers";
 import ProfileCircle from "@/components/ui/Profile/ProfileCircle";
-import FakeIcon from "@/components/ui/Icon/FakeIcon";
-
+import MoreIcon from "@/assets/svg/more-horizontal.svg";
 function UserProfileCard() {
   return (
     <Box
@@ -47,7 +46,9 @@ function UserProfileCard() {
           </Typography>
         </Stack>
       </Box>
-      <FakeIcon />
+      <SvgIcon>
+        <MoreIcon />
+      </SvgIcon>
     </Box>
   );
 }

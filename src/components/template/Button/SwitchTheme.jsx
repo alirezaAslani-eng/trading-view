@@ -1,6 +1,6 @@
 "use client";
-import FakeIcon from "@/components/ui/Icon/FakeIcon";
-import { Box, Switch, Typography } from "@mui/material";
+import SunIcon from "@/assets/svg/sun.svg";
+import { Box, SvgIcon, Switch, Typography } from "@mui/material";
 
 function SwitchTheme() {
   return (
@@ -20,7 +20,9 @@ function SwitchTheme() {
           gap: "10px",
         }}
       >
-        <FakeIcon />
+        <SvgIcon sx={{ color: "text.disabled" }}>
+          <SunIcon />
+        </SvgIcon>
         {"حالت تیره"}
       </Typography>
 

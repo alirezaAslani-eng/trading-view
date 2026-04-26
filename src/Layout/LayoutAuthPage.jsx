@@ -1,11 +1,11 @@
+"use client";
 import NextLink from "@/components/ui/Link/NextLink";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, SvgIcon, Typography } from "@mui/material";
 import React from "react";
 import NextImage from "@/components/ui/Image/NextImage";
 import BrandName from "@/components/ui/Brand/BrandName";
-import FakeIcon from "@/components/ui/Icon/FakeIcon";
-
+import BrandIcon from "@/assets/svg/brand-icon.svg";
 const footerTypographyProps = {
   variant: "button3",
   sx: { color: notDefinedColors["#CBCBCB"] },
@@ -39,7 +39,9 @@ function LayoutAuthPage({ children }) {
           }}
         />
         <Stack sx={{ alignItems: "center", mt: "52px  " }}>
-          <FakeIcon />
+          <SvgIcon sx={{ width: "100px", height: "70px" }}>
+            <BrandIcon />
+          </SvgIcon>
           <BrandName sx={{ mt: "8px" }} />
         </Stack>
 

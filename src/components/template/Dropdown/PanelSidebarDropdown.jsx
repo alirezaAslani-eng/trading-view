@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
 import { Box } from "@mui/system";
-import { Typography } from "@mui/material";
+import { SvgIcon, Typography } from "@mui/material";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
 import { usePathname } from "next/navigation";
-import FakeIcon from "@/components/ui/Icon/FakeIcon";
+import ArrowDownIcon from "@/assets/svg/arrow-down.svg";
+const svg_sx = { width: "14px", height: "14px" };
 /**
  * @param {React.ComponentProps<typeof NextLink> & {text:string , icon:string,children:import("react").ReactNode}} param0
  */
@@ -47,7 +48,16 @@ function PanelSidebarDropdown({ icon, text, children, ...linkProps }) {
           </Box>
 
           {/* // * ---------- Arrow Icon ---------- */}
-          {!!children && (!isOpenNestedMenu ? <FakeIcon /> : <FakeIcon />)}
+          {!!children &&
+            (!isOpenNestedMenu ? (
+              <SvgIcon sx={svg_sx}>
+                <ArrowDownIcon />
+              </SvgIcon>
+            ) : (
+              <SvgIcon sx={{ ...svg_sx, transform: "rotate(180deg)" }}>
+                <ArrowDownIcon />
+              </SvgIcon>
+            ))}
         </Box>
       </NextLink>
 

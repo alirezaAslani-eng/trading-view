@@ -1,8 +1,8 @@
-import { ThemeOptions } from "@mui/material";
+import { SvgIcon, ThemeOptions } from "@mui/material";
 import typography from "./typography";
 import darkPalette from "./palette/darkPalette";
 import { notDefinedColors } from "./shades";
-import FakeIcon from "@/components/ui/Icon/FakeIcon";
+import CheckedIcon from "@/assets/svg/checked.svg";
 // import breakpoints from "./breakpoints";
 
 /**
@@ -122,8 +122,14 @@ const theme = {
     },
     MuiCheckbox: {
       defaultProps: {
-        checkedIcon: <FakeIcon />,
-        icon: <p></p>,
+        checkedIcon: (
+          <SvgIcon
+            sx={{ width: "12px", height: "12px", color: "text.heading" }}
+          >
+            <CheckedIcon />
+          </SvgIcon>
+        ),
+        icon: <span></span>,
       },
       styleOverrides: {
         root: ({ theme, ownerState }) => ({
