@@ -60,7 +60,7 @@ const darkPalette = {
   background: {
     ...darkCustomColors.background,
     default: darkCustomColors.background.surface,
-    paper: notDefinedColors["#1B1C20"],
+    paper: notDefinedColors["#595B5F"],
   },
 };
 
