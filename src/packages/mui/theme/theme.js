@@ -11,7 +11,6 @@ import {
   MuiFormLabel,
   MuiPaper,
   MuiSvgIcon,
-  MuiToggleButton,
   MuiToggleButtonGroup,
 } from "./overriders";
 // import breakpoints from "./breakpoints";
@@ -27,7 +26,6 @@ const theme = {
   components: {
     MuiCssBaseline,
     MuiButton,
-    MuiToggleButton,
     MuiToggleButtonGroup,
     MuiPaper,
     MuiSvgIcon,

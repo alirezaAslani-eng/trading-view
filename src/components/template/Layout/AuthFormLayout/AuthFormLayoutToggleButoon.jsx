@@ -14,6 +14,8 @@ export default function AuthFormLayoutToggleButoon({ sx, activeButton }) {
     >
       <ToggleButtonGroup
         value={activeButton}
+        size="large"
+        color="primary"
         fullWidth
         sx={({ palette }) => ({
           border: "1.4px solid",
@@ -24,12 +26,12 @@ export default function AuthFormLayoutToggleButoon({ sx, activeButton }) {
         })}
       >
         <NextLink href={"/signin"} sx={{ flex: 1 }}>
-          <ToggleButton value="signin" size="large" color="primary" fullWidth>
+          <ToggleButton value="signin" fullWidth>
             {"ورود"}
           </ToggleButton>
         </NextLink>
         <NextLink href={"/signup"} sx={{ flex: 1 }}>
-          <ToggleButton value="signup" size="large" color="primary" fullWidth>
+          <ToggleButton value="signup" fullWidth>
             {"ثبت نام"}
           </ToggleButton>
         </NextLink>
