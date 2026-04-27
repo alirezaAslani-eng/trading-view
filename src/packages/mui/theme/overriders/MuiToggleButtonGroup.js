@@ -15,6 +15,7 @@ const MuiToggleButtonGroup = {
 
   styleOverrides: {
     root: ({ ownerState, theme }) => ({
+      height: "fit-content",
       ...toggleButtonGroupSize(theme, ownerState),
       [allToggleButtonsSelector]: {
         borderRadius: "0px",
