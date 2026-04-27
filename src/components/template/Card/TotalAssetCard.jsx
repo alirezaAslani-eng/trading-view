@@ -45,7 +45,7 @@ function TotalAssetCard() {
           display: "flex",
           gap: "61px",
           alignItems: "center",
-          p: "11px 10px",
+          px: "10px",
         }}
       >
         <Box
@@ -96,7 +96,7 @@ function TotalAssetCard() {
             fullWidth
             sx={{ gap: "2px", px: "4px" }}
           >
-            <SendIcon />
+            <ReceiveIcon />
             {"واریز"}
           </Button>
           <Button
@@ -105,7 +105,7 @@ function TotalAssetCard() {
             fullWidth
             sx={{ gap: "2px", px: "4px" }}
           >
-            <ReceiveIcon />
+            <SendIcon />
             {"برداشت"}
           </Button>
         </Box>

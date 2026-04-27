@@ -11,7 +11,7 @@ function page() {
       <PageHeader title="دارایی‌ها" subtitle="نمای کلی سرمایه و سفارشات" />
       <main>
         <Box sx={{ mt: "41px" }}>
-          <PanelPaper sx={{ p: "20px 16px", width: "698px" }}>
+          <PanelPaper sx={{ p: "20px 16px 31px 16px", width: "698px" }}>
             <TotalAssetCard />
           </PanelPaper>
         </Box>
