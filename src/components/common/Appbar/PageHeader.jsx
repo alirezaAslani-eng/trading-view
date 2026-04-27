@@ -32,12 +32,15 @@ function PageHeader({ sx, title, subtitle }) {
         </Typography>
       </Box>
 
-
-
       {/* // * --- Search Input ----- */}
       <Box
         component={"aside"}
-        sx={{ display: "flex", alignItems: "center", gap: "18px",height:"fit-content" }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: "18px",
+          height: "fit-content",
+        }}
       >
         <InputMarker
           right={"16.2px"}
@@ -58,6 +61,7 @@ function PageHeader({ sx, title, subtitle }) {
               borderRadius: "12px",
               color: "text.heading",
               backgroundColor: "background.surfaceSecondary",
+              width: "282px",
               "::placeholder": {
                 color: "text.secondary",
               },
