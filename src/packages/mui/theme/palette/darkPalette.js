@@ -48,7 +48,7 @@ const darkCustomColors = createCustomColors({
   },
   status: {
     loss: red[500],
-    profit: red[500],
+    profit: green[500],
   },
 });
 /**
