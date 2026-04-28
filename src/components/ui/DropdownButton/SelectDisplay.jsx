@@ -3,40 +3,35 @@ import { inputSize, inputTheme } from "@/packages/mui/theme/style-generator";
 import { Box, styled } from "@mui/material";
 import { ComponentProps } from "react";
 import { DownIcon } from "../Icon";
+import clsx from "clsx";
 
 const StyledSelectDisplay = styled(Box, {
   shouldForwardProp: (p) => {
-    return (
-      p !== "variant" &&
-      p !== "size" &&
-      p !== "color" &&
-      p !== "focused" &&
-      p !== "error" &&
-      p !== "isSelected"
-    );
+    return p !== "variant" && p !== "size" && p !== "color";
   },
-})(({
-  theme,
-  variant = "contained",
-  color = "primary",
-  size = "medium",
-  error,
-  focused = false,
-  isSelected,
-}) => {
+})(({ theme, variant = "contained", color = "primary", size = "medium" }) => {
   const input_theme = inputTheme({
     color,
     theme,
     variant,
-    error,
   });
   const input_size = inputSize({ size, theme });
   return {
     ...input_theme?.rootTheme,
     ...input_size?.rootSize,
-    // * focused theme
-    ...(focused && input_theme?.focusTheme),
-    ...(!isSelected && input_theme.placeholderTheme),
+
+    "&.Mui-focused": {
+      ...input_theme?.focusTheme,
+    },
+
+    "&.Mui-error": {
+      ...input_theme?.errorTheme,
+    },
+
+    "&.Mui-placeholder": {
+      ...input_theme?.placeholderTheme,
+    },
+
     cursor: "pointer",
     display: "flex",
     justifyContent: "space-between",
@@ -48,13 +43,23 @@ const StyledSelectDisplay = styled(Box, {
 /**
  * @param {ComponentProps<typeof StyledSelectDisplay} props
  */
-function SelectDisplay({ children, downIcon, upIcon, focused, ...props }) {
+function SelectDisplay({ children, downIcon, upIcon, ...props }) {
   return (
     <>
-      <StyledSelectDisplay {...props} focused={focused}>
+      <StyledSelectDisplay
+        {...props}
+        className={clsx(
+          {
+            "Mui-focused": props.focused,
+            "Mui-placeholder": !props.isSelected,
+            "Mui-error": props.error,
+          },
+          props?.className,
+        )}
+      >
         <Box>{children}</Box>
         <Box>
-          {focused
+          {props.focused
             ? (downIcon ?? <DownIcon sx={{ transform: "rotate(180deg)" }} />)
             : (upIcon ?? <DownIcon />)}
         </Box>
@@ -63,9 +68,6 @@ function SelectDisplay({ children, downIcon, upIcon, focused, ...props }) {
   );
 }
 export default SelectDisplay;
-
-
-
 
 // * select input <- sx / variant / color / size / error
 // * dropdown box <- select input <- focus / error / isSelected
