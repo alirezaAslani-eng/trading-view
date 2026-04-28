@@ -3,7 +3,7 @@ import { alpha } from "@mui/material";
 /**
  * @returns {{rootTheme?:object,focusTheme?:object,placeholderTheme?:object}}
  */
-function inputTheme({ theme, variant, color }) {
+function inputTheme({ theme, variant, color, error }) {
   const shared_style = {
     transition: "all ease 150ms",
   };
@@ -18,8 +18,12 @@ function inputTheme({ theme, variant, color }) {
           borderColor: "transparent",
           backgroundColor: theme.palette.background.inputModal,
           color: theme.palette.text.onPrimary,
+          ...(error && {
+            borderColor: theme.palette.border.error,
+            boxShadow: `0px 0px 0px 2px ${alpha(theme.palette.border.error, 0.16)}`,
+          }),
         },
-        focusTheme: {
+        focusTheme: !error && {
           borderColor: theme.palette.border.primary,
           boxShadow: `0px 0px 0px 2px ${alpha(theme.palette.border.primary, 0.16)}`,
         },

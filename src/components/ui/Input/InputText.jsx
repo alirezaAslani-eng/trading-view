@@ -3,16 +3,23 @@ import { inputSize, inputTheme } from "@/packages/mui/theme/style-generator";
 import { styled } from "@mui/material";
 
 const StyledInputText = styled("input", {
-  shouldForwardProp: (prop) => {
-    return prop !== "variant" && prop !== "color" && prop !== "size";
+  shouldForwardProp: (p) => {
+    return p !== "variant" && p !== "color" && p !== "size" && p !== "error";
   },
-})(({ theme, color = "primary", size = "medium", variant = "contained" }) => {
+})(({
+  theme,
+  color = "primary",
+  size = "medium",
+  variant = "contained",
+  error,
+}) => {
   const input_size = inputSize({ theme, size });
 
   const input_theme = inputTheme({
     theme,
     color,
     variant,
+    error,
   });
 
   return {
@@ -25,6 +32,7 @@ const StyledInputText = styled("input", {
       ...input_size?.placeholderSize,
     },
     ":focus": { ...input_theme?.focusTheme },
+    ...input_theme?.errorTheme,
   };
 });
 
