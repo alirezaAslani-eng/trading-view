@@ -1,27 +1,37 @@
 "use client";
-import { alpha, styled } from "@mui/material";
+import { inputSize, inputTheme } from "@/packages/mui/theme/style-generator";
+import { styled } from "@mui/material";
 
-const InputText = styled("input")(({ theme }) => ({
-  outline: "none",
-  width: "100%",
-  border: "1px solid",
-  borderColor: "transparent",
-  backgroundColor: theme.palette.background.inputModal,
-  fontSize: theme.typography.body3.fontSize,
-  fontFamily: theme.typography.body3.fontFamily,
-  borderRadius: "10px",
-  height: "42px",
-  padding: "0px 12px",
-  transition: "all ease 150ms",
-  color: theme.palette.text.onPrimary,
-  "::placeholder": {
-    color: theme.palette.text.placeHolder,
-    fontSize: theme.typography.body3.fontSize,
+const StyledInputText = styled("input", {
+  shouldForwardProp: (prop) => {
+    return prop !== "variant" && prop !== "color" && prop !== "size";
   },
-  ":focus": {
-    borderColor: theme.palette.border.primary,
-    boxShadow: `0px 0px 0px 2px ${alpha(theme.palette.border.primary, 0.16)}`,
-  },
-}));
+})(({ theme, color = "primary", size = "medium", variant = "contained" }) => {
+  const input_size = inputSize({ theme, size });
 
+  const input_theme = inputTheme({
+    theme,
+    color,
+    variant,
+  });
+
+  return {
+    outline: "none",
+    width: "100%",
+    ...input_theme?.rootTheme,
+    ...input_size?.rootSize,
+    "::placeholder": {
+      ...input_theme?.placeholderTheme,
+      ...input_size?.placeholderSize,
+    },
+    ":focus": { ...input_theme?.focusTheme },
+  };
+});
+
+/**
+ * @param {{variant:string; size:string; color:string} & import("react").ComponentProps<typeof StyledInputText>} props
+ */
+function InputText(props) {
+  return <StyledInputText {...props} />;
+}
 export default InputText;
