@@ -12,7 +12,12 @@ const MuiCssBaseline = {
       padding: 0,
       margin: 0,
     },
+    input: {
+      border: "none",
+      backgroundColor: "transparent",
+      outline: "none",
+    },
   },
 };
 
-export default MuiCssBaseline
+export default MuiCssBaseline;
