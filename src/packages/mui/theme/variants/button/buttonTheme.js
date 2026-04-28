@@ -1,0 +1,44 @@
+const { notDefinedColors } = require("../../shades");
+
+/**
+ * @returns {{rootStyle:object}}
+ */
+function buttonTheme({ theme, variant, color }) {
+  // * -------- primary theme --------
+  const styles = {
+    primary: {
+      contained: {
+        rootStyle: {
+          backgroundColor: theme.palette.background.primary,
+          color: theme.palette.text.onPrimary,
+        },
+      },
+      outlined: {
+        rootStyle: {
+          border: "1px solid",
+          borderColor: theme.palette.border.primary,
+          color: notDefinedColors["#57A8FF"],
+        },
+      },
+      text: {
+        rootStyle: {
+          color: notDefinedColors["#57A8FF"],
+        },
+      },
+    },
+
+    // * -------- success theme --------
+    success: {
+      contained: {
+        rootStyle: {
+          backgroundColor: theme.palette.background.buy,
+          color: theme.palette.text.onPrimary,
+        },
+      },
+    },
+  };
+
+  return styles?.[color]?.[variant] || styles.primary.contained;
+}
+
+export default buttonTheme;

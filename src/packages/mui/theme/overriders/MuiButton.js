@@ -1,22 +1,30 @@
 import { notDefinedColors } from "../shades";
+import { buttonTheme } from "../variants";
 
 /**
  * @type {import("@mui/material").Components<import("@mui/material").Theme>["MuiButton"]}
  */
 const MuiButton = {
   styleOverrides: {
-    root: ({ theme, ownerState }) => ({
-      // *---start--- reset mui defult style on button --start---
-      textTransform: "none",
-      border: "none",
-      backgroundColor: "transparent",
-      ":hover": {
-        backgroundColor: undefined,
-        boxShadow: undefined,
-      },
-      // *---end--- reset mui defult style on button --end---
-      ...buttonTheme(theme, ownerState),
-    }),
+    root: ({ theme, ownerState }) => {
+      const button_theme = buttonTheme({
+        theme,
+        color: ownerState.color,
+        variant: ownerState.variant,
+      });
+      return {
+        // *---start--- reset mui defult style on button --start---
+        textTransform: "none",
+        border: "none",
+        backgroundColor: "transparent",
+        ":hover": {
+          backgroundColor: undefined,
+          boxShadow: undefined,
+        },
+        // *---end--- reset mui defult style on button --end---
+        ...button_theme?.rootStyle,
+      };
+    },
 
     // * ---start--- button sizing ---start---
     sizeSmall: {
@@ -39,38 +47,3 @@ const MuiButton = {
 };
 
 export default MuiButton;
-
-function buttonTheme(theme, ownerState) {
-  const variant = ownerState?.variant;
-  const color = ownerState?.color;
-  // * -------- primary theme --------
-  if (color === "primary") {
-    if (variant === "contained") {
-      return {
-        backgroundColor: theme.palette.background.primary,
-        color: theme.palette.text.onPrimary,
-      };
-    }
-    if (variant === "outlined") {
-      return {
-        border: "1px solid",
-        borderColor: theme.palette.border.primary,
-        color: notDefinedColors["#57A8FF"],
-      };
-    }
-    if (variant === "text") {
-      return {
-        color: notDefinedColors["#57A8FF"],
-      };
-    }
-  }
-  // * -------- success theme --------
-  if (color === "success") {
-    if (variant === "contained") {
-      return {
-        backgroundColor: theme.palette.background.buy,
-        color: theme.palette.text.onPrimary,
-      };
-    }
-  }
-}

@@ -1,6 +1,7 @@
 import { SvgIcon } from "@mui/material";
 import CheckedIcon from "@/assets/svg/checked.svg";
 import { notDefinedColors } from "../shades";
+import { checkboxTheme } from "../variants";
 
 /**
  * @type {import("@mui/material").Components<import("@mui/material").Theme>["MuiCheckbox"]}
@@ -15,11 +16,20 @@ const MuiCheckbox = {
     icon: <span></span>,
   },
   styleOverrides: {
-    root: ({ theme, ownerState }) => ({
-      background: "none !important",
-      transition: "all ease 150ms",
-      ...checkboxTheme(theme, ownerState),
-    }),
+    root: ({ theme, ownerState }) => {
+      const checkbox_theme = checkboxTheme({ theme, color: ownerState.color });
+      return {
+        background: "none !important",
+        transition: "all ease 150ms",
+        ...checkbox_theme?.rootStyle,
+        "&.Mui-checked": {
+          ...checkbox_theme?.checkedTheme,
+        },
+        "&:not(.Mui-checked)": {
+          ...checkbox_theme?.notCheckedTheme,
+        },
+      };
+    },
     sizeMedium: {
       width: "28px",
       height: "28px",
@@ -30,23 +40,3 @@ const MuiCheckbox = {
 };
 
 export default MuiCheckbox;
-
-function checkboxTheme(theme, ownerState) {
-  const color = ownerState?.color;
-
-  if (color === "primary") {
-    return {
-      border: "1px solid",
-      "&.Mui-checked": {
-        color: theme.palette.text.onPrimary,
-        backgroundColor: `${theme.palette.background.primary} !important`,
-        borderColor: "transparent",
-      },
-      "&:not(.Mui-checked)": {
-        color: theme.palette.text.onPrimary,
-        backgroundColor: `${notDefinedColors["#282828"]} !important`,
-        borderColor: notDefinedColors["#474747"],
-      },
-    };
-  }
-}
