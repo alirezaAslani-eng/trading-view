@@ -17,6 +17,20 @@ function inputSize({ theme, size }) {
         fontFamily: theme.typography.body3.fontFamily,
       },
     },
+    // * ------- small size -------
+    small: {
+      rootSize: {
+        borderRadius: "10px",
+        fontSize: theme.typography.button3.fontSize,
+        fontFamily: theme.typography.button3.fontFamily,
+        height: "38px",
+        padding: "0px 10px",
+      },
+      placeholderSize: {
+        fontSize: theme.typography.button3.fontSize,
+        fontFamily: theme.typography.button3.fontFamily,
+      },
+    },
   };
   return sizes?.[size] || sizes.medium;
 }
