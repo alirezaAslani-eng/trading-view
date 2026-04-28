@@ -14,6 +14,7 @@ function inputSize({ theme, size }) {
       },
       placeholderSize: {
         fontSize: theme.typography.body3.fontSize,
+        fontFamily: theme.typography.body3.fontFamily,
       },
     },
   };

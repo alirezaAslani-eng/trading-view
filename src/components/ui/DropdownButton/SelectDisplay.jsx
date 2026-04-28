@@ -30,6 +30,7 @@ const StyledSelectDisplay = styled(Box, {
 
     "&.Mui-placeholder": {
       ...input_theme?.placeholderTheme,
+      ...input_size?.placeholderSize,
     },
 
     cursor: "pointer",
