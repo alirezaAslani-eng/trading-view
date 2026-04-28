@@ -17,7 +17,7 @@ function inputSize({ theme, size }) {
       },
     },
   };
-  return sizes?.[size];
+  return sizes?.[size] || sizes.medium;
 }
 
 export default inputSize;
