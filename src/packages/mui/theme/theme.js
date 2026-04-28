@@ -1,8 +1,6 @@
-import { SvgIcon, ThemeOptions } from "@mui/material";
+import {  ThemeOptions } from "@mui/material";
 import typography from "./typography";
 import darkPalette from "./palette/darkPalette";
-import { notDefinedColors } from "./shades";
-import CheckedIcon from "@/assets/svg/checked.svg";
 import {
   MuiBadge,
   MuiButton,
