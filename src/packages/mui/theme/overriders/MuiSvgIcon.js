@@ -7,6 +7,9 @@ const MuiSvgIcon = {
       width: "20px",
       height: "20px",
       color: theme.palette.text.heading,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     }),
   },
 };
