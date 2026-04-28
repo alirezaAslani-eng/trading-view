@@ -1,5 +1,9 @@
 "use client";
-import { inputSize, inputTheme } from "@/packages/mui/theme/style-generator";
+import {
+  inputDefaultVariants,
+  inputSize,
+  inputTheme,
+} from "@/packages/mui/theme/variants";
 import { styled } from "@mui/material";
 import clsx from "clsx";
 
@@ -7,7 +11,12 @@ const StyledInputText = styled("input", {
   shouldForwardProp: (p) => {
     return p !== "variant" && p !== "color" && p !== "size" && p !== "error";
   },
-})(({ theme, color = "primary", size = "medium", variant = "contained" }) => {
+})(({
+  theme,
+  color = inputDefaultVariants.color,
+  size = inputDefaultVariants.size,
+  variant = inputDefaultVariants.variant,
+}) => {
   const input_size = inputSize({ theme, size });
 
   const input_theme = inputTheme({

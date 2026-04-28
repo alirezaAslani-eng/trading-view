@@ -1,15 +1,21 @@
 "use client";
-import { inputSize, inputTheme } from "@/packages/mui/theme/style-generator";
+import { inputSize, inputTheme } from "@/packages/mui/theme/variants";
 import { Box, styled } from "@mui/material";
 import { ComponentProps } from "react";
 import { DownIcon } from "../Icon";
 import clsx from "clsx";
+import { inputDefaultVariants } from "@/packages/mui/theme/variants";
 
 const StyledSelectDisplay = styled(Box, {
   shouldForwardProp: (p) => {
     return p !== "variant" && p !== "size" && p !== "color";
   },
-})(({ theme, variant = "contained", color = "primary", size = "medium" }) => {
+})(({
+  theme,
+  variant = inputDefaultVariants.variant,
+  color = inputDefaultVariants.color,
+  size = inputDefaultVariants.size,
+}) => {
   const input_theme = inputTheme({
     color,
     theme,
