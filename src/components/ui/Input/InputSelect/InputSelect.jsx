@@ -35,7 +35,7 @@ function InputSelect_({ children, placeholder, ...selectDisplayProps }) {
             ...lineClamp(1),
           }}
         >
-          {isPlaceholder ? { placeholder } : displayedItem}
+          {isPlaceholder ?  placeholder  : displayedItem}
         </Typography>
       </SelectDisplay>
       {/* // * ---- select menu ---- */}
