@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function useMuiMenuState() {
   const [anchoreEl, setAnchoreEl] = useState(null);
@@ -9,13 +9,16 @@ function useMuiMenuState() {
     anchoreWidth.current = anchoreEl?.clientWidth;
   }, [anchoreEl]);
 
-  const openMenu = (e) => {
-    setAnchoreEl(e.currentTarget);
-  };
+  const openMenu = useCallback(
+    (e) => {
+      setAnchoreEl(e.currentTarget);
+    },
+    [setAnchoreEl],
+  );
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     setAnchoreEl(null);
-  };
+  }, [setAnchoreEl]);
 
   return {
     openMenu,
