@@ -7,14 +7,20 @@ function LayoutMainPanel({ children }) {
     <>
       <Box sx={{ display: "flex" }}>
         {/* // * --- sidebar --- */}
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            pt: "20px",
+            pr: "20px",
+          }}
+        >
           <Box
             sx={{
               position: "sticky",
-              top: "0px",
-              p: "20px 20px 20px 0px",
+              top: "20px",
               width: "264px",
-              height: "100svh",
+              height: "calc(100svh - 40px)",
             }}
           >
             <SidebarPanel />
