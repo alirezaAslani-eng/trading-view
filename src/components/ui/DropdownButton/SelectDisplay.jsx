@@ -66,7 +66,7 @@ function SelectDisplay({ children, focused, isSelected, error, ...props }) {
       >
         <Box sx={{ width: "100%", minWidth: "0px" }}>{children}</Box>
         <Box>
-          <InputSelectIcon focused={focused} size={props.size} />
+          <InputSelectIcon focused={focused} variant={props.variant} />
         </Box>
       </StyledSelectDisplay>
     </>

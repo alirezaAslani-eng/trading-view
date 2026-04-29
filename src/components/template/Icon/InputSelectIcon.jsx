@@ -6,18 +6,18 @@ const downMinimal_sx = {
   height: "14px",
 };
 /**
- * @param {{size:string,focused:boolean}} props
+ * @param {{focused:boolean,variant:string}} props
  */
-function InputSelectIcon({ focused, size = inputDefaultVariants.size }) {
+function InputSelectIcon({ focused, variant = inputDefaultVariants.variant }) {
   return (
     <>
-      {size === "medium" &&
+      {variant === "contained" &&
         (focused ? (
           <DownIcon sx={{ transform: "rotate(180deg)" }} />
         ) : (
           <DownIcon />
         ))}
-      {size === "small" &&
+      {variant === "outlined" &&
         (focused ? (
           <DownMinimalIcon
             sx={{ ...downMinimal_sx, transform: "rotate(180deg)" }}
