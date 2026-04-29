@@ -31,6 +31,26 @@ function inputTheme({ theme, variant, color }) {
           boxShadow: `0px 0px 0px 2px ${alpha(theme.palette.border.error, 0.16)}`,
         },
       },
+      outlined: {
+        rootTheme: {
+          ...shared_style,
+          border: "1px solid",
+          borderColor: theme.palette.border.default,
+          backgroundColor: "transparent",
+          color: theme.palette.text.onPrimary,
+        },
+        focusTheme: {
+          borderColor: theme.palette.border.primary,
+          boxShadow: `0px 0px 0px 2px ${alpha(theme.palette.border.primary, 0.16)}`,
+        },
+        placeholderTheme: {
+          color: theme.palette.text.placeHolder,
+        },
+        errorTheme: {
+          borderColor: `${theme.palette.border.error}`,
+          boxShadow: `0px 0px 0px 2px ${alpha(theme.palette.border.error, 0.16)}`,
+        },
+      },
     },
   };
 
