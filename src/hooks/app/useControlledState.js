@@ -5,8 +5,8 @@ import { useState } from "react";
  *
  * @returns {[value:any,setValue:(value:any)=>void]}
  */
-function useControlledState({ value, onChange = (value) => {} }) {
-  const isControlled = value !== undefined || onChange !== undefined;
+function useControlledState({ value, onChange }) {
+  const isControlled = value !== undefined;
 
   warn(onChange !== undefined && value === undefined, {
     warnText: "to track changes by onChange, the prop value is needed too",
@@ -18,9 +18,7 @@ function useControlledState({ value, onChange = (value) => {} }) {
 
   const setValue = (newValue) => {
     if (isControlled) {
-      console.log({ newValue });
-
-      onChange(newValue);
+      if (onChange) onChange(newValue);
       return;
     }
     setInternalValue(newValue);
