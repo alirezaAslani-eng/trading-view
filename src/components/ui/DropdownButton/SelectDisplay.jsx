@@ -50,16 +50,16 @@ const StyledSelectDisplay = styled(Box, {
 /**
  * @param {ComponentProps<typeof StyledSelectDisplay} props
  */
-function SelectDisplay({ children, downIcon, upIcon, focused, ...props }) {
+function SelectDisplay({ children, focused, isSelected, error, ...props }) {
   return (
     <>
       <StyledSelectDisplay
         {...props}
         className={clsx(
           {
-            "Mui-focused": props.focused,
-            "Mui-placeholder": !props.isSelected,
-            "Mui-error": props.error,
+            "Mui-focused": focused,
+            "Mui-placeholder": !isSelected,
+            "Mui-error": error,
           },
           props?.className,
         )}
