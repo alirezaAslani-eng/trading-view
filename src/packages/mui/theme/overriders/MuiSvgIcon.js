@@ -6,7 +6,7 @@ const MuiSvgIcon = {
     root: ({ theme }) => ({
       width: "20px",
       height: "20px",
-      color: theme.palette.text.heading,
+      color: theme.palette.text.onPrimary,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
