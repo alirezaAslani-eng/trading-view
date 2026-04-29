@@ -10,6 +10,7 @@ const MuiSvgIcon = {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      fill:"none"
     }),
   },
 };
