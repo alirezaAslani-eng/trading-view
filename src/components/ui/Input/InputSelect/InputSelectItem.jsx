@@ -5,7 +5,7 @@ import { useInputSelectController } from "@/context/app/InputSelectController";
  * @param {ComponentProps<typeof SelectItem> & {value:string}} props
  */
 function InputSelectItem({ value, ...props }) {
-  const { updateValue, closeMenu } = useInputSelectController();
+  const { updateValue, closeMenu,selectedValue } = useInputSelectController();
 
   const updateHandler = () => {
     updateValue(value);
@@ -13,7 +13,7 @@ function InputSelectItem({ value, ...props }) {
   };
 
   return (
-    <SelectItem {...props} onClick={updateHandler}>
+    <SelectItem {...props} selected={value === selectedValue} onClick={updateHandler}>
       {props.children}
     </SelectItem>
   );
