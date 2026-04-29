@@ -64,7 +64,7 @@ function SelectDisplay({ children, focused, isSelected, error, ...props }) {
           props?.className,
         )}
       >
-        <Box>{children}</Box>
+        <Box sx={{ width: "100%", minWidth: "0px" }}>{children}</Box>
         <Box>
           <InputSelectIcon focused={focused} size={props.size} />
         </Box>
