@@ -2,9 +2,9 @@
 import { inputSize, inputTheme } from "@/packages/mui/theme/variants";
 import { Box, styled } from "@mui/material";
 import { ComponentProps } from "react";
-import { DownIcon } from "../Icon";
 import clsx from "clsx";
 import { inputDefaultVariants } from "@/packages/mui/theme/variants";
+import { InputSelectIcon } from "@/components/template/Icon";
 
 const StyledSelectDisplay = styled(Box, {
   shouldForwardProp: (p) => {
@@ -50,7 +50,7 @@ const StyledSelectDisplay = styled(Box, {
 /**
  * @param {ComponentProps<typeof StyledSelectDisplay} props
  */
-function SelectDisplay({ children, downIcon, upIcon, ...props }) {
+function SelectDisplay({ children, downIcon, upIcon, focused, ...props }) {
   return (
     <>
       <StyledSelectDisplay
@@ -66,9 +66,7 @@ function SelectDisplay({ children, downIcon, upIcon, ...props }) {
       >
         <Box>{children}</Box>
         <Box>
-          {props.focused
-            ? (downIcon ?? <DownIcon sx={{ transform: "rotate(180deg)" }} />)
-            : (upIcon ?? <DownIcon />)}
+          <InputSelectIcon focused={focused} size={props.size} />
         </Box>
       </StyledSelectDisplay>
     </>
