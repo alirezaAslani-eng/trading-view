@@ -1,4 +1,4 @@
-import {  ThemeOptions } from "@mui/material";
+import { ThemeOptions } from "@mui/material";
 import typography from "./typography";
 import darkPalette from "./palette/darkPalette";
 import {
@@ -20,7 +20,7 @@ const theme = {
   typography,
   palette: darkPalette, // * darkPalette as defult theme
   // breakpoints,
-
+  spacing: 4,
   direction: "rtl",
   components: {
     MuiCssBaseline,
