@@ -1,5 +1,5 @@
 /**
- * @type {import("@mui/material").Components<import("@mui/material").Theme>["MuiScopedCssBaseline"]}
+ * @type {import("@mui/material").Components<import("@mui/material").Theme>["MuiCssBaseline"]}
  */
 const MuiCssBaseline = {
   styleOverrides: {
