@@ -19,6 +19,7 @@ const Table = styled(Table_)(({ theme }) => ({
     fontFamily: theme.typography.caption1.fontFamily,
     lineHeight: theme.typography.caption1?.lineHeight,
     paddingTop: rowSpace,
+    verticalAlign: "middle",
     ...columnSpacing(columnSpace, asideSpace),
   },
   "& tr td": {
