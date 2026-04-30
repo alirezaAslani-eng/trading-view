@@ -20,7 +20,7 @@ function toggleButtonGroupSize({ size, theme }) {
       },
       toggleButtons: {
         height: "38px",
-        padding: "0px 8px",
+        padding: "0px 2px",
         borderRadius: "6px !important",
         fontSize: theme.typography.button4.fontSize,
         fontFamily: theme.typography.button4.fontFamily,
