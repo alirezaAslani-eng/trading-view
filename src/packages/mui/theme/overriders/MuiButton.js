@@ -27,21 +27,29 @@ const MuiButton = {
     },
 
     // * ---start--- button sizing ---start---
-    sizeSmall: {
+    sizeSmall: ({ theme }) => ({
       height: "36px",
-      borderRadius: "6px",
+      borderRadius: "8px",
       padding: "0px 12px",
-    },
-    sizeMedium: {
+      fontSize: theme.typography.button4.fontSize,
+      fontFamily: theme.typography.button4.fontFamily,
+      lineHeight: theme.typography.button4?.lineHeight,
+    }),
+    sizeMedium: ({ theme }) => ({
       height: "45px",
       borderRadius: "10px",
       padding: "0px 16px",
-    },
-    sizeLarge: {
+      fontSize: theme.typography.button2.fontSize,
+      fontFamily: theme.typography.button2.fontFamily,
+    }),
+    sizeLarge: ({ theme }) => ({
       height: "56px",
       borderRadius: "28px",
       padding: "0px 20px",
-    },
+      fontSize: theme.typography.button2.fontSize,
+      fontFamily: theme.typography.button2.fontFamily,
+      lineHeight: theme.typography.button2?.lineHeight,
+    }),
     // * ---end--- button sizing ---end---
   },
 };
