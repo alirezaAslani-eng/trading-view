@@ -7,6 +7,7 @@ import {
   MuiButton,
   MuiCheckbox,
   MuiCssBaseline,
+  MuiDialog,
   MuiFormLabel,
   MuiPaper,
   MuiSvgIcon,
@@ -34,6 +35,7 @@ const theme = {
     MuiBadge,
     MuiToggleButton,
     MuiAlert,
+    MuiDialog,
   },
 };
 
