@@ -12,7 +12,6 @@ function alertSize({ theme, size = defaultAlertVariants.size }) {
         gap: "8px",
         fontSize: theme.typography.body3.fontSize,
         fontFamily: theme.typography.body3.fontFamily,
-        lineHeight: theme.typography.body3?.lineHeight,
       },
       iconSize: {
         width: "18px",
