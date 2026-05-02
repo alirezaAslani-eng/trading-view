@@ -6,5 +6,14 @@ const inputDefaultVariants = {
 const defaultToggleGroupButtonVariants = {
   variant: "contained",
 };
+const defaultCheckboxVariants = {
+  variant: "contained",
+  color: "primary",
+  size: "medium",
+};
 
-export { inputDefaultVariants, defaultToggleGroupButtonVariants };
+export {
+  inputDefaultVariants,
+  defaultToggleGroupButtonVariants,
+  defaultCheckboxVariants,
+};
