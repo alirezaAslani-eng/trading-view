@@ -11,9 +11,13 @@ const defaultCheckboxVariants = {
   color: "primary",
   size: "medium",
 };
+const defaultAlertVariants = {
+  size: "small",
+};
 
 export {
   inputDefaultVariants,
   defaultToggleGroupButtonVariants,
   defaultCheckboxVariants,
+  defaultAlertVariants,
 };

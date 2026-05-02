@@ -6,3 +6,5 @@ export { default as buttonTheme } from "./button/buttonTheme";
 export { default as toggleButtonGroupSize } from "./toggleButtonGroup/toggleButtonGroupSize";
 export { default as toggleButtonGroupTheme } from "./toggleButtonGroup/toggleButtonGroupTheme";
 export { default as checkboxSize } from "./checkbox/checkboxSize";
+export { default as alertSize } from "./alert/alertSize";
+export { default as alertTheme } from "./alert/alertTheme";
