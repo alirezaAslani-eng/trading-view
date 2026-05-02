@@ -4,3 +4,4 @@ export { default as DownIcon } from "./DownIcon";
 export { default as DownMinimalIcon } from "./DownMinimalIcon";
 export { default as ArrowUpDownIcon } from "./ArrowUpDownIcon";
 export { default as SearchIcon } from "./SearchIcon";
+export { default as CloseIcon } from "./CloseIcon";
