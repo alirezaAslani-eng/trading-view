@@ -3,7 +3,13 @@ import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { Button, FormLabel, Stack, styled, Typography } from "@mui/material";
 import React from "react";
 
-const FormLayout = styled(Stack)({
+/**
+ * @param {import("@mui/material").StackProps<"form">} props
+ */
+function FormLayoutAsForm(props) {
+  return <Stack component={"form"} {...props} />;
+}
+const FormLayout = styled(FormLayoutAsForm)({
   gap: "24px",
   width: "100%",
 });
@@ -40,10 +46,18 @@ function FormLayoutLable({ htmlFor, ...props }) {
 /**
  * @param {import("@mui/material").ButtonProps} props
  */
-function CommonSubiter(props) {
-  return <Button variant="contained" color="primary" size="large" {...props} />;
+function SubmitButton(props) {
+  return (
+    <Button
+      variant="contained"
+      color="primary"
+      size="large"
+      type="submit"
+      {...props}
+    />
+  );
 }
-const FormLayoutSubmit = styled(CommonSubiter)({
+const FormLayoutSubmit = styled(SubmitButton)({
   marginTop: "32px",
 });
 
