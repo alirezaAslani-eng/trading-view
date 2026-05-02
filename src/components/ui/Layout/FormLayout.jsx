@@ -2,7 +2,8 @@
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { Button, FormLabel, Stack, styled, Typography } from "@mui/material";
 import React from "react";
-
+import Alert from "@/components/ui/Alert/Alert";
+const formLayoutGap = "24px";
 /**
  * @param {import("@mui/material").StackProps<"form">} props
  */
@@ -10,7 +11,7 @@ function FormLayoutAsForm(props) {
   return <Stack component={"form"} {...props} />;
 }
 const FormLayout = styled(FormLayoutAsForm)({
-  gap: "24px",
+  gap: formLayoutGap,
   width: "100%",
 });
 
@@ -61,10 +62,18 @@ const FormLayoutSubmit = styled(SubmitButton)({
   marginTop: "32px",
 });
 
+// * FormLayout -> Alert
+const FormLayoutAlert = styled(Alert)({
+  marginBottom: `calc(32px - ${formLayoutGap})`,
+  marginRight: "auto",
+  marginLeft: "auto",
+});
+
 export {
   FormLayout,
   FormLayoutField,
   FormLayoutSubmit,
   FormLayoutFieldGroup,
+  FormLayoutAlert,
   FormLayoutLable,
 };
