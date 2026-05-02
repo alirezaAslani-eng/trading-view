@@ -3,7 +3,9 @@
  */
 const MuiAlert = {
   styleOverrides: {
+    
     root: {
+      width:"fit-content",
       display: "flex",
       alignItems: "center",
       "& .MuiAlert-icon": {

@@ -6,7 +6,6 @@ function alertSize({ theme, size = defaultAlertVariants.size }) {
   const sizes = {
     small: {
       rootSize: {
-        width: "100%",
         minHeight: "30px",
         borderRadius: "8px",
         padding: "6.5px 8px",
