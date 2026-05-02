@@ -45,7 +45,7 @@ const sidebarNavigators = [
   },
   {
     text: "دارایی‌ها",
-    link: "/",
+    link: "/assets",
     icon: <WalletIcon />,
     id: crypto.randomUUID(),
     submenus: [],
