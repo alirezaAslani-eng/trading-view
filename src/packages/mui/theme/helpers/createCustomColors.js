@@ -33,11 +33,12 @@ const paletteStructure = {
     secondary: "",
     error: "",
     white: "",
-    dark:""
+    dark: "",
   },
   status: {
     profit: "",
     loss: "",
+    warning: "",
   },
 };
 const createCustomColors = (colors = paletteStructure) => colors;

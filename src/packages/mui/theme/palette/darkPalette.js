@@ -6,6 +6,7 @@ import {
   green,
   notDefinedColors,
   nuetral,
+  orange,
   red,
   white,
 } from "@/packages/mui/theme/shades";
@@ -49,6 +50,7 @@ const darkCustomColors = createCustomColors({
   status: {
     loss: red[500],
     profit: green[500],
+    warning: orange[500],
   },
 });
 /**
