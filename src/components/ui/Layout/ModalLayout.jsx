@@ -16,6 +16,9 @@ const ModalLayout = styled(Stack)(({ theme }) => {
     padding: "20px 28px 28px 28px",
   };
 });
+const ModalLayoutBody = styled(Stack)({
+  marginTop: "32px",
+});
 
 // * ----------- Heading Section ----------------
 const ModalLayoutHeading = styled(Box)({
@@ -27,7 +30,7 @@ const ModalLayoutCloseIcon = styled(CloseIcon)(({ theme }) => ({
   width: "22px",
   height: "22px",
   cursor: "pointer",
-  marginTop: "6px", 
+  marginTop: "6px",
   color: theme.palette.text.onPrimary,
 }));
 
@@ -58,4 +61,5 @@ export {
   ModalLayoutTitle,
   ModalLayoutCloseIcon,
   ModalLayoutHeading,
+  ModalLayoutBody,
 };
