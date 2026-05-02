@@ -2,6 +2,7 @@ import { InputSelect } from "@/components/ui/Input/InputSelect";
 import InputText from "@/components/ui/Input/InputText";
 import {
   FormLayout,
+  FormLayoutAlert,
   FormLayoutField,
   FormLayoutFieldGroup,
   FormLayoutLable,
@@ -12,6 +13,9 @@ import React from "react";
 function BaseAuthForm() {
   return (
     <FormLayout>
+      <FormLayoutAlert>
+        {"شماره شبا باید متعلق به صاحب کد ملی 2940282714 باشد"}
+      </FormLayoutAlert>
       <FormLayoutFieldGroup>
         <FormLayoutField>
           <FormLayoutLable>{"کد ملی"}</FormLayoutLable>
