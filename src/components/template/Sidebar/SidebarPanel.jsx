@@ -14,6 +14,7 @@ import {
   PanelSidebarNestedItem,
 } from "@/components/template/Dropdown/PanelSidebarDropdown";
 import { ActiveItemProvider } from "@/context/app/ActiveItem";
+import NextImage from "@/components/ui/Image/NextImage";
 
 const badge_sx = {
   right: "initial",
@@ -55,9 +56,13 @@ function SidebarPanel(props) {
         }}
       >
         <BrandName />
-        <SvgIcon sx={{ width: "51px", height: "38px" }}>
-          <BrandIcon />
-        </SvgIcon>
+        <NextImage
+          src={"/images/brand-logo.png"}
+          alt="brand logo"
+          width={51}
+          height={38}
+          sx={{ objectFit: "cover" }}
+        />
       </Box>
 
       {/* // * -------- Menu list -------- */}
