@@ -2,6 +2,7 @@ import { ThemeOptions } from "@mui/material";
 import typography from "./typography";
 import darkPalette from "./palette/darkPalette";
 import {
+  MuiAlert,
   MuiBadge,
   MuiButton,
   MuiCheckbox,
@@ -32,6 +33,7 @@ const theme = {
     MuiFormLabel,
     MuiBadge,
     MuiToggleButton,
+    MuiAlert,
   },
 };
 

@@ -7,3 +7,4 @@ export { default as MuiPaper } from "./MuiPaper";
 export { default as MuiSvgIcon } from "./MuiSvgIcon";
 export { default as MuiToggleButtonGroup } from "./MuiToggleButtonGroup";
 export { default as MuiToggleButton } from "./MuiToggleButton";
+export { default as MuiAlert } from "./MuiAlert";
