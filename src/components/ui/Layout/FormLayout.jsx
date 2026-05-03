@@ -59,7 +59,7 @@ function SubmitButton(props) {
   );
 }
 const FormLayoutSubmit = styled(SubmitButton)({
-  marginTop: "32px",
+  marginTop: `calc(32px - ${formLayoutGap})`,
 });
 
 // * FormLayout -> Alert
