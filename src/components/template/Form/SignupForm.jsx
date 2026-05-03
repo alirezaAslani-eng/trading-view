@@ -19,14 +19,8 @@ function SignupForm({ sx }) {
         direction={"row"}
         sx={{ gap: "38px", alignSelf: "start", px: "calc(50px - 18px)" }}
       >
-        <CheckBox
-          color="primary"
-          label={<Typography variant="button2">{"حساب حقیقی"}</Typography>}
-        />
-        <CheckBox
-          color="primary"
-          label={<Typography variant="button2">{"حساب حقوقی"}</Typography>}
-        />
+        <CheckBox color="primary" label={"حساب حقیقی"} />
+        <CheckBox color="primary" label={"حساب حقوقی"} />
       </Stack>
 
       <Box sx={{ width: "100%", mt: "32px", px: "calc(50px - 18px)" }}>

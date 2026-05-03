@@ -1,5 +1,11 @@
 "use client";
-import { Box, Checkbox as MuiCheckbox, FormLabel, styled } from "@mui/material";
+import {
+  Box,
+  Checkbox as MuiCheckbox,
+  FormLabel,
+  styled,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import useRndomID from "@/hooks/app/useRndomID";
 import { checkboxSize, checkboxTheme } from "@/packages/mui/theme/variants";
@@ -27,14 +33,23 @@ const StyledCheckBox = styled(MuiCheckbox, {
   };
 });
 /**
- * @param {import("@mui/material").CheckboxProps & {label:import("react").ReactNode}} props
+ * @param {import("@mui/material").CheckboxProps & {label:string}} props
  */
 function CheckBox({ label, ...props }) {
   const randomLabelID = useRndomID();
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <StyledCheckBox id={randomLabelID} {...props} />
-      <FormLabel htmlFor={randomLabelID}>{label}</FormLabel>
+      {label && (
+        <Typography
+          component={"label"}
+          variant="button2"
+          sx={{ color: "text.secondary" }}
+          htmlFor={randomLabelID}
+        >
+          {label}
+        </Typography>
+      )}
     </Box>
   );
 }
