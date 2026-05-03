@@ -1,6 +1,7 @@
 export * from "./defaultVariants";
 export { default as inputSize } from "./input/inputSize";
 export { default as inputTheme } from "./input/inputTheme";
+export { default as textareaSize } from "./input/textareaSize";
 export { default as checkboxTheme } from "./checkbox/checkboxTheme";
 export { default as buttonTheme } from "./button/buttonTheme";
 export { default as toggleButtonGroupSize } from "./toggleButtonGroup/toggleButtonGroupSize";
