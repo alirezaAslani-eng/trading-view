@@ -4,6 +4,7 @@ const paletteStructure = {
     disabled: "",
     profit: "",
     primary: "",
+    primary2: "",
     sidebarActive: "",
     onPrimary: "",
     placeholder: "",

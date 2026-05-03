@@ -16,6 +16,7 @@ const darkCustomColors = createCustomColors({
     disabled: nuetral[400],
     profit: green[400],
     primary: blue[500],
+    primary2: blue[400],
     sidebarActive: white.white,
     onPrimary: white.white,
     placeHolder: nuetral[600],
