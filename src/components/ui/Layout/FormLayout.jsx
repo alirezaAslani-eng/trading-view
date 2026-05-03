@@ -73,11 +73,27 @@ const FormLayoutAlert = styled(Alert)({
   marginLeft: "auto",
 });
 
+// * FormLayout -> Checkbox
+const FormLayoutCheckbox = styled(Stack)({
+  gap: "14px",
+  width: "100%",
+});
+
+// * FormLayout -> CheckboxGroup
+const FormLayoutCheckboxGroup = styled(Stack)({
+  flexDirection: "row",
+  alignItems: "center",
+  gap: "38px",
+  flexWrap: "wrap",
+});
+
 export {
   FormLayout,
   FormLayoutField,
+  FormLayoutCheckbox,
   FormLayoutSubmit,
   FormLayoutFieldGroup,
+  FormLayoutCheckboxGroup,
   FormLayoutAlert,
   FormLayoutLable,
 };
