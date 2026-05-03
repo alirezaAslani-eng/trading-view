@@ -3,6 +3,7 @@ import { alpha, Box, Button, Portal } from "@mui/material";
 import React from "react";
 import SidebarPanel from "@/components/template/Sidebar/SidebarPanel";
 import SupportButton from "@/components/template/Button/SupportButton";
+import { HeadPhoneIcon } from "@/components/ui/Icon";
 
 function LayoutMainPanel({ children }) {
   return (
@@ -26,7 +27,10 @@ function LayoutMainPanel({ children }) {
         <Box sx={{ flex: 1, minWidth: "0px", pb: "48px" }}>{children}</Box>
       </Box>
 
-      <SupportButton size="large">{"پشتیبانی انلاین"}</SupportButton>
+      <SupportButton size="large">
+        {"پشتیبانی انلاین"}
+        <HeadPhoneIcon color="inherit" width="22px" height="22px" />
+      </SupportButton>
     </>
   );
 }

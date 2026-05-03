@@ -18,6 +18,7 @@ const SupportButton = function (props) {
         border: "1.4px solid",
         borderColor: "border.primary",
         color: "text.onPrimary",
+        gap: "8px",
         ...identifySxProp(tm, props.sx),
       })}
     />
