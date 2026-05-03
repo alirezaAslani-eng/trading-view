@@ -38,11 +38,7 @@ function FormLayoutLable({ htmlFor, ...props }) {
       component={"label"}
       variant="button2"
       {...props}
-      sx={(tm) => ({
-        color: "text.heading",
-        cursor: "pointer",
-        ...identifySxProp(tm, props?.sx),
-      })}
+      sx={(tm) => ({ color: "text.heading", ...identifySxProp(tm, props?.sx) })}
     />
   );
 }

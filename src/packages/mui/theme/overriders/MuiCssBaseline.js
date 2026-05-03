@@ -17,6 +17,9 @@ const MuiCssBaseline = {
       backgroundColor: "transparent",
       outline: "none",
     },
+    label: {
+      cursor: "pointer",
+    },
   },
 };
 
