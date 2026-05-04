@@ -36,6 +36,11 @@ const theme = {
     MuiToggleButton,
     MuiAlert,
     MuiDialog,
+    MuiPopover: {
+      defaultProps: {
+        "aria-hidden": false,
+      },
+    },
   },
 };
 
