@@ -18,7 +18,6 @@ function PageHeader({ sx, title, subtitle }) {
       sx={(tm) => ({
         display: "flex",
         justifyContent: "space-between",
-        mt: "48px",
         ...identifySxProp(tm, sx),
       })}
     >

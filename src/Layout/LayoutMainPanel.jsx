@@ -24,7 +24,7 @@ function LayoutMainPanel({ children }) {
         </Box>
 
         {/* // * --- main content --- */}
-        <Box sx={{ flex: 1, minWidth: "0px", pb: "48px" }}>{children}</Box>
+        <Box sx={{ flex: 1, minWidth: "0px" }}>{children}</Box>
       </Box>
 
       <SupportButton size="large">
