@@ -5,6 +5,11 @@ import {
   InputSelectItem,
   InputSelectMenu,
 } from "@/components/ui/Input/InputSelect";
+import {
+  PagePaper,
+  PagePaperHeading,
+  PagePaperTitle,
+} from "@/components/ui/Layout/PaperLayout";
 import { Box, Button, Stack, styled, Typography } from "@mui/material";
 
 const SmallBox = styled(Box)(({ theme }) => ({
@@ -20,10 +25,10 @@ const SmallBox = styled(Box)(({ theme }) => ({
 
 function ExchangeAssetForm() {
   return (
-    <Box>
-      <Typography variant="body2" sx={{ color: "text.heading" }}>
-        {"تبدیل دارایی"}
-      </Typography>
+    <PagePaper sx={{ pb: "11px" }}>
+      <PagePaperHeading>
+        <PagePaperTitle>{"تبدیل دارایی"}</PagePaperTitle>
+      </PagePaperHeading>
       <Stack sx={{ mt: "14px", gap: "4px" }}>
         <Typography
           variant="caption2"
@@ -61,7 +66,7 @@ function ExchangeAssetForm() {
           {"تبدیل"}
         </Button>
       </Box>
-    </Box>
+    </PagePaper>
   );
 }
 

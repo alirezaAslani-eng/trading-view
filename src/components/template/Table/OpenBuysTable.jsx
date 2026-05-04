@@ -15,16 +15,21 @@ import {
   ToggleButtonGroup,
   ToggleButton,
 } from "@mui/material";
+import {
+  PagePaper,
+  PagePaperHeading,
+  PagePaperTitle,
+} from "@/components/ui/Layout/PaperLayout";
 function OpenBuysTable() {
   return (
-    <TableLayout sx={{ gap: "14px" }}>
-      <TableLayoutHeading>
-        <TableLayoutTitle>{"سبد دارایی‌های فولادی"}</TableLayoutTitle>
+    <PagePaper>
+      <PagePaperHeading sx={{ mb: "14px" }}>
+        <PagePaperTitle>{"سبد دارایی‌های فولادی"}</PagePaperTitle>
         <ToggleButtonGroup color="success" value={"1"} sx={{ width: "216px" }}>
           <ToggleButton value={"1"}>{"سفارشات خرید"}</ToggleButton>
           <ToggleButton value={"2"}>{"سفارشات فروش"}</ToggleButton>
         </ToggleButtonGroup>
-      </TableLayoutHeading>
+      </PagePaperHeading>
 
       <Table>
         <TableHead>
@@ -138,7 +143,7 @@ function OpenBuysTable() {
           </TableRow>
         </TableBody>
       </Table>
-    </TableLayout>
+    </PagePaper>
   );
 }
 

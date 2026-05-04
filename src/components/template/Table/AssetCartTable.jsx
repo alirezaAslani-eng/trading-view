@@ -16,14 +16,19 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import {
+  PagePaper,
+  PagePaperHeading,
+  PagePaperTitle,
+} from "@/components/ui/Layout/PaperLayout";
 
 function AssetCartTable() {
   return (
-    <TableLayout>
-      <TableLayoutHeading>
-        <TableLayoutTitle>{"سبد دارایی‌های فولادی"}</TableLayoutTitle>
+    <PagePaper>
+      <PagePaperHeading sx={{ mb: "40px" }}>
+        <PagePaperTitle>{"سبد دارایی‌های فولادی"}</PagePaperTitle>
         <TableControls />
-      </TableLayoutHeading>
+      </PagePaperHeading>
 
       <Table>
         <TableHead>
@@ -149,7 +154,7 @@ function AssetCartTable() {
           </TableRow>
         </TableBody>
       </Table>
-    </TableLayout>
+    </PagePaper>
   );
 }
 

@@ -1,5 +1,10 @@
 import { ReceiveIcon, SendIcon } from "@/components/ui/Icon";
 import {
+  PagePaper,
+  PagePaperHeading,
+  PagePaperTitle,
+} from "@/components/ui/Layout/PaperLayout";
+import {
   Price,
   PriceAmount,
   PriceUnit,
@@ -13,16 +18,20 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import React from "react";
 
 function TotalAssetCard() {
   return (
-    <Stack sx={{ gap: "68px" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+    <PagePaper
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "62px",
+        height: "100%",
+      }}
+    >
+      <PagePaperHeading sx={{ alignItems: "start" }}>
         <Stack sx={{ gap: "12px" }}>
-          <Typography variant="body1" sx={{ color: "text.heading" }}>
-            {"ارزش کل دارایی"}
-          </Typography>
+          <PagePaperTitle>{"ارزش کل دارایی"}</PagePaperTitle>
           <Price sx={{ gap: "10px", color: "text.heading" }}>
             <PriceAmount variant="h5">{"12.840.500.000"}</PriceAmount>
             <PriceUnit variant="body1" />
@@ -38,7 +47,7 @@ function TotalAssetCard() {
           <ToggleButton value={"2"}>{"ریال"}</ToggleButton>
           <ToggleButton value={"1"}>{"آهن آلات"}</ToggleButton>
         </ToggleButtonGroup>
-      </Box>
+      </PagePaperHeading>
 
       <Box
         sx={{
@@ -46,6 +55,7 @@ function TotalAssetCard() {
           gap: "61px",
           alignItems: "center",
           px: "10px",
+          py: "6px",
         }}
       >
         <Box
@@ -110,7 +120,7 @@ function TotalAssetCard() {
           </Button>
         </Box>
       </Box>
-    </Stack>
+    </PagePaper>
   );
 }
 
