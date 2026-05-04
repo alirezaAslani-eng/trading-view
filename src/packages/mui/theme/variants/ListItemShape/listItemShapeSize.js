@@ -6,6 +6,7 @@ function listItemShapeSize({ size }) {
     small: {
       rootSize: {
         width: "6px",
+        flexShrink: "0",
         outlineWidth: "2px",
       },
     },

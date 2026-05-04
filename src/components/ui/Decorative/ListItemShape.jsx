@@ -17,6 +17,7 @@ const StyledListItemShape = styled(Box, {
     outlineStyle: "solid",
     aspectRatio: "1/1",
     borderRadius: "999px",
+    height:"fit-content",
     ...listItemShape_theme?.rootTheme,
     ...listItemShape_size?.rootSize,
   };
