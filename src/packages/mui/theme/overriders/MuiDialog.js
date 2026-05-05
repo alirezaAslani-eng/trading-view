@@ -5,6 +5,9 @@ const backdropFilter = "blur(16px)";
  * @type {import("@mui/material").Components<import("@mui/material").Theme>["MuiDialog"]}
  */
 const MuiDialog = {
+  defaultProps: {
+    scroll: "body",
+  },
   styleOverrides: {
     paper: {
       background: "none",
