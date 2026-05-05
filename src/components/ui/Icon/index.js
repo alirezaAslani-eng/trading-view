@@ -9,3 +9,4 @@ export { default as WarningIcon } from "./WarningIcon";
 export { default as CheckedIcon } from "./CheckedIcon";
 export { default as HeadPhoneIcon } from "./HeadPhoneIcon";
 export { default as UnlockIcon } from "./UnlockIcon";
+export { default as LockIcon } from "./LockIcon";
