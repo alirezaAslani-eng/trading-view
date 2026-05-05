@@ -11,3 +11,5 @@ export { default as alertSize } from "./alert/alertSize";
 export { default as alertTheme } from "./alert/alertTheme";
 export { default as listItemShapeTheme } from "./ListItemShape/listItemShapeTheme";
 export { default as listItemShapeSize } from "./ListItemShape/listItemShapeSize";
+export { default as accordionSize  } from "./accorionSummary/accordionSize";
+export { default as accordionTheme  } from "./accorionSummary/accordionTheme";
