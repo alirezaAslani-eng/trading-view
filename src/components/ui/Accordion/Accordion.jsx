@@ -1,0 +1,57 @@
+import { accordionSize, accordionTheme } from "@/packages/mui/theme/variants";
+import { Accordion as MuiAccordion, styled } from "@mui/material";
+
+const Accordion = styled(MuiAccordion, {
+  shouldForwardProp: (prop) => {
+    return (
+      prop !== "variant" ||
+      prop !== "color" ||
+      prop !== "size" ||
+      prop !== "border"
+    );
+  },
+})(({ theme, size, color, variant, border }) => {
+  const accordion_size = accordionSize({ size, theme });
+  const accordion_theme = accordionTheme({
+    color,
+    size,
+    variant,
+    theme,
+  });
+
+  return {
+    "& .MuiAccordionSummary-root": {
+      ...accordion_theme?.summaryTheme,
+      ...accordion_size?.summarySize,
+      ...(border === "accordion" && { border: "none" }),
+    },
+    // * ------- Summary Content ---------
+    "& .MuiAccordionSummary-content": {
+      ...accordion_size?.contentSize,
+      ...accordion_theme?.contentTheme,
+      margin: "4px 0px",
+    },
+    // * ------- Summary Icon ---------
+    "& .MuiAccordionSummary-content .MuiSvgIcon-root": {
+      ...accordion_size?.contentIconSize,
+      ...accordion_theme?.contentIconTheme,
+    },
+    "& .MuiAccordionSummary-content.Mui-expanded .MuiSvgIcon-root": {
+      ...accordion_theme?.contentIconExpandedTheme,
+    },
+    // * ------- Expanding Icon ---------
+    "& .MuiAccordionSummary-expandIconWrapper": {
+      ...accordion_size?.expandIconSize,
+      ...accordion_theme?.expandIconTheme,
+    },
+
+    ...(border === "accordion" && {
+      borderWidth: accordion_size?.summarySize?.borderWidth,
+      borderRadius: `${accordion_size?.summarySize?.borderRadius} !important`,
+      borderStyle: accordion_theme?.summaryTheme?.borderStyle,
+      borderColor: accordion_theme?.summaryTheme?.borderColor,
+    }),
+  };
+});
+
+export default Accordion;
