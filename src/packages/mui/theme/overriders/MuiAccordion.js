@@ -17,6 +17,7 @@ const MuiAccordion = {
       },
       backgroundColor: "transparent",
       boxShadow: "none",
+      border:"none"
     },
   },
 };
