@@ -2,6 +2,8 @@ import { ThemeOptions } from "@mui/material";
 import typography from "./typography";
 import darkPalette from "./palette/darkPalette";
 import {
+  MuiAccordion,
+  MuiAccordionSummary,
   MuiAlert,
   MuiBadge,
   MuiButton,
@@ -36,6 +38,8 @@ const theme = {
     MuiToggleButton,
     MuiAlert,
     MuiDialog,
+    MuiAccordion,
+    MuiAccordionSummary,
     MuiPopover: {
       defaultProps: {
         "aria-hidden": false,
