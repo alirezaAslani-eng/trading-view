@@ -11,3 +11,4 @@ export { default as MuiAlert } from "./MuiAlert";
 export { default as MuiDialog } from "./MuiDialog";
 export { default as MuiAccordion } from "./MuiAccordion";
 export { default as MuiAccordionSummary } from "./MuiAccordionSummary";
+export { default as MuiAccordionDetails } from "./MuiAccordionDetails";

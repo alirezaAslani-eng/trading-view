@@ -3,6 +3,7 @@ import typography from "./typography";
 import darkPalette from "./palette/darkPalette";
 import {
   MuiAccordion,
+  MuiAccordionDetails,
   MuiAccordionSummary,
   MuiAlert,
   MuiBadge,
@@ -40,6 +41,7 @@ const theme = {
     MuiDialog,
     MuiAccordion,
     MuiAccordionSummary,
+    MuiAccordionDetails,
     MuiPopover: {
       defaultProps: {
         "aria-hidden": false,
