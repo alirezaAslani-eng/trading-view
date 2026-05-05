@@ -1,3 +1,4 @@
+"use client"
 import { accordionSize, accordionTheme } from "@/packages/mui/theme/variants";
 import { Accordion as MuiAccordion, styled } from "@mui/material";
 
