@@ -12,6 +12,14 @@ function checkboxSize(size = defaultCheckboxVariants.size) {
         padding: "0px",
       },
     },
+    small: {
+      rootSize: {
+        width: "24px",
+        height: "24px",
+        borderRadius: "8px",
+        padding: "0px",
+      },
+    },
   };
 
   return sizes?.[size] || sizes.medium;
