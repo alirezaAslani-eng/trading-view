@@ -1,8 +1,6 @@
 import { TypographyVariantsOptions } from "@mui/material/styles";
-/**
- * @type {TypographyVariantsOptions}
- */
-const typography = {
+
+const typography: TypographyVariantsOptions = {
   fontFamily: "var(--iranyekan-medium)", // * < -- defult font-family
   // * -------------- Heading --------------
   h1: {
