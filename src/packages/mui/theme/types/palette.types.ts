@@ -38,7 +38,7 @@ type BorderVariables = Record<
 
 type StatusVariables = Record<"profit" | "loss" | "warning", string>;
 
-interface AppPalette {
+interface CustomPalette {
   text: TextVariables;
   background: BackgroundVariables;
   border: BorderVariables;
@@ -46,10 +46,9 @@ interface AppPalette {
 }
 
 export type {
-  AppPalette,
+  CustomPalette,
   TextVariables,
   StatusVariables,
   BorderVariables,
   BackgroundVariables,
 };
-
