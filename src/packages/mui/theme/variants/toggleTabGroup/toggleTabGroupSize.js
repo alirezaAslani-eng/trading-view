@@ -20,7 +20,7 @@ function toggleTabGroupSize({ size, theme }) {
     },
     small: {
       rootSize: {
-        padding: "10px 12px",
+        padding: "10px 16px",
         borderRadius,
         minHeight: "37px",
       },
