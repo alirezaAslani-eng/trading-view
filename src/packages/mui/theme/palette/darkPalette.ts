@@ -1,5 +1,4 @@
-import { PaletteOptions } from "@mui/material/styles";
-import { createCustomColors, setMode } from "@/packages/mui/theme/helpers";
+import type { PaletteOptions } from "@mui/material/styles";
 import {
   blue,
   gray,
@@ -11,7 +10,7 @@ import {
   white,
 } from "@/packages/mui/theme/shades";
 
-const darkCustomColors = createCustomColors({
+const darkPalette: PaletteOptions = {
   text: {
     disabled: nuetral[400],
     profit: green[400],
@@ -40,6 +39,9 @@ const darkCustomColors = createCustomColors({
     surfaceTertiary: gray[230],
     sell: red[600],
     buy: green[500],
+
+    default: gray[600],
+    paper: notDefinedColors["#595B5F"],
   },
   border: {
     default: gray[200],
@@ -53,18 +55,6 @@ const darkCustomColors = createCustomColors({
     loss: red[500],
     profit: green[500],
     warning: orange[500],
-  },
-});
-/**
- * @type {PaletteOptions}
- */
-const darkPalette = {
-  ...darkCustomColors,
-  mode: setMode("dark"),
-  background: {
-    ...darkCustomColors.background,
-    default: darkCustomColors.background.surface,
-    paper: notDefinedColors["#595B5F"],
   },
 };
 
