@@ -10,6 +10,7 @@ const MuiToggleButtonGroup = {
   styleOverrides: {
     root: {
       height: "fit-content",
+      alignItems: "center",
     },
   },
 };

@@ -9,6 +9,7 @@ const MuiToggleButton = {
       border: "none",
       height: "fit-content",
       padding: "0px",
+      lineHeight: 1,
     },
   },
 };
