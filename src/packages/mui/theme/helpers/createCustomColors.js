@@ -9,6 +9,7 @@ const paletteStructure = {
     onPrimary: "",
     placeholder: "",
     linkSecondary: "",
+    linkTertiary: "",
     heading: "",
     secondary: "",
     caption: "",

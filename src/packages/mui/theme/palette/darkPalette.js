@@ -21,6 +21,7 @@ const darkCustomColors = createCustomColors({
     onPrimary: white.white,
     placeHolder: nuetral[600],
     linkSecondary: nuetral[800],
+    linkTertiary: nuetral[900],
     heading: white.white,
     secondary: white[300],
     caption: nuetral[700],
