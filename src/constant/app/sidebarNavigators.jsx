@@ -6,6 +6,7 @@ import ChartIcon from "@/assets/svg/chart.svg";
 import WalletIcon from "@/assets/svg/wallet.svg";
 import MessageIcon from "@/assets/svg/message.svg";
 import SettingIcon from "@/assets/svg/setting.svg";
+import { BoxOutlinedIcon } from "@/components/ui/Icon";
 const sidebarNavigators = [
   {
     text: "داشبورد",
@@ -45,7 +46,7 @@ const sidebarNavigators = [
   },
   {
     text: "دارایی‌ها",
-    link: "/assets",
+    link: "/panel/assets",
     icon: <WalletIcon />,
     id: crypto.randomUUID(),
     submenus: [],
