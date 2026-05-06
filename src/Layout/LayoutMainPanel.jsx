@@ -8,7 +8,9 @@ import { HeadPhoneIcon } from "@/components/ui/Icon";
 function LayoutMainPanel({ children }) {
   return (
     <>
-      <Box sx={{ display: "flex" }}>
+      <Box
+        sx={{ display: "flex", minHeight: "100svh" }}
+      >
         {/* // * --- sidebar --- */}
         <Box sx={{ display: "flex", pr: "20px", flexDirection: "column" }}>
           <Box
