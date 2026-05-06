@@ -7,6 +7,7 @@ const MuiAccordion = {
   },
   styleOverrides: {
     root: {
+      ":before": { display: "none" },
       ":first-of-type": {
         borderBottomLeftRadius: "0px",
         borderBottomRightRadius: "0px",
@@ -17,7 +18,7 @@ const MuiAccordion = {
       },
       backgroundColor: "transparent",
       boxShadow: "none",
-      border:"none"
+      border: "none",
     },
   },
 };
