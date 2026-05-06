@@ -1,0 +1,55 @@
+type TextVariables = Record<
+  | "disabled"
+  | "profit"
+  | "primary"
+  | "primary2"
+  | "sidebarActive"
+  | "onPrimary"
+  | "placeHolder"
+  | "linkSecondary"
+  | "linkTertiary"
+  | "heading"
+  | "secondary"
+  | "caption"
+  | "error"
+  | "placeholder"
+  | "inputText",
+  string
+>;
+
+type BackgroundVariables = Record<
+  | "primary"
+  | "sidebarActive"
+  | "toggleActive"
+  | "input"
+  | "inputModal"
+  | "surface"
+  | "surfaceSecondary"
+  | "surfaceTertiary"
+  | "sell"
+  | "buy",
+  string
+>;
+
+type BorderVariables = Record<
+  "white" | "primary" | "secondary" | "error" | "default" | "dark",
+  string
+>;
+
+type StatusVariables = Record<"profit" | "loss" | "warning", string>;
+
+interface AppPalette {
+  text: TextVariables;
+  background: BackgroundVariables;
+  border: BorderVariables;
+  status: StatusVariables;
+}
+
+export type {
+  AppPalette,
+  TextVariables,
+  StatusVariables,
+  BorderVariables,
+  BackgroundVariables,
+};
+
