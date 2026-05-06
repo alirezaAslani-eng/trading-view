@@ -66,6 +66,13 @@ const sidebarNavigators = [
     submenus: [],
   },
   {
+    text: "مدریت محصول",
+    link: "/admin/products",
+    icon: <BoxOutlinedIcon />,
+    id: crypto.randomUUID(),
+    submenus: [],
+  },
+  {
     text: "تنظیمات",
     link: "/",
     icon: <SettingIcon />,
