@@ -1,7 +1,9 @@
-/**
- * @return {{summarySize?:object,contentSize?:object,contentIconSize?:object,expandIconSize?:object}} param0
- */
-const accordionSize = ({ size, theme }) => {
+import { AccordionSizeProps, AccordionSizeReturn } from "../types";
+
+const accordionSize = ({
+  size,
+  theme,
+}: AccordionSizeProps): AccordionSizeReturn => {
   const sizes = {
     large: {
       expandIconSize: { width: "18px", height: "18px" },
@@ -20,7 +22,7 @@ const accordionSize = ({ size, theme }) => {
         fontFamily: theme.typography.body1.fontFamily,
         lineHeight: theme.typography.body1.lineHeight,
       },
-    },
+    } satisfies AccordionSizeReturn,
 
     medium: {
       expandIconSize: { width: "18px", height: "18px" },
@@ -39,7 +41,7 @@ const accordionSize = ({ size, theme }) => {
         fontFamily: theme.typography.body2.fontFamily,
         lineHeight: theme.typography.body2.lineHeight,
       },
-    },
+    } satisfies AccordionSizeReturn,
   };
 
   return sizes?.[size] || sizes.large;

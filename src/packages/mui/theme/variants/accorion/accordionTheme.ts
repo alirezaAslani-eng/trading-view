@@ -1,7 +1,10 @@
-/**
- * @return {{summaryTheme?:object,expandIconTheme?:object,contentIconTheme?:object,contentIconExpandedTheme?:object,contentTheme:object}} param0
- */
-const accordionTheme = ({ variant, color, theme }) => {
+import { AccordionThemeProps, AccordionThemeReturn } from "../types";
+
+const accordionTheme = ({
+  variant,
+  color,
+  theme,
+}: AccordionThemeProps): AccordionThemeReturn => {
   const styles = {
     nuteral: {
       contained: {
@@ -14,7 +17,7 @@ const accordionTheme = ({ variant, color, theme }) => {
           borderColor: theme.palette.border.default,
           borderStyle: "solid",
         },
-      },
+      } satisfies AccordionThemeReturn,
     },
   };
 
