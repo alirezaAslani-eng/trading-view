@@ -9,6 +9,7 @@ import {
 import React from "react";
 import useRndomID from "@/hooks/app/useRndomID";
 import { checkboxSize, checkboxTheme } from "@/packages/mui/theme/variants";
+import { identifySxProp } from "@/packages/mui/theme/helpers";
 
 const StyledCheckBox = styled(MuiCheckbox, {
   shouldForwardProp: (prop) => {
@@ -39,7 +40,14 @@ function CheckBox({ label, ...props }) {
   const randomLabelID = useRndomID();
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-      <StyledCheckBox id={randomLabelID} {...props} />
+      <StyledCheckBox
+        id={randomLabelID}
+        {...props}
+        sx={(tm) => ({
+          ...(!label && { ml: "0px" }),
+          ...identifySxProp(tm, props?.sx),
+        })}
+      />
       {label && (
         <Typography
           component={"label"}
