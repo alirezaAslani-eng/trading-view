@@ -1,9 +1,8 @@
 "use client";
+import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import NextLink from "@/components/ui/Link/NextLink";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
-import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { usePathname } from "next/navigation";
-
+import { Box, ToggleButton } from "@mui/material";
 /**
  * @param {{sx:import("@mui/material").StackProps["sx"],activeButton:"signin" | "signup"}} p0
  */

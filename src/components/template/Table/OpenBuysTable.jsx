@@ -1,10 +1,6 @@
 import ButtonTableAction from "@/components/ui/Button/ButtonTableAction";
+import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import Table from "@/components/ui/Table/Table";
-import {
-  TableLayout,
-  TableLayoutHeading,
-  TableLayoutTitle,
-} from "@/components/ui/Layout/TableLayout";
 import {
   Box,
   TableCell,
@@ -12,7 +8,6 @@ import {
   TableHead,
   TableRow,
   Typography,
-  ToggleButtonGroup,
   ToggleButton,
 } from "@mui/material";
 import {

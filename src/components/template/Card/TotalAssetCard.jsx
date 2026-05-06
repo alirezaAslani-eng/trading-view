@@ -1,3 +1,4 @@
+import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import { ReceiveIcon, SendIcon } from "@/components/ui/Icon";
 import {
   PagePaper,
@@ -15,7 +16,6 @@ import {
   Divider,
   Stack,
   ToggleButton,
-  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 
