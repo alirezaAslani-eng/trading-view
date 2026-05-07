@@ -1,9 +1,9 @@
-import { CssBaselineProps, CSSProperties, Theme } from "@mui/material";
+import { CSSProperties, Theme } from "@mui/material";
 
 // * ----start---- inputSize.ts ----------
 interface InputSizeReturn {
-  rootSize: CssBaselineProps;
-  placeholderSize: CssBaselineProps;
+  rootSize: CSSProperties;
+  placeholderSize: CSSProperties;
 }
 interface InputSizeProps {
   theme: Theme;
@@ -13,10 +13,10 @@ interface InputSizeProps {
 
 // * ----start---- inputTheme.ts ----------
 interface InputThemeReturn {
-  rootTheme: CssBaselineProps;
-  focusTheme: CssBaselineProps;
-  placeholderTheme: CssBaselineProps;
-  errorTheme: CssBaselineProps;
+  rootTheme: CSSProperties;
+  focusTheme: CSSProperties;
+  placeholderTheme: CSSProperties;
+  errorTheme: CSSProperties;
 }
 interface InputThemeProps {
   theme: Theme;
