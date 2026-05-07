@@ -42,6 +42,11 @@ const theme = {
     MuiAccordion,
     MuiAccordionSummary,
     MuiAccordionDetails,
+    MuiTypography: {
+      defaultProps: {
+        component: "p",
+      },
+    },
     MuiPopover: {
       defaultProps: {
         "aria-hidden": false,
