@@ -1,7 +1,6 @@
-/**
- * @returns {{rootSize?:object}}
- */
-function textareaSize({ size }) {
+import { TextareaSizeProps, TextareaSizeReturn } from "../types";
+
+function textareaSize({ size }: TextareaSizeProps): TextareaSizeReturn {
   const sizes = {
     // * ------- medium size -------
     medium: {
@@ -11,7 +10,7 @@ function textareaSize({ size }) {
         paddingTop: "12px",
         paddingBottom: "12px",
       },
-    },
+    } satisfies TextareaSizeReturn,
     // * ------- small size -------
     small: {
       rootSize: {
@@ -20,7 +19,7 @@ function textareaSize({ size }) {
         paddingTop: "10px",
         paddingBottom: "10px",
       },
-    },
+    } satisfies TextareaSizeReturn,
   };
   return sizes?.[size] || sizes.medium;
 }

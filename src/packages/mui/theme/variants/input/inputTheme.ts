@@ -1,9 +1,11 @@
 import { alpha } from "@mui/material";
+import { InputThemeProps, InputThemeReturn } from "../types";
 
-/**
- * @returns {{rootTheme?:object,focusTheme?:object,placeholderTheme?:object,errorTheme:string}}
- */
-function inputTheme({ theme, variant, color }) {
+function inputTheme({
+  theme,
+  variant,
+  color,
+}: InputThemeProps): InputThemeReturn {
   const shared_style = {
     transition: "all ease 150ms",
   };
@@ -30,7 +32,7 @@ function inputTheme({ theme, variant, color }) {
           borderColor: `${theme.palette.border.error}`,
           boxShadow: `0px 0px 0px 2px ${alpha(theme.palette.border.error, 0.16)}`,
         },
-      },
+      } satisfies InputThemeReturn,
       outlined: {
         rootTheme: {
           ...shared_style,
@@ -50,7 +52,7 @@ function inputTheme({ theme, variant, color }) {
           borderColor: `${theme.palette.border.error}`,
           boxShadow: `0px 0px 0px 2px ${alpha(theme.palette.border.error, 0.16)}`,
         },
-      },
+      } satisfies InputThemeReturn,
     },
   };
 
