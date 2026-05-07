@@ -45,6 +45,10 @@ const ToggleTabGroup = styled(MuiToggleButtonGroup, {
     "& .Mui-selected": {
       ...toggleTabGroup_theme?.selectedTab,
     },
+    "& .MuiDivider-root": {
+      ...toggleTabGroup_theme.dividerStyle,
+      ...toggleTabGroup_size.dividerSize,
+    },
   };
 });
 

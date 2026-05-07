@@ -22,6 +22,11 @@ function toggleTabGroupSize({
         fontSize: theme.typography.button2.fontSize,
         fontFamily: theme.typography.button2.fontFamily,
       },
+      dividerSize: {
+        marginRight: "12px",
+        marginLeft: "12px",
+        borderWidth: "1px",
+      },
     } satisfies ToggleTabGroupSizeReturns,
     small: {
       rootSize: {
@@ -33,6 +38,11 @@ function toggleTabGroupSize({
         borderRadius,
         fontSize: theme.typography.button3.fontSize,
         fontFamily: theme.typography.button3.fontFamily,
+      },
+      dividerSize: {
+        marginRight: "14px",
+        marginLeft: "14px",
+        borderWidth: "1px",
       },
     } satisfies ToggleTabGroupSizeReturns,
   };

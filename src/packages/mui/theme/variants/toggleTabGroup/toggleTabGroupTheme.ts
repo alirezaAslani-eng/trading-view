@@ -19,6 +19,10 @@ function toggleTabGroupTheme({
           background: `transparent !important`,
           color: `${theme.palette.text.onPrimary} !important`,
         },
+        dividerStyle: {
+          borderStyle: "solid",
+          borderColor: theme.palette.border.default,
+        },
       } satisfies ToggleTabGroupThemeReturns,
     },
   };
