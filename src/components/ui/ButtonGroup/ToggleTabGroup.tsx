@@ -1,13 +1,18 @@
 "use client";
+import { StyledToggleTabGroupProps } from "../types";
+import { FC } from "react";
 import {
-  defaultToggleGroupButtonVariants,
+  styled,
+  ToggleButtonGroup as MuiToggleButtonGroup_,
+} from "@mui/material";
+import {
+  defaultToggleTabGroupVariants,
   toggleTabGroupSize,
   toggleTabGroupTheme,
 } from "@/packages/mui/theme/variants";
-import {
-  styled,
-  ToggleButtonGroup as MuiToggleButtonGroup,
-} from "@mui/material";
+
+const MuiToggleButtonGroup =
+  MuiToggleButtonGroup_ as FC<StyledToggleTabGroupProps>;
 
 const ToggleTabGroup = styled(MuiToggleButtonGroup, {
   shouldForwardProp: (prop) => {
@@ -15,9 +20,9 @@ const ToggleTabGroup = styled(MuiToggleButtonGroup, {
   },
 })(({
   theme,
-  color,
-  variant = defaultToggleGroupButtonVariants.variant,
-  size,
+  color = defaultToggleTabGroupVariants.color,
+  variant = defaultToggleTabGroupVariants.variant,
+  size = defaultToggleTabGroupVariants.size,
 }) => {
   const toggleTabGroup_size = toggleTabGroupSize({ size, theme });
   const toggleTabGroup_theme = toggleTabGroupTheme({
