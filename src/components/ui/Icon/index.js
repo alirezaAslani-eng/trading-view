@@ -11,3 +11,4 @@ export { default as HeadPhoneIcon } from "./HeadPhoneIcon";
 export { default as UnlockIcon } from "./UnlockIcon";
 export { default as LockIcon } from "./LockIcon";
 export { default as BoxOutlinedIcon } from "./BoxOutlinedIcon";
+export { default as AddIcon } from "./AddIcon";
