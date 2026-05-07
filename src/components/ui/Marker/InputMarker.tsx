@@ -1,6 +1,13 @@
+import { PWC } from "@/types/utils";
 import { Box } from "@mui/material";
+import { ReactNode } from "react";
 
-function InputMarker({ icon, children, right, left }) {
+interface InputMarkerProps {
+  icon?: ReactNode;
+  right?: string;
+  left?: string;
+}
+function InputMarker({ icon, children, right, left }: PWC<InputMarkerProps>) {
   return (
     <Box sx={{ position: "relative" }}>
       <Box
