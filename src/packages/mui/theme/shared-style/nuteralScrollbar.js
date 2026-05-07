@@ -6,11 +6,17 @@ const nuteralScrollbar = (theme) => {
     "::-webkit-scrollbar": {
       backgroundColor: palette.background.inputModal,
       width: scrollbarWidth,
+      height: scrollbarWidth,
       borderRadius: borderRadius,
+      cursor: "pointer",
     },
     "::-webkit-scrollbar-thumb": {
-      backgroundColor: palette.text.caption,
       borderRadius: borderRadius,
+      backgroundColor: palette.text.caption,
+      cursor: "pointer",
+    },
+    "::-webkit-scrollbar-corner": {
+      backgroundColor: "transparent",
     },
     "@-moz-document url-prefix()": {
       scrollbarWidth: "thin",
