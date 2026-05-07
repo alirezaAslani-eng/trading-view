@@ -39,7 +39,8 @@ const darkPalette: PaletteOptions = {
     surfaceTertiary: gray[230],
     sell: red[600],
     buy: green[500],
-
+    surfaceLevel4: gray[270],
+    surfaceLevel5: gray[500],
     default: gray[600],
     paper: notDefinedColors["#595B5F"],
   },

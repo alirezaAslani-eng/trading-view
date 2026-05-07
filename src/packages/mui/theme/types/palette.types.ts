@@ -27,7 +27,9 @@ type BackgroundVariables = Record<
   | "surfaceSecondary"
   | "surfaceTertiary"
   | "sell"
-  | "buy",
+  | "buy"
+  | "surfaceLevel4"
+  | "surfaceLevel5",
   string
 >;
 
