@@ -14,7 +14,6 @@ const Table = styled(Table_)(({ theme }) => ({
     padding: "0px",
     border: "none",
     margin: "0px",
-    maxWidth: "160px",
     fontSize: theme.typography.caption1.fontSize,
     fontFamily: theme.typography.caption1.fontFamily,
     lineHeight: theme.typography.caption1?.lineHeight,
