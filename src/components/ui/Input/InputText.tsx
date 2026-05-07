@@ -7,12 +7,14 @@ import {
 } from "@/packages/mui/theme/variants";
 import { Box, styled } from "@mui/material";
 import clsx from "clsx";
+import { InputTextProps, StyledInputTextProps } from "../types";
+import { ComponentProps } from "react";
 
 const StyledInputText = styled(Box, {
-  shouldForwardProp: (p) => {
+  shouldForwardProp: (p): boolean => {
     return p !== "variant" && p !== "color" && p !== "size" && p !== "error";
   },
-})(({
+})<StyledInputTextProps>(({
   theme,
   color = inputDefaultVariants.color,
   size = inputDefaultVariants.size,
@@ -29,34 +31,36 @@ const StyledInputText = styled(Box, {
   return {
     outline: "none",
     width: "100%",
-    ...input_theme?.rootTheme,
-    ...input_size?.rootSize,
+    ...input_theme.rootTheme,
+    ...input_size.rootSize,
     "::placeholder": {
-      ...input_theme?.placeholderTheme,
-      ...input_size?.placeholderSize,
+      ...input_theme.placeholderTheme,
+      ...input_size.placeholderSize,
     },
 
-    ":focus": { ...input_theme?.focusTheme },
+    ":focus": { ...input_theme.focusTheme },
 
     "&.Mui-error": {
-      ...input_theme?.errorTheme,
+      ...input_theme.errorTheme,
     },
     "&.Mui-textarea": {
-      ...textarea_size?.rootSize,
+      ...textarea_size.rootSize,
     },
   };
 });
 
-/**
- * @param {{variant:string; size:string; color:string,textarea:boolean} & import("react").ComponentProps<typeof StyledInputText>} props
- */
-function InputText({ textarea, ...props }) {
+function InputText({
+  textarea,
+  error,
+  ...props
+}: InputTextProps & ComponentProps<typeof StyledInputText>) {
   return (
     <StyledInputText
       {...props}
+      //@ts-ignore
       component={textarea ? "textarea" : "input"}
       className={clsx(
-        { "Mui-error": props?.error, "Mui-textarea": textarea },
+        { "Mui-error": error, "Mui-textarea": textarea },
         props.className,
       )}
     />
