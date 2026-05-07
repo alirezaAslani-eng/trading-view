@@ -20,6 +20,7 @@ const StatusBadge = styled(Box)<StyledStatusBadgeProps>(({
     justifyContent: "center",
     alignItems: "center",
     width: "fit-content",
+    whiteSpace: "nowrap",
     ...rootSize,
     ...rootTheme,
     "& .MuiSvgIcon-root": {
