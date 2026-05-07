@@ -15,3 +15,5 @@ export { default as accordionSize } from "./accorion/accordionSize";
 export { default as accordionTheme } from "./accorion/accordionTheme";
 export { default as toggleTabGroupSize } from "./toggleTabGroup/toggleTabGroupSize";
 export { default as toggleTabGroupTheme } from "./toggleTabGroup/toggleTabGroupTheme";
+export { default as statusBadgeSize } from "./statusBadge/statusBadgeSize";
+export { default as statusBadgeTheme } from "./statusBadge/statusBadgeTheme";

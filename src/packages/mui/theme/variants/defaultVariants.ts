@@ -19,6 +19,10 @@ const defaultCheckboxVariants = {
 const defaultAlertVariants = {
   size: "small",
 } as const;
+const defaultStatusBadgeVariants = {
+  size: "medium",
+  color: "success",
+} as const;
 
 export {
   inputDefaultVariants,
@@ -26,4 +30,5 @@ export {
   defaultCheckboxVariants,
   defaultAlertVariants,
   defaultToggleTabGroupVariants,
+  defaultStatusBadgeVariants,
 };
