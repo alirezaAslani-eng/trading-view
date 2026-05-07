@@ -2,9 +2,14 @@
  * @returns {{rootSize:object,toggleTabSize:object}}
  */
 
+import { ToggleTabGroupSizeProps, ToggleTabGroupSizeReturns } from "../types";
+
 const borderRadius = "8px !important";
 
-function toggleTabGroupSize({ size, theme }) {
+function toggleTabGroupSize({
+  size,
+  theme,
+}: ToggleTabGroupSizeProps): ToggleTabGroupSizeReturns {
   const sizes = {
     medium: {
       rootSize: {
@@ -17,7 +22,7 @@ function toggleTabGroupSize({ size, theme }) {
         fontSize: theme.typography.button2.fontSize,
         fontFamily: theme.typography.button2.fontFamily,
       },
-    },
+    } satisfies ToggleTabGroupSizeReturns,
     small: {
       rootSize: {
         padding: "10px 16px",
@@ -29,7 +34,7 @@ function toggleTabGroupSize({ size, theme }) {
         fontSize: theme.typography.button3.fontSize,
         fontFamily: theme.typography.button3.fontFamily,
       },
-    },
+    } satisfies ToggleTabGroupSizeReturns,
   };
 
   return sizes?.[size] || sizes.medium;

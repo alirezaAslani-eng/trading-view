@@ -1,7 +1,10 @@
-/**
- * @returns {{rootStyle:object,selectedTab:object,notSelectedTab:object}}
- */
-function toggleTabGroupTheme({ theme, color, variant }) {
+import { ToggleTabGroupThemeProps, ToggleTabGroupThemeReturns } from "../types";
+
+function toggleTabGroupTheme({
+  theme,
+  color,
+  variant,
+}: ToggleTabGroupThemeProps): ToggleTabGroupThemeReturns {
   const styles = {
     nuteral: {
       contained: {
@@ -16,7 +19,7 @@ function toggleTabGroupTheme({ theme, color, variant }) {
           background: `transparent !important`,
           color: `${theme.palette.text.onPrimary} !important`,
         },
-      },
+      } satisfies ToggleTabGroupThemeReturns,
     },
   };
 
