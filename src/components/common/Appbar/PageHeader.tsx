@@ -1,17 +1,17 @@
 "use client";
-import FakeIcon from "@/components/ui/Icon/FakeIcon";
 import InputText from "@/components/ui/Input/InputText";
-import { Box, SvgIcon, Typography } from "@mui/material";
+import { Box, BoxProps, SvgIcon, Typography } from "@mui/material";
 import SearchIcon from "@/assets/svg/search-icon.svg";
 import NotificationIcon from "@/assets/svg/notification.svg";
-import React from "react";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import InputMarker from "@/components/ui/Marker/InputMarker";
 
-/**
- * @param {{sx:import("@mui/material").BoxProps["sx"],title:string,subtitle:string}} props
- */
-function PageHeader({ sx, title, subtitle }) {
+interface PageHeaderProps extends Pick<BoxProps, "sx"> {
+  title: string;
+  subtitle: string;
+}
+
+function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
   return (
     <Box
       component={"header"}
