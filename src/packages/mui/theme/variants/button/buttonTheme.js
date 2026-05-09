@@ -22,7 +22,9 @@ function buttonTheme({ theme, variant, color }) {
       },
       text: {
         rootStyle: {
-          color: notDefinedColors["#57A8FF"],
+          backgroundColor: "transparent",
+          border: "none",
+          color: theme.palette.text.primary2,
         },
       },
     },
