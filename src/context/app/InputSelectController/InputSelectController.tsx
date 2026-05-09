@@ -1,24 +1,25 @@
 import useControlledState from "@/hooks/app/useControlledState";
 import useMuiMenuState from "@/hooks/app/useMuiMenuState";
 import { createContext, useContext } from "react";
+import {
+  InputSelectControllerProps,
+  InputSelectControllerProvidedValue,
+} from "./types";
+import { PWC } from "@/types/utils";
 
-const InputSelectControllerContext = createContext({
-  anchoreEl: null,
-  anchoreWidth: null,
-  isOpenMenu: false,
-  selectedValue: undefined,
-  closeMenu: () => {},
-  openMenu: () => {},
-  updateValue: () => {},
-});
+const InputSelectControllerContext = createContext(
+  {} as InputSelectControllerProvidedValue,
+);
 
-/**
- * @param {{value:string,onChange:(value:string)=>void,children:import("react").ReactElement}} props
- */
-function InputSelectController({ children, onChange, value }) {
+function InputSelectController({
+  children,
+  onChange,
+  value,
+}: PWC<InputSelectControllerProps>) {
+  
   // * ----- Menu dropdown state -----
   const { anchoreEl, anchoreWidth, isOpenMenu, closeMenu, openMenu } =
-    useMuiMenuState();
+    useMuiMenuState<HTMLElement>();
 
   // * ----- Selected value state -----
   const [selectedValue, updateValue] = useControlledState({ value, onChange });
