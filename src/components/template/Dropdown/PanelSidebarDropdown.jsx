@@ -10,8 +10,8 @@ import useIsActiveLink from "@/hooks/app/useIsActiveLink";
 import { useActiveItemContext } from "@/context/app/ActiveItem";
 const svg_sx = { width: "14px", height: "14px", cursor: "pointer" };
 
-function PanelSidebarDropdown({ icon, text, href, children, id }) {
-  const isActiveLink = useIsActiveLink(href);
+function PanelSidebarDropdown({ icon, text, href, children, id, startWith }) {
+  const isActiveLink = useIsActiveLink({ href, startWith });
   const { activeId, removeId, setId } = useActiveItemContext();
   const isOpenNestedMenu = activeId === id;
   const LiOrUl = !!children ? "ul" : "li";
