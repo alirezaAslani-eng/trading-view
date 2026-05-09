@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { UseMuiMenuStateReturn } from "./types";
 
 function useMuiMenuState<
@@ -12,8 +12,8 @@ function useMuiMenuState<
     anchoreWidth.current = anchoreEl?.clientWidth ?? null;
   }, [anchoreEl]);
 
-  const openMenu = useCallback(
-    (e: React.PointerEvent<TAnchoreEl>) => {
+  const openMenu: UseMuiMenuStateReturn<TAnchoreEl>["openMenu"] = useCallback(
+    (e) => {
       setAnchoreEl(e.currentTarget);
     },
     [setAnchoreEl],

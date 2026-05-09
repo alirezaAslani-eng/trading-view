@@ -1,5 +1,7 @@
+import { MouseEventHandler } from "react";
+
 interface UseMuiMenuStateReturn<TAnchoreEl extends HTMLElement> {
-  openMenu: (e: React.PointerEvent<TAnchoreEl>) => void;
+  openMenu: MouseEventHandler<TAnchoreEl>;
   closeMenu: () => void;
   anchoreEl: TAnchoreEl | null;
   isOpenMenu: boolean;
