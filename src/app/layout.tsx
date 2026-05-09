@@ -4,8 +4,9 @@ import { Box, CssBaseline } from "@mui/material";
 import IranYekanMedium from "@/constant/app/nextjsFont/IranYekan-Medium";
 import IranYekanDemibold from "@/constant/app/nextjsFont/IranYekan-Demibold";
 import IranYekanRegular from "@/constant/app/nextjsFont/IranYekan-Regular";
+import { PWC } from "@/types/utils";
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: PWC) {
   return (
     <html lang="fa" dir="rtl">
       <Box
