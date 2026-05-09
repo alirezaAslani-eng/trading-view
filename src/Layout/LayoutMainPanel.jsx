@@ -9,7 +9,12 @@ function LayoutMainPanel({ children }) {
   return (
     <>
       <Box
-        sx={{ display: "flex", minHeight: "100svh" }}
+        sx={{
+          display: "flex",
+          minHeight: "100svh",
+          maxWidth: "1440px",
+          mx: "auto",
+        }}
       >
         {/* // * --- sidebar --- */}
         <Box sx={{ display: "flex", pr: "20px", flexDirection: "column" }}>
