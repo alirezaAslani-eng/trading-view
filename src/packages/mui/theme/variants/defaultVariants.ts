@@ -28,6 +28,10 @@ const defaultAccordionVariants = {
   color: "nuteral",
   variant: "contained",
 } as const;
+const defaultListItemShapeVariants = {
+  size: "small",
+  color: "disabled",
+} as const;
 
 export {
   inputDefaultVariants,
@@ -37,4 +41,5 @@ export {
   defaultToggleTabGroupVariants,
   defaultStatusBadgeVariants,
   defaultAccordionVariants,
+  defaultListItemShapeVariants,
 };
