@@ -1,15 +1,12 @@
 import { notDefinedColors } from "../../shades";
 import { defaultCheckboxVariants } from "@/packages/mui/theme/variants";
+import { CheckboxThemeProps, CheckboxThemeReturn } from "../types";
 
-/**
- *
- * @returns {{notCheckedTheme?:object,checkedTheme:object,rootStyle:object}}
- */
 function checkboxTheme({
   theme,
   color = defaultCheckboxVariants.color,
   variant = defaultCheckboxVariants.variant,
-}) {
+}: CheckboxThemeProps): CheckboxThemeReturn {
   const styles = {
     primary: {
       contained: {
@@ -26,7 +23,7 @@ function checkboxTheme({
           backgroundColor: `${notDefinedColors["#282828"]} !important`,
           borderColor: notDefinedColors["#474747"],
         },
-      },
+      } satisfies CheckboxThemeReturn,
       outlined: {
         rootStyle: {
           border: "1px solid",
@@ -41,7 +38,7 @@ function checkboxTheme({
           backgroundColor: `transparent !important`,
           borderColor: notDefinedColors["#474747"],
         },
-      },
+      } satisfies CheckboxThemeReturn,
     },
   };
 

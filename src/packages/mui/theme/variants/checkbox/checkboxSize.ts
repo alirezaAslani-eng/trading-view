@@ -1,8 +1,12 @@
 import { defaultCheckboxVariants } from "@/packages/mui/theme/variants";
-/**
- * @returns {{rootSize?:object}}
- */
-function checkboxSize(size = defaultCheckboxVariants.size) {
+import {
+  CheckboxSizeProps,
+  CheckboxSizeReturn,
+} from "@/packages/mui/theme/variants/types";
+
+function checkboxSize({
+  size = defaultCheckboxVariants.size,
+}: CheckboxSizeProps): CheckboxSizeReturn {
   const sizes = {
     medium: {
       rootSize: {
@@ -11,7 +15,7 @@ function checkboxSize(size = defaultCheckboxVariants.size) {
         borderRadius: "8px",
         padding: "0px",
       },
-    },
+    } satisfies CheckboxSizeReturn,
     small: {
       rootSize: {
         width: "24px",
@@ -19,7 +23,7 @@ function checkboxSize(size = defaultCheckboxVariants.size) {
         borderRadius: "8px",
         padding: "0px",
       },
-    },
+    } satisfies CheckboxSizeReturn,
   };
 
   return sizes?.[size] || sizes.medium;
