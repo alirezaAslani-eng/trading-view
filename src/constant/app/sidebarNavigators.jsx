@@ -6,7 +6,7 @@ import ChartIcon from "@/assets/svg/chart.svg";
 import WalletIcon from "@/assets/svg/wallet.svg";
 import MessageIcon from "@/assets/svg/message.svg";
 import SettingIcon from "@/assets/svg/setting.svg";
-import { BoxOutlinedIcon } from "@/components/ui/Icon";
+import { BoxOutlinedIcon, LockIcon } from "@/components/ui/Icon";
 const sidebarNavigators = [
   {
     text: "داشبورد",
@@ -69,6 +69,13 @@ const sidebarNavigators = [
     text: "مدریت محصول",
     link: "/admin/products",
     icon: <BoxOutlinedIcon />,
+    id: crypto.randomUUID(),
+    submenus: [],
+  },
+  {
+    text: "سطوح دسترسی",
+    link: "/admin/permissions/admin",
+    icon: <LockIcon />,
     id: crypto.randomUUID(),
     submenus: [],
   },
