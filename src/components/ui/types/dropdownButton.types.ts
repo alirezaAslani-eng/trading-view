@@ -6,7 +6,8 @@ import { BoxProps } from "@mui/material";
 
 // * ------start-------- StyledSelectDisplay.tsx ------------
 type _SelectDisplayProps = Partial<
-  BoxProps & Record<"focused" | "isSelected" | "error", boolean>
+  Omit<BoxProps, "onChange" | "value"> &
+    Record<"focused" | "isSelected" | "error", boolean>
 >;
 
 interface SelectDisplayProps extends _SelectDisplayProps {
