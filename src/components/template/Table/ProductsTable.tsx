@@ -4,7 +4,6 @@ import AddIcon from "@/components/ui/Icon/AddIcon";
 import StatusBadge from "@/components/ui/Status/StatusBadge";
 import CircleIcon from "@/components/ui/Icon/CircleIcon";
 import { PenOnPaperIcon, TrashIcon } from "@/components/ui/Icon";
-import ScrollContainer from "@/components/ui/ScrollContainer/ScrollContainer";
 import {
   PagePaper,
   PagePaperHeading,
@@ -42,10 +41,7 @@ function ProductsTable() {
         </Button>
       </PagePaperHeading>
 
-      <ScrollContainer
-        overflowedSx={{ pb: "20px", pl: "20px" }}
-        sx={{ maxHeight: "250px" }}
-      >
+     
         <Table sx={{ width: "100%" }}>
           <TableHead>
             <TableRow>
@@ -94,7 +90,6 @@ function ProductsTable() {
             </TableRow>
           </TableBody>
         </Table>
-      </ScrollContainer>
     </PagePaper>
   );
 }
