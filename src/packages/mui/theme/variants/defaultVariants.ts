@@ -23,6 +23,11 @@ const defaultStatusBadgeVariants = {
   size: "medium",
   color: "success",
 } as const;
+const defaultAccordionVariants = {
+  size: "medium",
+  color: "nuteral",
+  variant: "contained",
+} as const;
 
 export {
   inputDefaultVariants,
@@ -31,4 +36,5 @@ export {
   defaultAlertVariants,
   defaultToggleTabGroupVariants,
   defaultStatusBadgeVariants,
+  defaultAccordionVariants,
 };
