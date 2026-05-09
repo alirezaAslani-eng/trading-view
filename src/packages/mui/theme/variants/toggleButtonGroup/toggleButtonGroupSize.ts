@@ -1,9 +1,15 @@
-/**
- * @returns {{rootSize:object,toggleButtons:object}}
- */
-function toggleButtonGroupSize({ size, theme }) {
+import {
+  ToggleButtonGroupSizeProps,
+  ToggleButtonGroupSizeReturn,
+} from "@/packages/mui/theme/variants/types";
+
+function toggleButtonGroupSize({
+  size,
+  theme,
+}: ToggleButtonGroupSizeProps): ToggleButtonGroupSizeReturn {
   const sizes = {
     large: {
+      rootSize: {},
       toggleButtons: {
         height: "56px",
         padding: "0px 20px",
@@ -11,7 +17,7 @@ function toggleButtonGroupSize({ size, theme }) {
         fontSize: theme.typography.button2.fontSize,
         fontFamily: theme.typography.button2.fontFamily,
       },
-    },
+    } satisfies ToggleButtonGroupSizeReturn,
     medium: {
       rootSize: {
         padding: "6px",
@@ -25,7 +31,7 @@ function toggleButtonGroupSize({ size, theme }) {
         fontSize: theme.typography.button4.fontSize,
         fontFamily: theme.typography.button4.fontFamily,
       },
-    },
+    } satisfies ToggleButtonGroupSizeReturn,
   };
 
   return sizes?.[size] || sizes.medium;

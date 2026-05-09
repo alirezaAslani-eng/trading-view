@@ -1,10 +1,17 @@
-/**
- * @returns {{rootStyle:object,selected:object,notSelected:object}}
- */
-function toggleButtonGroupTheme({ theme, color, variant }) {
+import {
+  ToggleButtonGroupThemeProps,
+  ToggleButtonGroupThemeReturn,
+} from "@/packages/mui/theme/variants/types";
+
+function toggleButtonGroupTheme({
+  theme,
+  color,
+  variant,
+}: ToggleButtonGroupThemeProps): ToggleButtonGroupThemeReturn {
   const styles = {
     primary: {
       contained: {
+        rootTheme: {},
         selected: {
           backgroundColor: `${theme.palette.background.primary} !important`,
           color: `${theme.palette.text.onPrimary} !important`,
@@ -13,11 +20,11 @@ function toggleButtonGroupTheme({ theme, color, variant }) {
           background: `transparent !important`,
           color: theme.palette.text.onPrimary,
         },
-      },
+      } satisfies ToggleButtonGroupThemeReturn,
     },
     success: {
       contained: {
-        rootStyle: {
+        rootTheme: {
           backgroundColor: theme.palette.background.surface,
         },
         notSelected: {
@@ -28,11 +35,11 @@ function toggleButtonGroupTheme({ theme, color, variant }) {
           backgroundColor: `${theme.palette.background.buy} !important`,
           color: `${theme.palette.text.onPrimary} !important`,
         },
-      },
+      } satisfies ToggleButtonGroupThemeReturn,
     },
     nuteral: {
       contained: {
-        rootStyle: {
+        rootTheme: {
           backgroundColor: theme.palette.background.surface,
         },
         notSelected: {
@@ -43,7 +50,7 @@ function toggleButtonGroupTheme({ theme, color, variant }) {
           backgroundColor: `${theme.palette.background.toggleActive} !important`,
           color: theme.palette.text.onPrimary,
         },
-      },
+      } satisfies ToggleButtonGroupThemeReturn,
     },
   };
 

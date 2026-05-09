@@ -7,3 +7,4 @@ export type * from "./checkbox.types";
 export type * from "./alert.types";
 export type * from "./button.types";
 export type * from "./ListItemShape.types";
+export type * from "./toggleButtonGroup.types";
