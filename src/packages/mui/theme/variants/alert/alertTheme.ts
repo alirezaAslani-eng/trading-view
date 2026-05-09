@@ -1,10 +1,14 @@
-import { alpha } from "@mui/material";
+import {
+  AlertThemeProps,
+  AlertThemeReturn,
+} from "@/packages/mui/theme/variants/types";
 
-/**
- * @returns {{rootTheme?:object,iconTheme?:object}}
- */
-function alertSize({ theme, variant, color }) {
-  const { palette } = theme;
+function alertTheme({
+  theme,
+  variant,
+  color,
+}: AlertThemeProps): AlertThemeReturn {
+  const { palette, alpha } = theme;
   const styles = {
     warning: {
       standard: {
@@ -22,4 +26,4 @@ function alertSize({ theme, variant, color }) {
   return styles?.[color]?.[variant] || styles.warning.standard;
 }
 
-export default alertSize;
+export default alertTheme;

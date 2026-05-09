@@ -1,8 +1,9 @@
-import { defaultAlertVariants } from "@/packages/mui/theme/variants";
-/**
- * @returns {{rootSize?:object,iconSize?:object}}
- */
-function alertSize({ theme, size = defaultAlertVariants.size }) {
+import {
+  AlertSizeProps,
+  AlertSizeReturn,
+} from "@/packages/mui/theme/variants/types";
+
+function alertSize({ theme, size }: AlertSizeProps): AlertSizeReturn {
   const sizes = {
     small: {
       rootSize: {
@@ -17,7 +18,7 @@ function alertSize({ theme, size = defaultAlertVariants.size }) {
         width: "18px",
         height: "18px",
       },
-    },
+    } satisfies AlertSizeReturn,
   };
 
   return sizes?.[size] || sizes.small;
