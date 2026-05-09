@@ -1,14 +1,19 @@
 import { DownIcon, DownMinimalIcon } from "@/components/ui/Icon";
 import { inputDefaultVariants } from "@/packages/mui/theme/variants";
-import React from "react";
+import { SelectDisplayProps } from "@/components/ui/types";
 const downMinimal_sx = {
   width: "14px",
   height: "14px",
 };
-/**
- * @param {{focused:boolean,variant:string}} props
- */
-function InputSelectIcon({ focused, variant = inputDefaultVariants.variant }) {
+
+interface InputSelectIconProps extends Pick<
+  SelectDisplayProps,
+  "focused" | "variant"
+> {}
+function InputSelectIcon({
+  focused,
+  variant = inputDefaultVariants.variant,
+}: InputSelectIconProps) {
   return (
     <>
       {variant === "contained" &&
