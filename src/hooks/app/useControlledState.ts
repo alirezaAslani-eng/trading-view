@@ -1,11 +1,11 @@
 import warn from "@/utils/app/warn";
 import { useState } from "react";
+import { UseControlledStateConfig, UseControlledStateReturn } from "./types";
 
-/**
- *
- * @returns {[value:any,setValue:(value:any)=>void]}
- */
-function useControlledState({ value, onChange }) {
+function useControlledState({
+  value,
+  onChange,
+}: UseControlledStateConfig): UseControlledStateReturn {
   const isControlled = value !== undefined;
 
   warn(onChange !== undefined && value === undefined, {
@@ -16,7 +16,7 @@ function useControlledState({ value, onChange }) {
 
   const final_value = isControlled ? value : interanlValue;
 
-  const setValue = (newValue) => {
+  const setValue = (newValue:string) => {
     if (isControlled) {
       if (onChange) onChange(newValue);
       return;
