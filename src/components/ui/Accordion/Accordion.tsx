@@ -1,21 +1,26 @@
-"use client"
-import { accordionSize, accordionTheme } from "@/packages/mui/theme/variants";
-import { Accordion as MuiAccordion, styled } from "@mui/material";
+"use client";
+import { Accordion as MuiAccordion, styled, Theme } from "@mui/material";
+import { AccordionProps } from "../types";
+import {
+  accordionSize,
+  accordionTheme,
+  defaultAccordionVariants,
+} from "@/packages/mui/theme/variants";
 
-const Accordion = styled(MuiAccordion, {
+const Accordion_ = styled(MuiAccordion, {
   shouldForwardProp: (prop) => {
-    return (
-      prop !== "variant" ||
-      prop !== "color" ||
-      prop !== "size" ||
-      prop !== "border"
-    );
+    return !["variant", "color", "size", "border"].includes(prop as string);
   },
-})(({ theme, size, color, variant, border }) => {
+})<AccordionProps>(({
+  theme,
+  size = defaultAccordionVariants.size,
+  color = defaultAccordionVariants.color,
+  variant = defaultAccordionVariants.variant,
+  accordionBorder,
+}: AccordionProps & { theme: Theme }) => {
   const accordion_size = accordionSize({ size, theme });
   const accordion_theme = accordionTheme({
     color,
-    size,
     variant,
     theme,
   });
@@ -24,7 +29,7 @@ const Accordion = styled(MuiAccordion, {
     "& .MuiAccordionSummary-root": {
       ...accordion_theme?.summaryTheme,
       ...accordion_size?.summarySize,
-      ...(border === "accordion" && { border: "none" }),
+      ...(accordionBorder && { border: "none" }),
     },
     // * ------- Summary Content ---------
     "& .MuiAccordionSummary-content": {
@@ -46,7 +51,7 @@ const Accordion = styled(MuiAccordion, {
       ...accordion_theme?.expandIconTheme,
     },
 
-    ...(border === "accordion" && {
+    ...(accordionBorder && {
       borderWidth: accordion_size?.summarySize?.borderWidth,
       borderRadius: `${accordion_size?.summarySize?.borderRadius} !important`,
       borderStyle: accordion_theme?.summaryTheme?.borderStyle,
@@ -55,4 +60,8 @@ const Accordion = styled(MuiAccordion, {
   };
 });
 
+function Accordion(props: AccordionProps) {
+  //@ts-ignore
+  return <Accordion_ {...props} />;
+}
 export default Accordion;
