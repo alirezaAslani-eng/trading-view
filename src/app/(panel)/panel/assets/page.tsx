@@ -14,7 +14,6 @@ import {
   SectionTitle,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
-const section_shared_sx = { mt: "50px" };
 function page() {
   return (
     <Page>
