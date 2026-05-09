@@ -18,9 +18,9 @@ const PagePaperTitle = styled(Typography)(({ theme }) => {
   const { palette, typography } = theme;
   return {
     color: palette.text.heading,
-    fontSize: typography.button1.fontSize,
-    fontFamily: typography.button1.fontFamily,
-    lineHeight: typography.button1.lineHeight,
+    fontSize: typography.h7.fontSize,
+    fontFamily: typography.h7.fontFamily,
+    lineHeight: typography.h7.lineHeight,
   };
 });
 
