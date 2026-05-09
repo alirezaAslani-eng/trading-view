@@ -1,7 +1,14 @@
+import {
+  ListItemShapeSizeReturn,
+  ListItemShapeSizeProps,
+} from "@/packages/mui/theme/variants/types";
+
 /**
  * @returns {{rootSize:object}}
  */
-function listItemShapeSize({ size }) {
+function listItemShapeSize({
+  size,
+}: ListItemShapeSizeProps): ListItemShapeSizeReturn {
   const sizes = {
     small: {
       rootSize: {
@@ -9,7 +16,7 @@ function listItemShapeSize({ size }) {
         flexShrink: "0",
         outlineWidth: "2px",
       },
-    },
+    } satisfies ListItemShapeSizeReturn,
   };
 
   return sizes?.[size] || sizes.small;

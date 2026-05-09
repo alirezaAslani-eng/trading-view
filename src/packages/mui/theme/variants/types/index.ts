@@ -6,3 +6,4 @@ export type * from "./statusBadge.types";
 export type * from "./checkbox.types";
 export type * from "./alert.types";
 export type * from "./button.types";
+export type * from "./ListItemShape.types";
