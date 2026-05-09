@@ -1,16 +1,16 @@
 "use client";
 import { inputSize, inputTheme } from "@/packages/mui/theme/variants";
 import { Box, styled } from "@mui/material";
-import { ComponentProps } from "react";
 import clsx from "clsx";
 import { inputDefaultVariants } from "@/packages/mui/theme/variants";
 import { InputSelectIcon } from "@/components/template/Icon";
+import { SelectDisplayProps } from "../types";
 
 const StyledSelectDisplay = styled(Box, {
   shouldForwardProp: (p) => {
     return p !== "variant" && p !== "size" && p !== "color";
   },
-})(({
+})<Pick<SelectDisplayProps, "variant" | "color" | "size">>(({
   theme,
   variant = inputDefaultVariants.variant,
   color = inputDefaultVariants.color,
@@ -48,9 +48,14 @@ const StyledSelectDisplay = styled(Box, {
 });
 
 /**
- * @param {ComponentProps<typeof StyledSelectDisplay} props
  */
-function SelectDisplay({ children, focused, isSelected, error, ...props }) {
+function SelectDisplay({
+  children,
+  focused,
+  isSelected,
+  error,
+  ...props
+}: SelectDisplayProps) {
   return (
     <>
       <StyledSelectDisplay
@@ -73,6 +78,3 @@ function SelectDisplay({ children, focused, isSelected, error, ...props }) {
   );
 }
 export default SelectDisplay;
-
-// * select input <- sx / variant / color / size / error
-// * dropdown box <- select input <- focus / error / isSelected
