@@ -1,45 +1,50 @@
-const { notDefinedColors } = require("../../shades");
+import type {
+  ButtonThemeProps,
+  ButtonThemeReturn,
+} from "@/packages/mui/theme/variants/types";
 
-/**
- * @returns {{rootStyle:object}}
- */
-function buttonTheme({ theme, variant, color }) {
+function buttonTheme({
+  theme,
+  variant,
+  color,
+}: ButtonThemeProps): ButtonThemeReturn {
   // * -------- primary theme --------
   const styles = {
     primary: {
       contained: {
-        rootStyle: {
+        rootTheme: {
           backgroundColor: theme.palette.background.primary,
           color: theme.palette.text.onPrimary,
         },
-      },
+      } satisfies ButtonThemeReturn,
       outlined: {
-        rootStyle: {
+        rootTheme: {
           border: "1px solid",
           borderColor: theme.palette.border.primary,
-          color: notDefinedColors["#57A8FF"],
+          color: theme.palette.text.primary2,
         },
-      },
+      } satisfies ButtonThemeReturn,
       text: {
-        rootStyle: {
+        rootTheme: {
           backgroundColor: "transparent",
           border: "none",
           color: theme.palette.text.primary2,
         },
-      },
+      } satisfies ButtonThemeReturn,
     },
 
     // * -------- success theme --------
     success: {
       contained: {
-        rootStyle: {
+        rootTheme: {
           backgroundColor: theme.palette.background.buy,
           color: theme.palette.text.onPrimary,
         },
-      },
+      } satisfies ButtonThemeReturn,
     },
   };
 
+  //@ts-ignore
   return styles?.[color]?.[variant] || styles.primary.contained;
 }
 

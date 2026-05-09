@@ -22,7 +22,7 @@ const MuiButton = {
           boxShadow: undefined,
         },
         // *---end--- reset mui defult style on button --end---
-        ...button_theme?.rootStyle,
+        ...button_theme?.rootTheme,
       };
     },
 

@@ -5,3 +5,4 @@ export type * from "./toggleTabGroup.types";
 export type * from "./statusBadge.types";
 export type * from "./checkbox.types";
 export type * from "./alert.types";
+export type * from "./button.types";
