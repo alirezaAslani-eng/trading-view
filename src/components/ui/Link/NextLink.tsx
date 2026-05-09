@@ -23,7 +23,10 @@ function NextLink({
   const isActive = useIsActiveLink({ href: props.href, startWith });
 
   return (
-    <StyledNextLink {...props} className={clsx({ "Mui-active": isActive })}>
+    <StyledNextLink
+      {...props}
+      className={clsx({ "Mui-active": isActive }, props?.className)}
+    >
       {props.children}
     </StyledNextLink>
   );
