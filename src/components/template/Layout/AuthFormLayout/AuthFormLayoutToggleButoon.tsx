@@ -2,11 +2,17 @@
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import NextLink from "@/components/ui/Link/NextLink";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
-import { Box, ToggleButton } from "@mui/material";
-/**
- * @param {{sx:import("@mui/material").StackProps["sx"],activeButton:"signin" | "signup"}} p0
- */
-export default function AuthFormLayoutToggleButoon({ sx, activeButton }) {
+import { Box, BoxProps, ToggleButton } from "@mui/material";
+
+interface AuthFormLayoutToggleButoonProps extends Pick<BoxProps, "sx"> {
+  activeButton: "signin" | "signup";
+}
+
+
+export default function AuthFormLayoutToggleButoon({
+  sx,
+  activeButton,
+}: AuthFormLayoutToggleButoonProps) {
   return (
     <Box
       sx={(tm) => ({ px: "50px", width: "100%", ...identifySxProp(tm, sx) })}

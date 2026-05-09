@@ -1,13 +1,11 @@
 "use client";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
-import { alpha, Stack } from "@mui/material";
+import { PWC } from "@/types/utils";
+import { alpha, Stack, StackProps } from "@mui/material";
 const blur = "blur(40px)";
-/**
- * @param {{children:import("react").ReactNode,sx:import("@mui/material").StackProps["sx"]}} param0
- * @returns
- */
-function AuthFormLayout({ children, sx }) {
+
+function AuthFormLayout({ children, sx }: PWC<Pick<StackProps, "sx">>) {
   return (
     <Stack
       sx={(tm) => ({
@@ -18,7 +16,7 @@ function AuthFormLayout({ children, sx }) {
         backdropFilter: blur,
         border: "2px solid",
         borderRadius: "24px",
-        borderColor: alpha(tm.palette.border.white,0.05),
+        borderColor: alpha(tm.palette.border.white, 0.05),
         ...identifySxProp(tm, sx),
       })}
     >
