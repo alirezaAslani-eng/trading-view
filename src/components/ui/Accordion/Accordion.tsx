@@ -9,7 +9,7 @@ import {
 
 const Accordion_ = styled(MuiAccordion, {
   shouldForwardProp: (prop) => {
-    return !["variant", "color", "size", "border"].includes(prop as string);
+    return !["variant", "color", "size", "border","accordionBorder"].includes(prop as string);
   },
 })<AccordionProps>(({
   theme,
