@@ -5,6 +5,8 @@ const inputDefaultVariants = {
 } as const;
 const defaultToggleGroupButtonVariants = {
   variant: "contained",
+  color: "success",
+  size: "medium",
 } as const;
 const defaultToggleTabGroupVariants = {
   variant: "contained",
