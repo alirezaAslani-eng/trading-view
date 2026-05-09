@@ -3,7 +3,8 @@ import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { styled } from "@mui/material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { ComponentProps } from "react";
+import { NextLinkProps } from "../types";
 
 const StyledNextLink = styled(Link)({
   display: "block",
@@ -11,10 +12,10 @@ const StyledNextLink = styled(Link)({
   color: "inherit",
 });
 
-/**
- * @param {{activeSx:import("@mui/material").SxProps<import("@mui/material").Theme>} & React.ComponentProps<typeof StyledNextLink>} props
- */
-function NextLink({ activeSx, ...props }) {
+function NextLink({
+  activeSx,
+  ...props
+}: NextLinkProps & ComponentProps<typeof StyledNextLink>) {
   const pathname = usePathname();
 
   return (
