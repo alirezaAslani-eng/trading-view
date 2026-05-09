@@ -1,10 +1,9 @@
 "use client";
-import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { styled } from "@mui/material";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { ComponentProps } from "react";
-import { NextLinkProps } from "../types";
+import  { ComponentProps } from "react";
+import useIsActiveLink from "@/hooks/app/useIsActiveLink";
+import clsx from "clsx";
 
 const StyledNextLink = styled(Link)({
   display: "block",
@@ -12,20 +11,11 @@ const StyledNextLink = styled(Link)({
   color: "inherit",
 });
 
-function NextLink({
-  activeSx,
-  ...props
-}: NextLinkProps & ComponentProps<typeof StyledNextLink>) {
-  const pathname = usePathname();
+function NextLink({ ...props }: ComponentProps<typeof StyledNextLink>) {
+  const isActive = useIsActiveLink(props.href);
 
   return (
-    <StyledNextLink
-      {...props}
-      sx={(tm) => ({
-        ...identifySxProp(tm, props.sx),
-        ...(pathname === props.href && identifySxProp(tm, activeSx)),
-      })}
-    >
+    <StyledNextLink {...props} className={clsx({ "Mui-active": isActive })}>
       {props.children}
     </StyledNextLink>
   );

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Box } from "@mui/system";
-import {  SvgIcon, Typography } from "@mui/material";
+import { SvgIcon, Typography } from "@mui/material";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
@@ -87,7 +87,7 @@ function PanelSidebarDropdown({ icon, text, href, children, id }) {
 /**
  * @param {React.ComponentProps<typeof NextLink>} param0
  */
-function PanelSidebarNestedItem({ activeSx, ...props }) {
+function PanelSidebarNestedItem(props) {
   return (
     <Box component={"li"}>
       <NextLink
@@ -99,10 +99,10 @@ function PanelSidebarNestedItem({ activeSx, ...props }) {
           alignItems: "center",
           px: "10px",
           ...identifySxProp(tm, props.sx),
-        })}
-        activeSx={(tm) => ({
-          backgroundColor: "background.sidebarActive",
-          ...identifySxProp(tm, activeSx),
+          "&.Mui-active": {
+            backgroundColor: "background.sidebarActive",
+            ...identifySxProp(tm, props.sx)?.["&.Mui-active"],
+          },
         })}
       >
         {props.children}
