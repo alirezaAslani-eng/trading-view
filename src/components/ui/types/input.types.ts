@@ -1,4 +1,6 @@
-import type { BoxProps } from "@mui/material";
+import type { BoxProps, MenuProps } from "@mui/material";
+import { SelectDisplayProps } from "./dropdownButton.types";
+import { ReactNode } from "react";
 
 // * -------start------- InputText.tsx --------------
 
@@ -25,4 +27,32 @@ interface StyledInputTextProps {
 
 // * -------end------- InputText.tsx --------------
 
-export type { InputTextProps, StyledInputTextProps };
+// * -------start------- InputSelect.tsx --------------
+interface InputSelectProps extends SelectDisplayProps {
+  placeholder?: ReactNode;
+  onChange?: (value: string) => void;
+  value?: string;
+}
+// * -------end------- InputSelect.tsx --------------
+
+// * -------start------- InputSelectMenu.tsx --------------
+interface InputSelectMenuProps extends Omit<
+  MenuProps,
+  "anchorEl" | "open" | "onClose"
+> {}
+// * -------end------- InputSelectMenu.tsx --------------
+
+
+// * -------start------- InputSelectItem.tsx --------------
+interface InputSelectItemProps extends BoxProps {
+  value: string;
+}
+// * -------end------- InputSelectItem.tsx --------------
+
+export type {
+  InputTextProps,
+  StyledInputTextProps,
+  InputSelectProps,
+  InputSelectMenuProps,
+  InputSelectItemProps,
+};

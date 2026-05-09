@@ -8,11 +8,13 @@ import {
 } from "@/context/app/InputSelectController";
 import { Typography } from "@mui/material";
 import { lineClamp } from "@/packages/mui/theme/helpers";
+import { InputSelectProps } from "@/components/ui/types";
 
-/**
- * @param {ComponentProps<typeof SelectDisplay> & {placeholder:import("react").ReactNode,children:import("react").ReactElement}} selectDisplayProps
- */
-function InputSelect_({ children, placeholder, ...selectDisplayProps }) {
+function InputSelect_({
+  children,
+  placeholder,
+  ...selectDisplayProps
+}: Omit<InputSelectProps, "onChange" | "value">) {
   const { selectedValue, isOpenMenu, openMenu } = useInputSelectController();
 
   const displayedItem = renderValueOnDisplay({ children, selectedValue });
@@ -35,7 +37,7 @@ function InputSelect_({ children, placeholder, ...selectDisplayProps }) {
             ...lineClamp(1),
           }}
         >
-          {isPlaceholder ?  placeholder  : displayedItem}
+          {isPlaceholder ? placeholder : displayedItem}
         </Typography>
       </SelectDisplay>
       {/* // * ---- select menu ---- */}
@@ -44,13 +46,16 @@ function InputSelect_({ children, placeholder, ...selectDisplayProps }) {
   );
 }
 
-/**
- * @param {ComponentProps<typeof InputSelect_> & ComponentProps<typeof InputSelectController>  } props
- */
-function InputSelect({ onChange, value, ...props }) {
+function InputSelect({
+  onChange,
+  value,
+  ...inputSelectProps
+}: InputSelectProps) {
   return (
     <InputSelectController onChange={onChange} value={value}>
-      <InputSelect_ {...props}>{props.children}</InputSelect_>{" "}
+      <InputSelect_ {...inputSelectProps}>
+        {inputSelectProps.children}
+      </InputSelect_>
     </InputSelectController>
   );
 }

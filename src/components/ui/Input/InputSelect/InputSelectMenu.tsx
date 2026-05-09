@@ -2,15 +2,15 @@
 import SelectMenu from "@/components/ui/Menu/SelectMenu";
 import { useInputSelectController } from "@/context/app/InputSelectController";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
-/**
- * @param {import("react").ComponentProps<typeof SelectMenu>} props
- */
-function InputSelectMenu(props) {
+import { InputSelectMenuProps } from "../../types";
+
+function InputSelectMenu(props:InputSelectMenuProps) {
   const { anchoreEl, isOpenMenu, closeMenu, anchoreWidth } =
     useInputSelectController();
 
   return (
     <SelectMenu
+      {...props}
       anchorEl={anchoreEl}
       open={isOpenMenu}
       onClose={closeMenu}
@@ -20,6 +20,7 @@ function InputSelectMenu(props) {
           ...sx_overrider,
           "& .MuiPaper-root": {
             width: anchoreWidth,
+            //@ts-ignore
             ...sx_overrider?.["& .MuiPaper-root"],
           },
         };
