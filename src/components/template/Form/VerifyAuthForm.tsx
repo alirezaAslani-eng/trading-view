@@ -5,6 +5,7 @@ import {
   Button,
   FormLabel,
   Stack,
+  StackProps,
   SvgIcon,
   Typography,
 } from "@mui/material";
@@ -15,10 +16,8 @@ import NextLink from "@/components/ui/Link/NextLink";
 import InputVerifyCode from "@/components/template/Input/InputVerifyCode";
 import SendAuthOTP from "@/components/template/Button/SendAuthOTP";
 import RotateRight from "@/assets/svg/rotate-right.svg";
-/**
- * @param {{sx:import('@mui/material').StackProps["sx"]}} props
- */
-function VerifyAuthForm({ sx }) {
+
+function VerifyAuthForm({ sx }: Pick<StackProps, "sx">) {
   const verifyInputLabelID = useRndomID();
   return (
     <Stack
@@ -37,7 +36,7 @@ function VerifyAuthForm({ sx }) {
           </Typography>
         </FormLabel>
 
-        <InputVerifyCode sx={{ mt: "10px" }} />
+        <InputVerifyCode sx={{ mt: "10px" }}  />
       </Box>
 
       <Button variant="contained" size="large" fullWidth sx={{ mt: "32px" }}>
@@ -63,7 +62,7 @@ function VerifyAuthForm({ sx }) {
         </NextLink>
 
         <SendAuthOTP>
-          <SvgIcon >
+          <SvgIcon>
             <RotateRight />
           </SvgIcon>
           {"اصلاح شماره موبایل"}
