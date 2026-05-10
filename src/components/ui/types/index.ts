@@ -5,3 +5,4 @@ export * from "./dropdownButton.types";
 export * from "./accordion.types";
 export * from "./Checkbox.types";
 export * from "./decorative.types";
+export * from "./pagination.types";
