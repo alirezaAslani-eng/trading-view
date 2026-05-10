@@ -42,12 +42,18 @@ interface InputSelectMenuProps extends Omit<
 > {}
 // * -------end------- InputSelectMenu.tsx --------------
 
-
 // * -------start------- InputSelectItem.tsx --------------
 interface InputSelectItemProps extends BoxProps {
   value: string;
 }
 // * -------end------- InputSelectItem.tsx --------------
+
+// * -------start------- InputVerifyCode.tsx --------------
+interface InputVerifyCodeProps extends Pick<BoxProps, "sx"> {
+  onComplete?: (value: string) => void;
+  error?: boolean;
+}
+// * -------end------- InputVerifyCode.tsx --------------
 
 export type {
   InputTextProps,
@@ -55,4 +61,5 @@ export type {
   InputSelectProps,
   InputSelectMenuProps,
   InputSelectItemProps,
+  InputVerifyCodeProps,
 };

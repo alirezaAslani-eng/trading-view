@@ -1,14 +1,13 @@
 "use client";
 import InputPhoneNumber from "@/components/ui/Input/InputPhoneNumber";
-import useVerifyCodeInput from "@/hooks/app/useVerifyCodeInput";
+import { InputVerifyCodeProps } from "@/components/ui/types";
+import useVerifyCodeInput from "@/hooks/app/useMultipleInput";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { Box } from "@mui/material";
 import React from "react";
 
-/**
- * @param {{sx:Omit<import("@mui/material").BoxProps["sx"]>,onComplete:(value:string)=>void,error:boolean}} prosp
- */
-function InputVerifyCode({ onComplete, error, sx }) {
+
+function InputVerifyCode({ onComplete, error, sx }:InputVerifyCodeProps) {
   const { getKey, register } = useVerifyCodeInput({
     inputCount: 5,
     onComplete,
