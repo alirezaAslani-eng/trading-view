@@ -17,3 +17,5 @@ export { default as toggleTabGroupSize } from "./toggleTabGroup/toggleTabGroupSi
 export { default as toggleTabGroupTheme } from "./toggleTabGroup/toggleTabGroupTheme";
 export { default as statusBadgeSize } from "./statusBadge/statusBadgeSize";
 export { default as statusBadgeTheme } from "./statusBadge/statusBadgeTheme";
+export { default as paginationSize } from "./pagination/paginationSize";
+export { default as paginationTheme } from "./pagination/paginationTheme";

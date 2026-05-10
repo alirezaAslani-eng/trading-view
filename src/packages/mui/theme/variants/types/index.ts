@@ -8,3 +8,4 @@ export type * from "./alert.types";
 export type * from "./button.types";
 export type * from "./ListItemShape.types";
 export type * from "./toggleButtonGroup.types";
+export type * from "./pagination.types";
