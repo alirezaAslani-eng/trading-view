@@ -34,6 +34,11 @@ const defaultListItemShapeVariants = {
   size: "small",
   color: "disabled",
 } as const;
+const defaultPaginationVariants = {
+  size: "medium",
+  color: "primary",
+  variant: "contained",
+} as const;
 
 export {
   inputDefaultVariants,
@@ -44,4 +49,5 @@ export {
   defaultStatusBadgeVariants,
   defaultAccordionVariants,
   defaultListItemShapeVariants,
+  defaultPaginationVariants,
 };
