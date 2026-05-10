@@ -2,7 +2,7 @@
 import { Box, styled, Typography } from "@mui/material";
 
 // * Container
-const Page = styled(Box)({ padding: "0px 28px" });
+const Page = styled(Box)({ padding: "0px 28px", minHeight: "100svh" });
 
 // * Container -> Header
 /**
@@ -10,7 +10,7 @@ const Page = styled(Box)({ padding: "0px 28px" });
  */
 const _Header = (props) => <Box component={"header"} {...props} />;
 const Header = styled(_Header)({
-  marginTop: "48px",
+  paddingTop: "48px",
 });
 
 // * Container -> Main
@@ -19,8 +19,7 @@ const Header = styled(_Header)({
  */
 const _Main = (props) => <Box component={"main"} {...props} />;
 const Main = styled(_Main)({
-  marginTop: "42px",
-  paddingBottom: "42px",
+  padding:"42px 0px"
 });
 
 // * Container -> Main -> Section
