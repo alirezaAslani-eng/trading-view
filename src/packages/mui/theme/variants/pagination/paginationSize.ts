@@ -17,17 +17,16 @@ function paginationSize({
         borderRadius: "8px",
         fontSize: typography.button3.fontSize,
         fontFamily: typography.button3.fontFamily,
-        lineHeight: typography.button3.lineHeight,
       },
       prevNextButtonSize: {
         fontSize: typography.button4.fontSize,
         fontFamily: typography.button4.fontFamily,
-        lineHeight: typography.button4.lineHeight,
       },
     } satisfies PaginationSizeReturn,
   };
 
-  return sizes?.[size] || sizes.medium;
+
+  return sizes?.[size] || sizes.medium
 }
 
 export default paginationSize;
