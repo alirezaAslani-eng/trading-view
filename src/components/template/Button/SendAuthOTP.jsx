@@ -1,3 +1,4 @@
+"use client";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { Typography } from "@mui/material";
 import React from "react";
