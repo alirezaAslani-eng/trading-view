@@ -35,10 +35,7 @@ const FormLayoutFieldGroup = styled(Stack)({
 });
 
 // * FormLayout -> Lable
-function FormLayoutLable({
-  htmlFor,
-  ...props
-}: TypographyProps & { htmlFor?: string }) {
+function FormLayoutLable(props: TypographyProps<"label">) {
   return (
     <Typography
       component={"label"}
@@ -50,7 +47,7 @@ function FormLayoutLable({
 }
 
 // * FormLayout -> Submit
-function SubmitButton(props:ButtonProps) {
+function SubmitButton(props: ButtonProps) {
   return (
     <Button
       variant="contained"
