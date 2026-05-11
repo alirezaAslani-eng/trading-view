@@ -5,7 +5,7 @@ function tabsSize({ size, theme }: TabsSizeProps): TabsSizeReturn {
   const sizes = {
     medium: {
       rootSize: {
-        borderWidth: "1px",
+        borderBottom: "1px solid",
       },
       tabSize: {
         fontSize: typography.button2.fontSize,

@@ -10,7 +10,7 @@ function tabsTheme({
     primary: {
       standard: {
         rootTheme: {
-          borderColor: palette.border.default,
+          borderColor: `${palette.border.default} !important`,
           borderStyle: "solid",
         },
         tabTheme: {
