@@ -39,6 +39,11 @@ const defaultPaginationVariants = {
   color: "primary",
   variant: "contained",
 } as const;
+const defaultTabsVariants = {
+  size: "medium",
+  color: "primary",
+  appearance: "standard",
+} as const;
 
 export {
   inputDefaultVariants,
@@ -50,4 +55,5 @@ export {
   defaultAccordionVariants,
   defaultListItemShapeVariants,
   defaultPaginationVariants,
+  defaultTabsVariants,
 };
