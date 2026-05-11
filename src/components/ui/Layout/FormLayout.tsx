@@ -1,13 +1,19 @@
 "use client";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
-import { Button, FormLabel, Stack, styled, Typography } from "@mui/material";
-import React from "react";
 import Alert from "@/components/ui/Alert/Alert";
+import {
+  Button,
+  ButtonProps,
+  Stack,
+  StackProps,
+  styled,
+  Typography,
+  TypographyProps,
+} from "@mui/material";
+
 const formLayoutGap = "24px";
-/**
- * @param {import("@mui/material").StackProps<"form">} props
- */
-function FormLayoutAsForm(props) {
+
+function FormLayoutAsForm(props: StackProps<"form">) {
   return <Stack component={"form"} {...props} />;
 }
 const FormLayout = styled(FormLayoutAsForm)({
@@ -29,10 +35,10 @@ const FormLayoutFieldGroup = styled(Stack)({
 });
 
 // * FormLayout -> Lable
-/**
- * @param {import("@mui/material").TypographyProps & {htmlFor:string}} param0
- */
-function FormLayoutLable({ htmlFor, ...props }) {
+function FormLayoutLable({
+  htmlFor,
+  ...props
+}: TypographyProps & { htmlFor?: string }) {
   return (
     <Typography
       component={"label"}
@@ -44,10 +50,7 @@ function FormLayoutLable({ htmlFor, ...props }) {
 }
 
 // * FormLayout -> Submit
-/**
- * @param {import("@mui/material").ButtonProps} props
- */
-function SubmitButton(props) {
+function SubmitButton(props:ButtonProps) {
   return (
     <Button
       variant="contained"
