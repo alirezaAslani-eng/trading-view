@@ -1,7 +1,11 @@
-interface UseControlledStateConfig {
-  onChange?: (value: string) => void;
-  value?: string;
+interface UseControlledStateConfig<TValue> {
+  onChange?: (value: TValue) => void;
+  value?: TValue;
+  defaultState?: TValue;
 }
-type UseControlledStateReturn = [string | undefined, (value: string) => void];
+type UseControlledStateReturn<TValue> = [
+  TValue | undefined,
+  (value: TValue) => void,
+];
 
 export type { UseControlledStateConfig, UseControlledStateReturn };
