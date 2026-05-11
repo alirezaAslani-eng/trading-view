@@ -6,3 +6,9 @@ declare module "@mui/material/Typography" {
     true
   > {}
 }
+
+declare module "@mui/material/Tabs" {
+  interface TabsPropsVariantOverrides {
+    standard: false;
+  }
+}
