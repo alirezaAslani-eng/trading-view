@@ -19,3 +19,5 @@ export { default as statusBadgeSize } from "./statusBadge/statusBadgeSize";
 export { default as statusBadgeTheme } from "./statusBadge/statusBadgeTheme";
 export { default as paginationSize } from "./pagination/paginationSize";
 export { default as paginationTheme } from "./pagination/paginationTheme";
+export { default as tabsSize } from "./tabs/tabsSize";
+export { default as tabsTheme } from "./tabs/tabsTheme";
