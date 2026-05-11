@@ -3,8 +3,7 @@ import { SelectDisplayProps } from "./dropdownButton.types";
 import { ReactNode } from "react";
 
 // * -------start------- InputText.tsx --------------
-
-interface BaseInputTextProps {
+interface SharedInputTextProps {
   error?: boolean;
 }
 
@@ -25,6 +24,19 @@ interface StyledInputTextProps {
   color?: "primary";
 }
 
+type InputProps = SharedInputTextProps &
+  StyledInputTextProps &
+  Omit<BoxProps<"input">, "size" | "color" | "variant"> & {
+    textarea?: false;
+  };
+
+type TextareaProps = SharedInputTextProps &
+  StyledInputTextProps &
+  Omit<BoxProps<"textarea">, "size" | "color" | "variant"> & {
+    textarea?: true;
+  };
+
+type InputTextProps = InputProps | TextareaProps;
 // * -------end------- InputText.tsx --------------
 
 // * -------start------- InputSelect.tsx --------------

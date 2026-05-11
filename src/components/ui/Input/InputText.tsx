@@ -49,15 +49,11 @@ const StyledInputText = styled(Box, {
   };
 });
 
-function InputText({
-  textarea,
-  error,
-  ...props
-}: InputTextProps & ComponentProps<typeof StyledInputText>) {
+function InputText({ textarea, error, ...props }: InputTextProps) {
   return (
     <StyledInputText
       {...props}
-      //@ts-ignore
+      // @ts-ignore
       component={textarea ? "textarea" : "input"}
       className={clsx(
         { "Mui-error": error, "Mui-textarea": textarea },
