@@ -15,3 +15,4 @@ export { default as AddIcon } from "./AddIcon";
 export { default as CircleIcon } from "./CircleIcon";
 export { default as TrashIcon } from "./TrashIcon";
 export { default as PenOnPaperIcon } from "./PenOnPaperIcon";
+export { default as RestartRightIcon } from "./RestartRightIcon";
