@@ -7,6 +7,6 @@ interface InputSelectControllerProvidedValue extends UseMuiMenuStateReturn<HTMLE
   selectedValue: string | undefined;
   updateValue: (value: string) => void;
 }
-interface InputSelectControllerProps extends UseControlledStateConfig {}
+interface InputSelectControllerProps extends UseControlledStateConfig<string> {}
 
 export type { InputSelectControllerProvidedValue, InputSelectControllerProps };
