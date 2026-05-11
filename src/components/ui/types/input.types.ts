@@ -1,22 +1,12 @@
-import type { BoxProps, MenuProps } from "@mui/material";
+import type { BoxProps, MenuProps, Theme } from "@mui/material";
 import { SelectDisplayProps } from "./dropdownButton.types";
 import { ReactNode } from "react";
+import type { SystemStyleObject } from "@mui/system";
 
 // * -------start------- InputText.tsx --------------
 interface SharedInputTextProps {
   error?: boolean;
 }
-
-type InputProps = BaseInputTextProps &
-  BoxProps<"input"> & {
-    textarea?: false;
-  };
-type TextareaProps = BaseInputTextProps &
-  BoxProps<"textarea"> & {
-    textarea?: true;
-  };
-
-type InputTextProps = InputProps | TextareaProps;
 
 interface StyledInputTextProps {
   variant?: "contained" | "outlined";
@@ -67,6 +57,13 @@ interface InputVerifyCodeProps extends Pick<BoxProps, "sx"> {
 }
 // * -------end------- InputVerifyCode.tsx --------------
 
+// * -------start------- InputPhoneNumber.tsx --------------
+interface InputPhoneNumberProps extends Omit<InputProps, "sx"> {
+  sx?: SystemStyleObject<Theme>;
+  countryCode?: boolean;
+}
+// * -------end------- InputPhoneNumber.tsx --------------
+
 export type {
   InputTextProps,
   StyledInputTextProps,
@@ -74,4 +71,7 @@ export type {
   InputSelectMenuProps,
   InputSelectItemProps,
   InputVerifyCodeProps,
+  InputProps,
+  TextareaProps,
+  InputPhoneNumberProps,
 };
