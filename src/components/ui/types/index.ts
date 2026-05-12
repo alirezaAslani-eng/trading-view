@@ -7,3 +7,4 @@ export * from "./Checkbox.types";
 export * from "./decorative.types";
 export * from "./pagination.types";
 export * from "./tabs.types";
+export * from "./bulletList.types";

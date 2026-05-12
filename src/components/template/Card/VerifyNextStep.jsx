@@ -1,23 +1,24 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import React from "react";
 import StatusBadge from "@/components/ui/Feedback/StatusBadge";
+import BulletList from "@/components/ui/BulletList/BulletList";
+import BulletListTitle from "@/components/ui/BulletList/BulletListTitle";
+import BulletItem from "@/components/ui/BulletItem/BulletItem";
+import BulletItemShape from "@/components/ui/BulletItem/BulletItemShape";
+import BulletText from "@/components/ui/BulletItem/BulletText";
 import { LockIcon, UnlockIcon } from "@/components/ui/Icon";
-import {
-  AuthFeatureList,
-  AuthFeatureItems,
-  AuthFeatureTitle,
-} from "@/components/ui/Card/AuthFeatureList";
-import {
-  ListItem,
-  ListItemStyle,
-  ListItemText,
-} from "@/components/ui/ListItem/ListItem";
 import {
   authLevel1Fetaures,
   authLevel2Fetaures,
 } from "@/constant/features/auth/authLevelFetaures";
 
 const icon_sx = { width: "22px", height: "22px" };
+const bullet_heading_sx = {
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+};
+
 function VerifyNextStep() {
   return (
     <Stack sx={{ alignItems: "center" }}>
@@ -30,39 +31,38 @@ function VerifyNextStep() {
       </Typography>
 
       <Stack spacing={6} sx={{ mt: "32px", width: "100%" }}>
-        <AuthFeatureList color="disabled">
-          <AuthFeatureTitle>
+        <BulletList color="disabled" variant="contained" sx={{ p: "18px" }}>
+          <Box sx={bullet_heading_sx}>
             <UnlockIcon sx={icon_sx} />
-            {"دسترسی فعلی"}
-          </AuthFeatureTitle>
-          <AuthFeatureItems>
+            <BulletListTitle>{"دسترسی فعلی"}</BulletListTitle>
+          </Box>
+          <Stack sx={{ gap: "10px", mt: "24px" }}>
             {authLevel1Fetaures.map(({ feature, id }) => {
               return (
-                <ListItem key={id}>
-                  <ListItemStyle color="disabled" />
-                  <ListItemText>{feature}</ListItemText>
-                </ListItem>
+                <BulletItem key={id}>
+                  <BulletItemShape color="disabled" />
+                  <BulletText>{feature}</BulletText>
+                </BulletItem>
               );
             })}
-          </AuthFeatureItems>
-        </AuthFeatureList>
-
-        <AuthFeatureList color="primary">
-          <AuthFeatureTitle>
+          </Stack>
+        </BulletList>
+        <BulletList color="primary" variant="contained" sx={{ p: "18px" }}>
+          <Box sx={bullet_heading_sx}>
             <LockIcon sx={{ ...icon_sx, color: "text.primary2" }} />
-            {"دسترسی فعلی"}
-          </AuthFeatureTitle>
-          <AuthFeatureItems>
+            <BulletListTitle>{"دسترسی فعلی"}</BulletListTitle>
+          </Box>
+          <Stack sx={{ gap: "10px", mt: "24px" }}>
             {authLevel2Fetaures.map(({ feature, id }) => {
               return (
-                <ListItem key={id}>
-                  <ListItemStyle color="primary" />
-                  <ListItemText>{feature}</ListItemText>
-                </ListItem>
+                <BulletItem key={id}>
+                  <BulletItemShape color="primary" />
+                  <BulletText>{feature}</BulletText>
+                </BulletItem>
               );
             })}
-          </AuthFeatureItems>
-        </AuthFeatureList>
+          </Stack>
+        </BulletList>
       </Stack>
 
       <Stack spacing={3} sx={{ mt: "42px", width: "100%" }}>
