@@ -20,6 +20,11 @@ const MuiCssBaseline = {
     label: {
       cursor: "pointer",
     },
+    button:{
+      backgroundColor:"transparent",
+      border:"none",
+      padding:"0px"
+    }
   },
 };
 
