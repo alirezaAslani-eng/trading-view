@@ -44,6 +44,10 @@ const defaultTabsVariants = {
   color: "primary",
   appearance: "standard",
 } as const;
+const defaultBulletListVariants = {
+  color: "primary",
+  variant: "contained",
+} as const;
 
 export {
   inputDefaultVariants,
@@ -56,4 +60,5 @@ export {
   defaultListItemShapeVariants,
   defaultPaginationVariants,
   defaultTabsVariants,
+  defaultBulletListVariants,
 };
