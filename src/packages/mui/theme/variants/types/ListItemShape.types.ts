@@ -11,7 +11,7 @@ interface ListItemShapeSizeReturn {
 
 // * -----start------ ListItemShapeTheme.ts --------------
 interface ListItemShapeThemeProps {
-  color: "disabled" | "primary";
+  color: "disabled" | "primary" | "warning";
   theme: Theme;
 }
 interface ListItemShapeThemeReturn {

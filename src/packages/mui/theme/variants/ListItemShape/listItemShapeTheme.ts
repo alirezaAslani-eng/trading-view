@@ -21,6 +21,12 @@ function listItemShapeTheme({
         outlineColor: alpha(theme.palette.text.primary2!, 0.2),
       },
     } satisfies ListItemShapeThemeReturn,
+    warning: {
+      rootTheme: {
+        backgroundColor: theme.palette.status.warning,
+        outlineColor: alpha(theme.palette.status.warning!, 0.2),
+      },
+    } satisfies ListItemShapeThemeReturn,
   };
 
   return styles?.[color] || styles.primary;
