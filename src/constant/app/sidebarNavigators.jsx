@@ -55,6 +55,11 @@ const sidebarNavigators = [
         link: "/panel/assets/withdraw",
         id: crypto.randomUUID(),
       },
+      {
+        text: "واریز",
+        link: "/panel/assets/deposit",
+        id: crypto.randomUUID(),
+      },
     ],
   },
   {
