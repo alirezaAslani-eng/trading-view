@@ -49,7 +49,13 @@ const sidebarNavigators = [
     link: "/panel/assets",
     icon: <WalletIcon />,
     id: crypto.randomUUID(),
-    submenus: [],
+    submenus: [
+      {
+        text: "برداشت",
+        link: "/panel/assets/withdraw",
+        id: crypto.randomUUID(),
+      },
+    ],
   },
   {
     text: "تاریخچه",
