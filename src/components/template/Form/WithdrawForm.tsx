@@ -1,5 +1,6 @@
 import { AddIcon } from "@/components/ui/Icon";
 import { InputSelect } from "@/components/ui/Input/InputSelect";
+import InputText from "@/components/ui/Input/InputText";
 import {
   TransactionFormLayout,
   TransactionFormLayoutField,
@@ -29,7 +30,7 @@ function WithdrawForm() {
           <TransactionFormLayoutLabel>
             {"مبلغ مورد نظر"}
           </TransactionFormLayoutLabel>
-          <InputSelect
+          <InputText
             sx={{ flex: 1 }}
             size="medium"
             placeholder="مبلغ مورد نظر را به تومان وارد کنید"
