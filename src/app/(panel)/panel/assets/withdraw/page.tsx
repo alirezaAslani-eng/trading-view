@@ -24,6 +24,7 @@ import {
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
 import WithdrawForm from "@/components/template/Form/WithdrawForm";
+import { transactionPageFormSectionSx } from "@/packages/mui/theme/shared-style";
 
 function page() {
   return (
@@ -34,9 +35,7 @@ function page() {
 
       <Main>
         <Section>
-          <SectionContent
-            sx={{ display: "grid", gridTemplateColumns: "1fr 367px" }}
-          >
+          <SectionContent sx={transactionPageFormSectionSx}>
             <SectionContent sx={{ flexDirection: "column" }}>
               {/* // * ----------- Current Balance ----------- */}
               <CurrentBalanceCard />
