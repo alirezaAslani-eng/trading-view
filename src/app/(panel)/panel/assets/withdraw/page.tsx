@@ -24,7 +24,10 @@ import {
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
 import WithdrawForm from "@/components/template/Form/WithdrawForm";
-import { transactionPageFormSectionSx } from "@/packages/mui/theme/shared-style";
+import {
+  transactionPageFormSectionSx,
+  warningBulletItemsContainerSx,
+} from "@/packages/mui/theme/shared-style";
 
 function page() {
   return (
@@ -51,7 +54,7 @@ function page() {
               <BulletListTitle>
                 {"دستورالعمل برداشت و نکات مهم"}
               </BulletListTitle>
-              <Stack sx={{ mt: "20px", gap: "20px" }}>
+              <Box sx={warningBulletItemsContainerSx}>
                 {withdrawWarnings.map(({ id, warning }) => {
                   return (
                     <BulletItem key={id}>
@@ -68,7 +71,7 @@ function page() {
                   guides={siklGuides}
                   title="سیکل‌های پایا (روزهای غیر تعطیل):"
                 />
-              </Stack>
+              </Box>
             </BulletList>
           </SectionContent>
         </Section>
