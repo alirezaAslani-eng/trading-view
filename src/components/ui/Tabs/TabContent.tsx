@@ -1,3 +1,4 @@
+"use client"
 import { useTabsContext } from "@/context/app/TabsContext";
 import { TabValue } from "@/context/app/TabsContext/types";
 import { Box, BoxProps } from "@mui/material";
