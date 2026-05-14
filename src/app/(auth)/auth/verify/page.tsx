@@ -1,8 +1,7 @@
-import VerifyAuthForm from "@/components/template/Form/VerifyAuthForm";
+import VerifyAuthOTPForm from "@/components/template/Form/VerifyAuthOTPForm";
 import AuthFormLayout from "@/components/template/Layout/AuthFormLayout/AuthFormLayout";
 import AuthFormLayoutContainer from "@/components/template/Layout/AuthFormLayout/AuthFormLayoutContainer";
 import AuthFormLayoutHeading from "@/components/template/Layout/AuthFormLayout/AuthFormLayoutHeading";
-import AuthFormLayoutToggleButoon from "@/components/template/Layout/AuthFormLayout/AuthFormLayoutToggleButoon";
 
 function page() {
   return (
@@ -12,8 +11,7 @@ function page() {
         subTitle="جهت تایید شماره موبایل، کد ارسال شده را وارد کنید"
       />
       <AuthFormLayoutContainer>
-        <AuthFormLayoutToggleButoon activeButton="signin" />
-        <VerifyAuthForm />
+        <VerifyAuthOTPForm />
       </AuthFormLayoutContainer>
     </AuthFormLayout>
   );

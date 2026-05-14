@@ -3,15 +3,15 @@ import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
 import InputVerifyCode from "@/components/template/Input/InputVerifyCode";
 import SendAuthOTP from "@/components/template/Button/SendAuthOTP";
+import { RestartRightIcon } from "@/components/ui/Icon";
 import {
   FormLayout,
   FormLayoutField,
   FormLayoutLable,
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
-import { RestartRightIcon } from "@/components/ui/Icon";
 
-function VerifyAuthForm() {
+function VerifyAuthOTPForm() {
   return (
     <>
       <FormLayout sx={{ mt: "56px" }}>
@@ -49,4 +49,4 @@ function VerifyAuthForm() {
   );
 }
 
-export default VerifyAuthForm;
+export default VerifyAuthOTPForm;

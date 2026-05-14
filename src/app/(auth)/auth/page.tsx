@@ -1,9 +1,7 @@
-import SigninForm from "@/components/template/Form/SigninForm";
+import RequestAuthOTPForm from "@/components/template/Form/RequestAuthOTPForm";
 import AuthFormLayout from "@/components/template/Layout/AuthFormLayout/AuthFormLayout";
 import AuthFormLayoutContainer from "@/components/template/Layout/AuthFormLayout/AuthFormLayoutContainer";
 import AuthFormLayoutHeading from "@/components/template/Layout/AuthFormLayout/AuthFormLayoutHeading";
-import AuthFormLayoutToggleButoon from "@/components/template/Layout/AuthFormLayout/AuthFormLayoutToggleButoon";
-import React from "react";
 
 function page() {
   return (
@@ -13,8 +11,7 @@ function page() {
         subTitle="جهت عضویت و ورود به پلتفرم، شماره تماس خود را وارد کنید"
       />
       <AuthFormLayoutContainer>
-        <AuthFormLayoutToggleButoon activeButton="signin" />
-        <SigninForm />
+        <RequestAuthOTPForm />
       </AuthFormLayoutContainer>
     </AuthFormLayout>
   );

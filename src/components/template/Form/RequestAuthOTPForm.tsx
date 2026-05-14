@@ -1,4 +1,3 @@
-import { Box, Button, FormLabel, Typography } from "@mui/material";
 import InputPhoneNumber from "@/components/ui/Input/InputPhoneNumber";
 import { useId } from "react";
 import {
@@ -8,10 +7,10 @@ import {
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
 
-function SigninForm() {
+function RequestAuthOTPForm() {
   const phoneLabelID = useId();
   return (
-    <FormLayout sx={{ mt: "32px" }}>
+    <FormLayout>
       <FormLayoutField>
         <FormLayoutLable htmlFor={phoneLabelID}>
           {"شماره موبایل"}
@@ -23,4 +22,4 @@ function SigninForm() {
   );
 }
 
-export default SigninForm;
+export default RequestAuthOTPForm;
