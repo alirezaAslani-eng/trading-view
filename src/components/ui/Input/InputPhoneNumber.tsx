@@ -37,6 +37,7 @@ function InputPhoneNumber({
             pl: "62px",
             fontSize: "body2.fontSize",
             fontFamily: "body2.fontFamily",
+            textAlign:"left",
             ...sx,
           }}
         />
