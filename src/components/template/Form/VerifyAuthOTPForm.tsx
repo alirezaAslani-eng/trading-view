@@ -14,7 +14,7 @@ import {
 function VerifyAuthOTPForm() {
   return (
     <>
-      <FormLayout sx={{ mt: "56px" }}>
+      <FormLayout>
         <FormLayoutField sx={{ px: "14.5px" }}>
           <FormLayoutLable>{"کد تایید"}</FormLayoutLable>
           <InputVerifyCode />
