@@ -1,5 +1,13 @@
+"use client";
 import InputPhoneNumber from "@/components/ui/Input/InputPhoneNumber";
 import { useId } from "react";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import safeAsync from "@/utils/app/safeAsync";
+import { zodResolver } from "@hookform/resolvers/zod";
+import requestAuthOTPSchema from "@/validations/auth/requestAuthOTPSchema";
+import { requestAuthOTPConfig } from "@/packages/react-query";
+import { useRouter } from "next/navigation";
 import {
   FormLayout,
   FormLayoutField,
@@ -7,15 +15,31 @@ import {
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
 
+const mutationConfig = requestAuthOTPConfig();
+
 function RequestAuthOTPForm() {
   const phoneLabelID = useId();
+
+  const { push } = useRouter();
+
+  const form = useForm({ resolver: zodResolver(requestAuthOTPSchema) });
+
+  const mutation = useMutation({
+    ...mutationConfig,
+    onSuccess: () => push("/auth/verify"),
+  });
+
   return (
-    <FormLayout>
+    <FormLayout
+      onSubmit={form.handleSubmit(
+        async (fields) => await safeAsync(() => mutation.mutateAsync(fields)),
+      )}
+    >
       <FormLayoutField>
         <FormLayoutLable htmlFor={phoneLabelID}>
           {"شماره موبایل"}
         </FormLayoutLable>
-        <InputPhoneNumber id={phoneLabelID} />
+        <InputPhoneNumber id={phoneLabelID} {...form.register("identifier")} />
       </FormLayoutField>
       <FormLayoutSubmit>{"تایید و دریافت کد"}</FormLayoutSubmit>
     </FormLayout>
