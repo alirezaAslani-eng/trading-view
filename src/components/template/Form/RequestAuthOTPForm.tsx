@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import requestAuthOTPSchema from "@/validations/auth/requestAuthOTPSchema";
 import { requestAuthOTPConfig } from "@/packages/react-query";
 import { useRouter } from "next/navigation";
+import clientEnv from "@/validations/env/clientEnv";
 import {
   FormLayout,
   FormLayoutField,
@@ -22,7 +23,10 @@ function RequestAuthOTPForm() {
 
   const { push } = useRouter();
 
-  const form = useForm({ resolver: zodResolver(requestAuthOTPSchema) });
+  const form = useForm({
+    resolver: zodResolver(requestAuthOTPSchema),
+    defaultValues: { identifier: clientEnv?.NEXT_PUBLIC_USER_IDENTIFIER! },
+  });
 
   const mutation = useMutation({
     ...mutationConfig,
