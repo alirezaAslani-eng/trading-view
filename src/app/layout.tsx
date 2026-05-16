@@ -9,21 +9,21 @@ import { QueryClientProvider } from "@/packages/react-query";
 
 export default function RootLayout({ children }: PWC) {
   return (
-    <html lang="fa" dir="rtl">
-      <Box
-        component={"body"}
-        sx={{ minHeight: "100svh" }}
-        className={`${IranYekanMedium.variable} ${IranYekanDemibold.variable} ${IranYekanRegular.variable}`}
-      >
-        <QueryClientProvider>
-          <AppRouterCacheProvider>
-            <ThemeProvider>
-              <CssBaseline />
+    <QueryClientProvider>
+      <AppRouterCacheProvider>
+        <ThemeProvider>
+          <CssBaseline />
+          <html lang="fa" dir="rtl">
+            <Box
+              component={"body"}
+              sx={{ minHeight: "100svh" }}
+              className={`${IranYekanMedium.variable} ${IranYekanDemibold.variable} ${IranYekanRegular.variable}`}
+            >
               {children}
-            </ThemeProvider>
-          </AppRouterCacheProvider>
-        </QueryClientProvider>
-      </Box>
-    </html>
+            </Box>
+          </html>
+        </ThemeProvider>
+      </AppRouterCacheProvider>
+    </QueryClientProvider>
   );
 }
