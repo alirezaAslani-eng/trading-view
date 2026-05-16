@@ -5,6 +5,7 @@ import IranYekanMedium from "@/constant/app/nextjsFont/IranYekan-Medium";
 import IranYekanDemibold from "@/constant/app/nextjsFont/IranYekan-Demibold";
 import IranYekanRegular from "@/constant/app/nextjsFont/IranYekan-Regular";
 import { PWC } from "@/types/utils";
+import { QueryClientProvider } from "@/packages/react-query";
 
 export default function RootLayout({ children }: PWC) {
   return (
@@ -14,12 +15,14 @@ export default function RootLayout({ children }: PWC) {
         sx={{ minHeight: "100svh" }}
         className={`${IranYekanMedium.variable} ${IranYekanDemibold.variable} ${IranYekanRegular.variable}`}
       >
-        <AppRouterCacheProvider>
-          <ThemeProvider>
-            <CssBaseline />
-            {children}
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <QueryClientProvider>
+          <AppRouterCacheProvider>
+            <ThemeProvider>
+              <CssBaseline />
+              {children}
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </QueryClientProvider>
       </Box>
     </html>
   );
