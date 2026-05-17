@@ -17,3 +17,4 @@ export { default as TrashIcon } from "./TrashIcon";
 export { default as PenOnPaperIcon } from "./PenOnPaperIcon";
 export { default as RestartRightIcon } from "./RestartRightIcon";
 export { default as UserIcon } from "./UserIcon";
+export { default as MenueHorizontal } from "./MenueHorizontal";
