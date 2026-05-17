@@ -9,6 +9,8 @@ import requestAuthOTPSchema from "@/validations/auth/requestAuthOTPSchema";
 import { requestAuthOTPConfig } from "@/packages/react-query";
 import { useRouter } from "next/navigation";
 import clientEnv from "@/validations/env/clientEnv";
+import useSessionStorage from "@/hooks/app/useSessionStorage";
+import { identifierSessionKey } from "@/constant/features/auth/sessionStorageKeys";
 import {
   FormLayout,
   FormLayoutField,
@@ -23,6 +25,9 @@ function RequestAuthOTPForm() {
 
   const { push } = useRouter();
 
+  const [_, storageIdentifier] =
+    useSessionStorage<string>(identifierSessionKey);
+
   const form = useForm({
     resolver: zodResolver(requestAuthOTPSchema),
     defaultValues: { identifier: clientEnv?.NEXT_PUBLIC_USER_IDENTIFIER! },
@@ -30,7 +35,10 @@ function RequestAuthOTPForm() {
 
   const mutation = useMutation({
     ...mutationConfig,
-    onSuccess: () => push("/auth/verify"),
+    onSuccess: () => {
+      storageIdentifier(form.watch("identifier"));
+      push("/auth/verify");
+    },
   });
 
   return (
