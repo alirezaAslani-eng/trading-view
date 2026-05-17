@@ -24,6 +24,14 @@ function buttonTheme({
           color: theme.palette.text.primary2,
         },
       } satisfies ButtonThemeReturn,
+      "on-surface": {
+        rootTheme: {
+          border: "1px solid",
+          borderColor: theme.palette.border.primary,
+          color: theme.palette.text.onPrimary,
+          borderRadius: "14px",
+        },
+      } satisfies ButtonThemeReturn,
       text: {
         rootTheme: {
           backgroundColor: "transparent",
@@ -41,10 +49,31 @@ function buttonTheme({
           color: theme.palette.text.onPrimary,
         },
       } satisfies ButtonThemeReturn,
+      outlined: {
+        rootTheme: {
+          border: "1px solid",
+          borderColor: theme.palette.status.profit,
+          color: theme.palette.text.profit,
+        },
+      } satisfies ButtonThemeReturn,
+      "on-surface": {
+        rootTheme: {
+          border: "1px solid",
+          borderColor: theme.palette.status.profit,
+          color: theme.palette.text.onPrimary,
+          borderRadius: "14px",
+        },
+      } satisfies ButtonThemeReturn,
+      text: {
+        rootTheme: {
+          backgroundColor: "transparent",
+          border: "none",
+          color: theme.palette.text.profit,
+        },
+      } satisfies ButtonThemeReturn,
     },
   };
 
-  //@ts-ignore
   return styles?.[color]?.[variant] || styles.primary.contained;
 }
 

@@ -8,6 +8,11 @@ const defaultToggleGroupButtonVariants = {
   color: "success",
   size: "medium",
 } as const;
+const defaultButtonVariants = {
+  variant: "contained",
+  color: "primary",
+  size: "medium",
+} as const;
 const defaultToggleTabGroupVariants = {
   variant: "contained",
   color: "nuteral",
@@ -61,4 +66,5 @@ export {
   defaultPaginationVariants,
   defaultTabsVariants,
   defaultBulletListVariants,
+  defaultButtonVariants,
 };

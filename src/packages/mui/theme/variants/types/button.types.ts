@@ -4,11 +4,26 @@ import type { CSSProperties, Theme } from "@mui/material";
 interface ButtonThemeProps {
   theme: Theme;
   color: "primary" | "success";
-  variant: "contained" | "outlined" | "text";
+  variant: "contained" | "outlined" | "text" | "on-surface";
 }
 interface ButtonThemeReturn {
-    rootTheme:CSSProperties
+  rootTheme: CSSProperties;
 }
 // * -----end----- buttonTheme.ts ----------
 
-export type { ButtonThemeProps, ButtonThemeReturn };
+// * -----start----- buttonSize.ts ----------
+interface ButtonSizeProps {
+  theme: Theme;
+  size: "small" | "medium" | "large";
+}
+interface ButtonSizeReturn {
+  rootSize: CSSProperties;
+}
+// * -----end----- buttonSize.ts ----------
+
+export type {
+  ButtonThemeProps,
+  ButtonThemeReturn,
+  ButtonSizeProps,
+  ButtonSizeReturn,
+};
