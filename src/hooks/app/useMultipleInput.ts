@@ -3,19 +3,24 @@ import {
   InputHTMLAttributes,
   useCallback,
   useEffect,
+  useEffectEvent,
   useState,
 } from "react";
-import {
-  UseMultipleInputConfig,
-} from "@/hooks/app/types";
+import { UseMultipleInputConfig } from "@/hooks/app/types";
 
 const useMultipleInput = ({
   inputCount,
   onComplete = () => {},
   onChange = () => {},
 }: UseMultipleInputConfig) => {
+
+
   const [multiInputValues, setMultiInputValues] = useState<string[]>([]);
   const [focusedInputIndex, setFocusedInputIndex] = useState<number>(0);
+
+
+
+
   /**
    * Switch between prev and next input by its value and current index
    */
@@ -26,21 +31,34 @@ const useMultipleInput = ({
     },
     [setFocusedInputIndex],
   );
+
+
+
+
   /**
    * When user fills all inputs, it calls the onComplete function
    */
-  const completeHandler = (multiInputValues: string[]) => {
+  const completeHandler = useEffectEvent((multiInputValues: string[]) => {
     const serilizedValue = multiInputValues.join("");
     if (serilizedValue.length !== inputCount) return;
     onComplete(serilizedValue);
-  };
+  });
+
+
+
+
   /**
    * When user updates inputs, it calls the onChange function
    */
-  const changeHandler = (multiInputValues: string[]) => {
+  const changeHandler = useEffectEvent((multiInputValues: string[]) => {
     const serilizedValue = multiInputValues.join("");
     onChange(serilizedValue);
-  };
+  });
+
+
+
+
+
   /**
    * This Listener minus the state "focusedInputIndex" only when user press backspace key on an empty input
    */
@@ -61,6 +79,23 @@ const useMultipleInput = ({
       window.removeEventListener("keydown", listener);
     };
   }, [prevNext]);
+
+
+
+
+  
+  /**
+   * Update parent state
+   */
+  useEffect(() => {
+    completeHandler(multiInputValues);
+    changeHandler(multiInputValues);
+  }, [multiInputValues]);
+
+
+
+  
+
   /**
    * While user types, this function updates each index of multiInputValues
    */
@@ -72,11 +107,13 @@ const useMultipleInput = ({
     setMultiInputValues((prev) => {
       const array = [...prev];
       array[index] = value[0]?.trim();
-      completeHandler(array);
-      changeHandler(array);
       return array;
     });
   };
+
+
+
+
 
   const register = (index: number) => {
     return {
@@ -95,11 +132,16 @@ const useMultipleInput = ({
     } satisfies InputHTMLAttributes<HTMLInputElement>;
   };
 
+
+
+
   const getKey = (index: number): string => {
     return index === focusedInputIndex
       ? crypto.randomUUID()
       : crypto.randomUUID();
   };
+
+
 
   const setSerializedValue = useCallback(
     (value: string) => {
@@ -109,12 +151,14 @@ const useMultipleInput = ({
     [setMultiInputValues, inputCount],
   );
 
+
+  
+
   return {
     register,
     getKey,
     setSerializedValue,
     multiInputValues,
-    
   };
 };
 
