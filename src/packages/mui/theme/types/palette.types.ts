@@ -13,7 +13,8 @@ type TextVariables = Record<
   | "caption"
   | "error"
   | "placeholder"
-  | "inputText",
+  | "inputText"
+  | "tertiary",
   string
 >;
 

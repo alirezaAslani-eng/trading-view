@@ -27,6 +27,7 @@ const darkPalette: PaletteOptions = {
     error: red[600],
     placeholder: nuetral[800],
     inputText: white.white,
+    tertiary:nuetral["400"]
   },
   background: {
     primary: blue[500],
