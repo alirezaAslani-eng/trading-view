@@ -1,12 +1,6 @@
 "use client";
-import {
-  Box,
-  Button,
-  ButtonProps,
-  Stack,
-  styled,
-  Typography,
-} from "@mui/material";
+import { Box, ButtonProps, Stack, styled, Typography } from "@mui/material";
+import Button from "../Button/Button";
 
 const TransactionFormLayout = styled(Stack)({
   alignItems: "center",

@@ -4,7 +4,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Divider,
   Stack,
   Typography,
@@ -37,6 +36,7 @@ import {
   PageSubNavigation,
   PageSubNavigationLink,
 } from "@/components/ui/PageSubNavigation/PageSubNavigation";
+import Button from "@/components/ui/Button/Button";
 
 function page() {
   return (

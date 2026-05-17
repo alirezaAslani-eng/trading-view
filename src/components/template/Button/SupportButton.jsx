@@ -1,6 +1,7 @@
 "use client";
+import Button from "@/components/ui/Button/Button";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
-import { alpha, Button } from "@mui/material";
+import { alpha } from "@mui/material";
 
 /**
  *

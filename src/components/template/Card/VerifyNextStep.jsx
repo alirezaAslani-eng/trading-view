@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import StatusBadge from "@/components/ui/Feedback/StatusBadge";
 import BulletList from "@/components/ui/BulletList/BulletList";
@@ -11,6 +11,7 @@ import {
   authLevel1Fetaures,
   authLevel2Fetaures,
 } from "@/constant/features/auth/authLevelFetaures";
+import Button from "@/components/ui/Button/Button";
 
 const icon_sx = { width: "22px", height: "22px" };
 const bullet_heading_sx = {

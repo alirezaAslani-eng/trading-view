@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/Layout/PaperLayout";
 import {
   Box,
-  Button,
   Divider,
   TableBody,
   TableCell,
@@ -19,6 +18,7 @@ import {
   ToggleButton,
   Typography,
 } from "@mui/material";
+import Button from "@/components/ui/Button/Button";
 function ProductsTable() {
   return (
     <PagePaper>

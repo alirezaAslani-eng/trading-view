@@ -2,7 +2,6 @@
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import Alert from "@/components/ui/Alert/Alert";
 import {
-  Button,
   ButtonProps,
   Stack,
   StackProps,
@@ -10,6 +9,7 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
+import Button from "../Button/Button";
 
 const formLayoutGap = "24px";
 
