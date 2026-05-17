@@ -1,7 +1,11 @@
 import { Box, Stack, SvgIcon, Typography } from "@mui/material";
 import { lineClamp } from "@/packages/mui/theme/helpers";
-import ProfileCircle from "@/components/ui/Profile/ProfileCircle";
-import MoreIcon from "@/assets/svg/more-horizontal.svg";
+import {
+  UserProfile,
+  UserProfileImage,
+  UserProfileInfo,
+} from "@/components/ui/Profile/UserProfile";
+import { MenueHorizontal } from "../Icon";
 function UserProfileCard() {
   return (
     <Box
@@ -18,37 +22,36 @@ function UserProfileCard() {
         gap: "30px",
       }}
     >
+      {/* // * ---------- Profile ---------- */}
       <Box
         sx={{
           display: "flex",
+          justifyContent: "space-between",
           alignItems: "center",
-          gap: "8px",
+          width:"100%"
         }}
       >
-        {/* // * ---------- Profile ---------- */}
-        <ProfileCircle src="/images/person.png" />
-
-        {/* // * ---------- Info ---------- */}
-        <Stack sx={{ width: "100px", gap: "6px" }}>
-          {/* // * ---------- Name ---------- */}
-          <Typography
-            variant="body3"
-            sx={{ color: "text.heading", ...lineClamp(1) }}
-          >
-            {"علی زمانی نژاد"}
-          </Typography>
-          {/* // * ---------- Email ---------- */}
-          <Typography
-            variant="caption2"
-            sx={{ color: "text.disabled", ...lineClamp(1) }}
-          >
-            {"Alizamani23@gmail.com ."}
-          </Typography>
-        </Stack>
+        <UserProfile>
+          <UserProfileImage src="/images/person.png" />
+          <UserProfileInfo sx={{ width: "100px" }}>
+            {/* // * ---------- Name ---------- */}
+            <Typography
+              variant="body3"
+              sx={{ color: "text.heading", ...lineClamp(1) }}
+            >
+              {"علی زمانی نژاد"}
+            </Typography>
+            {/* // * ---------- Email ---------- */}
+            <Typography
+              variant="caption2"
+              sx={{ color: "text.disabled", ...lineClamp(1) }}
+            >
+              {"Alizamani23@gmail.com ."}
+            </Typography>
+          </UserProfileInfo>
+        </UserProfile>
+        <MenueHorizontal />
       </Box>
-      <SvgIcon sx={{ cursor: "pointer" }}>
-        <MoreIcon />
-      </SvgIcon>
     </Box>
   );
 }
