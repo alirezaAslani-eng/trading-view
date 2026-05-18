@@ -1,10 +1,10 @@
 import { object, string } from "zod";
 import type { Infer } from "zod";
-import userBaseSchema from "../user/userBaseSchema";
+import { phoneNumberValidation } from "@/validations/shared";
 
 const clientEnvScheam = object({
   NEXT_PUBLIC_BASEURL: string().url(),
-  NEXT_PUBLIC_USER_IDENTIFIER: userBaseSchema.shape.phone,
+  NEXT_PUBLIC_USER_IDENTIFIER: phoneNumberValidation(),
 });
 
 // * ---- Validation ----

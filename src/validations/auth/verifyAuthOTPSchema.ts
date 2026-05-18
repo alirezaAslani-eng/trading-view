@@ -1,9 +1,9 @@
 import { object, string } from "zod";
-import userBaseSchema from "../user/userBaseSchema";
+import { phoneNumberValidation } from "@/validations/shared";
 
 const verifyAuthOTPSchema = object({
   code: string().length(6),
-  identifier: userBaseSchema.shape.phone,
+  identifier: phoneNumberValidation(),
 });
 
 export default verifyAuthOTPSchema;

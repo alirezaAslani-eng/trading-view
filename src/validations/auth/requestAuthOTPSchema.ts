@@ -1,8 +1,8 @@
-import userBaseSchema from "@/validations/user/userBaseSchema";
 import { object } from "zod";
+import { phoneNumberValidation } from "@/validations/shared";
 
 const requestAuthOTPSchema = object({
-  identifier: userBaseSchema.shape.phone,
+  identifier: phoneNumberValidation(),
 });
 
 export default requestAuthOTPSchema;
