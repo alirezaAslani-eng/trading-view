@@ -8,7 +8,7 @@ import {
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
 
-function Level2AuthForm() {
+function KycL2Form() {
   return (
     <FormLayout>
 
@@ -50,4 +50,4 @@ function Level2AuthForm() {
   );
 }
 
-export default Level2AuthForm;
+export default KycL2Form;

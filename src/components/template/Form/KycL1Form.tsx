@@ -8,9 +8,8 @@ import {
   FormLayoutLable,
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
-import React from "react";
 
-function BaseAuthForm() {
+function KycL1Form() {
   return (
     <FormLayout>
       <FormLayoutAlert>
@@ -47,4 +46,4 @@ function BaseAuthForm() {
   );
 }
 
-export default BaseAuthForm;
+export default KycL1Form;
