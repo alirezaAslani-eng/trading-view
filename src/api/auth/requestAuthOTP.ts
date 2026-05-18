@@ -4,11 +4,12 @@ import throwError from "@/utils/app/throwError";
 import ResponseError from "@/utils/app/ResponseError";
 import fetchHandler from "@/utils/app/fetchHandler";
 import responseErrorHandler from "@/utils/app/responsiveErrorHandler";
+import mutationFetch from "@/utils/app/mutationFetch";
 
 async function requestAuthOTP(body: requestAuthOTPSchemaType): Promise<void> {
   try {
     const res = (await fetchHandler(async () => {
-      const res = await fetch(
+      const res = await mutationFetch(
         `${clientEnv?.NEXT_PUBLIC_BASEURL}/api/v1/auth/send-otp`,
         {
           method: "POST",
