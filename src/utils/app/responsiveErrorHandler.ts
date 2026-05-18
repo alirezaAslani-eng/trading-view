@@ -7,7 +7,7 @@ export default async function responseErrorHandler(
     const error = await res.json();
     throwError(true, {
       code: error?.errorCode,
-      message: error?.message ?? "مشکلی پیش آمده",
+      message: error?.message ?? "",
       status: res.status,
       statusText: res.statusText,
       details: error,
