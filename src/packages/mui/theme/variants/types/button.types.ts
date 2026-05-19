@@ -21,9 +21,16 @@ interface ButtonSizeReturn {
 }
 // * -----end----- buttonSize.ts ----------
 
+// * -----start----- buttonDisabledTheme.ts ----------
+interface ButtonDisabledThemeProps extends Omit<ButtonThemeProps, "color"> {}
+interface ButtonDisabledThemeReturn {
+  rootTheme: CSSProperties;
+}
+// * -----end----- buttonDisabledTheme.ts ----------
+
 export type {
   ButtonThemeProps,
   ButtonThemeReturn,
-  ButtonSizeProps,
-  ButtonSizeReturn,
+  ButtonDisabledThemeProps,
+  ButtonDisabledThemeReturn,
 };
