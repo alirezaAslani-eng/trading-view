@@ -27,7 +27,7 @@ function UserProfileImage(
       width={32}
       height={32}
       {...imageProps}
-      sx={{ objectFit: "cover", ...imageProps.sx }}
+      sx={{ objectFit: "cover",borderRadius:"999px", ...imageProps.sx }}
     />
   );
 }
