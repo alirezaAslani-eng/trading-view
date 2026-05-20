@@ -32,7 +32,7 @@ function UserProfileCard() {
         }}
       >
         <UserProfile>
-          <UserProfileImage src="/images/person.png" />
+          <UserProfileImage src="/images/person.png" alt="My profile" />
           <UserProfileInfo sx={{ width: "100px" }}>
             {/* // * ---------- Name ---------- */}
             <Typography
