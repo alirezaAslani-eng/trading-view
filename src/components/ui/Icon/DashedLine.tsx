@@ -7,6 +7,7 @@ function DashedLine(props: SvgIconProps) {
     <SvgIcon
       viewBox="0 0 100 2"
       preserveAspectRatio="none"
+      {...props}
       sx={(tm) => ({
         height: "2px",
         display: "block",
