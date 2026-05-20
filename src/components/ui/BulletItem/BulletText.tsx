@@ -7,7 +7,7 @@ function BulletText(props: ReplaceSxWithSxOnlyObject<TypographyProps>) {
       variant="body2"
       {...props}
       sx={{
-        color: "text.disabled",
+        color: "text.secondary",
         ...props.sx,
       }}
     />
