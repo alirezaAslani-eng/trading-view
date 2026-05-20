@@ -7,10 +7,7 @@ import BulletItem from "@/components/ui/BulletItem/BulletItem";
 import BulletItemShape from "@/components/ui/BulletItem/BulletItemShape";
 import BulletText from "@/components/ui/BulletItem/BulletText";
 import { LockIcon, UnlockIcon } from "@/components/ui/Icon";
-import {
-  authLevel1Fetaures,
-  authLevel2Fetaures,
-} from "@/constant/features/auth/authLevelFetaures";
+import kycFeatures from "@/constant/features/kyc/kycFeatures";
 import Button from "@/components/ui/Button/Button";
 
 const icon_sx = { width: "22px", height: "22px" };
@@ -38,9 +35,9 @@ function VerifyNextStep() {
             <BulletListTitle>{"دسترسی فعلی"}</BulletListTitle>
           </Box>
           <Stack sx={{ gap: "10px", mt: "24px" }}>
-            {authLevel1Fetaures.map(({ feature, id }) => {
+            {kycFeatures["Level1_Basic"].map(({ feature }) => {
               return (
-                <BulletItem key={id}>
+                <BulletItem key={feature}>
                   <BulletItemShape color="disabled" />
                   <BulletText>{feature}</BulletText>
                 </BulletItem>
@@ -54,9 +51,9 @@ function VerifyNextStep() {
             <BulletListTitle>{"دسترسی فعلی"}</BulletListTitle>
           </Box>
           <Stack sx={{ gap: "10px", mt: "24px" }}>
-            {authLevel2Fetaures.map(({ feature, id }) => {
+            {kycFeatures["Level2_Advanced"].map(({ feature }) => {
               return (
-                <BulletItem key={id}>
+                <BulletItem key={feature}>
                   <BulletItemShape color="primary" />
                   <BulletText>{feature}</BulletText>
                 </BulletItem>
