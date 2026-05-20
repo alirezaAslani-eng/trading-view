@@ -1,6 +1,6 @@
 import { KycFeatures } from "../types/kyc.types";
 
-const kycFeatures: KycFeatures = {
+const kycFeatures = {
   Level1_Basic: [
     { feature: "امکان واریز نامحدود" },
     {
@@ -23,9 +23,6 @@ const kycFeatures: KycFeatures = {
       feature: "مشاهده نقدینگی و حجم معاملات بازار",
     },
   ],
-  // * Hasn't defined yet
-  None: [],
-  Level3_Business: [],
-};
+} satisfies KycFeatures;
 
 export default kycFeatures;
