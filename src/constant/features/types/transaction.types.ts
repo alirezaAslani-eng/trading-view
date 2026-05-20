@@ -19,4 +19,28 @@ interface TransactionLimits extends Partial<
 > {}
 // * ----end----- transactionLimits.ts -------
 
-export type { SiklGuide, SiklGuideList, TransactionLimit, TransactionLimits };
+// * ----start----- depositWarnings.ts -------
+interface DepositWarning {
+  warning: string;
+}
+type DepositWarningList = DepositWarning[];
+
+// * ----end----- depositWarnings.ts -------
+
+// * ----start----- withdrawWarnings.ts -------
+interface WithdrawWarning {
+  warning: string;
+}
+type WithdrawWarningList = WithdrawWarning[];
+// * ----end----- withdrawWarnings.ts -------
+
+export type {
+  SiklGuide,
+  SiklGuideList,
+  TransactionLimit,
+  TransactionLimits,
+  WithdrawWarning,
+  WithdrawWarningList,
+  DepositWarning,
+  DepositWarningList,
+};

@@ -1,9 +1,7 @@
 "use client";
 import PageHeader from "@/components/common/Appbar/PageHeader";
-import { AddIcon } from "@/components/ui/Icon";
-import { InputSelect } from "@/components/ui/Input/InputSelect";
 import { PagePaper } from "@/components/ui/Layout/PaperLayout";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import BulletList from "@/components/ui/BulletList/BulletList";
 import BulletListTitle from "@/components/ui/BulletList/BulletListTitle";
 import BulletItem from "@/components/ui/BulletItem/BulletItem";
@@ -55,9 +53,9 @@ function page() {
                 {"دستورالعمل برداشت و نکات مهم"}
               </BulletListTitle>
               <Box sx={warningBulletItemsContainerSx}>
-                {withdrawWarnings.map(({ id, warning }) => {
+                {withdrawWarnings.map(({ warning }) => {
                   return (
-                    <BulletItem key={id}>
+                    <BulletItem key={warning}>
                       <BulletItemShape color="warning" />
                       <BulletText>{warning}</BulletText>
                     </BulletItem>

@@ -61,9 +61,9 @@ function page() {
             >
               <BulletListTitle>{"دستورالعمل واریز و نکات مهم"}</BulletListTitle>
               <Box sx={warningBulletItemsContainerSx}>
-                {depositWarnings.map(({ warning, id }) => {
+                {depositWarnings.map(({ warning }) => {
                   return (
-                    <BulletItem key={id}>
+                    <BulletItem key={warning}>
                       <BulletItemShape color="warning" />
                       <BulletText>{warning}</BulletText>
                     </BulletItem>
