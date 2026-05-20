@@ -1,6 +1,6 @@
 import { alpha, Box, Stack, Typography } from "@mui/material";
 import { CircleIcon } from "../Icon";
-import { SiklGuide } from "@/constant/features/transaction/types";
+import { SiklGuide } from "@/constant/features/types";
 
 interface SiklGuidesProps {
   title: string;
@@ -22,9 +22,9 @@ function SiklGuides({ title, guides }: SiklGuidesProps) {
       </Typography>
       <Stack sx={{ mt: "20px" }}>
         {!!guides?.length &&
-          guides.map(({ guid, id }) => {
+          guides.map(({ guid }) => {
             return (
-              <Box sx={{ display: "flex", gap: "6px" }} key={id}>
+              <Box sx={{ display: "flex", gap: "6px" }} key={guid}>
                 <CircleIcon sx={{ width: "4px", height: "4px", mt: "10px" }} />
                 <Typography variant="body2" sx={{ color: "inherit" }}>
                   {guid}
