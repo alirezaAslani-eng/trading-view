@@ -7,7 +7,7 @@ import { Box } from "@mui/material";
 
 function InputVerifyCode({ onComplete, error, sx }: InputVerifyCodeProps) {
   const { getKey, register } = useVerifyCodeInput({
-    inputCount: 5,
+    inputCount: 6,
     onComplete,
   });
 
@@ -20,6 +20,13 @@ function InputVerifyCode({ onComplete, error, sx }: InputVerifyCodeProps) {
         ...identifySxProp(tm, sx),
       })}
     >
+      <InputPhoneNumber
+        error={error}
+        countryCode={false}
+        sx={{ p: 0, textAlign: "center" }}
+        {...register(5)}
+        key={getKey(5)}
+      />
       <InputPhoneNumber
         error={error}
         countryCode={false}
