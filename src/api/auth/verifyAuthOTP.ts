@@ -4,6 +4,7 @@ import responseErrorHandler from "@/utils/app/responsiveErrorHandler";
 import clientEnv from "@/validations/env/clientEnv";
 import { VerifyAuthOTPSchemaType } from "@/validations/types";
 import { VerifyAuthOTPResponse } from "@/api/types";
+import { sharedRequestInit } from "../sharedRequestInit";
 
 const URL = `${clientEnv?.NEXT_PUBLIC_BASEURL}/api/v1/auth/login-cookie`;
 
@@ -13,6 +14,7 @@ async function verifyAuthOTP(
 ): Promise<VerifyAuthOTPResponse> {
   const res = (await fetchHandler(async () => {
     const res = await fetch(URL, {
+      ...sharedRequestInit,
       method: "POST",
       body: JSON.stringify(body),
       headers: {
