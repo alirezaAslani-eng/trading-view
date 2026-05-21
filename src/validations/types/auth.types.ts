@@ -3,11 +3,11 @@ import type requestAuthOTPSchema from "@/validations/auth/requestAuthOTPSchema";
 import type verifyAuthOTPSchema from "@/validations/auth/verifyAuthOTPSchema";
 
 // * -----start------ requestAuthOTPSchema.ts -----------
-type requestAuthOTPSchemaType = Infer<typeof requestAuthOTPSchema>;
+type RequestAuthOTPSchemaType = Infer<typeof requestAuthOTPSchema>;
 // * -----start------ requestAuthOTPSchema.ts -----------
 
 // * -----start------ verifyAuthOTPSchema.ts -----------
 type VerifyAuthOTPSchemaType = Infer<typeof verifyAuthOTPSchema>;
 // * -----start------ verifyAuthOTPSchema.ts -----------
 
-export type { requestAuthOTPSchemaType, VerifyAuthOTPSchemaType };
+export type { RequestAuthOTPSchemaType, VerifyAuthOTPSchemaType };
