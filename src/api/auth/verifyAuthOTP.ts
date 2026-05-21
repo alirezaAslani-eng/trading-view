@@ -3,11 +3,14 @@ import jsonParseHandler from "@/utils/app/jsonParseHandler";
 import responseErrorHandler from "@/utils/app/responsiveErrorHandler";
 import clientEnv from "@/validations/env/clientEnv";
 import { VerifyAuthOTPSchemaType } from "@/validations/types";
+import { VerifyAuthOTPResponse } from "@/api/types";
 
 const URL = `${clientEnv?.NEXT_PUBLIC_BASEURL}/api/v1/auth/login-cookie`;
 
 // TODO -> The type of fetched data must be defined by TS
-async function verifyAuthOTP(body: VerifyAuthOTPSchemaType): Promise<unknown> {
+async function verifyAuthOTP(
+  body: VerifyAuthOTPSchemaType,
+): Promise<VerifyAuthOTPResponse> {
   const res = (await fetchHandler(async () => {
     const res = await fetch(URL, {
       method: "POST",
@@ -21,7 +24,7 @@ async function verifyAuthOTP(body: VerifyAuthOTPSchemaType): Promise<unknown> {
 
   await responseErrorHandler(res);
 
-  const data = await jsonParseHandler(res);
+  const data = (await jsonParseHandler(res)) as VerifyAuthOTPResponse;
 
   return data;
 }
