@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/Layout/FormLayout";
 import { identifierSessionKey } from "@/constant/features/auth/sessionStorageKeys";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const mutationConfig = verifyAuthOTPConfig();
 
@@ -28,10 +29,14 @@ function VerifyAuthOTPForm() {
 
   const form = useForm({
     resolver: zodResolver(verifyAuthOTPSchema),
-    defaultValues: {
-      identifier: sessionStorage.getItem(identifierSessionKey) ?? undefined,
-    },
   });
+
+  useEffect(() => {
+    form.setValue(
+      "identifier",
+      sessionStorage.getItem(identifierSessionKey) ?? "",
+    );
+  }, [form.setValue, identifierSessionKey]);
 
   const mutation = useMutation({
     ...mutationConfig,
