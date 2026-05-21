@@ -1,26 +1,76 @@
+"use client";
 import { Box, Typography } from "@mui/material";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
 import InputVerifyCode from "@/components/template/Input/InputVerifyCode";
 import SendAuthOTP from "@/components/template/Button/SendAuthOTP";
 import { RestartRightIcon } from "@/components/ui/Icon";
+import { useMutation } from "@tanstack/react-query";
+import { verifyAuthOTPConfig } from "@/packages/react-query";
+import { Controller, type SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import verifyAuthOTPSchema from "@/validations/auth/verifyAuthOTPSchema";
+import safeAsync from "@/utils/app/safeAsync";
+import { VerifyAuthOTPSchemaType } from "@/validations/types";
 import {
   FormLayout,
   FormLayoutField,
   FormLayoutLable,
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
+import { identifierSessionKey } from "@/constant/features/auth/sessionStorageKeys";
+import { useRouter } from "next/navigation";
+
+const mutationConfig = verifyAuthOTPConfig();
 
 function VerifyAuthOTPForm() {
+  const router = useRouter();
+
+  const form = useForm({
+    resolver: zodResolver(verifyAuthOTPSchema),
+    defaultValues: {
+      identifier: sessionStorage.getItem(identifierSessionKey) ?? undefined,
+    },
+  });
+
+  const mutation = useMutation({
+    ...mutationConfig,
+    onSuccess: () => {
+      sessionStorage.removeItem(identifierSessionKey);
+      router.replace("/panel/profile/my-info");
+    },
+  });
+
+  const submiter: SubmitHandler<VerifyAuthOTPSchemaType> = async (fields) => {
+    await safeAsync(async () => {
+      await mutation.mutateAsync(fields);
+    });
+  };
+
   return (
     <>
-      <FormLayout>
+      <FormLayout onSubmit={form.handleSubmit(submiter)}>
         <FormLayoutField sx={{ px: "14.5px" }}>
           <FormLayoutLable>{"کد تایید"}</FormLayoutLable>
-          <InputVerifyCode />
+          <Controller
+            control={form.control}
+            name="code"
+            render={({ field, fieldState }) => {
+              console.log(fieldState.invalid);
+
+              return (
+                <InputVerifyCode
+                  onComplete={field.onChange}
+                  error={fieldState.invalid}
+                />
+              );
+            }}
+          />
         </FormLayoutField>
 
-        <FormLayoutSubmit>{"تایید و ادامه"}</FormLayoutSubmit>
+        <FormLayoutSubmit disabled={form.formState.isSubmitting}>
+          {"تایید و ادامه"}
+        </FormLayoutSubmit>
       </FormLayout>
       <Box
         sx={{
