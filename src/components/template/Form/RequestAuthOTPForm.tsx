@@ -25,9 +25,6 @@ function RequestAuthOTPForm() {
 
   const { push } = useRouter();
 
-  const [_, storageIdentifier] =
-    useSessionStorage<string>(identifierSessionKey);
-
   const form = useForm({
     resolver: zodResolver(requestAuthOTPSchema),
     defaultValues: { identifier: clientEnv?.NEXT_PUBLIC_USER_IDENTIFIER! },
@@ -36,7 +33,7 @@ function RequestAuthOTPForm() {
   const mutation = useMutation({
     ...mutationConfig,
     onSuccess: () => {
-      storageIdentifier(form.watch("identifier"));
+      sessionStorage.setItem(identifierSessionKey, form.watch("identifier"));
       push("/auth/verify");
     },
   });
