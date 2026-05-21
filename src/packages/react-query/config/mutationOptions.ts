@@ -17,7 +17,7 @@ const requestAuthOTPConfig = () => {
     mutationFn: requestAuthOTP,
   });
 };
-const verifytAuthOTPConfig = () => {
+const verifyAuthOTPConfig = () => {
   return mutationOptions<
     VerifyAuthOTPResponse,
     ResponseErrorType,
@@ -28,4 +28,4 @@ const verifytAuthOTPConfig = () => {
   });
 };
 
-export { requestAuthOTPConfig, verifytAuthOTPConfig };
+export { requestAuthOTPConfig, verifyAuthOTPConfig };
