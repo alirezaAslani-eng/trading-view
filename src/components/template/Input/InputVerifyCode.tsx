@@ -16,7 +16,7 @@ function InputVerifyCode({ onComplete, error, sx }: InputVerifyCodeProps) {
       sx={(tm) => ({
         display: "flex",
         alignItems: "center",
-        gap: "16px",
+        gap: "12px",
         ...identifySxProp(tm, sx),
       })}
     >

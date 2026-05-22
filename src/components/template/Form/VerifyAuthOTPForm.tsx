@@ -55,7 +55,7 @@ function VerifyAuthOTPForm() {
   return (
     <>
       <FormLayout onSubmit={form.handleSubmit(submiter)}>
-        <FormLayoutField sx={{ px: "14.5px" }}>
+        <FormLayoutField>
           <FormLayoutLable>{"کد تایید"}</FormLayoutLable>
           <Controller
             control={form.control}
