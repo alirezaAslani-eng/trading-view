@@ -3,7 +3,7 @@ import type { Infer } from "zod";
 import { phoneNumberValidation } from "@/validations/shared";
 
 const clientEnvScheam = object({
-  NEXT_PUBLIC_BASEURL: string().url(),
+  NEXT_PUBLIC_BASEURL: string(),
   NEXT_PUBLIC_USER_IDENTIFIER: phoneNumberValidation(),
 });
 
