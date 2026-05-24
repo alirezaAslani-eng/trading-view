@@ -2,6 +2,7 @@ import type { BoxProps, MenuProps, Theme } from "@mui/material";
 import { SelectDisplayProps } from "./dropdownButton.types";
 import { ReactNode } from "react";
 import type { SystemStyleObject } from "@mui/system";
+import type { SelectValue } from "@/context/app/InputSelectController/types";
 
 // * -------start------- InputText.tsx --------------
 interface SharedInputTextProps {
@@ -46,7 +47,7 @@ interface InputSelectMenuProps extends Omit<
 
 // * -------start------- InputSelectItem.tsx --------------
 interface InputSelectItemProps extends BoxProps {
-  value: string;
+  value: SelectValue;
 }
 // * -------end------- InputSelectItem.tsx --------------
 
