@@ -1,6 +1,6 @@
-import { object, string } from "zod";
+import { number, object, string } from "zod";
 import isValidNationalCodeFormat from "@/utils/features/identification/isValidNationalCodeFormat";
-
+import { dayjs } from "@/packages/dayjs";
 const inValidDateError = "تاریخ معتبر نیست";
 const invalidNationalError = "کد ملی نا معتبر";
 
@@ -11,16 +11,15 @@ const kvcL1Schema = object({
     .refine((v) => isValidNationalCodeFormat(v), {
       message: invalidNationalError,
     }),
-
-  birthDateShamsi: string(inValidDateError)
-    .regex(/^\d{4}\/\d{2}\/\d{2}$/, inValidDateError)
-    .refine(
-      (val) => {
-        const [y, m, d] = val.split("/").map(Number);
-        return m >= 1 && m <= 12 && d >= 1 && d <= 31;
-      },
-      { message: inValidDateError },
-    ),
+  birthDay: string(inValidDateError)
+    .regex(/^\d+$/, inValidDateError)
+    .min(1, inValidDateError)
+    .max(31, inValidDateError),
+  birthMonth: string(inValidDateError)
+    .regex(/^\d+$/, inValidDateError)
+    .min(0, inValidDateError)
+    .max(11, inValidDateError),
+  birthYear: string(inValidDateError).regex(/^\d+$/, inValidDateError),
 });
 
 export default kvcL1Schema;
