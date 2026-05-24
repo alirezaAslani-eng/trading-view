@@ -19,7 +19,7 @@ function InputSelect_({
 
   const displayedItem = renderValueOnDisplay({ children, selectedValue });
 
-  const isPlaceholder = selectedValue === undefined;
+  const isPlaceholder = !!!selectedValue;
 
   return (
     <>
