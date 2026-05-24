@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/Layout/FormLayout";
 import { ResponseErrorType } from "@/types";
 
-const kycStatusQueryConfig = kycStatusConfig();
+const kycStatusConfig_ = kycStatusConfig();
 const kycL1Config = kycLevel1Config();
 
 interface KycL1FormProps extends Pick<
@@ -32,7 +32,7 @@ interface KycL1FormProps extends Pick<
 > {}
 
 function KycL1Form(mutationProps: KycL1FormProps) {
-  const kycStatusQuery = useQuery(kycStatusQueryConfig);
+  const kycStatus = useQuery(kycStatusConfig_);
   const kycL1Mutation = useMutation({ ...kycL1Config, ...mutationProps });
 
   const onSubmit: SubmitHandler<KycL1SchemaType> = async (fields) => {
@@ -71,7 +71,7 @@ function KycL1Form(mutationProps: KycL1FormProps) {
           <InputText
             placeholder="شماره موبایل خود را وارد کنید"
             disabled
-            value={kycStatusQuery.data?.data.phoneNumber ?? ""}
+            value={kycStatus?.data?.phoneNumber ?? ""}
           />
         </FormLayoutField>
       </FormLayoutFieldGroup>

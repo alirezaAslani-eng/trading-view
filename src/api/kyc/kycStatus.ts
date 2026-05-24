@@ -1,7 +1,7 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import responseErrorHandler from "@/utils/app/responsiveErrorHandler";
 import clientEnv from "@/validations/env/clientEnv";
-import { KycStatusResponse } from "@/api/types";
+import { BasicKycApiResponse, KycStatusResponse } from "@/api/types";
 import jsonParseHandler from "@/utils/app/jsonParseHandler";
 
 const URL = `${clientEnv?.NEXT_PUBLIC_BASEURL}/api/v1/kyc/status`;
@@ -14,9 +14,11 @@ async function kycStatus(): Promise<KycStatusResponse> {
 
   await responseErrorHandler(res);
 
-  const data = (await jsonParseHandler(res)) as KycStatusResponse;
+  const data = (await jsonParseHandler(
+    res,
+  )) as BasicKycApiResponse<KycStatusResponse>;
 
-  return data;
+  return data.data;
 }
 
 export default kycStatus;

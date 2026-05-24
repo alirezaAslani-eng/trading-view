@@ -8,12 +8,13 @@ interface BasicKycApiResponse<TData> {
   errorCode: null | string;
 }
 
-interface KycStatusResponse extends BasicKycApiResponse<{
+interface KycStatusResponse {
   fullName: string;
   phoneNumber: string;
   kycLevel: KycLevel;
   isActive: boolean;
-}> {}
+}
+
 interface KycL1RequestBody extends Omit<
   KycL1SchemaType,
   "birthDay" | "birthYear" | "birthMonth"

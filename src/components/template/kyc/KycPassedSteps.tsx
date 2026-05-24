@@ -57,12 +57,9 @@ const kycStatusConfig_ = kycStatusConfig();
 function KycPassedSteps() {
   const kycStatus = useQuery(kycStatusConfig_);
 
-  const isPassedL1 = isKycStepPassed(
-    kycStatus.data?.data.kycLevel,
-    "Level1_Basic",
-  );
+  const isPassedL1 = isKycStepPassed(kycStatus.data?.kycLevel, "Level1_Basic");
   const isPassedL2 = isKycStepPassed(
-    kycStatus.data?.data.kycLevel,
+    kycStatus.data?.kycLevel,
     "Level2_Advanced",
   );
 
