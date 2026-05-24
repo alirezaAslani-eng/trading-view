@@ -2,8 +2,11 @@
 import CircleBox from "@/components/ui/Box/CircleBox";
 import { CheckedIcon, DashedLine } from "@/components/ui/Icon";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { kycStatusConfig } from "@/packages/react-query";
 import { PWC } from "@/types/utils";
+import { isKycStepPassed } from "@/utils";
 import { alpha, Box, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 
 // * This component is used only once at the moment, the structure of it might be changed if it would be used (twice)
 function StepCheck({ active, children }: PWC<{ active?: boolean }>) {
@@ -49,21 +52,35 @@ function StepCheck({ active, children }: PWC<{ active?: boolean }>) {
   );
 }
 
+const kycStatusConfig_ = kycStatusConfig();
+
 function KycPassedSteps() {
+  const kycStatus = useQuery(kycStatusConfig_);
+
+  const isPassedL1 = isKycStepPassed(
+    kycStatus.data?.data.kycLevel,
+    "Level1_Basic",
+  );
+  const isPassedL2 = isKycStepPassed(
+    kycStatus.data?.data.kycLevel,
+    "Level2_Advanced",
+  );
+
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
       <StepCheck active>{"سطح پایه"}</StepCheck>
-      <DashedLine sx={{ flex: 1, color: "text.primary" }} />
-      <StepCheck active>{"سطح یک"}</StepCheck>
-      <DashedLine
-        sx={{
-          flex: 1,
-          color: notDefinedColors["#003975"],
-        }}
-      />
-      <StepCheck active={false}>{"سطح دو"}</StepCheck>
+
+      <DashedLine sx={{ flex: 1, color: lineColor(isPassedL1) }} />
+      <StepCheck active={isPassedL1}>{"سطح یک"}</StepCheck>
+
+      <DashedLine sx={{ flex: 1, color: lineColor(isPassedL2) }} />
+      <StepCheck active={isPassedL2}>{"سطح دو"}</StepCheck>
     </Box>
   );
 }
 
 export default KycPassedSteps;
+
+function lineColor(isPassedLevel: boolean) {
+  return isPassedLevel ? "text.primary" : notDefinedColors["#003975"];
+}
