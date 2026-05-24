@@ -6,7 +6,7 @@ function useControlledState<TValue = unknown>({
   value,
   onChange,
   defaultState,
-}: UseControlledStateConfig<TValue>): UseControlledStateReturn<TValue> {
+}: UseControlledStateConfig<TValue> = {}): UseControlledStateReturn<TValue> {
   const isControlled = value !== undefined;
 
   warn(onChange !== undefined && value === undefined, {
