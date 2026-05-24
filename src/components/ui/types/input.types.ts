@@ -33,8 +33,8 @@ type InputTextProps = InputProps | TextareaProps;
 // * -------start------- InputSelect.tsx --------------
 interface InputSelectProps extends SelectDisplayProps {
   placeholder?: ReactNode;
-  onChange?: (value: string) => void;
-  value?: string;
+  onChange?: (value: SelectValue) => void;
+  value?: SelectValue;
 }
 // * -------end------- InputSelect.tsx --------------
 
