@@ -3,6 +3,7 @@ import responseErrorHandler from "@/utils/app/responsiveErrorHandler";
 import clientEnv from "@/validations/env/clientEnv";
 import { KycL1RequestBody } from "@/api/types";
 import { KycL1SchemaType } from "@/validations/types";
+import { sharedRequestInit } from "../sharedRequestInit";
 const URL = `${clientEnv?.NEXT_PUBLIC_BASEURL}/api/v1/kyc/level1`;
 
 async function kycL1(body: KycL1SchemaType): Promise<void> {
@@ -10,6 +11,7 @@ async function kycL1(body: KycL1SchemaType): Promise<void> {
 
   const res = (await fetchHandler(async () => {
     const res = await fetch(URL, {
+      ...sharedRequestInit,
       method: "POST",
       body: JSON.stringify({
         nationalId: body.nationalId,
