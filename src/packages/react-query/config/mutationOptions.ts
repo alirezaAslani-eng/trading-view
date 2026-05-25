@@ -1,17 +1,19 @@
-import { requestAuthOTP, verifyAuthOTP } from "@/api";
+import { kycL2, requestAuthOTP, verifyAuthOTP } from "@/api";
 import { mutationOptions } from "@tanstack/react-query";
 import {
   kycLevel1Key,
+  kycLevel2Key,
   requestAuthOTPKey,
   verifyAuthOTPKey,
 } from "@/packages/react-query/keys/mutationKeys";
 import { ResponseErrorType } from "@/types";
 import {
   KycL1SchemaType,
+  KycL2SchemaType,
   RequestAuthOTPSchemaType,
   VerifyAuthOTPSchemaType,
 } from "@/validations/types";
-import { VerifyAuthOTPResponse } from "@/api/types";
+import { KycL2Response, VerifyAuthOTPResponse } from "@/api/types";
 import { kycL1 } from "@/api";
 
 const requestAuthOTPConfig = () => {
@@ -30,6 +32,7 @@ const verifyAuthOTPConfig = () => {
     mutationFn: verifyAuthOTP,
   });
 };
+
 const kycLevel1Config = () => {
   return mutationOptions<void, ResponseErrorType, KycL1SchemaType>({
     mutationKey: kycLevel1Key,
@@ -37,4 +40,16 @@ const kycLevel1Config = () => {
   });
 };
 
-export { requestAuthOTPConfig, verifyAuthOTPConfig, kycLevel1Config };
+const kycLevel2Config = () => {
+  return mutationOptions<KycL2Response, ResponseErrorType, KycL2SchemaType>({
+    mutationKey: kycLevel2Key,
+    mutationFn: kycL2,
+  });
+};
+
+export {
+  requestAuthOTPConfig,
+  verifyAuthOTPConfig,
+  kycLevel1Config,
+  kycLevel2Config,
+};
