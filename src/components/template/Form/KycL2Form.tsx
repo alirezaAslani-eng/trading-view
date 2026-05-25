@@ -1,51 +1,45 @@
-import { InputSelect } from "@/components/ui/Input/InputSelect";
+"use client";
 import InputText from "@/components/ui/Input/InputText";
+import { kycLevel2Config } from "@/packages/react-query";
+import kycL2Schema from "@/validations/kyc/kycL2Schema";
+import { KycL2SchemaType } from "@/validations/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { SubmitHandler, useForm } from "react-hook-form";
+import safeAsync from "@/utils/app/safeAsync";
 import {
   FormLayout,
   FormLayoutField,
-  FormLayoutFieldGroup,
   FormLayoutLable,
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
 
+const mutationConfig = kycLevel2Config();
 function KycL2Form() {
+  const mutation = useMutation(mutationConfig);
+
+  const form = useForm({ resolver: zodResolver(kycL2Schema) });
+
+  const submitHandler: SubmitHandler<KycL2SchemaType> = async (fields) => {
+    await safeAsync(async () => {
+      await mutation.mutateAsync(fields);
+    });
+  };
+
   return (
-    <FormLayout>
-
-      <FormLayoutFieldGroup>
-
-        <FormLayoutField>
-          <FormLayoutLable>{"استان"}</FormLayoutLable>
-          <InputSelect placeholder="استان را انتخاب کنید"></InputSelect>
-        </FormLayoutField>
-
-        <FormLayoutField>
-          <FormLayoutLable>{"شهر"}</FormLayoutLable>
-          <InputSelect placeholder="شهر خود را انتخاب کنید"></InputSelect>
-        </FormLayoutField>
-
-      </FormLayoutFieldGroup>
-
-
+    <FormLayout onSubmit={form.handleSubmit(submitHandler)}>
       <FormLayoutField>
-        <FormLayoutLable>{"آدرس محل سکونت"}</FormLayoutLable>
-        <InputText textarea placeholder="کد پستی را وارد کنید" />
+        <FormLayoutLable>{"کد پستی"}</FormLayoutLable>
+        <InputText
+          placeholder="کد پستی را وارد کنید"
+          error={!!form.formState.errors?.postalCode}
+          {...form.register("postalCode")}
+        />
       </FormLayoutField>
 
-
-      <FormLayoutFieldGroup>
-
-        <FormLayoutField>
-          <FormLayoutLable>{"کد پستی"}</FormLayoutLable>
-          <InputText placeholder="کد پستی را وارد کنید" />
-        </FormLayoutField>
-
-        <FormLayoutField />
-
-      </FormLayoutFieldGroup>
-
-      <FormLayoutSubmit>{"ثبت اطلاعات"}</FormLayoutSubmit>
-      
+      <FormLayoutSubmit disabled={form.formState.isSubmitting}>
+        {"ثبت اطلاعات"}
+      </FormLayoutSubmit>
     </FormLayout>
   );
 }
