@@ -1,5 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
-import React from "react";
+import { CSSProperties, Stack, StackProps, Typography } from "@mui/material";
 import StatusBadge from "@/components/ui/Feedback/StatusBadge";
 import BulletList from "@/components/ui/BulletList/BulletList";
 import BulletListTitle from "@/components/ui/BulletList/BulletListTitle";
@@ -8,32 +7,35 @@ import BulletItemShape from "@/components/ui/BulletItem/BulletItemShape";
 import BulletText from "@/components/ui/BulletItem/BulletText";
 import { LockIcon, UnlockIcon } from "@/components/ui/Icon";
 import kycFeatures from "@/constant/features/kyc/kycFeatures";
-import Button from "@/components/ui/Button/Button";
+import BulletHeading from "@/components/ui/BulletList/BulletHeading";
+import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 
-const icon_sx = { width: "22px", height: "22px" };
-const bullet_heading_sx = {
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-};
+const bullet_title_icon_sx = {
+  width: "22px",
+  height: "22px",
+} satisfies CSSProperties;
 
-function VerifyNextStep() {
+function KycUpgradeStatus(stackProps: ReplaceSxWithSxOnlyObject<StackProps>) {
   return (
-    <Stack sx={{ alignItems: "center" }}>
+    <Stack {...stackProps} sx={{ alignItems: "center", ...stackProps.sx }}>
+      {/* // * ---start--- Prompt Message ------ */}
       <StatusBadge />
+
       <Typography
         variant="h5"
         sx={{ color: "text.onPrimary", mt: "28px", textAlign: "center" }}
       >
         {"اطلاعات شما تایید شد"}
       </Typography>
+      {/* // * ---end--- Prompt Message ------ */}
 
+      {/* // * ---start--- Bullet list ------ */}
       <Stack spacing={6} sx={{ mt: "32px", width: "100%" }}>
         <BulletList color="disabled" variant="contained" sx={{ p: "18px" }}>
-          <Box sx={bullet_heading_sx}>
-            <UnlockIcon sx={icon_sx} />
+          <BulletHeading>
+            <UnlockIcon sx={{ width: "22px", height: "22px" }} />
             <BulletListTitle>{"دسترسی فعلی"}</BulletListTitle>
-          </Box>
+          </BulletHeading>
           <Stack sx={{ gap: "10px", mt: "24px" }}>
             {kycFeatures["Level1_Basic"].map(({ feature }) => {
               return (
@@ -46,10 +48,12 @@ function VerifyNextStep() {
           </Stack>
         </BulletList>
         <BulletList color="primary" variant="contained" sx={{ p: "18px" }}>
-          <Box sx={bullet_heading_sx}>
-            <LockIcon sx={{ ...icon_sx, color: "text.primary2" }} />
+          <BulletHeading>
+            <LockIcon
+              sx={{ width: "18px", height: "22px", color: "text.primary2" }}
+            />
             <BulletListTitle>{"دسترسی فعلی"}</BulletListTitle>
-          </Box>
+          </BulletHeading>
           <Stack sx={{ gap: "10px", mt: "24px" }}>
             {kycFeatures["Level2_Advanced"].map(({ feature }) => {
               return (
@@ -62,23 +66,24 @@ function VerifyNextStep() {
           </Stack>
         </BulletList>
       </Stack>
+      {/* // * ---end--- Bullet list ------ */}
 
-      <Stack spacing={3} sx={{ mt: "42px", width: "100%" }}>
-        <Button variant="contained" color="primary" size="large" fullWidth>
-          {"احراز هویت سطح 2"}
-        </Button>
-        <Button
-          variant="outlined"
-          color="primary"
-          size="large"
-          fullWidth
-          sx={{ color: "text.onPrimary" }}
-        >
-          {"داشبورد"}
-        </Button>
-      </Stack>
+      {/* // * ---start--- Actions ----- */}
+      {stackProps.children}
+      {/* // * ---end--- Actions ----- */}
     </Stack>
   );
 }
 
-export default VerifyNextStep;
+function KycUpgradeStatusAction(
+  stackProps: ReplaceSxWithSxOnlyObject<StackProps>,
+) {
+  return (
+    <Stack
+      {...stackProps}
+      sx={{ gap: "10px", mt: "24px", width: "100%", ...stackProps.sx }}
+    />
+  );
+}
+
+export { KycUpgradeStatus, KycUpgradeStatusAction };
