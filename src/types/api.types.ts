@@ -1,7 +1,8 @@
-interface BaseApiResponse {
+interface BaseApiResponse<TData> {
   isSuccess: boolean;
   message: string | null;
   errorCode: null | string;
+  data: TData;
 }
 
 interface ResponseErrorType {

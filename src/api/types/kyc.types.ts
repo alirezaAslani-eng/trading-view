@@ -1,13 +1,6 @@
 import { Address, KycLevel } from "@/types";
 import { KycL1SchemaType } from "@/validations/types";
 
-interface BasicKycApiResponse<TData> {
-  isSuccess: boolean;
-  data: TData;
-  message: boolean;
-  errorCode: null | string;
-}
-
 // * --start-- kycStatus.ts ----
 interface KycStatusResponse {
   fullName: string;
@@ -31,9 +24,4 @@ interface KycL1RequestBody extends Omit<
 type KycL2Response = Address[];
 // * --end-- kycL2.ts ----
 
-export type {
-  KycStatusResponse,
-  BasicKycApiResponse,
-  KycL1RequestBody,
-  KycL2Response,
-};
+export type { KycStatusResponse, KycL1RequestBody, KycL2Response };
