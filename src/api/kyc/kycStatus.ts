@@ -1,5 +1,5 @@
 import fetchHandler from "@/utils/app/fetchHandler";
-import responseErrorHandler from "@/utils/app/responsiveErrorHandler";
+import responseErrorHandler from "@/utils/app/responseErrorHandler";
 import { KycStatusResponse } from "@/api/types";
 import jsonParseHandler from "@/utils/app/jsonParseHandler";
 import { BaseApiResponse } from "@/types";

@@ -1,5 +1,5 @@
 import fetchHandler from "@/utils/app/fetchHandler";
-import responseErrorHandler from "@/utils/app/responsiveErrorHandler";
+import responseErrorHandler from "@/utils/app/responseErrorHandler";
 import { KycL2SchemaType } from "@/validations/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 import { KycL2Response } from "@/api/types";

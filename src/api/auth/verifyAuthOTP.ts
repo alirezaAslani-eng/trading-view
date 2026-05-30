@@ -1,6 +1,6 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import jsonParseHandler from "@/utils/app/jsonParseHandler";
-import responseErrorHandler from "@/utils/app/responsiveErrorHandler";
+import responseErrorHandler from "@/utils/app/responseErrorHandler";
 import { VerifyAuthOTPSchemaType } from "@/validations/types";
 import { VerifyAuthOTPResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";

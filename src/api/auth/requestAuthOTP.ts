@@ -1,6 +1,6 @@
 import { RequestAuthOTPSchemaType } from "@/validations/types";
 import fetchHandler from "@/utils/app/fetchHandler";
-import responseErrorHandler from "@/utils/app/responsiveErrorHandler";
+import responseErrorHandler from "@/utils/app/responseErrorHandler";
 import mutationFetch from "@/utils/app/mutationFetch";
 import { sharedRequestInit } from "../sharedRequestInit";
 import { createApiUrl } from "@/utils";
