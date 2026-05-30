@@ -12,7 +12,10 @@ const kycStatusConfig = () => {
     typeof kycStatusKey
   >({
     queryKey: kycStatusKey,
-    queryFn: kycStatus,
+    queryFn: async () => {
+      const res = await kycStatus();
+      return res;
+    },
   });
 };
 
