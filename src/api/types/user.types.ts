@@ -1,10 +1,10 @@
-import { WithID } from "@/types";
+import { KycLevel, WithID } from "@/types";
 
 interface DashboardInfoResponse extends WithID {
   fullName: string;
   email: string | null;
   mobile: string;
-  kycLevel: string;
+  kycLevel: KycLevel;
   isActive: boolean;
   isEmailVerified: boolean;
   isNationalIdVerified: boolean;
