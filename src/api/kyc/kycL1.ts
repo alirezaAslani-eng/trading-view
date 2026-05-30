@@ -1,10 +1,10 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import responseErrorHandler from "@/utils/app/responsiveErrorHandler";
-import clientEnv from "@/validations/env/clientEnv";
 import { KycL1RequestBody } from "@/api/types";
 import { KycL1SchemaType } from "@/validations/types";
 import { sharedRequestInit } from "../sharedRequestInit";
-const URL = `${clientEnv?.NEXT_PUBLIC_BASEURL}/api/v1/kyc/level1`;
+import { createApiUrl } from "@/utils";
+const URL = createApiUrl("/api/v1/kyc/level1");
 
 async function kycL1(body: KycL1SchemaType): Promise<void> {
   console.log(body);
