@@ -1,19 +1,13 @@
 import KYC_LEVEL_ORDER from "@/constant/features/kyc/kycLevelOreder";
 import { KycLevel } from "@/types";
+import isMaximumKycLevel from "./isMaximumKycLevel";
 
 function getNextKycLevel(currentLevel: KycLevel): {
   order: number;
   key: KycLevel;
 } | null {
-  const kycOrders = Object.values(KYC_LEVEL_ORDER).sort((a, b) => a - b);
-
-  const maxiumOrder = kycOrders[kycOrders.length - 1];
-
+  if (isMaximumKycLevel(currentLevel)) return null; // * No next level
   const currentKycOrder = KYC_LEVEL_ORDER[currentLevel];
-
-  if (typeof currentKycOrder !== "number" || currentKycOrder >= maxiumOrder) {
-    return null; // * No next level
-  }
 
   const nextKycLevelOrder = currentKycOrder + 1;
 
