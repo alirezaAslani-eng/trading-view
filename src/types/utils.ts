@@ -14,4 +14,9 @@ type ParamsType<
 type PWC<T extends object = object, TChildren = ReactNode> = T & {
   children: TChildren;
 };
-export type { ParamsType, PWC };
+
+/**
+ * add the `id` property to your interface
+ */
+type WithID<T extends object = object> = T & { id: string };
+export type { ParamsType, PWC, WithID };
