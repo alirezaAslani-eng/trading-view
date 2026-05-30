@@ -7,4 +7,4 @@ function ReduxProvider(props: PropsWithChildren) {
   return <Provider store={store}>{props.children}</Provider>;
 }
 
-export default ReduxProvider;
+export { ReduxProvider };
