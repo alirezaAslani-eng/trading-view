@@ -2,14 +2,14 @@ import fetchHandler from "@/utils/app/fetchHandler";
 import responseErrorHandler from "@/utils/app/responseErrorHandler";
 import { KycStatusResponse } from "@/api/types";
 import jsonParseHandler from "@/utils/app/jsonParseHandler";
-import { BaseApiResponse } from "@/types";
+import { ApiOptions, BaseApiResponse } from "@/types";
 import { createApiUrl } from "@/utils";
 
 const URL = createApiUrl("/api/v1/kyc/status");
 
-async function kycStatus(): Promise<KycStatusResponse> {
+async function kycStatus(options?: ApiOptions): Promise<KycStatusResponse> {
   const res = (await fetchHandler(async () => {
-    const res = await fetch(URL);
+    const res = await fetch(URL, options);
     return res;
   })) as Response;
 
