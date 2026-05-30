@@ -12,6 +12,7 @@ const MuiDialog = {
     paper: {
       background: "none",
       boxShadow: "none",
+      minWidth: "580px",
     },
     backdrop: ({ theme }) => ({
       backgroundColor: alpha(theme.palette.background.surface, 0.64),
