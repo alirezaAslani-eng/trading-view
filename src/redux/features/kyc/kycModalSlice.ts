@@ -42,4 +42,7 @@ function decideToOpenModal(
   return null;
 }
 
-export { kycModalSlice };
+// * ------- Actions -------
+const { exitKycFlow, successKyc, upgradeKycLevel } = kycModalSlice.actions;
+
+export { kycModalSlice, exitKycFlow, successKyc, upgradeKycLevel };
