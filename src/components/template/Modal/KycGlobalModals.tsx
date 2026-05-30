@@ -1,7 +1,9 @@
 "use client";
-import { useKycModal } from "@/context/features/kyc/KycModal/KycModalContext";
 import KycL1Form from "@/components/template/Form/KycL1Form";
 import { Dialog } from "@mui/material";
+import KycL2Form from "@/components/template/Form/KycL2Form";
+import { useDispatch, useSelector } from "@/packages/redux";
+import { exitKycFlow, kycModalFlow, successKyc } from "@/redux/features/kyc";
 import {
   ModalLayout,
   ModalLayoutBody,
@@ -9,14 +11,18 @@ import {
   ModalLayoutHeading,
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
-import KycL2Form from "@/components/template/Form/KycL2Form";
 
 function KycGlobalModals() {
-  const { state, closeKycModal, successKycModal } = useKycModal();
+  const kycModalFlowState = useSelector(kycModalFlow);
+  const dispatch = useDispatch();
+
+  const closeKycModal = () => dispatch(exitKycFlow());
+
+  const successKycModal = () => dispatch(successKyc());
 
   return (
     <>
-      <Dialog open={state.modalFlow === "kycLevel1"}>
+      <Dialog open={kycModalFlowState === "kycLevel1"}>
         <ModalLayout>
           <ModalLayoutHeading>
             <ModalLayoutTitle
@@ -31,7 +37,7 @@ function KycGlobalModals() {
         </ModalLayout>
       </Dialog>
 
-      <Dialog open={state.modalFlow === "kycLevel2"}>
+      <Dialog open={kycModalFlowState === "kycLevel2"}>
         <ModalLayout>
           <ModalLayoutHeading>
             <ModalLayoutTitle
@@ -46,7 +52,7 @@ function KycGlobalModals() {
         </ModalLayout>
       </Dialog>
 
-      <Dialog open={state.modalFlow === "successKyc"}>
+      <Dialog open={kycModalFlowState === "successKyc"}>
         <ModalLayout>
           <ModalLayoutHeading>
             <ModalLayoutTitle
