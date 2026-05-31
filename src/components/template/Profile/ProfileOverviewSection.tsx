@@ -23,9 +23,9 @@ import {
   UserProfileItemCard,
   UserProfileItemInfo,
 } from "@/components/ui/Card/UserProfileItemCard";
+import UpgradeKycAction from "@/components/template/Button/UpgradeKycAction";
 
 // ! Issiue : Some data dosen't come from server like `nationalId` and `birthdate`
-// TODO : There is a button in this server component that needs to diaspatch an action
 async function ProfileOverviewSection() {
   const cookieStore = await cookies();
   const dashboard_info = await dashboardInfo({
@@ -141,9 +141,9 @@ async function ProfileOverviewSection() {
               {"سقف برداشت و واریز روزانه بیشتری نیاز دارید؟"}
             </Typography>
 
-
-              <Button variant="on-surface">{"ارتقا سطح کاربری"}</Button>
-        
+            <UpgradeKycAction variant="on-surface" size="medium">
+              {"ارتقا سطح کاربری"}
+            </UpgradeKycAction>
           </Box>
         </>
       )}
