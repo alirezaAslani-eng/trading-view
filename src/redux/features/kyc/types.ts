@@ -1,7 +1,7 @@
 
 // * --start-- kycModalSlice.ts type ----
 interface KycFlowState {
-    modalFlow: "kycLevel1" | "kycLevel2" | "successKyc" | null;
+  modalFlow: "upgradeKyc" | "successKyc" | null;
 }
 // * --end-- kycModalSlice.ts type ----
 
