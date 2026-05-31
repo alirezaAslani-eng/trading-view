@@ -10,8 +10,8 @@ import { ReduxProvider } from "@/packages/redux";
 
 export default function RootLayout({ children }: PWC) {
   return (
-    <ReduxProvider>
-      <QueryClientProvider>
+    <QueryClientProvider>
+      <ReduxProvider>
         <AppRouterCacheProvider>
           <ThemeProvider>
             <CssBaseline />
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: PWC) {
             </html>
           </ThemeProvider>
         </AppRouterCacheProvider>
-      </QueryClientProvider>
-    </ReduxProvider>
+      </ReduxProvider>
+    </QueryClientProvider>
   );
 }
