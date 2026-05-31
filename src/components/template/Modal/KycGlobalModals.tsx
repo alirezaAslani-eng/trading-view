@@ -10,6 +10,8 @@ import {
   ModalLayoutHeading,
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
+import ConditionaKycForm from "../kyc/ConditionaKycForm";
+import KycL2Form from "../Form/KycL2Form";
 
 function KycGlobalModals() {
   const kycModalFlowState = useSelector(kycModalFlow);
@@ -31,7 +33,10 @@ function KycGlobalModals() {
             <ModalLayoutCloseIcon onClick={closeKycModal} />
           </ModalLayoutHeading>
           <ModalLayoutBody>
-            <KycL1Form onSuccess={successKycModal} />
+            <ConditionaKycForm
+              kycL1Form={<KycL1Form onSuccess={successKycModal} />}
+              kycL2Form={<KycL2Form />}
+            />
           </ModalLayoutBody>
         </ModalLayout>
       </Dialog>
