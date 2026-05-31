@@ -1,3 +1,4 @@
+"use client";
 import { alpha, Box, Stack, Typography } from "@mui/material";
 import { CircleIcon } from "../Icon";
 import { SiklGuide } from "@/constant/features/types";
