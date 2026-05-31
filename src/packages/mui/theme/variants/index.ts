@@ -24,3 +24,4 @@ export { default as tabsSize } from "./tabs/tabsSize";
 export { default as tabsTheme } from "./tabs/tabsTheme";
 export { default as bulletListTheme } from "./bulletList/bulletListTheme";
 export { default as buttonDisabledTheme } from "./button/buttonDisabledTheme";
+export { default as inputDisabled } from "./input/inputDisabled";

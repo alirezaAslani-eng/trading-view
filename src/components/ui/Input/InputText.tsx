@@ -1,6 +1,7 @@
 "use client";
 import {
   inputDefaultVariants,
+  inputDisabled,
   inputSize,
   inputTheme,
   textareaSize,
@@ -22,11 +23,8 @@ const StyledInputText = styled(Box, {
 }) => {
   const input_size = inputSize({ theme, size });
   const textarea_size = textareaSize({ size });
-  const input_theme = inputTheme({
-    theme,
-    color,
-    variant,
-  });
+  const disabled_theme = inputDisabled({ theme, color, variant });
+  const input_theme = inputTheme({ theme, color, variant });
 
   return {
     outline: "none",
@@ -43,6 +41,12 @@ const StyledInputText = styled(Box, {
     "&.Mui-error": {
       ...input_theme.errorTheme,
     },
+    "&.Mui-disabled": {
+      ...disabled_theme.rootTheme,
+      "::placeholder": {
+        ...disabled_theme.placeholderTheme,
+      },
+    },
     "&.Mui-textarea": {
       ...textarea_size.rootSize,
     },
@@ -53,12 +57,16 @@ function InputText({ textarea, error, ...props }: InputTextProps) {
   return (
     <StyledInputText
       {...props}
-      // @ts-ignore
-      component={textarea ? "textarea" : "input"}
       className={clsx(
-        { "Mui-error": error, "Mui-textarea": textarea },
+        {
+          "Mui-error": error,
+          "Mui-textarea": textarea,
+          "Mui-disabled": props.disabled,
+        },
         props.className,
       )}
+      // @ts-ignore
+      component={textarea ? "textarea" : "input"}
     />
   );
 }

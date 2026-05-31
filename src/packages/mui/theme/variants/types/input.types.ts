@@ -24,6 +24,17 @@ interface InputThemeProps {
   color: "primary";
 }
 // * ----end---- inputTheme.ts ----------
+// * ----start---- inputDisabled.ts ----------
+interface InputDisabledReturn {
+  rootTheme: CSSProperties;
+  placeholderTheme: CSSProperties;
+}
+interface InputDisabledProps {
+  theme: Theme;
+  variant: "contained" | "outlined";
+  color: "primary";
+}
+// * ----end---- inputDisabled.ts ----------
 
 // * ----start---- textareaSize.ts ----------
 interface TextareaSizeProps {
@@ -41,4 +52,6 @@ export type {
   InputThemeReturn,
   TextareaSizeProps,
   TextareaSizeReturn,
+  InputDisabledProps,
+  InputDisabledReturn,
 };
