@@ -4,3 +4,4 @@ export { default as isKycStepPassed } from "./features/kyc/isKycStepPassed";
 export { default as getNextKycLevel } from "./features/kyc/getNextKycLevel";
 export { default as assertNever } from "./app/assertNever";
 export { default as createApiUrl } from "./app/createApiUrl";
+export { default as formatFaPrice } from "./features/price/formatFaPrice";
