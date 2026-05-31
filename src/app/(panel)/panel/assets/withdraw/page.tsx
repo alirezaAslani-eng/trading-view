@@ -1,4 +1,3 @@
-"use client";
 import PageHeader from "@/components/common/Appbar/PageHeader";
 import { PagePaper } from "@/components/ui/Layout/PaperLayout";
 import { Box } from "@mui/material";
