@@ -37,7 +37,16 @@ function page() {
                 <UserIcon />
                 {"مشخصات کاربری"}
               </PageSubNavigationLink>
+              <PageSubNavigationLink href="/panel/profile/banks">
+                <UserIcon />
+                {"اطلاعات بانکی"}
+              </PageSubNavigationLink>
+              <PageSubNavigationLink href="/panel/profile/security">
+              <UserIcon />
+              {"امنیت"}
+            </PageSubNavigationLink>
             </PageSubNavigation>
+            
 
             <PagePaper>
               <PagePaperHeading>
