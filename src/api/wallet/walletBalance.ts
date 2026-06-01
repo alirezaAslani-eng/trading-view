@@ -4,14 +4,15 @@ import fetchHandler from "@/utils/app/fetchHandler";
 import responseErrorHandler from "@/utils/app/responseErrorHandler";
 import jsonParseHandler from "@/utils/app/jsonParseHandler";
 import { WalletBalanceResponse } from "../types";
-import { ApiOptions, BaseApiResponse } from "@/types";
+import { BaseApiResponse } from "@/types";
+import api from "../api";
 const URL = createApiUrl("/api/v1/wallet/balance");
 
 async function walletBalance(
-  options?: ApiOptions,
+  options?: RequestInit,
 ): Promise<WalletBalanceResponse> {
   const res = (await fetchHandler(async () => {
-    const res = await fetch(URL, {
+    const res = await api(URL, {
       ...sharedRequestInit,
       ...options,
     });

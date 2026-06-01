@@ -5,6 +5,7 @@ import { VerifyAuthOTPSchemaType } from "@/validations/types";
 import { VerifyAuthOTPResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 import { createApiUrl } from "@/utils";
+import mutationFetch from "@/utils/app/mutationFetch";
 
 const URL = createApiUrl("/api/v1/auth/login-cookie");
 
@@ -13,7 +14,7 @@ async function verifyAuthOTP(
   body: VerifyAuthOTPSchemaType,
 ): Promise<VerifyAuthOTPResponse> {
   const res = (await fetchHandler(async () => {
-    const res = await fetch(URL, {
+    const res = await mutationFetch(URL, {
       ...sharedRequestInit,
       method: "POST",
       body: JSON.stringify(body),

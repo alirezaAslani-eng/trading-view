@@ -13,7 +13,4 @@ interface ResponseErrorType {
   readonly details?: unknown;
 }
 
-interface ApiOptions {
-  headers?: HeadersInit;
-}
-export type { BaseApiResponse, ResponseErrorType, ApiOptions };
+export type { BaseApiResponse, ResponseErrorType };

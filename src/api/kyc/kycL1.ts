@@ -4,13 +4,14 @@ import { KycL1RequestBody } from "@/api/types";
 import { KycL1SchemaType } from "@/validations/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 import { createApiUrl } from "@/utils";
+import mutationFetch from "@/utils/app/mutationFetch";
 const URL = createApiUrl("/api/v1/kyc/level1");
 
 async function kycL1(body: KycL1SchemaType): Promise<void> {
   console.log(body);
 
   const res = (await fetchHandler(async () => {
-    const res = await fetch(URL, {
+    const res = await mutationFetch(URL, {
       ...sharedRequestInit,
       method: "POST",
       body: JSON.stringify({
