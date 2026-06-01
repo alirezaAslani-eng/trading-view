@@ -29,7 +29,7 @@ import UpgradeKycAction from "@/components/template/Button/UpgradeKycAction";
 async function ProfileOverviewSection() {
   const cookieStore = await cookies();
   const dashboard_info = await dashboardInfo({
-    headers: { cookie: cookieStore.toString() },
+    headers: { Cookie: cookieStore.toString() },
   })!;
 
   return (

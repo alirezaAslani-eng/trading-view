@@ -12,7 +12,7 @@ async function CurrentBalanceCard(
 ) {
   const cookieStorage = await cookies();
   const balanceInfo = await walletBalance({
-    headers: { cookie: cookieStorage.toString() },
+    headers: { Cookie: cookieStorage.toString() },
   });
 
   return (
