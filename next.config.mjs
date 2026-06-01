@@ -10,10 +10,11 @@ const nextConfig = {
     },
   },
   rewrites: () => {
+    const BASEURL_PATH = new URL(process.env.NEXT_PUBLIC_BASEURL).pathname;
     return [
       {
-        source: `/api/proxy/:path*`,
-        destination: `${process.env.BASEURL}/:path*`,
+        source: `${BASEURL_PATH}/:path*`,
+        destination: `${process.env.SOURCE_BASEURL}/:path*`,
       },
     ];
   },
