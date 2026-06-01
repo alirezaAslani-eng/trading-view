@@ -3,14 +3,12 @@ import responseErrorHandler from "@/utils/app/responseErrorHandler";
 import { KycStatusResponse } from "@/api/types";
 import jsonParseHandler from "@/utils/app/jsonParseHandler";
 import { BaseApiResponse } from "@/types";
-import { createApiUrl } from "@/utils";
-import api from "../api";
 
-const URL = createApiUrl("/api/v1/kyc/status");
+const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/kyc/status`;
 
 async function kycStatus(options?: RequestInit): Promise<KycStatusResponse> {
   const res = (await fetchHandler(async () => {
-    const res = await api(URL, options);
+    const res = await fetch(URL, options);
     return res;
   })) as Response;
 

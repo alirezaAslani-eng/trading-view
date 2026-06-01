@@ -4,10 +4,9 @@ import responseErrorHandler from "@/utils/app/responseErrorHandler";
 import { VerifyAuthOTPSchemaType } from "@/validations/types";
 import { VerifyAuthOTPResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
-import { createApiUrl } from "@/utils";
 import mutationFetch from "@/utils/app/mutationFetch";
 
-const URL = createApiUrl("/api/v1/auth/login-cookie");
+const URL = `${process.env.NEXT_PUBLIC_BASEURL}/api/v1/auth/login-cookie`;
 
 // TODO -> The type of fetched data must be defined by TS
 async function verifyAuthOTP(

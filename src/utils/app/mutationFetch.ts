@@ -1,7 +1,6 @@
-import api from "@/api/api";
 
 const mutationFetch: typeof fetch = async (url, requestInit) => {
-  const res = await api(url, {
+  const res = await fetch(url, {
     ...requestInit,
     credentials: "include",
   });

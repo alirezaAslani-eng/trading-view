@@ -3,9 +3,8 @@ import responseErrorHandler from "@/utils/app/responseErrorHandler";
 import { KycL1RequestBody } from "@/api/types";
 import { KycL1SchemaType } from "@/validations/types";
 import { sharedRequestInit } from "../sharedRequestInit";
-import { createApiUrl } from "@/utils";
 import mutationFetch from "@/utils/app/mutationFetch";
-const URL = createApiUrl("/api/v1/kyc/level1");
+const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/kyc/level1`;
 
 async function kycL1(body: KycL1SchemaType): Promise<void> {
   console.log(body);
