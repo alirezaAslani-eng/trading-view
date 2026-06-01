@@ -1,4 +1,4 @@
-import { Divider } from "@mui/material";
+import { Box, Divider, Stack, ToggleButton } from "@mui/material";
 import PageHeader from "@/components/common/Appbar/PageHeader";
 import ProfileOverviewSection from "@/components/template/Profile/ProfileOverviewSection";
 import { UserIcon } from "@/components/ui/Icon";
@@ -19,6 +19,8 @@ import {
     PageSubNavigationLink,
 } from "@/components/ui/PageSubNavigation/PageSubNavigation";
 import BankInfoOverviewSection from "@/components/template/Profile/BankTableList";
+import ToggleTabGroup from "@/components/ui/ButtonGroup/ToggleTabGroup";
+import EditPasswordForm from "@/components/template/Form/EditPasswordForm";
 
 function page() {
     return (
@@ -47,15 +49,38 @@ function page() {
                             </PageSubNavigationLink>
                         </PageSubNavigation>
 
-
                         <PagePaper>
                             <PagePaperHeading>
-                                <PagePaperTitle>{"اطلاعات بانکی"}</PagePaperTitle>
+                                <PagePaperTitle>{"امنیت حساب"}</PagePaperTitle>
                             </PagePaperHeading>
                             <Divider
                                 sx={{ mt: "12px", mb: "32px", borderColor: "border.dark" }}
                             />
-                            <BankInfoOverviewSection />
+                            <Stack>
+                                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                    {/* // * ----start---- Tabs -------- */}
+                                    <ToggleTabGroup value={"1"} size="small">
+                                        <ToggleButton value={"1"}>{"تایید 2 مرحله ای"}</ToggleButton>
+                                        <Divider orientation="vertical" flexItem />
+                                        <ToggleButton value={"2"}>{"تغییر رمز عبور"}</ToggleButton>
+                                        <Divider orientation="vertical" flexItem />
+                                        <ToggleButton value={"3"}>{"تاریخچه ورود"}</ToggleButton>
+                                    </ToggleTabGroup>
+                                    {/* // * ----end---- Tabs -------- */}
+                                    
+                                </Box>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "18px",
+                                        mt: "32px",
+                                        mx: "70px",
+                                    }}
+                                >
+                                    <EditPasswordForm />
+                                </Box>
+                            </Stack>
                         </PagePaper>
                     </SectionContent>
                 </Section>
