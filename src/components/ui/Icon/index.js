@@ -21,3 +21,5 @@ export { default as MenueHorizontal } from "./MenueHorizontal";
 export { default as UserGuardIcon } from "./UserGuardIcon";
 export { default as BirthDayCakeIcon } from "./BirthDayCakeIcon";
 export { default as DashedLine } from "./DashedLine";
+export { default as PluseIcon } from "./PluseIcon";
+export { default as MinusIcon } from "./MinusIcon";
