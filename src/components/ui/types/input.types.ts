@@ -9,7 +9,7 @@ import {
 } from "@/packages/mui/theme/variants/types";
 
 // * -------start------- InputText.tsx --------------
-interface SharedInputTextProps {
+interface BaseInputProps {
   error?: boolean;
 }
 
@@ -19,13 +19,13 @@ interface StyledInputTextProps {
   color?: InputThemeProps["color"];
 }
 
-type InputProps = SharedInputTextProps &
+type InputProps = BaseInputProps &
   StyledInputTextProps &
   Omit<BoxProps<"input">, "size" | "color" | "variant"> & {
     textarea?: false;
   };
 
-type TextareaProps = SharedInputTextProps &
+type TextareaProps = BaseInputProps &
   StyledInputTextProps &
   Omit<BoxProps<"textarea">, "size" | "color" | "variant"> & {
     textarea?: true;
@@ -79,4 +79,5 @@ export type {
   InputProps,
   TextareaProps,
   InputPhoneNumberProps,
+  BaseInputProps,
 };
