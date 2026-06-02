@@ -10,6 +10,8 @@ function inputTheme({
     transition: "all ease 150ms",
   };
 
+  const { palette } = theme;
+
   const styles = {
     // * ------- primary theme -------
     primary: {
@@ -54,9 +56,26 @@ function inputTheme({
         },
       } satisfies InputThemeReturn,
     },
+    nuteral: {
+      contained: {
+        rootTheme: {
+          backgroundColor: palette.background.surfaceLevel5,
+          color: palette.text.onPrimary,
+          border: "1px solid",  
+          borderColor: palette.border.dark,
+        },
+        placeholderTheme: {
+          color: palette.text.placeHolder,
+        },
+        errorTheme: {},
+        focusTheme: {},
+      } satisfies InputThemeReturn,
+    },
   };
 
-  return styles?.[color]?.[variant] || styles.primary.contained;
+  //@ts-ignore
+  const style = styles?.[color]?.[variant] as InputThemeReturn | undefined;
+  return style ?? styles.primary.contained;
 }
 
 export default inputTheme;

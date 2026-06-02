@@ -3,6 +3,10 @@ import { SelectDisplayProps } from "./dropdownButton.types";
 import { ReactNode } from "react";
 import type { SystemStyleObject } from "@mui/system";
 import type { SelectValue } from "@/context/app/InputSelectController/types";
+import {
+  InputSizeProps,
+  InputThemeProps,
+} from "@/packages/mui/theme/variants/types";
 
 // * -------start------- InputText.tsx --------------
 interface SharedInputTextProps {
@@ -10,9 +14,9 @@ interface SharedInputTextProps {
 }
 
 interface StyledInputTextProps {
-  variant?: "contained" | "outlined";
-  size?: "small" | "medium";
-  color?: "primary";
+  variant?: InputThemeProps["variant"];
+  size?: InputSizeProps["size"];
+  color?: InputThemeProps["color"];
 }
 
 type InputProps = SharedInputTextProps &

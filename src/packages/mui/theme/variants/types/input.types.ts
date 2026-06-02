@@ -1,4 +1,7 @@
 import { CSSProperties, Theme } from "@mui/material";
+type InputVariants = "contained" | "outlined";
+type InputColors = "primary" | "nuteral";
+type InputSizes = "medium" | "small" | "large";
 
 // * ----start---- inputSize.ts ----------
 interface InputSizeReturn {
@@ -7,7 +10,7 @@ interface InputSizeReturn {
 }
 interface InputSizeProps {
   theme: Theme;
-  size: "small" | "medium";
+  size: InputSizes;
 }
 // * ----end---- inputSize.ts ----------
 
@@ -20,8 +23,8 @@ interface InputThemeReturn {
 }
 interface InputThemeProps {
   theme: Theme;
-  variant: "contained" | "outlined";
-  color: "primary";
+  variant: InputVariants;
+  color: InputColors;
 }
 // * ----end---- inputTheme.ts ----------
 // * ----start---- inputDisabled.ts ----------
@@ -31,14 +34,14 @@ interface InputDisabledReturn {
 }
 interface InputDisabledProps {
   theme: Theme;
-  variant: "contained" | "outlined";
-  color: "primary";
+  variant: InputVariants;
+  color: InputColors;
 }
 // * ----end---- inputDisabled.ts ----------
 
 // * ----start---- textareaSize.ts ----------
 interface TextareaSizeProps {
-  size: "medium" | "small";
+  size: InputSizes;
 }
 interface TextareaSizeReturn {
   rootSize: CSSProperties;
