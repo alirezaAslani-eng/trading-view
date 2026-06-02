@@ -12,11 +12,12 @@ function toggleButtonGroupSize({
       rootSize: {
         padding: "6px",
         gap: "6px",
+        borderRadius: "24px",
       },
       toggleButtons: {
         height: "46px",
         padding: "0px 20px",
-        borderRadius: "50px !important",
+        borderRadius: "24px !important",
         fontSize: theme.typography.button2.fontSize,
         fontFamily: theme.typography.button2.fontFamily,
       },
