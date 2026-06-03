@@ -42,11 +42,15 @@ function page() {
                 {"اطلاعات بانکی"}
               </PageSubNavigationLink>
               <PageSubNavigationLink href="/panel/profile/security">
-              <UserIcon />
-              {"امنیت"}
-            </PageSubNavigationLink>
+                <UserIcon />
+                {"امنیت"}
+              </PageSubNavigationLink>
+              <PageSubNavigationLink href="/panel/profile/settings">
+                <UserIcon />
+                {"تنظیمات"}
+              </PageSubNavigationLink>
             </PageSubNavigation>
-            
+
 
             <PagePaper>
               <PagePaperHeading>

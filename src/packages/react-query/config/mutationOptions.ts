@@ -1,13 +1,17 @@
 import { kycL2, requestAuthOTP, verifyAuthOTP } from "@/api";
 import { mutationOptions } from "@tanstack/react-query";
 import {
+  addCardKey,
+  addShabaKey,
   kycLevel1Key,
   kycLevel2Key,
   requestAuthOTPKey,
   verifyAuthOTPKey,
 } from "@/packages/react-query/keys/mutationKeys";
-import { ResponseErrorType } from "@/types";
+import { BaseApiResponse, KycLevel, ResponseErrorType } from "@/types";
 import {
+  AddCardSchemaType,
+  AddShabaSchemaType,
   KycL1SchemaType,
   KycL2SchemaType,
   RequestAuthOTPSchemaType,
@@ -15,6 +19,8 @@ import {
 } from "@/validations/types";
 import { KycL2Response, VerifyAuthOTPResponse } from "@/api/types";
 import { kycL1 } from "@/api";
+import addCard from "@/api/bank/addcard";
+import addShaba from "@/api/bank/addShaba";
 
 const requestAuthOTPConfig = () => {
   return mutationOptions<void, ResponseErrorType, RequestAuthOTPSchemaType>({
@@ -47,9 +53,25 @@ const kycLevel2Config = () => {
   });
 };
 
+const addCardConfig = () => {
+  return mutationOptions<BaseApiResponse<KycLevel>, ResponseErrorType, AddCardSchemaType>({
+    mutationKey: addCardKey,
+    mutationFn: addCard,
+  });
+};
+
+const addShabaConfig = () => {
+  return mutationOptions<BaseApiResponse<KycLevel>, ResponseErrorType, AddShabaSchemaType>({
+    mutationKey: addShabaKey,
+    mutationFn: addShaba,
+  });
+};
+
 export {
   requestAuthOTPConfig,
   verifyAuthOTPConfig,
   kycLevel1Config,
   kycLevel2Config,
+  addCardConfig,
+  addShabaConfig,
 };

@@ -1,8 +1,8 @@
-import { KycStatusResponse } from "@/api/types";
+import { DashboardInfoResponse, KycStatusResponse } from "@/api/types";
 import type { ResponseErrorType } from "@/types";
 import { queryOptions } from "@tanstack/react-query";
-import { kycStatusKey } from "@/packages/react-query";
-import { kycStatus } from "@/api";
+import { dashboardInfoKey, kycStatusKey } from "@/packages/react-query";
+import { dashboardInfo, kycStatus } from "@/api";
 
 const kycStatusConfig = () => {
   return queryOptions<
@@ -19,4 +19,19 @@ const kycStatusConfig = () => {
   });
 };
 
-export { kycStatusConfig };
+const dashboardInfoConfig = () => {
+  return queryOptions<
+    DashboardInfoResponse,
+    ResponseErrorType,
+    DashboardInfoResponse,
+    typeof dashboardInfoKey
+  >({
+    queryKey: dashboardInfoKey,
+    queryFn: async () => {
+      const res = await dashboardInfo();
+      return res;
+    },
+  });
+};
+
+export { kycStatusConfig , dashboardInfoConfig };
