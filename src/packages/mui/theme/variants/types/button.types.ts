@@ -33,4 +33,6 @@ export type {
   ButtonThemeReturn,
   ButtonDisabledThemeProps,
   ButtonDisabledThemeReturn,
+  ButtonSizeProps,
+  ButtonSizeReturn,
 };
