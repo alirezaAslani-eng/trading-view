@@ -77,6 +77,11 @@ const typography: TypographyVariantsOptions = {
     lineHeight: 1.5,
     fontFamily: "var(--iranyekan-medium)",
   },
+  button5: {
+    fontSize: "12px",
+    lineHeight: 1.5,
+    fontFamily: "var(--iranyekan-medium)",
+  },
 
   // * -------------- Caption --------------
   caption1: {

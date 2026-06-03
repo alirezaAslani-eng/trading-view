@@ -16,7 +16,7 @@ interface TabsThemeReturn {
 
 // * ----start-----tabsSize.ts--------
 interface TabsSizeProps {
-  size: "medium";
+  size: "medium" | "small";
   theme: Theme;
 }
 interface TabsSizeReturn {
@@ -25,6 +25,5 @@ interface TabsSizeReturn {
   indicatorSize: CSSProperties;
 }
 // * ----end-----tabsSize.ts--------
-
 
 export type { TabsThemeProps, TabsThemeReturn, TabsSizeProps, TabsSizeReturn };

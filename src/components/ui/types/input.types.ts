@@ -3,25 +3,29 @@ import { SelectDisplayProps } from "./dropdownButton.types";
 import { ReactNode } from "react";
 import type { SystemStyleObject } from "@mui/system";
 import type { SelectValue } from "@/context/app/InputSelectController/types";
+import {
+  InputSizeProps,
+  InputThemeProps,
+} from "@/packages/mui/theme/variants/types";
 
 // * -------start------- InputText.tsx --------------
-interface SharedInputTextProps {
+interface BaseInputProps {
   error?: boolean;
 }
 
 interface StyledInputTextProps {
-  variant?: "contained" | "outlined";
-  size?: "small" | "medium";
-  color?: "primary";
+  variant?: InputThemeProps["variant"];
+  size?: InputSizeProps["size"];
+  color?: InputThemeProps["color"];
 }
 
-type InputProps = SharedInputTextProps &
+type InputProps = BaseInputProps &
   StyledInputTextProps &
   Omit<BoxProps<"input">, "size" | "color" | "variant"> & {
     textarea?: false;
   };
 
-type TextareaProps = SharedInputTextProps &
+type TextareaProps = BaseInputProps &
   StyledInputTextProps &
   Omit<BoxProps<"textarea">, "size" | "color" | "variant"> & {
     textarea?: true;
@@ -75,4 +79,5 @@ export type {
   InputProps,
   TextareaProps,
   InputPhoneNumberProps,
+  BaseInputProps,
 };

@@ -9,11 +9,15 @@ function toggleButtonGroupSize({
 }: ToggleButtonGroupSizeProps): ToggleButtonGroupSizeReturn {
   const sizes = {
     large: {
-      rootSize: {},
+      rootSize: {
+        padding: "6px",
+        gap: "6px",
+        borderRadius: "24px",
+      },
       toggleButtons: {
-        height: "56px",
+        height: "46px",
         padding: "0px 20px",
-        borderRadius: "50px !important",
+        borderRadius: "24px !important",
         fontSize: theme.typography.button2.fontSize,
         fontFamily: theme.typography.button2.fontFamily,
       },
@@ -25,7 +29,7 @@ function toggleButtonGroupSize({
         borderRadius: "10px",
       },
       toggleButtons: {
-        height: "38px",
+        height: "36px",
         padding: "0px 2px",
         borderRadius: "6px !important",
         fontSize: theme.typography.button4.fontSize,

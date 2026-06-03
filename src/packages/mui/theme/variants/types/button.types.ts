@@ -3,7 +3,7 @@ import type { CSSProperties, Theme } from "@mui/material";
 // * -----start----- buttonTheme.ts ----------
 interface ButtonThemeProps {
   theme: Theme;
-  color: "primary" | "success";
+  color: "primary" | "success" | "error";
   variant: "contained" | "outlined" | "text" | "on-surface";
 }
 interface ButtonThemeReturn {
@@ -33,4 +33,6 @@ export type {
   ButtonThemeReturn,
   ButtonDisabledThemeProps,
   ButtonDisabledThemeReturn,
+  ButtonSizeProps,
+  ButtonSizeReturn,
 };

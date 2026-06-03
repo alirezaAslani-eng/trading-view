@@ -20,7 +20,7 @@ declare module "@mui/material/Button" {
     true
   > {
     warning: false;
-    error: false;
+    // error: false;
     info: false;
     secondary: false;
     inherit: false;
