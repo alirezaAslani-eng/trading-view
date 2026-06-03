@@ -117,10 +117,9 @@ function OrderBookList({ rows, priceColor }: OrderBookListProps) {
   return (
     <ScrollContainer
       sx={{
-        height: "100%",
-        minHeight: 0,
         scrollbarGutter: "stable",
         pl: "8px",
+        maxHeight: "200px",
       }}
     >
       <Stack spacing={2}>
@@ -144,6 +143,7 @@ export default function OrderBook() {
         flexDirection: "column",
         p: "4px 10px 20px 10px",
         maxWidth: "270px",
+        height: "100%",
       }}
     >
       {/* Tabs (fixed height) */}
@@ -179,9 +179,8 @@ export default function OrderBook() {
         }}
       >
         {/* SELL (flex share) */}
-        <Box sx={{ flex: 1, minHeight: 0 }}>
-          <OrderBookList rows={SAMPLE_SELL_ORDERS} priceColor="status.loss" />
-        </Box>
+
+        <OrderBookList rows={SAMPLE_SELL_ORDERS} priceColor="status.loss" />
 
         {/* Middle price (fixed) */}
         <Typography
@@ -196,9 +195,7 @@ export default function OrderBook() {
         </Typography>
 
         {/* BUY (flex share) */}
-        <Box sx={{ flex: 1, minHeight: 0 }}>
-          <OrderBookList rows={SAMPLE_BUY_ORDERS} priceColor="status.profit" />
-        </Box>
+        <OrderBookList rows={SAMPLE_BUY_ORDERS} priceColor="status.profit" />
       </Box>
     </PanelPaper>
   );
