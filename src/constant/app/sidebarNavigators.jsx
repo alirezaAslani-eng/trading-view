@@ -6,7 +6,12 @@ import ChartIcon from "@/assets/svg/chart.svg";
 import WalletIcon from "@/assets/svg/wallet.svg";
 import MessageIcon from "@/assets/svg/message.svg";
 import SettingIcon from "@/assets/svg/setting.svg";
-import { BoxOutlinedIcon, LockIcon, UserIcon } from "@/components/ui/Icon";
+import {
+  ArrowUpDownIcon,
+  BoxOutlinedIcon,
+  LockIcon,
+  UserIcon,
+} from "@/components/ui/Icon";
 const sidebarNavigators = [
   {
     text: "داشبورد",
@@ -61,6 +66,13 @@ const sidebarNavigators = [
         id: crypto.randomUUID(),
       },
     ],
+  },
+  {
+    text: "معامله",
+    link: "/panel/trade",
+    icon: <ArrowUpDownIcon />,
+    id: crypto.randomUUID(),
+    submenus: [],
   },
   {
     text: "تاریخچه",
