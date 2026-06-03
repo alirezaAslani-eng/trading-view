@@ -23,3 +23,4 @@ export { default as BirthDayCakeIcon } from "./BirthDayCakeIcon";
 export { default as DashedLine } from "./DashedLine";
 export { default as PluseIcon } from "./PluseIcon";
 export { default as MinusIcon } from "./MinusIcon";
+export { default as TradeOrderIcon } from "./TradeOrderIcon";
