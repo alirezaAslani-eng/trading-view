@@ -72,9 +72,21 @@ function buttonTheme({
         },
       } satisfies ButtonThemeReturn,
     },
+    // * -------- error theme --------
+    error: {
+      contained: {
+        rootTheme: {
+          backgroundColor: theme.palette.background.sell,
+          color: theme.palette.text.onPrimary,
+        },
+      } satisfies ButtonThemeReturn,
+    },
   };
 
-  return styles?.[color]?.[variant] || styles.primary.contained;
+  //@ts-ignore
+  const style = styles?.[color]?.[variant] as ButtonThemeReturn | undefined;
+
+  return style || styles.primary.contained;
 }
 
 export default buttonTheme;
