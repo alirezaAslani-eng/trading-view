@@ -3,6 +3,7 @@ import { TradeOrderIcon } from "@/components/ui/Icon";
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import ScrollContainer from "@/components/ui/ScrollContainer/ScrollContainer";
 import Tabs from "@/components/ui/Tabs/Tabs";
+import TabsSibling from "@/components/ui/Tabs/TabsSibling";
 import { TabsProvider } from "@/context/app/TabsContext";
 import { formatFaPrice } from "@/utils";
 import { Box, Stack, Tab, Typography } from "@mui/material";
@@ -148,25 +149,25 @@ export default function OrderBook() {
     >
       {/* Tabs (fixed height) */}
       <TabsProvider defaultState="open-orders">
-        <Tabs size="small">
-          {TABS.map((tab) => (
-            <Tab
-              key={tab.value}
-              value={tab.value}
-              label={tab.label}
-              sx={({ typography }) => ({
-                fontSize: `${typography.button3.fontSize} !important`,
-                fontFamily: `${typography.button3.fontFamily} !important`,
-              })}
-            />
-          ))}
-
-          <Box sx={{ display: "flex", alignItems: "center", mr: "34px" }}>
+        <Box sx={{ display: "flex" }}>
+          <Tabs size="small">
+            {TABS.map((tab) => (
+              <Tab
+                key={tab.value}
+                value={tab.value}
+                label={tab.label}
+                sx={({ typography }) => ({
+                  fontSize: `${typography.button3.fontSize} !important`,
+                  fontFamily: `${typography.button3.fontFamily} !important`,
+                })}
+              />
+            ))}
+          </Tabs>
+          <TabsSibling>
             <TradeOrderIcon sx={{ cursor: "pointer" }} />
-          </Box>
-        </Tabs>
+          </TabsSibling>
+        </Box>
       </TabsProvider>
-
       <OrderBookHeader />
 
       <Box
