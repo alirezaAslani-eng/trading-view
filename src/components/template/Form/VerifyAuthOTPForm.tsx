@@ -21,6 +21,7 @@ import {
 import { identifierSessionKey } from "@/constant/features/auth/sessionStorageKeys";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { promiseAlert } from "@/packages/react-hot-toast";
 
 const mutationConfig = verifyAuthOTPConfig();
 
@@ -44,12 +45,18 @@ function VerifyAuthOTPForm() {
       sessionStorage.removeItem(identifierSessionKey);
       router.replace("/panel/profile/my-info");
     },
+    meta:{
+      successMessage:"خوش اومدی! 👋"
+    }
   });
 
   const submiter: SubmitHandler<VerifyAuthOTPSchemaType> = async (fields) => {
-    await safeAsync(async () => {
-      await mutation.mutateAsync(fields);
-    });
+    await promiseAlert(
+      safeAsync(async () => {
+        await mutation.mutateAsync(fields);
+      }),
+      { loading: "صبر کنید" },
+    );
   };
 
   return (

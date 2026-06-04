@@ -1,7 +1,7 @@
 "use client";
 import InputPhoneNumber from "@/components/ui/Input/InputPhoneNumber";
 import { useId } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import safeAsync from "@/utils/app/safeAsync";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,8 @@ import {
   FormLayoutLable,
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
+import { RequestAuthOTPSchemaType } from "@/validations/types";
+import { promiseAlert } from "@/packages/react-hot-toast";
 
 const mutationConfig = requestAuthOTPConfig();
 
@@ -36,21 +38,31 @@ function RequestAuthOTPForm() {
       sessionStorage.setItem(identifierSessionKey, form.watch("identifier"));
       push("/auth/verify");
     },
+    meta: {
+      disableSuccessAlert: true,
+    },
   });
 
+  const onSubmitHandler: SubmitHandler<RequestAuthOTPSchemaType> = async (
+    fields,
+  ) => {
+    await promiseAlert(
+      safeAsync(async () => await mutation.mutateAsync(fields)),
+      { loading: "صبر کنید" },
+    );
+  };
+
   return (
-    <FormLayout
-      onSubmit={form.handleSubmit(
-        async (fields) => await safeAsync(() => mutation.mutateAsync(fields)),
-      )}
-    >
+    <FormLayout onSubmit={form.handleSubmit(onSubmitHandler)}>
       <FormLayoutField>
         <FormLayoutLable htmlFor={phoneLabelID}>
           {"شماره موبایل"}
         </FormLayoutLable>
         <InputPhoneNumber id={phoneLabelID} {...form.register("identifier")} />
       </FormLayoutField>
-      <FormLayoutSubmit>{"تایید و دریافت کد"}</FormLayoutSubmit>
+      <FormLayoutSubmit disabled={form.formState.isSubmitting}>
+        {"تایید و دریافت کد"}
+      </FormLayoutSubmit>
     </FormLayout>
   );
 }
