@@ -7,6 +7,7 @@ import IranYekanRegular from "@/constant/app/nextjsFont/IranYekan-Regular";
 import { PWC } from "@/types/utils";
 import { QueryClientProvider } from "@/packages/react-query";
 import { ReduxProvider } from "@/packages/redux";
+import { Toaster } from "@/packages/react-hot-toast";
 
 export default function RootLayout({ children }: PWC) {
   return (
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: PWC) {
                 className={`${IranYekanMedium.variable} ${IranYekanDemibold.variable} ${IranYekanRegular.variable}`}
               >
                 {children}
+                <Toaster />
               </Box>
             </html>
           </ThemeProvider>
