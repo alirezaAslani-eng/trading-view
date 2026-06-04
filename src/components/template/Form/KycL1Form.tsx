@@ -5,7 +5,7 @@ import safeAsync from "@/utils/app/safeAsync";
 import kvcL1Schema from "@/validations/kyc/kycL1Schema";
 import { KycL1SchemaType } from "@/validations/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MutationOptions, useMutation, useQuery } from "@tanstack/react-query";
+import { MutationOptions, useQuery } from "@tanstack/react-query";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
   InputSelect,
@@ -22,6 +22,8 @@ import {
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
 import { ResponseErrorType } from "@/types";
+import { promiseAlert } from "@/packages/react-hot-toast";
+import { useKycMutation } from "@/hooks/features/kyc/useKycMutation";
 
 const kycStatusConfig_ = kycStatusConfig();
 const kycL1Config = kycLevel1Config();
@@ -33,12 +35,15 @@ interface KycL1FormProps extends Pick<
 
 function KycL1Form(mutationProps: KycL1FormProps) {
   const kycStatus = useQuery(kycStatusConfig_);
-  const kycL1Mutation = useMutation({ ...kycL1Config, ...mutationProps });
+  const kycL1Mutation = useKycMutation({ ...kycL1Config, ...mutationProps });
 
   const onSubmit: SubmitHandler<KycL1SchemaType> = async (fields) => {
-    await safeAsync(async () => {
-      await kycL1Mutation.mutateAsync(fields);
-    });
+    await promiseAlert(
+      safeAsync(async () => {
+        await kycL1Mutation.mutateAsync(fields);
+      }),
+      { loading: "صبر کنید" },
+    );
   };
 
   const form = useForm({
