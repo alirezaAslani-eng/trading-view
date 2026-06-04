@@ -1,8 +1,16 @@
-import { DashboardInfoResponse, KycStatusResponse } from "@/api/types";
+import {
+  BankAccountsResponse,
+  DashboardInfoResponse,
+  KycStatusResponse,
+} from "@/api/types";
 import type { ResponseErrorType } from "@/types";
 import { queryOptions } from "@tanstack/react-query";
-import { dashboardInfoKey, kycStatusKey } from "@/packages/react-query";
-import { dashboardInfo, kycStatus } from "@/api";
+import {
+  banksKey,
+  dashboardInfoKey,
+  kycStatusKey,
+} from "@/packages/react-query";
+import { dashboardInfo, getBankAccounts, kycStatus } from "@/api";
 
 const kycStatusConfig = () => {
   return queryOptions<
@@ -33,5 +41,19 @@ const dashboardInfoConfig = () => {
     },
   });
 };
+const bankAccountsConfig = () => {
+  return queryOptions<
+    BankAccountsResponse,
+    ResponseErrorType,
+    BankAccountsResponse,
+    typeof banksKey
+  >({
+    queryKey: banksKey,
+    queryFn: async () => {
+      const res = await getBankAccounts();
+      return res;
+    },
+  });
+};
 
-export { kycStatusConfig , dashboardInfoConfig };
+export { kycStatusConfig, dashboardInfoConfig, bankAccountsConfig };
