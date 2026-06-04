@@ -1,23 +1,19 @@
-import { dashboardInfo } from "@/api";
+"use client";
 import { KycCompletedBadge } from "@/components/ui/Badge/KycCompletedBadge";
 import { DashedLine } from "@/components/ui/Icon";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { dashboardInfoConfig } from "@/packages/react-query";
 import { isKycStepPassed } from "@/utils";
 import { Box } from "@mui/material";
-import { cookies } from "next/headers";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-async function KycPassedSteps() {
-  const cookieStore = await cookies();
+const queryConfig = dashboardInfoConfig();
+function KycPassedSteps() {
+  const query = useSuspenseQuery(queryConfig);
+  const dashboardInfo = query.data;
 
-  const dashboard_info = await dashboardInfo({
-    headers: { cookie: cookieStore.toString() },
-  })!;
-
-  const isPassedL1 = isKycStepPassed(dashboard_info.kycLevel, "Level1_Basic");
-  const isPassedL2 = isKycStepPassed(
-    dashboard_info.kycLevel,
-    "Level2_Advanced",
-  );
+  const isPassedL1 = isKycStepPassed(dashboardInfo.kycLevel, "Level1_Basic");
+  const isPassedL2 = isKycStepPassed(dashboardInfo.kycLevel, "Level2_Advanced");
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>

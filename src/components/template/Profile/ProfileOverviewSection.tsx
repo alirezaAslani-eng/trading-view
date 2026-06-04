@@ -1,14 +1,12 @@
+"use client";
 import KycPassedSteps from "@/components/template/kyc/KycPassedSteps";
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import BulletItem from "@/components/ui/BulletItem/BulletItem";
 import BulletItemShape from "@/components/ui/BulletItem/BulletItemShape";
 import BulletText from "@/components/ui/BulletItem/BulletText";
 import kycFeatures from "@/constant/features/kyc/kycFeatures";
-import Button from "@/components/ui/Button/Button";
 import NextLink from "@/components/ui/Link/NextLink";
-import { dashboardInfo } from "@/api";
 import isMaximumKycLevel from "@/utils/features/kyc/isMaximumKycLevel";
-import { cookies } from "next/headers";
 import {
   BirthDayCakeIcon,
   PenOnPaperIcon,
@@ -24,14 +22,13 @@ import {
   UserProfileItemInfo,
 } from "@/components/ui/Card/UserProfileItemCard";
 import UpgradeKycAction from "@/components/template/Button/UpgradeKycAction";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { dashboardInfoConfig } from "@/packages/react-query";
 
 // ! Issiue : Some data dosen't come from server like `nationalId` and `birthdate`
-async function ProfileOverviewSection() {
-  const cookieStore = await cookies();
-  const dashboard_info = await dashboardInfo({
-    headers: { Cookie: cookieStore.toString() },
-  })!;
-
+const queryConfig = dashboardInfoConfig();
+function ProfileOverviewSection() {
+  const dashboard_info = useSuspenseQuery(queryConfig);
   return (
     <Stack>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -45,10 +42,10 @@ async function ProfileOverviewSection() {
           />
           <UserProfileInfo sx={{ gap: "4px" }}>
             <Typography variant="body1" sx={{ color: "text.onPrimary" }}>
-              {dashboard_info.fullName}
+              {dashboard_info.data.fullName}
             </Typography>
             <Typography variant="body2" sx={{ color: "text.tertiary" }}>
-              {dashboard_info.kycLevel}
+              {dashboard_info.data.kycLevel}
             </Typography>
           </UserProfileInfo>
         </UserProfile>
@@ -81,7 +78,7 @@ async function ProfileOverviewSection() {
           <UserProfileItemInfo
             icon={<UserGuardIcon />}
             title="کد ملی"
-            subTitle={dashboard_info.mobile}
+            subTitle={dashboard_info.data.mobile}
           />
         </UserProfileItemCard>
 
@@ -97,7 +94,7 @@ async function ProfileOverviewSection() {
           <UserProfileItemInfo
             icon={<UserGuardIcon />}
             title="شماره موبایل"
-            subTitle={dashboard_info.mobile}
+            subTitle={dashboard_info.data.mobile}
           />
           <NextLink href="">
             <PenOnPaperIcon />
@@ -124,7 +121,7 @@ async function ProfileOverviewSection() {
         </Stack>
         {/* // * ---end--- Current KYC Features ------- */}
       </Box>
-      {!isMaximumKycLevel(dashboard_info.kycLevel) && (
+      {!isMaximumKycLevel(dashboard_info.data.kycLevel) && (
         <>
           <Divider
             sx={{ borderColor: "border.dark", mt: "32px", mb: "20px" }}
