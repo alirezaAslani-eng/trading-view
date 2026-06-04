@@ -1,4 +1,4 @@
-import { kycL2, requestAuthOTP, verifyAuthOTP } from "@/api";
+import { deleteBankAccount, kycL2, requestAuthOTP, verifyAuthOTP } from "@/api";
 import { mutationOptions } from "@tanstack/react-query";
 import {
   addCardKey,
@@ -21,6 +21,8 @@ import { KycL2Response, VerifyAuthOTPResponse } from "@/api/types";
 import { kycL1 } from "@/api";
 import addCard from "@/api/bank/addcard";
 import addShaba from "@/api/bank/addShaba";
+import queryClient from "../core/queryClient";
+import { banksKey } from "../keys/queryKeys";
 
 const requestAuthOTPConfig = () => {
   return mutationOptions<void, ResponseErrorType, RequestAuthOTPSchemaType>({
@@ -54,16 +56,36 @@ const kycLevel2Config = () => {
 };
 
 const addCardConfig = () => {
-  return mutationOptions<BaseApiResponse<KycLevel>, ResponseErrorType, AddCardSchemaType>({
+  return mutationOptions<
+    BaseApiResponse<KycLevel>,
+    ResponseErrorType,
+    AddCardSchemaType
+  >({
     mutationKey: addCardKey,
     mutationFn: addCard,
   });
 };
 
 const addShabaConfig = () => {
-  return mutationOptions<BaseApiResponse<KycLevel>, ResponseErrorType, AddShabaSchemaType>({
+  return mutationOptions<
+    BaseApiResponse<KycLevel>,
+    ResponseErrorType,
+    AddShabaSchemaType
+  >({
     mutationKey: addShabaKey,
     mutationFn: addShaba,
+  });
+};
+const deleteBankConfig = () => {
+  return mutationOptions<void, ResponseErrorType, number>({
+    mutationFn: deleteBankAccount,
+    onSuccess: () => {
+      // TODO optimisic update is required
+      queryClient.invalidateQueries({
+        queryKey: banksKey,
+        refetchType: "active",
+      });
+    },
   });
 };
 
@@ -74,4 +96,5 @@ export {
   kycLevel2Config,
   addCardConfig,
   addShabaConfig,
+  deleteBankConfig,
 };
