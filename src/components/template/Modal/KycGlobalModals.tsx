@@ -3,6 +3,9 @@ import KycL1Form from "@/components/template/Form/KycL1Form";
 import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "@/packages/redux";
 import { exitKycFlow, kycModalFlow, successKyc } from "@/redux/features/kyc";
+import ConditionaKycForm from "../kyc/ConditionaKycForm";
+import KycL2Form from "../Form/KycL2Form";
+import KycSuccessModal from "../kyc/KycSuccessModal";
 import {
   ModalLayout,
   ModalLayoutBody,
@@ -10,8 +13,6 @@ import {
   ModalLayoutHeading,
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
-import ConditionaKycForm from "../kyc/ConditionaKycForm";
-import KycL2Form from "../Form/KycL2Form";
 
 function KycGlobalModals() {
   const kycModalFlowState = useSelector(kycModalFlow);
@@ -41,17 +42,8 @@ function KycGlobalModals() {
         </ModalLayout>
       </Dialog>
 
-      <Dialog open={kycModalFlowState === "successKyc"}>
-        <ModalLayout>
-          <ModalLayoutHeading>
-            <ModalLayoutTitle
-              title="احراز هویت"
-              subtitle="برای تکمیل احراز هویت پایه، اطلاعات زیر را وارد کنید"
-            />
-            <ModalLayoutCloseIcon onClick={closeKycModal} />
-          </ModalLayoutHeading>
-          <ModalLayoutBody>"sdfsdf"</ModalLayoutBody>
-        </ModalLayout>
+      <Dialog open={kycModalFlowState === "successKyc"} onClose={closeKycModal}>
+        <KycSuccessModal />
       </Dialog>
     </>
   );
