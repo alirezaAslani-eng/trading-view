@@ -13,14 +13,14 @@ function CloseIcon(props) {
     >
       <path
         d="M4.62646 17.6117L17.8265 4.41171"
-        stroke="white"
+        stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M17.8265 17.6117L4.62646 4.41171"
-        stroke="white"
+        stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
