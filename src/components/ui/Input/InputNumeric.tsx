@@ -55,6 +55,7 @@ function InputNumeric({
 }: ComponentProps<typeof StyledNumericFormat> & BaseInputProps) {
   return (
     <StyledNumericFormat
+      thousandSeparator
       {...props}
       className={clsx(
         {
