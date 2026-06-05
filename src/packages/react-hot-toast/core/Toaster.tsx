@@ -9,7 +9,12 @@ function Toaster() {
       position="top-center"
       reverseOrder={false}
       toastOptions={{
-        duration: 2000,
+        error: {
+          duration: 6000,
+        },
+        success: {
+          duration: 4000,
+        },
         style: {
           backgroundColor: palette.background.inputModal,
           color: palette.text.disabled,
