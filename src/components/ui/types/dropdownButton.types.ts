@@ -14,6 +14,7 @@ interface SelectDisplayProps extends _SelectDisplayProps {
   variant?: InputThemeProps["variant"];
   color?: InputThemeProps["color"];
   size?: InputSizeProps["size"];
+  disabled?: boolean;
 }
 // * ------end-------- StyledSelectDisplay.tsx ------------
 

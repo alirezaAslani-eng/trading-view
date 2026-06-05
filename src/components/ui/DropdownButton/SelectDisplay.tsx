@@ -1,5 +1,9 @@
 "use client";
-import { inputSize, inputTheme } from "@/packages/mui/theme/variants";
+import {
+  inputDisabled,
+  inputSize,
+  inputTheme,
+} from "@/packages/mui/theme/variants";
 import { Box, styled } from "@mui/material";
 import clsx from "clsx";
 import { inputDefaultVariants } from "@/packages/mui/theme/variants";
@@ -16,12 +20,9 @@ const StyledSelectDisplay = styled(Box, {
   color = inputDefaultVariants.color,
   size = inputDefaultVariants.size,
 }) => {
-  const input_theme = inputTheme({
-    color,
-    theme,
-    variant,
-  });
   const input_size = inputSize({ size, theme });
+  const disabled_theme = inputDisabled({ color, theme, variant });
+  const input_theme = inputTheme({ color, theme, variant });
   return {
     ...input_theme?.rootTheme,
     ...input_size?.rootSize,
@@ -37,6 +38,13 @@ const StyledSelectDisplay = styled(Box, {
     "&.Mui-placeholder": {
       ...input_theme?.placeholderTheme,
       ...input_size?.placeholderSize,
+      ...disabled_theme.placeholderTheme,
+    },
+    "&.Mui-disabled": {
+      ...disabled_theme.rootTheme,
+    },
+    "&.Mui-disabled .MuiSvgIcon-root": {
+      ...disabled_theme.placeholderTheme,
     },
 
     cursor: "pointer",
@@ -54,6 +62,7 @@ function SelectDisplay({
   focused,
   isSelected,
   error,
+  disabled,
   ...props
 }: SelectDisplayProps) {
   return (
@@ -62,9 +71,10 @@ function SelectDisplay({
         {...props}
         className={clsx(
           {
-            "Mui-focused": focused,
+            "Mui-focused": disabled ? false : focused,
             "Mui-placeholder": !isSelected,
             "Mui-error": error,
+            "Mui-disabled": disabled,
           },
           props?.className,
         )}
