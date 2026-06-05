@@ -52,6 +52,13 @@ const theme = {
         "aria-hidden": false,
       },
     },
+    MuiSkeleton: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.background.inputModal,
+        }),
+      },
+    },
   },
 };
 
