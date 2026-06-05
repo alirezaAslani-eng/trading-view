@@ -1,4 +1,5 @@
 import { errorAlert, successAlert } from "@/packages/react-hot-toast";
+import { openAuthModal } from "@/redux/features/auth";
 import { dispatch } from "@/redux/store/store";
 import { ResponseErrorType } from "@/types";
 import {
@@ -13,12 +14,15 @@ const queryClient = new QueryClient({
     onSuccess(data, variables, onMutateResult, mutation, context) {
       mutationSuccessHandler(mutation);
     },
-    onError(data, variables, onMutateResult, mutation, context) {
-      mutationErrorHandler(data, mutation);
+    onError(err, variables, onMutateResult, mutation, context) {
+      mutationErrorHandler(err, mutation);
+      expiredAuthErrorHandler(err);
     },
   }),
   queryCache: new QueryCache({
-    onError(error, query) {},
+    onError(err) {
+      expiredAuthErrorHandler(err);
+    },
   }),
 });
 
@@ -41,4 +45,12 @@ function mutationSuccessHandler(
   const message = mutation?.meta?.successMessage ?? "عملیات با موفقیت انجام شد";
   if (!!mutation?.meta?.disableSuccessAlert) return;
   successAlert(message);
+}
+
+let authExpiredHandled = false;
+function expiredAuthErrorHandler(err: ResponseErrorType) {
+  if (authExpiredHandled) return;
+  if (err?.status !== 401) return;
+  authExpiredHandled = true;
+  dispatch(openAuthModal());
 }
