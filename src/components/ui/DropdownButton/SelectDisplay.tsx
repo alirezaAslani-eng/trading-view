@@ -38,10 +38,10 @@ const StyledSelectDisplay = styled(Box, {
     "&.Mui-placeholder": {
       ...input_theme?.placeholderTheme,
       ...input_size?.placeholderSize,
-      ...disabled_theme.placeholderTheme,
     },
     "&.Mui-disabled": {
       ...disabled_theme.rootTheme,
+      ...disabled_theme.placeholderTheme,
     },
     "&.Mui-disabled .MuiSvgIcon-root": {
       ...disabled_theme.placeholderTheme,
