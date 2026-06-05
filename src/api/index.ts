@@ -9,3 +9,4 @@ export { default as kycL2 } from "./kyc/kycL2";
 export { default as dashboardInfo } from "./user/dashboardInfo";
 export { default as walletBalance } from "./wallet/walletBalance";
 export { default as withdraw } from "./transaction/withdraw";
+export { default as deposit } from "./transaction/deposit";
