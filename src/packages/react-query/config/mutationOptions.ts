@@ -1,4 +1,10 @@
-import { deleteBankAccount, kycL2, requestAuthOTP, verifyAuthOTP } from "@/api";
+import {
+  deleteBankAccount,
+  kycL2,
+  requestAuthOTP,
+  verifyAuthOTP,
+  withdraw,
+} from "@/api";
 import { mutationOptions } from "@tanstack/react-query";
 import {
   addCardKey,
@@ -16,13 +22,14 @@ import {
   KycL2SchemaType,
   RequestAuthOTPSchemaType,
   VerifyAuthOTPSchemaType,
+  WithdrawSchemaType,
 } from "@/validations/types";
 import { KycL2Response, VerifyAuthOTPResponse } from "@/api/types";
 import { kycL1 } from "@/api";
 import addCard from "@/api/bank/addcard";
 import addShaba from "@/api/bank/addShaba";
 import queryClient from "../core/queryClient";
-import { banksKey } from "../keys/queryKeys";
+import { banksKey, walletInfoKey } from "../keys/queryKeys";
 
 const requestAuthOTPConfig = () => {
   return mutationOptions<void, ResponseErrorType, RequestAuthOTPSchemaType>({
@@ -88,6 +95,18 @@ const deleteBankConfig = () => {
     },
   });
 };
+const withdrawConfig = () => {
+  return mutationOptions<void, ResponseErrorType, WithdrawSchemaType>({
+    mutationFn: withdraw,
+    onSuccess: () => {
+      // TODO optimisic update is required
+      queryClient.invalidateQueries({
+        queryKey: walletInfoKey,
+        refetchType: "active",
+      });
+    },
+  });
+};
 
 export {
   requestAuthOTPConfig,
@@ -97,4 +116,5 @@ export {
   addCardConfig,
   addShabaConfig,
   deleteBankConfig,
+  withdrawConfig,
 };
