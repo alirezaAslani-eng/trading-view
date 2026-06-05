@@ -40,7 +40,7 @@ function mutationErrorHandler(
   mutation: Mutation<unknown, unknown, unknown, unknown>,
 ) {
   const custom_message = mutation?.meta?.errorMessage;
-  const server_message = data.message ?? "اعملیات ناموفق";
+  const server_message = !!data.message ? data.message : "اعملیات ناموفق";
   const message = custom_message ?? server_message;
   errorAlert(message);
 }
