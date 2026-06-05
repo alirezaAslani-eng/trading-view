@@ -8,8 +8,14 @@ import {
   QueryCache,
   QueryClient,
 } from "@tanstack/react-query";
+import { retry } from "../helpers";
 
 const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: (failCount, error) => retry({ failCount, error }),
+    },
+  },
   mutationCache: new MutationCache({
     onSuccess(data, variables, onMutateResult, mutation, context) {
       mutationSuccessHandler(mutation);
