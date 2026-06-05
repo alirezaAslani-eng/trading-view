@@ -1,6 +1,22 @@
+"use client";
 import { AddIcon } from "@/components/ui/Icon";
-import { InputSelect } from "@/components/ui/Input/InputSelect";
-import InputText from "@/components/ui/Input/InputText";
+import {
+  bankAccountsConfig,
+  walletBalanceConfig,
+  withdrawConfig,
+} from "@/packages/react-query";
+import { Box } from "@mui/material";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import withdrawSchema from "@/validations/transaction/withdrawSchema";
+import { ComponentProps } from "react";
+import InputNumeric from "@/components/ui/Input/InputNumeric";
+import {
+  InputSelect,
+  InputSelectItem,
+  InputSelectMenu,
+} from "@/components/ui/Input/InputSelect";
 import {
   TransactionFormLayout,
   TransactionFormLayoutField,
@@ -9,41 +25,132 @@ import {
   TransactionFormLayoutLabel,
   TransactionFormLayoutSubmit,
 } from "@/components/ui/Layout/TransactionFormLayout";
+import {
+  SelectInputLoader,
+  SelectInputLoaderText,
+} from "@/components/ui/Fallback/SelectInputLoader";
+import { promiseAlert } from "@/packages/react-hot-toast";
+import safeAsync from "@/utils/app/safeAsync";
+import { WithdrawSchemaType } from "@/validations/types";
 
+const walletQueryConfig = walletBalanceConfig();
+const withdrawMutationConfig = withdrawConfig();
 function WithdrawForm() {
-  return (
-    <TransactionFormLayout>
-      <TransactionFormLayoutField>
-        <TransactionFormLayoutLabel>{"واریز به"}</TransactionFormLayoutLabel>
-        <InputSelect
-          sx={{ flex: 1 }}
-          size="medium"
-          placeholder="لطفا شماره شبای خود را انتخاب کنید"
-        />
-      </TransactionFormLayoutField>
+  const withdrawMutate = useMutation(withdrawMutationConfig);
+  const walletQuery = useQuery(walletQueryConfig);
 
-      <TransactionFormLayoutFieldContainer>
-        <TransactionFormLayoutFieldAutoFiller>
-          {"برداشت کل موجودی"}
-        </TransactionFormLayoutFieldAutoFiller>
+  const form = useForm({
+    resolver: zodResolver(withdrawSchema),
+  });
+
+  const onSubmitHandler: SubmitHandler<WithdrawSchemaType> = async (fields) => {
+    await promiseAlert(
+      safeAsync(async () => {
+        await withdrawMutate.mutateAsync(fields);
+      }),
+      { loading: "صبر کنید" },
+    );
+  };
+
+  const selectAllWallet = () => {
+    form.setValue("amount", walletQuery.data!.balance);
+  };
+
+  return (
+    <Box component={"form"} onSubmit={form.handleSubmit(onSubmitHandler)}>
+      <TransactionFormLayout>
         <TransactionFormLayoutField>
-          <TransactionFormLayoutLabel>
-            {"مبلغ مورد نظر"}
-          </TransactionFormLayoutLabel>
-          <InputText
-            sx={{ flex: 1 }}
-            size="medium"
-            placeholder="مبلغ مورد نظر را به تومان وارد کنید"
+          <TransactionFormLayoutLabel>{"واریز به"}</TransactionFormLayoutLabel>
+          <Controller
+            control={form.control}
+            name="bankAccountId"
+            render={({ field, fieldState, formState }) => {
+              return (
+                <InputSelectBank
+                  disabled={formState.isSubmitting}
+                  error={!!fieldState.error?.message}
+                  {...field}
+                />
+              );
+            }}
           />
         </TransactionFormLayoutField>
-      </TransactionFormLayoutFieldContainer>
 
-      <TransactionFormLayoutSubmit>
-        <AddIcon sx={{ color: "inherit" }} />
-        {"افزودن شبای جدید"}
-      </TransactionFormLayoutSubmit>
-    </TransactionFormLayout>
+        <TransactionFormLayoutFieldContainer>
+          {walletQuery.status !== "success" ? undefined : (
+            <TransactionFormLayoutFieldAutoFiller
+              onClick={selectAllWallet}
+              type="button"
+            >
+              {"برداشت کل موجودی"}
+            </TransactionFormLayoutFieldAutoFiller>
+          )}
+          <TransactionFormLayoutField>
+            <TransactionFormLayoutLabel>
+              {"مبلغ مورد نظر"}
+            </TransactionFormLayoutLabel>
+            <Controller
+              control={form.control}
+              name="amount"
+              render={({ field, fieldState, formState }) => {
+                return (
+                  <InputNumeric
+                    disabled={formState.isSubmitting}
+                    sx={{ flex: 1 }}
+                    scale="medium"
+                    placeholder="مبلغ مورد نظر را به تومان وارد کنید"
+                    value={field.value}
+                    error={!!fieldState.error?.message}
+                    onValueChange={({ floatValue }) => {
+                      field.onChange(floatValue);
+                    }}
+                  />
+                );
+              }}
+            />
+          </TransactionFormLayoutField>
+        </TransactionFormLayoutFieldContainer>
+
+        <TransactionFormLayoutSubmit
+          type="submit"
+          disabled={form.formState.isSubmitting}
+        >
+          <AddIcon sx={{ color: "inherit" }} />
+          {"افزودن شبای جدید"}
+        </TransactionFormLayoutSubmit>
+      </TransactionFormLayout>
+    </Box>
   );
 }
 
 export default WithdrawForm;
+
+const banksConfig = bankAccountsConfig();
+function InputSelectBank(props: ComponentProps<typeof InputSelect>) {
+  const query = useQuery(banksConfig);
+  const isLoading = query.status !== "success";
+  return (
+    <InputSelect
+      sx={{ flex: 1 }}
+      size="medium"
+      placeholder="لطفا شماره شبای خود را انتخاب کنید"
+      {...props}
+    >
+      <InputSelectMenu>
+        {isLoading ? (
+          <SelectInputLoader>
+            <SelectInputLoaderText />
+          </SelectInputLoader>
+        ) : (
+          query.data.map((bank) => {
+            return (
+              <InputSelectItem value={bank.id}>
+                {bank.cardNumber}
+              </InputSelectItem>
+            );
+          })
+        )}
+      </InputSelectMenu>
+    </InputSelect>
+  );
+}
