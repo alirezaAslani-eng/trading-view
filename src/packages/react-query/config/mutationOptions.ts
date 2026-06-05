@@ -30,6 +30,7 @@ import addCard from "@/api/bank/addcard";
 import addShaba from "@/api/bank/addShaba";
 import queryClient from "../core/queryClient";
 import { banksKey, walletInfoKey } from "../keys/queryKeys";
+import deposit, { DepositPayload } from "@/api/transaction/deposit";
 
 const requestAuthOTPConfig = () => {
   return mutationOptions<void, ResponseErrorType, RequestAuthOTPSchemaType>({
@@ -108,6 +109,19 @@ const withdrawConfig = () => {
   });
 };
 
+const depositConfig = () => {
+  return mutationOptions<void, ResponseErrorType, DepositPayload>({
+    mutationFn: deposit,
+    onSuccess: () => {
+      // TODO: optimistic update is required
+      queryClient.invalidateQueries({
+        queryKey: walletInfoKey,
+        refetchType: "active",
+      });
+    },
+  });
+};
+
 export {
   requestAuthOTPConfig,
   verifyAuthOTPConfig,
@@ -117,4 +131,5 @@ export {
   addShabaConfig,
   deleteBankConfig,
   withdrawConfig,
+  depositConfig,
 };
