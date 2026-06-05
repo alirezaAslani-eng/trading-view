@@ -27,7 +27,7 @@ function InputSelect_({
         {...selectDisplayProps}
         isSelected={!isPlaceholder}
         focused={isOpenMenu}
-        onClick={openMenu}
+        onClick={selectDisplayProps.disabled ? undefined : openMenu}
       >
         <Typography
           sx={{
