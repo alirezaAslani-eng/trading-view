@@ -1,5 +1,4 @@
 import PageHeader from "@/components/common/Appbar/PageHeader";
-import WithdrawForm from "@/components/template/Form/WithdrawForm";
 import BulletItem from "@/components/ui/BulletItem/BulletItem";
 import BulletItemShape from "@/components/ui/BulletItem/BulletItemShape";
 import BulletText from "@/components/ui/BulletItem/BulletText";
@@ -19,10 +18,8 @@ import {
   Section,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
-import { Box, Tab } from "@mui/material";
-import Tabs from "@/components/ui/Tabs/Tabs";
-import { TabsProvider } from "@/context/app/TabsContext";
-import TabContent from "@/components/ui/Tabs/TabContent";
+import { Box } from "@mui/material";
+import DepositForm from "@/components/template/Form/DepositForm";
 
 function page() {
   return (
@@ -39,18 +36,7 @@ function page() {
               <PagePaper
                 sx={{ height: "fit-content", pt: "calc(20px - 12px)" }}
               >
-                <TabsProvider defaultState={"1"}>
-                  <Tabs
-                    sx={{ mb: "56px" }}
-                    appearance="standard"
-                    color="primary"
-                  >
-                    <Tab label={"کارت به کارت"} value={"1"} />
-                  </Tabs>
-                  <TabContent value={"1"}>
-                    <WithdrawForm />
-                  </TabContent>
-                </TabsProvider>
+                <DepositForm />
               </PagePaper>
             </SectionContent>
 
