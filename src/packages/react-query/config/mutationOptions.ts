@@ -71,6 +71,9 @@ const addCardConfig = () => {
   >({
     mutationKey: addCardKey,
     mutationFn: addCard,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: banksKey });
+    },
   });
 };
 
@@ -82,13 +85,15 @@ const addShabaConfig = () => {
   >({
     mutationKey: addShabaKey,
     mutationFn: addShaba,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: banksKey });
+    },
   });
 };
 const deleteBankConfig = () => {
   return mutationOptions<void, ResponseErrorType, number>({
     mutationFn: deleteBankAccount,
     onSuccess: () => {
-      // TODO optimisic update is required
       queryClient.invalidateQueries({
         queryKey: banksKey,
         refetchType: "active",
@@ -100,7 +105,6 @@ const withdrawConfig = () => {
   return mutationOptions<void, ResponseErrorType, WithdrawSchemaType>({
     mutationFn: withdraw,
     onSuccess: () => {
-      // TODO optimisic update is required
       queryClient.invalidateQueries({
         queryKey: walletInfoKey,
         refetchType: "active",
