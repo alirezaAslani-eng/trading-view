@@ -5,13 +5,18 @@ import { notDefinedColors } from "@/packages/mui/theme/shades";
 import { dashboardInfoConfig } from "@/packages/react-query";
 import { isKycStepPassed } from "@/utils";
 import { Box } from "@mui/material";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const queryConfig = dashboardInfoConfig();
 function KycPassedSteps() {
-  const query = useSuspenseQuery(queryConfig);
-  const dashboardInfo = query.data;
+  const query = useQuery(queryConfig);
 
+
+  // TODO Ui loading fallback
+  if (query.status === "pending" || query.status === "error") return "loading";
+
+  
+  const dashboardInfo = query.data;
   const isPassedL1 = isKycStepPassed(dashboardInfo.kycLevel, "Level1_Basic");
   const isPassedL2 = isKycStepPassed(dashboardInfo.kycLevel, "Level2_Advanced");
 

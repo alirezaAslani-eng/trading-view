@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/Layout/ModalLayout";
 import AddCreditCardForm from "@/components/template/Form/AddCreditCardForm";
 import AddShabaForm from "@/components/template/Form/AddShabaForm";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { bankAccountsConfig, deleteBankConfig } from "@/packages/react-query";
 
 const mutationConfig = deleteBankConfig();
@@ -35,8 +35,7 @@ type TabState = "banks" | "Ibans";
 
 // ! Issiue : Some data dosen't come from server like `nationalId` and `birthdate`
 function BankInfoOverviewSection() {
-  const { data: bankAccounts } = useSuspenseQuery(queryConfig);
-  const isTableEmpty = !!!bankAccounts?.length;
+  const banksQuery = useQuery(queryConfig);
   const { mutate: deleteMutation } = useMutation(mutationConfig);
 
   const [modalState, setModalState] = useState<ModalState>();
@@ -58,12 +57,16 @@ function BankInfoOverviewSection() {
     setSelectedTab(newValue as TabState);
   };
 
-  const x = selectedTab === "banks" ? "cardNumber" : "iban";
+  const cardNumber = selectedTab === "banks" ? "cardNumber" : "iban";
 
   const modalOpener =
     selectedTab === "Ibans"
       ? () => setModalState("iban")
       : () => setModalState("bank");
+
+  const isLoading =
+    banksQuery.status === "error" || banksQuery.status === "pending";
+  const isEmptyData = !!!banksQuery.data?.length;
 
   return (
     <>
@@ -88,61 +91,71 @@ function BankInfoOverviewSection() {
 
         <>
           {/* // * ---start--- BankList -------- */}
-          {!isTableEmpty && (
+          {!isLoading && (
             <>
-              <Box sx={{ mt: "40px" }}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>{"بانک"}</TableCell>
+              {!isEmptyData && (
+                <>
+                  <Box sx={{ mt: "40px" }}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>{"بانک"}</TableCell>
 
-                      <TableCell>{"شماره کارت"}</TableCell>
+                          <TableCell>{"شماره کارت"}</TableCell>
 
-                      <TableCell>{"وضعیت"}</TableCell>
+                          <TableCell>{"وضعیت"}</TableCell>
 
-                      <TableCell sx={{ textAlign: "center !important" }}>
-                        {"عملیات"}
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
+                          <TableCell sx={{ textAlign: "center !important" }}>
+                            {"عملیات"}
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
 
-                  <TableBody>
-                    {bankAccounts.map((account) => (
-                      <TableRow key={account.id}>
-                        <TableCell>{account.bankName}</TableCell>
-                        <TableCell>{formatCardNumber(account[x])}</TableCell>
-                        <TableCell>
-                          <StatusBadge
-                            color={account.isVerified ? "success" : "warning"}
-                          >
-                            {account.isVerified ? "تایید شده" : "در حال بررسی"}
-                          </StatusBadge>
-                        </TableCell>
-                        <TableCell
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
-                          <Box
-                            sx={{ cursor: "pointer" }}
-                            onClick={() => handleDelete(account.id)}
-                          >
-                            <TrashIcon />
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
+                      <TableBody>
+                        {banksQuery.data.map((account) => (
+                          <TableRow key={account.id}>
+                            <TableCell>{account.bankName}</TableCell>
+                            <TableCell>
+                              {formatCardNumber(account[cardNumber])}
+                            </TableCell>
+                            <TableCell>
+                              <StatusBadge
+                                color={
+                                  account.isVerified ? "success" : "warning"
+                                }
+                              >
+                                {account.isVerified
+                                  ? "تایید شده"
+                                  : "در حال بررسی"}
+                              </StatusBadge>
+                            </TableCell>
+                            <TableCell
+                              sx={{ display: "flex", justifyContent: "center" }}
+                            >
+                              <Box
+                                sx={{ cursor: "pointer" }}
+                                onClick={() => handleDelete(account.id)}
+                              >
+                                <TrashIcon />
+                              </Box>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Box>
 
-              <Divider
-                sx={{ mt: "40px", mb: "20px", borderColor: "border.dark" }}
-              />
+                  <Divider
+                    sx={{ mt: "40px", mb: "20px", borderColor: "border.dark" }}
+                  />
+                </>
+              )}
             </>
           )}
 
           <Button
             onClick={modalOpener}
-            sx={{ mx: "auto", mt: isTableEmpty ? "40px" : 0 }}
+            sx={{ mx: "auto", mt: isEmptyData ? "40px" : 0 }}
             variant="on-surface"
           >
             <AddIcon /> &nbsp;{" "}
