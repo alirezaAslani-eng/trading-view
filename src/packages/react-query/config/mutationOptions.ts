@@ -31,7 +31,7 @@ import { kycL1 } from "@/api";
 import addCard from "@/api/bank/addcard";
 import addShaba from "@/api/bank/addShaba";
 import queryClient from "../core/queryClient";
-import { banksKey, walletInfoKey } from "../keys/queryKeys";
+import { banksKey, productsKey, walletInfoKey } from "../keys/queryKeys";
 import deposit, { DepositPayload } from "@/api/transaction/deposit";
 
 const requestAuthOTPConfig = () => {
@@ -131,7 +131,7 @@ const addProductConfig = () => {
   return mutationOptions<void, ResponseErrorType, AddProductSchemaType>({
     mutationFn: addProduct,
     onSuccess: () => {
-      // TODO: must invalidate products chache
+      queryClient.invalidateQueries({ queryKey: productsKey });
     },
   });
 };
