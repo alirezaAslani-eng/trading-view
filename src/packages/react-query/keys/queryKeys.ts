@@ -12,6 +12,14 @@ const banksKey = [...authBaseKey, "banks"];
 const walletInfoKey = [...authBaseKey, "wallet-info"];
 const productsKey = [...authBaseKey, "products"];
 export { kycStatusKey, dashboardInfoKey, banksKey, walletInfoKey, productsKey };
+const productCategoriesKey = [...authBaseKey, "product-categories"];
+export {
+  kycStatusKey,
+  dashboardInfoKey,
+  banksKey,
+  walletInfoKey,
+  productCategoriesKey,
+};
 
 // * prefix keys
 export { authBaseKey, kycBaseKey };

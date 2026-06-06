@@ -11,3 +11,5 @@ export { default as walletBalance } from "./wallet/walletBalance";
 export { default as withdraw } from "./transaction/withdraw";
 export { default as deposit } from "./transaction/deposit";
 export { default as getProducts } from "./product/getProducts";
+export { default as productCategories } from "./product/productCategories";
+export { default as addProduct } from "./product/addProduct";
