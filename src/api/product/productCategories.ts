@@ -1,7 +1,6 @@
 import fetchHandler from "@/utils/app/fetchHandler";
-import responseErrorHandler from "@/utils/app/responseErrorHandler";
+import handleApiResponse from "@/utils/app/handleApiResponse";
 import { ProductCategoriesResponse } from "@/api/types";
-import jsonParseHandler from "@/utils/app/jsonParseHandler";
 import { BaseApiResponse } from "@/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 
@@ -13,9 +12,7 @@ async function productCategories(): Promise<ProductCategoriesResponse> {
     return res;
   })) as Response;
 
-  await responseErrorHandler(res);
-
-  const data = (await jsonParseHandler(
+  const data = (await handleApiResponse(
     res,
   )) as BaseApiResponse<ProductCategoriesResponse>;
 

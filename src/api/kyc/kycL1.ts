@@ -1,5 +1,5 @@
 import fetchHandler from "@/utils/app/fetchHandler";
-import responseErrorHandler from "@/utils/app/responseErrorHandler";
+import handleApiResponse from "@/utils/app/handleApiResponse";
 import { KycL1RequestBody } from "@/api/types";
 import { KycL1SchemaType } from "@/validations/types";
 import { sharedRequestInit } from "../sharedRequestInit";
@@ -7,7 +7,6 @@ import mutationFetch from "@/utils/app/mutationFetch";
 const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/kyc/level1`;
 
 async function kycL1(body: KycL1SchemaType): Promise<void> {
-  console.log(body);
 
   const res = (await fetchHandler(async () => {
     const res = await mutationFetch(URL, {
@@ -24,7 +23,7 @@ async function kycL1(body: KycL1SchemaType): Promise<void> {
     return res;
   })) as Response;
 
-  await responseErrorHandler(res);
+  await handleApiResponse(res);
 }
 
 export default kycL1;

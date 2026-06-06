@@ -1,8 +1,7 @@
 import fetchHandler from "@/utils/app/fetchHandler";
-import responseErrorHandler from "@/utils/app/responseErrorHandler";
+import handleApiResponse from "@/utils/app/handleApiResponse";
 import { DashboardInfoResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
-import jsonParseHandler from "@/utils/app/jsonParseHandler";
 import { BaseApiResponse } from "@/types";
 
 const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/user/dashboard`;
@@ -19,9 +18,7 @@ async function dashboardInfo(
     return res;
   })) as Response;
 
-  await responseErrorHandler(res);
-
-  const data = (await jsonParseHandler(
+  const data = (await handleApiResponse(
     res,
   )) as BaseApiResponse<DashboardInfoResponse>;
 

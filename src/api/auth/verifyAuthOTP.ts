@@ -1,6 +1,5 @@
 import fetchHandler from "@/utils/app/fetchHandler";
-import jsonParseHandler from "@/utils/app/jsonParseHandler";
-import responseErrorHandler from "@/utils/app/responseErrorHandler";
+import handleApiResponse from "@/utils/app/handleApiResponse";
 import { VerifyAuthOTPSchemaType } from "@/validations/types";
 import { VerifyAuthOTPResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
@@ -24,9 +23,7 @@ async function verifyAuthOTP(
     return res;
   })) as Response;
 
-  await responseErrorHandler(res);
-
-  const data = (await jsonParseHandler(res)) as VerifyAuthOTPResponse;
+  const data = (await handleApiResponse(res)) as VerifyAuthOTPResponse;
 
   return data;
 }

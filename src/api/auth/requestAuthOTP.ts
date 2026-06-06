@@ -1,6 +1,6 @@
 import { RequestAuthOTPSchemaType } from "@/validations/types";
 import fetchHandler from "@/utils/app/fetchHandler";
-import responseErrorHandler from "@/utils/app/responseErrorHandler";
+import handleApiResponse from "@/utils/app/handleApiResponse";
 import mutationFetch from "@/utils/app/mutationFetch";
 import { sharedRequestInit } from "../sharedRequestInit";
 
@@ -18,7 +18,7 @@ async function requestAuthOTP(body: RequestAuthOTPSchemaType): Promise<void> {
     return res;
   })) as Response;
 
-  await responseErrorHandler(res);
+  await handleApiResponse(res);
 }
 
 export default requestAuthOTP;

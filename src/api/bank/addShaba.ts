@@ -1,14 +1,15 @@
 import fetchHandler from "@/utils/app/fetchHandler";
-import responseErrorHandler from "@/utils/app/responseErrorHandler";
+import handleApiResponse from "@/utils/app/handleApiResponse";
 import { AddShabaSchemaType } from "@/validations/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 import mutationFetch from "@/utils/app/mutationFetch";
-import jsonParseHandler from "@/utils/app/jsonParseHandler";
 import { BaseApiResponse, KycLevel } from "@/types";
 
 const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/kyc/bank-account`;
 
-async function addShaba(body: AddShabaSchemaType): Promise<BaseApiResponse<KycLevel>> {
+async function addShaba(
+  body: AddShabaSchemaType,
+): Promise<BaseApiResponse<KycLevel>> {
   console.log(body);
 
   const res = (await fetchHandler(async () => {
@@ -17,7 +18,7 @@ async function addShaba(body: AddShabaSchemaType): Promise<BaseApiResponse<KycLe
       method: "POST",
       body: JSON.stringify({
         birthDateShamsi: body.birthDateShamsi,
-        Iban: `IR${body.Iban}`
+        Iban: `IR${body.Iban}`,
       } satisfies AddShabaSchemaType),
       headers: {
         "Content-Type": "application/json",
@@ -26,9 +27,7 @@ async function addShaba(body: AddShabaSchemaType): Promise<BaseApiResponse<KycLe
     return res;
   })) as Response;
 
-  await responseErrorHandler(res);
-
-  const data = (await jsonParseHandler(res)) as BaseApiResponse<KycLevel>;
+  const data = (await handleApiResponse(res)) as BaseApiResponse<KycLevel>;
 
   return data;
 }

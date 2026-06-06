@@ -1,7 +1,7 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import mutationFetch from "@/utils/app/mutationFetch";
 import { sharedRequestInit } from "../sharedRequestInit";
-import responseErrorHandler from "@/utils/app/responseErrorHandler";
+import handleApiResponse from "@/utils/app/handleApiResponse";
 
 type DepositPayload = {
   amount: number;
@@ -24,7 +24,7 @@ async function deposit(body: DepositPayload): Promise<void> {
     return res;
   })) as Response;
 
-  await responseErrorHandler(res);
+  await handleApiResponse(res);
 }
 
 export type { DepositPayload };

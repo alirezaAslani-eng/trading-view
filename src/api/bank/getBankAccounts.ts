@@ -1,6 +1,5 @@
 import fetchHandler from "@/utils/app/fetchHandler";
-import responseErrorHandler from "@/utils/app/responseErrorHandler";
-import jsonParseHandler from "@/utils/app/jsonParseHandler";
+import handleApiResponse from "@/utils/app/handleApiResponse";
 import { BaseApiResponse } from "@/types";
 import { BankAccountsResponse } from "@/api/types/bank.types";
 import { sharedRequestInit } from "../sharedRequestInit";
@@ -13,9 +12,7 @@ async function getBankAccounts(): Promise<BankAccountsResponse> {
     return res;
   })) as Response;
 
-  await responseErrorHandler(res);
-
-  const data = (await jsonParseHandler(
+  const data = (await handleApiResponse(
     res,
   )) as BaseApiResponse<BankAccountsResponse>;
 

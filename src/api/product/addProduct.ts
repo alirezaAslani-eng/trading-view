@@ -1,5 +1,5 @@
 import fetchHandler from "@/utils/app/fetchHandler";
-import responseErrorHandler from "@/utils/app/responseErrorHandler";
+import handleApiResponse from "@/utils/app/handleApiResponse";
 import { sharedRequestInit } from "../sharedRequestInit";
 import { AddProductSchemaType } from "@/validations/types";
 import mutationFetch from "@/utils/app/mutationFetch";
@@ -19,7 +19,7 @@ async function addProduct(body: AddProductSchemaType): Promise<void> {
     return res;
   })) as Response;
 
-  await responseErrorHandler(res);
+  await handleApiResponse(res);
 }
 
 export default addProduct;
