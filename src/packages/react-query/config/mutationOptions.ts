@@ -18,6 +18,7 @@ import {
 import { BaseApiResponse, KycLevel, ResponseErrorType } from "@/types";
 import {
   AddCardSchemaType,
+  AddGroupSchemaType,
   AddProductSchemaType,
   AddShabaSchemaType,
   KycL1SchemaType,
@@ -33,6 +34,7 @@ import addShaba from "@/api/bank/addShaba";
 import queryClient from "../core/queryClient";
 import { banksKey, productsKey, walletInfoKey } from "../keys/queryKeys";
 import deposit, { DepositPayload } from "@/api/transaction/deposit";
+import addgroup from "@/api/group/addGroup";
 
 const requestAuthOTPConfig = () => {
   return mutationOptions<void, ResponseErrorType, RequestAuthOTPSchemaType>({
@@ -119,7 +121,6 @@ const depositConfig = () => {
   return mutationOptions<void, ResponseErrorType, DepositPayload>({
     mutationFn: deposit,
     onSuccess: () => {
-      // TODO: optimistic update is required
       queryClient.invalidateQueries({
         queryKey: walletInfoKey,
         refetchType: "active",
@@ -135,6 +136,14 @@ const addProductConfig = () => {
     },
   });
 };
+const addGroupConfig = () => {
+  return mutationOptions<void, ResponseErrorType, AddGroupSchemaType>({
+    mutationFn: addgroup,
+    onSuccess: () => {
+      //  TODO must invalidate group chache
+    },
+  });
+};
 
 export {
   requestAuthOTPConfig,
@@ -147,4 +156,5 @@ export {
   withdrawConfig,
   depositConfig,
   addProductConfig,
+  addGroupConfig,
 };
