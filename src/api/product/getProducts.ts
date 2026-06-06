@@ -3,13 +3,13 @@ import responseErrorHandler from "@/utils/app/responseErrorHandler";
 import jsonParseHandler from "@/utils/app/jsonParseHandler";
 import { ProductsResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
+import { BaseApiResponse } from "@/types";
 
 const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/products`;
 
-async function getProducts(options?: RequestInit): Promise<ProductsResponse> {
+async function getProducts(): Promise<ProductsResponse> {
   const res = (await fetchHandler(async () => {
     const response = await fetch(URL, {
-      ...options,
       ...sharedRequestInit,
       method: "GET",
     });
@@ -18,9 +18,11 @@ async function getProducts(options?: RequestInit): Promise<ProductsResponse> {
 
   await responseErrorHandler(res);
 
-  const data = (await jsonParseHandler(res)) as ProductsResponse;
+  const data = (await jsonParseHandler(
+    res,
+  )) as BaseApiResponse<ProductsResponse>;
 
-  return data ?? [];
+  return data.data;
 }
 
 export default getProducts;
