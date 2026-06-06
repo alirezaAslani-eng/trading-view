@@ -10,12 +10,15 @@ import { PenOnPaperIcon, TrashIcon } from "@/components/ui/Icon";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { useQuery } from "@tanstack/react-query";
 import Button from "@/components/ui/Button/Button";
+import { useState } from "react";
+import AddProductModalForm from "../Modal/AddProductModalForm";
 import {
   PagePaper,
   PagePaperHeading,
 } from "@/components/ui/Layout/PaperLayout";
 import {
   Box,
+  Dialog,
   Divider,
   TableBody,
   TableCell,
@@ -36,91 +39,108 @@ function ProductsTable() {
   const isSuccessQuery = productsQuery.status === "success";
 
   return (
-    <PagePaper>
-      <PagePaperHeading sx={{ mb: "42px" }}>
-        <ToggleTabGroup size="small">
-          <ToggleButton value={"1"}>{"همه"}</ToggleButton>
-          <Divider orientation="vertical" flexItem />
-          <ToggleButton value={"2"}>{"محصولات فعال"}</ToggleButton>
-          <Divider orientation="vertical" flexItem />
-          <ToggleButton value={"3"}>{"محصولات غیرفعال"}</ToggleButton>
-        </ToggleTabGroup>
+    <>
+      <PagePaper>
+        <PagePaperHeading sx={{ mb: "42px" }}>
+          <ToggleTabGroup size="small">
+            <ToggleButton value={"1"}>{"همه"}</ToggleButton>
+            <Divider orientation="vertical" flexItem />
+            <ToggleButton value={"2"}>{"محصولات فعال"}</ToggleButton>
+            <Divider orientation="vertical" flexItem />
+            <ToggleButton value={"3"}>{"محصولات غیرفعال"}</ToggleButton>
+          </ToggleTabGroup>
+          <AddProductButton />
+        </PagePaperHeading>
+        <TableFallback>
+          <FallbackHandler
+            isLoading={productsQuery.isLoading}
+            isError={productsQuery.isError}
+            dataLength={productsQuery.data?.length}
+            fallbacks={{
+              noData: <TableFallbackData />,
+              loader: <TableFallbackLoader />,
+            }}
+          />
+        </TableFallback>
 
-        <Button
-          variant="contained"
-          size="medium"
-          sx={{ gap: "6px", borderRadius: "14px" }}
-        >
-          <AddIcon sx={{ color: "inherit" }} />
-          {"محصول جدید"}
-        </Button>
-      </PagePaperHeading>
-      <TableFallback>
-        <FallbackHandler
-          isLoading={productsQuery.isLoading}
-          isError={productsQuery.isError}
-          dataLength={productsQuery.data?.length}
-          fallbacks={{
-            noData: <TableFallbackData />,
-            loader: <TableFallbackLoader />,
-          }}
-        />
-      </TableFallback>
-
-      {isSuccessQuery && (
-        <Table sx={{ width: "100%" }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>{"نماد"}</TableCell>
-              <TableCell>{"کد محصول"}</TableCell>
-              <TableCell>{"دسته بندی"}</TableCell>
-              <TableCell>{"واحد"}</TableCell>
-              <TableCell>{"وضعیت"}</TableCell>
-              <TableCell>
-                <Typography
-                  variant="body3"
-                  sx={{ color: "text.caption", textAlign: "center" }}
-                >
-                  {"عملیات"}
-                </Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {productsQuery.data.map((product) => {
-              return (
-                <TableRow key={product.id}>
-                  <TableCell>{product.productName}</TableCell>
-                  <TableCell>{product.productCode}</TableCell>
-                  <TableCell>{product.categoryId}</TableCell>
-                  <TableCell>{product.unitOfMeasure}</TableCell>
-                  <TableCell>
-                    <StatusBadge color={"disabled"} size="medium">
-                      <CircleIcon />
-                      {product.productStatusId}
-                    </StatusBadge>
-                  </TableCell>
-                  <TableCell>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "12px",
-                      }}
-                    >
-                      <PenOnPaperIcon sx={{ cursor: "pointer" }} />
-                      <TrashIcon sx={{ cursor: "pointer" }} />
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      )}
-    </PagePaper>
+        {isSuccessQuery && (
+          <Table sx={{ width: "100%" }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>{"نماد"}</TableCell>
+                <TableCell>{"کد محصول"}</TableCell>
+                <TableCell>{"دسته بندی"}</TableCell>
+                <TableCell>{"واحد"}</TableCell>
+                <TableCell>{"وضعیت"}</TableCell>
+                <TableCell>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: "text.caption", textAlign: "center" }}
+                  >
+                    {"عملیات"}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {productsQuery.data.map((product) => {
+                return (
+                  <TableRow key={product.id}>
+                    <TableCell>{product.productName}</TableCell>
+                    <TableCell>{product.productCode}</TableCell>
+                    <TableCell>{product.categoryId}</TableCell>
+                    <TableCell>{product.unitOfMeasure}</TableCell>
+                    <TableCell>
+                      <StatusBadge color={"disabled"} size="medium">
+                        <CircleIcon />
+                        {product.productStatusId}
+                      </StatusBadge>
+                    </TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "12px",
+                        }}
+                      >
+                        <PenOnPaperIcon sx={{ cursor: "pointer" }} />
+                        <TrashIcon sx={{ cursor: "pointer" }} />
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
+      </PagePaper>
+    </>
   );
 }
 
 export default ProductsTable;
+
+function AddProductButton() {
+  const [isOpenModal, setIsOPenModal] = useState(false);
+  const closeHandler = () => setIsOPenModal(false);
+  const openHandler = () => setIsOPenModal(true);
+  return (
+    <>
+      <Button
+        variant="contained"
+        size="medium"
+        onClick={openHandler}
+        sx={{ gap: "6px", borderRadius: "14px" }}
+      >
+        <AddIcon sx={{ color: "inherit" }} />
+        {"محصول جدید"}
+      </Button>
+
+      <Dialog open={isOpenModal} onClose={closeHandler}>
+        <AddProductModalForm />
+      </Dialog>
+    </>
+  );
+}
