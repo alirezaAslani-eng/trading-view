@@ -1,4 +1,5 @@
 import {
+  addProduct,
   deleteBankAccount,
   kycL2,
   requestAuthOTP,
@@ -17,6 +18,7 @@ import {
 import { BaseApiResponse, KycLevel, ResponseErrorType } from "@/types";
 import {
   AddCardSchemaType,
+  AddProductSchemaType,
   AddShabaSchemaType,
   KycL1SchemaType,
   KycL2SchemaType,
@@ -125,6 +127,14 @@ const depositConfig = () => {
     },
   });
 };
+const addProductConfig = () => {
+  return mutationOptions<void, ResponseErrorType, AddProductSchemaType>({
+    mutationFn: addProduct,
+    onSuccess: () => {
+      // TODO: must invalidate products chache
+    },
+  });
+};
 
 export {
   requestAuthOTPConfig,
@@ -136,4 +146,5 @@ export {
   deleteBankConfig,
   withdrawConfig,
   depositConfig,
+  addProductConfig,
 };
