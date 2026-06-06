@@ -2,6 +2,7 @@ import {
   BankAccountsResponse,
   DashboardInfoResponse,
   KycStatusResponse,
+  ProductCategoriesResponse,
   WalletBalanceResponse,
 } from "@/api/types";
 import type { ResponseErrorType } from "@/types";
@@ -10,12 +11,14 @@ import {
   banksKey,
   dashboardInfoKey,
   kycStatusKey,
+  productCategoriesKey,
   walletInfoKey,
 } from "@/packages/react-query";
 import {
   dashboardInfo,
   getBankAccounts,
   kycStatus,
+  productCategories,
   walletBalance,
 } from "@/api";
 
@@ -76,10 +79,25 @@ const walletBalanceConfig = () => {
     },
   });
 };
+const productCategoriesConfig = () => {
+  return queryOptions<
+    ProductCategoriesResponse,
+    ResponseErrorType,
+    ProductCategoriesResponse,
+    typeof productCategoriesKey
+  >({
+    queryKey: productCategoriesKey,
+    queryFn: async () => {
+      const res = await productCategories();
+      return res;
+    },
+  });
+};
 
 export {
   kycStatusConfig,
   dashboardInfoConfig,
   bankAccountsConfig,
   walletBalanceConfig,
+  productCategoriesConfig,
 };
