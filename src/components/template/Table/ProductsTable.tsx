@@ -1,6 +1,6 @@
 "use client";
 
-import { productsConfig } from "@/packages/react-query";
+import { productsConfig, productsKey } from "@/packages/react-query";
 import ToggleTabGroup from "@/components/ui/ButtonGroup/ToggleTabGroup";
 import Table from "@/components/ui/Table/Table";
 import AddIcon from "@/components/ui/Icon/AddIcon";
@@ -10,7 +10,7 @@ import { PenOnPaperIcon, TrashIcon } from "@/components/ui/Icon";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { useQuery } from "@tanstack/react-query";
 import Button from "@/components/ui/Button/Button";
-import { useState } from "react";
+import { memo, useState } from "react";
 import AddProductModalForm from "../Modal/AddProductModalForm";
 import {
   PagePaper,
@@ -32,36 +32,62 @@ import {
   TableFallbackData,
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
+import { ProductStatus } from "@/api/types";
 
 const queryConfig = productsConfig();
+
 function ProductsTable() {
-  const productsQuery = useQuery(queryConfig);
+  const [status, setStatus] = useState<ProductStatus>("all");
+
+  const statusHandler = (_: any, value: any) => {
+    if (!!!value) return;
+    setStatus(value);
+  };
+
+  const productsQuery = useQuery({
+    ...queryConfig,
+    queryKey: productsKey(status),
+  });
+
   const isSuccessQuery = productsQuery.status === "success";
 
   return (
     <>
       <PagePaper>
         <PagePaperHeading sx={{ mb: "42px" }}>
-          <ToggleTabGroup size="small">
-            <ToggleButton value={"1"}>{"همه"}</ToggleButton>
+          <ToggleTabGroup size="small" value={status} onChange={statusHandler}>
+            <ToggleButton value={"all" satisfies ProductStatus}>
+              {"همه"}
+            </ToggleButton>
             <Divider orientation="vertical" flexItem />
-            <ToggleButton value={"2"}>{"محصولات فعال"}</ToggleButton>
+            <ToggleButton value={"active" satisfies ProductStatus}>
+              {"محصولات فعال"}
+            </ToggleButton>
             <Divider orientation="vertical" flexItem />
-            <ToggleButton value={"3"}>{"محصولات غیرفعال"}</ToggleButton>
+            <ToggleButton value={"inActive" satisfies ProductStatus}>
+              {"محصولات غیرفعال"}
+            </ToggleButton>
           </ToggleTabGroup>
           <AddProductButton />
         </PagePaperHeading>
-        <TableFallback>
-          <FallbackHandler
-            isLoading={productsQuery.isLoading}
-            isError={productsQuery.isError}
-            dataLength={productsQuery.data?.length}
-            fallbacks={{
-              noData: <TableFallbackData />,
-              loader: <TableFallbackLoader />,
-            }}
-          />
-        </TableFallback>
+
+        <FallbackHandler
+          isLoading={productsQuery.isLoading}
+          isError={productsQuery.isError}
+          dataLength={productsQuery.data?.length}
+          fallbacks={{
+            noData: (
+              <TableFallback>
+                <TableFallbackData />
+              </TableFallback>
+            ),
+            loader: (
+              <TableFallback>
+                <TableFallbackLoader />
+              </TableFallback>
+            ),
+          }}
+        />
 
         {isSuccessQuery && (
           <Table sx={{ width: "100%" }}>
