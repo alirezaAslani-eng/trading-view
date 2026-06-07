@@ -15,6 +15,11 @@ import Button from "@/components/ui/Button/Button";
 import Table from "@/components/ui/Table/Table";
 import StatusBadge from "@/components/ui/Status/StatusBadge";
 import { useState } from "react";
+import AddCreditCardForm from "@/components/template/Form/AddCreditCardForm";
+import AddShabaForm from "@/components/template/Form/AddShabaForm";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { bankAccountsConfig, deleteBankConfig } from "@/packages/react-query";
+import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import {
   ModalLayout,
   ModalLayoutBody,
@@ -22,37 +27,30 @@ import {
   ModalLayoutHeading,
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
-import AddCreditCardForm from "@/components/template/Form/AddCreditCardForm";
-import AddShabaForm from "@/components/template/Form/AddShabaForm";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { bankAccountsConfig, deleteBankConfig } from "@/packages/react-query";
+import {
+  TableFallback,
+  TableFallbackData,
+  TableFallbackLoader,
+} from "@/components/ui/Fallback/TableFallback";
 
 const mutationConfig = deleteBankConfig();
 const queryConfig = bankAccountsConfig();
 
+const formatCardNumber = (cardNumber: string) => {
+  return cardNumber.replace(/(\d{4})(?=\d)/g, "$1-");
+};
+
 type ModalState = "iban" | "bank" | null;
 type TabState = "banks" | "Ibans";
 
-// ! Issiue : Some data dosen't come from server like `nationalId` and `birthdate`
-function BankInfoOverviewSection() {
+function BankTableList() {
   const banksQuery = useQuery(queryConfig);
-  const { mutate: deleteMutation } = useMutation(mutationConfig);
+  const bankMutation = useMutation(mutationConfig);
 
   const [modalState, setModalState] = useState<ModalState>();
   const [selectedTab, setSelectedTab] = useState<TabState>("banks");
 
-  const handleDelete = (id: number) => {
-    deleteMutation(id);
-  };
-
-  const formatCardNumber = (cardNumber: string) => {
-    return cardNumber.replace(/(\d{4})(?=\d)/g, "$1-");
-  };
-
-  const handleTabChange = (
-    ـ: React.MouseEvent<HTMLElement>,
-    newValue: string | null,
-  ) => {
+  const handleTabChange = (ـ: any, newValue: string | null) => {
     if (!newValue) return;
     setSelectedTab(newValue as TabState);
   };
@@ -64,14 +62,12 @@ function BankInfoOverviewSection() {
       ? () => setModalState("iban")
       : () => setModalState("bank");
 
-  const isLoading =
-    banksQuery.status === "error" || banksQuery.status === "pending";
-  const isEmptyData = !!!banksQuery.data?.length;
-
+  const isVisibleData =
+    banksQuery.status === "success" && !!banksQuery.data.length;
   return (
     <>
       <Stack>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box>
           {/* // * ----start---- Tabs -------- */}
           <ToggleTabGroup
             value={selectedTab}
@@ -89,73 +85,83 @@ function BankInfoOverviewSection() {
           {/* // * ----end---- Tabs -------- */}
         </Box>
 
+        <FallbackHandler
+          isLoading={banksQuery.isLoading}
+          isError={banksQuery.isError}
+          dataLength={banksQuery.data?.length}
+          fallbacks={{
+            loader: (
+              <TableFallback>
+                <TableFallbackLoader />
+              </TableFallback>
+            ),
+            noData: (
+              <TableFallback>
+                <TableFallbackData />
+              </TableFallback>
+            ),
+          }}
+        />
+
         <>
           {/* // * ---start--- BankList -------- */}
-          {!isLoading && (
+          {isVisibleData && (
             <>
-              {!isEmptyData && (
-                <>
-                  <Box sx={{ mt: "40px" }}>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>{"بانک"}</TableCell>
+              <Box sx={{ mt: "40px" }}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>{"بانک"}</TableCell>
 
-                          <TableCell>{"شماره کارت"}</TableCell>
+                      <TableCell>{"شماره کارت"}</TableCell>
 
-                          <TableCell>{"وضعیت"}</TableCell>
+                      <TableCell>{"وضعیت"}</TableCell>
 
-                          <TableCell sx={{ textAlign: "center !important" }}>
-                            {"عملیات"}
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
+                      <TableCell sx={{ textAlign: "center !important" }}>
+                        {"عملیات"}
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
 
-                      <TableBody>
-                        {banksQuery.data.map((account) => (
-                          <TableRow key={account.id}>
-                            <TableCell>{account.bankName}</TableCell>
-                            <TableCell>
-                              {formatCardNumber(account[cardNumber])}
-                            </TableCell>
-                            <TableCell>
-                              <StatusBadge
-                                color={
-                                  account.isVerified ? "success" : "warning"
-                                }
-                              >
-                                {account.isVerified
-                                  ? "تایید شده"
-                                  : "در حال بررسی"}
-                              </StatusBadge>
-                            </TableCell>
-                            <TableCell
-                              sx={{ display: "flex", justifyContent: "center" }}
-                            >
-                              <Box
-                                sx={{ cursor: "pointer" }}
-                                onClick={() => handleDelete(account.id)}
-                              >
-                                <TrashIcon />
-                              </Box>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </Box>
+                  <TableBody>
+                    {banksQuery.data.map((account) => (
+                      <TableRow key={account.id}>
+                        <TableCell>{account.bankName}</TableCell>
+                        <TableCell>
+                          {formatCardNumber(account[cardNumber])}
+                        </TableCell>
+                        <TableCell>
+                          <StatusBadge
+                            color={account.isVerified ? "success" : "warning"}
+                          >
+                            {account.isVerified ? "تایید شده" : "در حال بررسی"}
+                          </StatusBadge>
+                        </TableCell>
+                        <TableCell
+                          sx={{ display: "flex", justifyContent: "center" }}
+                        >
+                          <Box
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => bankMutation.mutate(account.id)}
+                          >
+                            <TrashIcon />
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
 
-                  <Divider
-                    sx={{ mt: "40px", mb: "20px", borderColor: "border.dark" }}
-                  />
-                </>
-              )}
+              <Divider
+                sx={{ mt: "40px", mb: "20px", borderColor: "border.dark" }}
+              />
             </>
           )}
 
           <Button
             onClick={modalOpener}
-            sx={{ mx: "auto", mt: isEmptyData ? "40px" : 0 }}
+            sx={{ mx: "auto" }}
             variant="on-surface"
           >
             <AddIcon /> &nbsp;{" "}
@@ -191,4 +197,4 @@ function BankInfoOverviewSection() {
   );
 }
 
-export default BankInfoOverviewSection;
+export default BankTableList;
