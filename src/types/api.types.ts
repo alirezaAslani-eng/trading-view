@@ -13,4 +13,10 @@ interface ResponseErrorType {
   readonly details?: unknown;
 }
 
-export type { BaseApiResponse, ResponseErrorType };
+interface ApiOptions<
+  TParams extends Record<string, any> = Record<string, unknown>,
+> {
+  params?: TParams;
+}
+
+export type { BaseApiResponse, ResponseErrorType, ApiOptions };

@@ -5,6 +5,7 @@ import {
   ProductsResponse,
   ProductCategoriesResponse,
   WalletBalanceResponse,
+  ProductStatus,
 } from "@/api/types";
 import type { ResponseErrorType } from "@/types";
 import { queryOptions } from "@tanstack/react-query";
@@ -98,15 +99,11 @@ const productCategoriesConfig = () => {
 };
 
 const productsConfig = () => {
-  return queryOptions<
-    ProductsResponse,
-    ResponseErrorType,
-    ProductsResponse,
-    typeof productsKey
-  >({
-    queryKey: productsKey,
-    queryFn: async () => {
-      const res = await getProducts();
+  return queryOptions<ProductsResponse, ResponseErrorType, ProductsResponse>({
+    queryKey: productsKey("active"),
+    queryFn: async (query) => {
+      const productStatus = query.queryKey[2] as ProductStatus;
+      const res = await getProducts({ params: { productStatus } });
       return res;
     },
   });

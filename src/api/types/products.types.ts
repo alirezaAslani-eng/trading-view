@@ -4,7 +4,13 @@ type ProductCategoriesResponse = {
   name: string;
   description: string;
 }[];
+// * --end-- productCategories.ts ----
 
+// * --start-- getProducts.ts ----
+type ProductStatus = "inActive" | "active" | "all";
+interface GetProductsParams {
+  productStatus: ProductStatus;
+}
 type ProductsResponse = {
   id: string;
   productName: string;
@@ -13,6 +19,11 @@ type ProductsResponse = {
   productStatusId: boolean;
   categoryId: string;
 }[];
-// * --end-- productCategories.ts ----
+// * --end-- getProducts.ts ----
 
-export type { ProductCategoriesResponse, ProductsResponse };
+export type {
+  ProductCategoriesResponse,
+  ProductsResponse,
+  GetProductsParams,
+  ProductStatus,
+};

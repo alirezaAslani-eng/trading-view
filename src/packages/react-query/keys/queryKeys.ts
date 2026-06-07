@@ -1,3 +1,5 @@
+import { ProductStatus } from "@/api/types";
+
 const cacheDomain = {
   auth: "auth",
   kyc: "kyc",
@@ -10,7 +12,12 @@ const kycStatusKey = [...kycBaseKey, "status" as const];
 const dashboardInfoKey = [...kycBaseKey, "dashboard-info" as const];
 const banksKey = [...authBaseKey, "banks"];
 const walletInfoKey = [...authBaseKey, "wallet-info"];
-const productsKey = [...authBaseKey, "products"];
+
+const productsKey = (productStatus: ProductStatus) => [
+  ...authBaseKey,
+  "products",
+  productStatus,
+];
 const productCategoriesKey = [...authBaseKey, "product-categories"];
 export {
   kycStatusKey,
