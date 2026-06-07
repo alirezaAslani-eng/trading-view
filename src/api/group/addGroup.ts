@@ -11,7 +11,7 @@ async function addgroup(body: AddGroupSchemaType): Promise<void> {
     const res = await mutationFetch(URL, {
       ...sharedRequestInit,
       method: "POST",
-      body: JSON.stringify(body satisfies AddGroupSchemaType),
+      body: JSON.stringify({ ...body, description: "System administrators" }),
       headers: {
         "Content-Type": "application/json",
       },
