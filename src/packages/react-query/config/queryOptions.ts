@@ -13,9 +13,9 @@ import {
   banksKey,
   dashboardInfoKey,
   kycStatusKey,
-  productsKey,
   productCategoriesKey,
   walletInfoKey,
+  productsDynamicKey,
 } from "@/packages/react-query";
 import {
   dashboardInfo,
@@ -100,7 +100,7 @@ const productCategoriesConfig = () => {
 
 const productsConfig = () => {
   return queryOptions<ProductsResponse, ResponseErrorType, ProductsResponse>({
-    queryKey: productsKey("active"),
+    queryKey: productsDynamicKey("all"),
     queryFn: async (query) => {
       const productStatus = query.queryKey[2] as ProductStatus;
       const res = await getProducts({ params: { productStatus } });

@@ -1,6 +1,6 @@
 "use client";
 
-import { productsConfig, productsKey } from "@/packages/react-query";
+import { productsConfig, productsDynamicKey } from "@/packages/react-query";
 import ToggleTabGroup from "@/components/ui/ButtonGroup/ToggleTabGroup";
 import Table from "@/components/ui/Table/Table";
 import AddIcon from "@/components/ui/Icon/AddIcon";
@@ -10,7 +10,7 @@ import { PenOnPaperIcon, TrashIcon } from "@/components/ui/Icon";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { useQuery } from "@tanstack/react-query";
 import Button from "@/components/ui/Button/Button";
-import { memo, useState } from "react";
+import { useState } from "react";
 import AddProductModalForm from "../Modal/AddProductModalForm";
 import {
   PagePaper,
@@ -46,7 +46,7 @@ function ProductsTable() {
 
   const productsQuery = useQuery({
     ...queryConfig,
-    queryKey: productsKey(status),
+    queryKey: productsDynamicKey(status),
   });
 
   const isSuccessQuery = productsQuery.status === "success";
