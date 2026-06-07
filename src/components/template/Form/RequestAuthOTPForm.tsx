@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/Layout/FormLayout";
 import { RequestAuthOTPSchemaType } from "@/validations/types";
 import { promiseAlert } from "@/packages/react-hot-toast";
+import alertMessages from "@/constant/app/alertMessages";
 
 const mutationConfig = requestAuthOTPConfig();
 
@@ -48,7 +49,7 @@ function RequestAuthOTPForm() {
   ) => {
     await promiseAlert(
       safeAsync(async () => await mutation.mutateAsync(fields)),
-      { loading: "صبر کنید" },
+      { loading: alertMessages.loading },
     );
   };
 

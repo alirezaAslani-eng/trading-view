@@ -16,6 +16,7 @@ import safeAsync from "@/utils/app/safeAsync";
 import { addProductConfig } from "@/packages/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { AddProductSchemaType } from "@/validations/types";
+import alertMessages from "@/constant/app/alertMessages";
 
 const mutationConfig = addProductConfig();
 
@@ -36,7 +37,7 @@ function AddProductForm() {
       safeAsync(async () => {
         await mutation.mutateAsync(fields);
       }),
-      { loading: "صبر کنید" },
+      { loading: alertMessages.loading },
     );
   };
 

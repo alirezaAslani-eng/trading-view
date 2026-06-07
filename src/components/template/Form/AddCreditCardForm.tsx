@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/Layout/FormLayout";
 import { addCardConfig } from "@/packages/react-query";
 import { promiseAlert } from "@/packages/react-hot-toast";
-
+import alertMessages from "@/constant/app/alertMessages";
 const addcardconfig = addCardConfig();
 
 function AddCreditCardForm() {
@@ -26,14 +26,14 @@ function AddCreditCardForm() {
       safeAsync(async () => {
         await addCardMutation.mutateAsync(fields);
       }),
-      { loading: "صبر کنید" },
+      { loading: alertMessages.loading },
     );
   };
 
   const form = useForm({
     resolver: zodResolver(addCardSchema),
     defaultValues: {
-      // ! birthdate must come from server 
+      // ! birthdate must come from server
       birthDateShamsi: "1384/08/02",
       cardNumber: "",
     },

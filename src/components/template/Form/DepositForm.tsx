@@ -13,6 +13,7 @@ import {
   TransactionFormLayoutLabel,
   TransactionFormLayoutSubmit,
 } from "@/components/ui/Layout/TransactionFormLayout";
+import alertMessages from "@/constant/app/alertMessages";
 
 const withdrawMutationConfig = depositConfig();
 function DepositForm() {
@@ -28,7 +29,7 @@ function DepositForm() {
           amount: fields.amount,
         });
       }),
-      { loading: "صبر کنید" },
+      { loading: alertMessages.loading },
     );
   };
 

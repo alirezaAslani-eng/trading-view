@@ -32,6 +32,7 @@ import {
 import { promiseAlert } from "@/packages/react-hot-toast";
 import safeAsync from "@/utils/app/safeAsync";
 import { WithdrawSchemaType } from "@/validations/types";
+import alertMessages from "@/constant/app/alertMessages";
 
 const walletQueryConfig = walletBalanceConfig();
 const withdrawMutationConfig = withdrawConfig();
@@ -48,7 +49,7 @@ function WithdrawForm() {
       safeAsync(async () => {
         await withdrawMutate.mutateAsync(fields);
       }),
-      { loading: "صبر کنید" },
+      { loading: alertMessages.loading },
     );
   };
 

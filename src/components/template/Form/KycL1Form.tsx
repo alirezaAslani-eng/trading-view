@@ -24,6 +24,7 @@ import {
 import { ResponseErrorType } from "@/types";
 import { promiseAlert } from "@/packages/react-hot-toast";
 import { useKycMutation } from "@/hooks/features/kyc/useKycMutation";
+import alertMessages from "@/constant/app/alertMessages";
 
 const kycStatusConfig_ = kycStatusConfig();
 const kycL1Config = kycLevel1Config();
@@ -42,7 +43,7 @@ function KycL1Form(mutationProps: KycL1FormProps) {
       safeAsync(async () => {
         await kycL1Mutation.mutateAsync(fields);
       }),
-      { loading: "صبر کنید" },
+      { loading: alertMessages.loading },
     );
   };
 

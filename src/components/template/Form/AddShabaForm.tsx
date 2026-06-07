@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/Layout/FormLayout";
 import { addShabaConfig } from "@/packages/react-query";
 import { promiseAlert } from "@/packages/react-hot-toast";
+import alertMessages from "@/constant/app/alertMessages";
 
 const addshabaconfig = addShabaConfig();
 
@@ -26,7 +27,7 @@ function AddShabaForm() {
       safeAsync(async () => {
         await addShabaMutation.mutateAsync(fields);
       }),
-      { loading: "صبر کنید" },
+      { loading: alertMessages.loading },
     );
   };
 
