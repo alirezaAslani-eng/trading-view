@@ -6,6 +6,7 @@ export default async function handleApiResponse<T = unknown>(
   res: Response,
 ): Promise<T | undefined> {
   const data = await jsonParseHandler<T>(res);
+  console.log("log in verify auth otp handler", data);
 
   if (!res.ok) {
     throwError(true, {
@@ -19,7 +20,7 @@ export default async function handleApiResponse<T = unknown>(
 
   const apiResponse = data as BaseApiResponse<T>;
 
-  if (!apiResponse?.isSuccess) {
+  if (apiResponse?.isSuccess === false) {
     throwError(true, {
       code: apiResponse?.errorCode ?? undefined,
       message: apiResponse?.message ?? "",
