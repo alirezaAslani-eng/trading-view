@@ -46,22 +46,21 @@ const handler: RouteHandler<string[]> = async (req, context) => {
     return response(res);
   }
 
-  
   // * ------------- Refresh Token -------------
   let refreshRes: Response;
-  
+
   try {
     refreshRes = await refreshToken(reqCookies.toString());
   } catch (err) {
     return gateWayResponse(err);
   }
-  
+
   if (!refreshRes?.ok) {
     return response(refreshRes);
   }
-  
+
   const updatedCookies = refreshRes.headers.get("set-cookie") as string;
-  
+
   // * ------------- Main Request -------------
   req.headers.set("Cookie", updatedCookies);
   let res: Response;
@@ -70,8 +69,13 @@ const handler: RouteHandler<string[]> = async (req, context) => {
   } catch (err) {
     return gateWayResponse(err);
   }
-  res.headers.set("set-cookie", updatedCookies);
-  return response(res);
+  const headers = new Headers(res.headers);
+  headers.set("set-cookie", updatedCookies); // این قسمت بعضی موقع ها با اینکه ریسپانس ریزالو مبشه میگه : TypeError: immutable
+  return new Response(res.body, {
+    headers,
+    status: res.status,
+    statusText: res.statusText,
+  });
 };
 
 export { handler as GET, handler as POST, handler as PUT, handler as DELETE };
