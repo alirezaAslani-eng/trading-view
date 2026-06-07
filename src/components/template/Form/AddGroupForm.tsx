@@ -1,14 +1,5 @@
-import Accordion from "@/components/ui/Accordion/Accordion";
-import CheckBox from "@/components/ui/Checkbox/CheckBox";
-import { BoxOutlinedIcon } from "@/components/ui/Icon";
+"use client";
 import InputText from "@/components/ui/Input/InputText";
-import ScrollContainer from "@/components/ui/ScrollContainer/ScrollContainer";
-import { AccordionDetails, AccordionSummary, Box, Stack } from "@mui/material";
-import React from "react";
-import {
-  AccordionCheckboxItem,
-  AccordionCheckboxLabel,
-} from "@/components/ui/AccordionItem/AccordionCheckboxItem";
 import {
   FormLayout,
   FormLayoutField,
@@ -16,27 +7,51 @@ import {
   FormLayoutLable,
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import addGroupSchema from "@/validations/group/addGroupSchema";
+import { useMutation } from "@tanstack/react-query";
+import { addGroupConfig } from "@/packages/react-query";
+import { AddGroupSchemaType } from "@/validations/types";
+import { promiseAlert } from "@/packages/react-hot-toast";
+import safeAsync from "@/utils/app/safeAsync";
+import alertMessages from "@/constant/app/alertMessages";
 
-const accordion_container_sx = {
-  backgroundColor: "background.surfaceTertiary",
-  border: "1px solid",
-  borderColor: "border.default",
-  borderRadius: "16px",
-  p: "20px 16px",
-};
+// const accordion_container_sx = {
+//   backgroundColor: "background.surfaceTertiary",
+//   border: "1px solid",
+//   borderColor: "border.default",
+//   borderRadius: "16px",
+//   p: "20px 16px",
+// };
 
+const mutationConfig = addGroupConfig();
 function AddRoleForm() {
+  const mutation = useMutation(mutationConfig);
+  const form = useForm({ resolver: zodResolver(addGroupSchema) });
+
+  const onSubmit: SubmitHandler<AddGroupSchemaType> = async (fields) => {
+    await promiseAlert(
+      safeAsync(async () => {
+        await mutation.mutateAsync(fields);
+      }),
+      { loading: alertMessages.loading },
+    );
+  };
+
   return (
-    <FormLayout>
+    <FormLayout onSubmit={form.handleSubmit(onSubmit)}>
       <FormLayoutFieldGroup>
         <FormLayoutField>
           <FormLayoutLable>{"نام نقش"}</FormLayoutLable>
-          <InputText placeholder="عنوان نقش جدید را وارد کنید" />
+          <InputText
+            placeholder="عنوان نقش جدید را وارد کنید"
+            {...form.register("name")}
+          />
         </FormLayoutField>
-        <FormLayoutField></FormLayoutField>
       </FormLayoutFieldGroup>
 
-      <FormLayoutField>
+      {/* <FormLayoutField>
         <FormLayoutLable>{"دسترسی‌ها"}</FormLayoutLable>
         <Box sx={accordion_container_sx}>
           <ScrollContainer
@@ -51,14 +66,12 @@ function AddRoleForm() {
                 </AccordionSummary>
 
                 <AccordionDetails sx={{ px: "20px" }}>
-                  {/* // * ------ Active All Checkbox ------  */}
                   <AccordionCheckboxItem sx={{ borderColor: "border.default" }}>
                     <AccordionCheckboxLabel sx={{ color: "text.secondary" }}>
                       {"همه"}
                     </AccordionCheckboxLabel>
                     <CheckBox size="small" />
                   </AccordionCheckboxItem>
-                  {/* // * ------ Active Each Checkbox ------  */}
                   <Stack sx={{ gap: "10px", mt: "10px" }}>
                     <AccordionCheckboxItem
                       sx={{ p: "0px 12px", border: "none" }}
@@ -74,7 +87,7 @@ function AddRoleForm() {
             </Stack>
           </ScrollContainer>
         </Box>
-      </FormLayoutField>
+      </FormLayoutField> */}
 
       <FormLayoutSubmit>{"ثبت اطلاعات"}</FormLayoutSubmit>
     </FormLayout>
