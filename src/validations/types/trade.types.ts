@@ -1,6 +1,7 @@
-import { Infer } from "zod";
+import type { input, output } from "zod";
 import type tradeFormSchema from "../trade/tradeFormSchema";
 
 // * --start-- tradeFormSchema.ts ----
-export type TradeFormSchemaType = Infer<typeof tradeFormSchema>;
+export type TradeFormSchemaInputType = input<typeof tradeFormSchema>;
+export type TradeFormSchemaOutputType = output<typeof tradeFormSchema>;
 // * --end-- tradeFormSchema.ts ----
