@@ -1,24 +1,13 @@
-import {
-  discriminatedUnion,
-  object,
-  literal,
-  enum as enum_,
-  coerce,
-} from "zod";
+import { object, enum as enum_, coerce } from "zod";
 
-const sharedTradeFormSchema = object({
-  side: enum_(["buy", "sell"]).transform((val) => (val === "buy" ? 0 : 1)),
-  amount: coerce.number().positive(),
+
+const tradeFormSchema = object({
+  orderSide: enum_(["buy", "sell"]).transform((val) => (val === "buy" ? 0 : 1)),
+  weight: coerce.number().positive(),
+  price: coerce.number().positive(),
+  orderType: enum_(["market", "limit"]).transform((val) =>
+    val === "market" ? 1 : 0,
+  ),
 });
-const tradeFormSchema = discriminatedUnion("orderType", [
-  object({
-    orderType: literal("market").transform(() => 1),
-  }).merge(sharedTradeFormSchema),
-
-  object({
-    orderType: literal("limit").transform(() => 0),
-    limitPrice: coerce.number().positive(),
-  }).merge(sharedTradeFormSchema),
-]);
 
 export default tradeFormSchema;

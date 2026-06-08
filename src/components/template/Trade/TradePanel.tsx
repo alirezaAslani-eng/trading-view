@@ -1,4 +1,5 @@
 "use client";
+
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import Tabs from "@/components/ui/Tabs/Tabs";
 import { TabsProvider } from "@/context/app/TabsContext";
@@ -25,18 +26,15 @@ import {
   TradeFormSchemaOutputType,
 } from "@/validations/types/trade.types";
 
-
 type OrderTypes = TradeFormSchemaInputType["orderType"];
-type OrderSide = TradeFormSchemaInputType["side"];
-
-
+type OrderSide = TradeFormSchemaInputType["orderSide"];
 
 function TradePanel() {
   // * ------- Form Configuration -------
   const form = useForm({
     resolver: zodResolver(tradeFormSchema),
     defaultValues: {
-      side: "buy",
+      orderSide: "buy",
       orderType: "limit",
     },
   });
@@ -46,7 +44,9 @@ function TradePanel() {
   const isLimitedType = form.watch("orderType") === "limit";
 
   //  * ------- Submit handler ---------
-  const onSubmit: SubmitHandler<TradeFormSchemaOutputType> = (fields) => {};
+  const onSubmit: SubmitHandler<TradeFormSchemaOutputType> = (fields) => {
+    console.log(fields); // fields.side: 0 | 1, orderType: 0 | 1, weight: number, price: number
+  };
 
   return (
     <PanelPaper sx={{ p: "20px 12px", height: "100%" }}>
@@ -68,6 +68,7 @@ function TradePanel() {
                 <AmountPriceInput control={form.control} />
               </Box>
             </Activity>
+
             {/* // * ---------- Market Price Tab ---------- */}
             <Activity mode={isMarketType ? "visible" : "hidden"}>
               <Box sx={{ mt: "32px" }}>
@@ -104,7 +105,7 @@ function TradePanel() {
 
 export default TradePanel;
 
-// * ============= Interanl components ===============
+// * ============= Internal components ===============
 interface FormSubscriber {
   control: Control<
     TradeFormSchemaInputType,
@@ -114,7 +115,7 @@ interface FormSubscriber {
 }
 
 function TradeSideSelector({ control }: FormSubscriber) {
-  const { field } = useController({ control, name: "side" });
+  const { field } = useController({ control, name: "orderSide" });
   return (
     <ToggleButtonGroup
       onChange={field.onChange}
@@ -131,6 +132,7 @@ function TradeSideSelector({ control }: FormSubscriber) {
     </ToggleButtonGroup>
   );
 }
+
 function OrderTypeSelector({ control }: FormSubscriber) {
   const { field } = useController({ control, name: "orderType" });
   return (
@@ -144,7 +146,7 @@ function OrderTypeSelector({ control }: FormSubscriber) {
 }
 
 function LimitedPriceInput({ control }: FormSubscriber) {
-  const { field } = useController({ control, name: "limitPrice" });
+  const { field } = useController({ control, name: "price" }); // <-- تغییر به price
 
   return (
     <InputTrade
@@ -154,8 +156,9 @@ function LimitedPriceInput({ control }: FormSubscriber) {
     />
   );
 }
+
 function AmountPriceInput({ control }: FormSubscriber) {
-  const { field } = useController({ control, name: "amount" });
+  const { field } = useController({ control, name: "weight" }); // <-- تغییر به weight
 
   return (
     <InputTrade
@@ -166,9 +169,10 @@ function AmountPriceInput({ control }: FormSubscriber) {
     />
   );
 }
+
 function SubmitOrderButton({ control }: FormSubscriber) {
   const orderSide = useWatch({
-    name: "side",
+    name: "orderSide",
     control,
   });
   const isBuy = orderSide === "buy";
