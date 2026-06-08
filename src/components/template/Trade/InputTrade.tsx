@@ -20,7 +20,7 @@ interface InputTradeProps extends Omit<
 const step = 10;
 function InputTrade({ label, ...props }: InputTradeProps) {
   const [isRisedLabel, setIsRisedLabel] = useState(false);
-  const isShowLable = !!props.value || isRisedLabel;
+  const isShowLable = !isNaN(Number(props.value)) || isRisedLabel;
 
   const forwardOnChange = (v: string) => {
     if (!!!props.onValueChange) return;
