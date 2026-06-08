@@ -42,3 +42,4 @@ next-env.d.ts
 
 # custom files
 NextJsGuid.md
+public/charting_library
