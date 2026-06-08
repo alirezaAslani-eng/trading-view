@@ -44,9 +44,7 @@ function TradePanel() {
   const isLimitedType = form.watch("orderType") === "limit";
 
   //  * ------- Submit handler ---------
-  const onSubmit: SubmitHandler<TradeFormSchemaOutputType> = (fields) => {
-    console.log(fields); // fields.side: 0 | 1, orderType: 0 | 1, weight: number, price: number
-  };
+  const onSubmit: SubmitHandler<TradeFormSchemaOutputType> = (fields) => {};
 
   return (
     <PanelPaper sx={{ p: "20px 12px", height: "100%" }}>
@@ -65,17 +63,17 @@ function TradePanel() {
                 <LimitedPriceInput control={form.control} />
               </Box>
               <Box sx={{ mt: "14px" }}>
-                <AmountPriceInput control={form.control} />
+                <WeightInput control={form.control} />
               </Box>
             </Activity>
 
             {/* // * ---------- Market Price Tab ---------- */}
             <Activity mode={isMarketType ? "visible" : "hidden"}>
               <Box sx={{ mt: "32px" }}>
-                <AmountDisplay label="قیمت بازار" value="500000" />
+                <BestPriceDisplay control={form.control} />
               </Box>
               <Box sx={{ mt: "14px" }}>
-                <AmountPriceInput control={form.control} />
+                <WeightInput control={form.control} />
               </Box>
             </Activity>
 
@@ -152,12 +150,12 @@ function LimitedPriceInput({ control }: FormSubscriber) {
     <InputTrade
       label="قیمت (تومان)"
       onValueChange={field.onChange}
-      value={field.value as number}
+      value={field.value as string}
     />
   );
 }
 
-function AmountPriceInput({ control }: FormSubscriber) {
+function WeightInput({ control }: FormSubscriber) {
   const { field } = useController({ control, name: "weight" }); // <-- تغییر به weight
 
   return (
@@ -165,7 +163,7 @@ function AmountPriceInput({ control }: FormSubscriber) {
       suffix=" kg"
       label="مقدار (کیلو گرم)"
       onValueChange={field.onChange}
-      value={field.value as number}
+      value={field.value as string}
     />
   );
 }
@@ -187,4 +185,10 @@ function SubmitOrderButton({ control }: FormSubscriber) {
       {isBuy ? "خرید" : "فروش"}
     </Button>
   );
+}
+
+function BestPriceDisplay({ control }: FormSubscriber) {
+  // TODO fetch current price of the selected product and update the `price` field when it changes
+  const { field } = useController({ control, name: "price" });
+  return <AmountDisplay label="قیمت بازار" value={formatFaPrice("3000000")} />;
 }
