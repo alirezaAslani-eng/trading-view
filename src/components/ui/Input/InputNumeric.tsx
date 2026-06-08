@@ -29,6 +29,7 @@ const StyledNumericFormat = styled(NumericFormat, {
   return {
     outline: "none",
     width: "100%",
+    direction: "ltr", // * Only number
     ...input_theme.rootTheme,
     ...input_size.rootSize,
     "::placeholder": {
