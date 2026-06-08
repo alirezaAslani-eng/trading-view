@@ -156,7 +156,7 @@ function LimitedPriceInput({ control }: FormSubscriber) {
 }
 
 function WeightInput({ control }: FormSubscriber) {
-  const { field } = useController({ control, name: "weight" }); // <-- تغییر به weight
+  const { field } = useController({ control, name: "weight" });
 
   return (
     <InputTrade
@@ -189,6 +189,6 @@ function SubmitOrderButton({ control }: FormSubscriber) {
 
 function BestPriceDisplay({ control }: FormSubscriber) {
   // TODO fetch current price of the selected product and update the `price` field when it changes
-  const { field } = useController({ control, name: "price" });
+  const { field } = useController({ control, name: "marketPrice" });
   return <AmountDisplay label="قیمت بازار" value={formatFaPrice("3000000")} />;
 }
