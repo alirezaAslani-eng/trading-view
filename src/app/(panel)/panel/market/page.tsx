@@ -1,5 +1,7 @@
 "use client";
 import PageHeader from "@/components/common/Appbar/PageHeader";
+import LiveProductsTable from "@/components/template/Table/LiveProductsTable";
+import { Box } from "@mui/material";
 import {
   MarketMoverCardPaper,
   MarketMoverCardHeader,
@@ -26,6 +28,9 @@ function page() {
         <Section>
           <MarketMovers />
         </Section>
+        <Box component={"section"} sx={{ mt: "24px" }}>
+          <LiveProductsTable />
+        </Box>
       </Main>
     </Page>
   );
