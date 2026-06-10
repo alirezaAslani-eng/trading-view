@@ -13,42 +13,42 @@ import {
   UserIcon,
 } from "@/components/ui/Icon";
 const sidebarNavigators = [
-  {
-    text: "داشبورد",
-    link: "/",
-    icon: <DashboardIcon />,
-    id: crypto.randomUUID(),
-    submenus: [
-      { text: "نما کلی", link: "/", id: crypto.randomUUID() },
-      { text: "واریز", link: "/", id: crypto.randomUUID() },
-      { text: "برداشت", link: "/", id: crypto.randomUUID() },
-    ],
-  },
-  {
-    text: "سفارشات",
-    link: "/",
-    icon: <LinearIcon />,
-    id: crypto.randomUUID(),
-    submenus: [
-      { text: "نما کلی", link: "/", id: crypto.randomUUID() },
-      { text: "واریز", link: "/", id: crypto.randomUUID() },
-      { text: "برداشت", link: "/", id: crypto.randomUUID() },
-    ],
-  },
+  // {
+  //   text: "داشبورد",
+  //   link: "/",
+  //   icon: <DashboardIcon />,
+  //   id: crypto.randomUUID(),
+  //   submenus: [
+  //     { text: "نما کلی", link: "/", id: crypto.randomUUID() },
+  //     { text: "واریز", link: "/", id: crypto.randomUUID() },
+  //     { text: "برداشت", link: "/", id: crypto.randomUUID() },
+  //   ],
+  // },
+  // {
+  //   text: "سفارشات",
+  //   link: "/",
+  //   icon: <LinearIcon />,
+  //   id: crypto.randomUUID(),
+  //   submenus: [
+  //     { text: "نما کلی", link: "/", id: crypto.randomUUID() },
+  //     { text: "واریز", link: "/", id: crypto.randomUUID() },
+  //     { text: "برداشت", link: "/", id: crypto.randomUUID() },
+  //   ],
+  // },
   {
     text: "بازار ها",
-    link: "/",
+    link: "/panel/market",
     icon: <MarketIcon />,
     id: crypto.randomUUID(),
     submenus: [],
   },
-  {
-    text: "نمودار ها",
-    link: "/",
-    icon: <ChartIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
+  // {
+  //   text: "نمودار ها",
+  //   link: "/",
+  //   icon: <ChartIcon />,
+  //   id: crypto.randomUUID(),
+  //   submenus: [],
+  // },
   {
     text: "دارایی‌ها",
     link: "/panel/assets",
@@ -74,20 +74,20 @@ const sidebarNavigators = [
     id: crypto.randomUUID(),
     submenus: [],
   },
-  {
-    text: "تاریخچه",
-    link: "/",
-    icon: <HistoryIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
-  {
-    text: "پشتیبانی",
-    link: "/",
-    icon: <MessageIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
+  // {
+  //   text: "تاریخچه",
+  //   link: "/",
+  //   icon: <HistoryIcon />,
+  //   id: crypto.randomUUID(),
+  //   submenus: [],
+  // },
+  // {
+  //   text: "پشتیبانی",
+  //   link: "/",
+  //   icon: <MessageIcon />,
+  //   id: crypto.randomUUID(),
+  //   submenus: [],
+  // },
   {
     text: "مدریت محصول",
     link: "/admin/products",
@@ -109,13 +109,13 @@ const sidebarNavigators = [
     id: crypto.randomUUID(),
     submenus: [],
   },
-  {
-    text: "تنظیمات",
-    link: "/",
-    icon: <SettingIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
+  // {
+  //   text: "تنظیمات",
+  //   link: "/",
+  //   icon: <SettingIcon />,
+  //   id: crypto.randomUUID(),
+  //   submenus: [],
+  // },
 ];
 
 export default sidebarNavigators;
