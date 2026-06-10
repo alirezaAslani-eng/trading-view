@@ -1,9 +1,10 @@
 import { TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import Table from "./ui/Table/Table";
+import Table from "./Table";
+import { ReactNode } from "react";
 
 type Column<T> = {
-  field: keyof T | string;
-  headerName: string;
+  field?: keyof T;
+  headerName: ReactNode;
   align?: "left" | "center" | "right";
   renderCell?: (row: T) => React.ReactNode;
 };
@@ -13,7 +14,7 @@ type CustomTableProps<T> = {
   rows?: T[];
 };
 
-export function CustomTable<T extends { id: string | number }>({
+function DataTable<T extends { id: string | number }>({
   columns,
   rows = [],
 }: CustomTableProps<T>) {
@@ -33,7 +34,10 @@ export function CustomTable<T extends { id: string | number }>({
         {rows?.map?.((row) => (
           <TableRow key={row?.id ?? ""}>
             {columns.map((column) => (
-              <TableCell key={String(column.field)} align={column.align}>
+              <TableCell
+                key={String(column.field ?? column.headerName)}
+                align={column.align}
+              >
                 <>
                   {column.renderCell
                     ? column.renderCell(row)
@@ -47,3 +51,6 @@ export function CustomTable<T extends { id: string | number }>({
     </Table>
   );
 }
+
+export default DataTable;
+export type { Column };
