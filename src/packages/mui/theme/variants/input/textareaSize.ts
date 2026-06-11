@@ -21,7 +21,11 @@ function textareaSize({ size }: TextareaSizeProps): TextareaSizeReturn {
       },
     } satisfies TextareaSizeReturn,
   };
-  return sizes?.[size] || sizes.medium;
+
+  //@ts-ignore
+  const style = sizes?.[size] as TextareaSizeReturn | undefined;
+  
+  return style || sizes.medium;
 }
 
 export default textareaSize;
