@@ -6,7 +6,7 @@ import {
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
 import PageHeader from "@/components/common/Appbar/PageHeader";
-import ProductsTable from "@/components/template/Table/ProductsTable";
+import ProductManagementTable from "@/components/template/Table/ProductManagementTable";
 
 function page() {
   return (
@@ -18,7 +18,7 @@ function page() {
       <Main>
         <Section>
           <SectionContent>
-            <ProductsTable />
+            <ProductManagementTable />
           </SectionContent>
         </Section>
       </Main>

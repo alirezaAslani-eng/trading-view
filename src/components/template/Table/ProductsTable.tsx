@@ -1,172 +1,157 @@
 "use client";
-
-import { productsConfig, productsDynamicKey } from "@/packages/react-query";
-import ToggleTabGroup from "@/components/ui/ButtonGroup/ToggleTabGroup";
-import Table from "@/components/ui/Table/Table";
-import AddIcon from "@/components/ui/Icon/AddIcon";
-import StatusBadge from "@/components/ui/Status/StatusBadge";
-import CircleIcon from "@/components/ui/Icon/CircleIcon";
-import { PenOnPaperIcon, TrashIcon } from "@/components/ui/Icon";
-import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
-import { useQuery } from "@tanstack/react-query";
-import Button from "@/components/ui/Button/Button";
-import { useState } from "react";
-import AddProductModalForm from "../Modal/AddProductModalForm";
+import ButtonTableAction from "@/components/ui/Button/ButtonTableAction";
+import DataTable, { Column } from "@/components/ui/Table/DataTable";
+import { Typography } from "@mui/material";
+import TableSortToggler from "./TableSortToggler";
+import {
+  SortFilterProvider,
+  useSortFilter,
+} from "@/context/app/SortFilter/SortFilterContext";
 import {
   PagePaper,
   PagePaperHeading,
+  PagePaperTitle,
 } from "@/components/ui/Layout/PaperLayout";
-import {
-  Box,
-  Dialog,
-  Divider,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  ToggleButton,
-  Typography,
-} from "@mui/material";
-import {
-  TableFallback,
-  TableFallbackData,
-  TableFallbackLoader,
-} from "@/components/ui/Fallback/TableFallback";
-import { ProductStatus } from "@/api/types";
+import TableControls from "./TableControls";
 
-const queryConfig = productsConfig();
+const products: Product[] = [
+  {
+    id: "prod-1",
+    symbol: "میلگرد",
+    currentPrice: 32500,
+    change24h: 2.8,
+    lowPrice: 31800,
+    highPrice: 33200,
+  },
+  {
+    id: "prod-2",
+    symbol: "تیرآهن",
+    currentPrice: 41800,
+    change24h: -1.4,
+    lowPrice: 41200,
+    highPrice: 42700,
+  },
+  {
+    id: "prod-3",
+    symbol: "ورق سیاه",
+    currentPrice: 35600,
+    change24h: 0.9,
+    lowPrice: 34900,
+    highPrice: 36100,
+  },
+  {
+    id: "prod-4",
+    symbol: "ورق گالوانیزه",
+    currentPrice: 47200,
+    change24h: 4.1,
+    lowPrice: 45100,
+    highPrice: 47900,
+  },
+  {
+    id: "prod-5",
+    symbol: "نبشی",
+    currentPrice: 28900,
+    change24h: -0.7,
+    lowPrice: 28500,
+    highPrice: 29400,
+  },
+  {
+    id: "prod-6",
+    symbol: "ناودانی",
+    currentPrice: 30100,
+    change24h: 1.2,
+    lowPrice: 29700,
+    highPrice: 30600,
+  },
+  {
+    id: "prod-7",
+    symbol: "لوله صنعتی",
+    currentPrice: 38700,
+    change24h: -2.3,
+    lowPrice: 38100,
+    highPrice: 39800,
+  },
+  {
+    id: "prod-8",
+    symbol: "شمش فولادی",
+    currentPrice: 26500,
+    change24h: 3.5,
+    lowPrice: 25800,
+    highPrice: 27100,
+  },
+];
+
+function ProductsTable_() {
+  const { sorter } = useSortFilter();
+
+  const columns: Column<Product>[] = [
+    {
+      field: "symbol",
+      headerName: <TableSortToggler fieldPath={"symbol"} text="نماد" />,
+    },
+    {
+      field: "currentPrice",
+      headerName: (
+        <TableSortToggler fieldPath={"currentPrice"} text="قیمت زنده" />
+      ),
+    },
+    {
+      field: "change24h",
+      headerName: (
+        <TableSortToggler fieldPath={"change24h"} text="تغیرات 24h" />
+      ),
+      renderCell: (row) => (
+        <Typography
+          variant="inherit"
+          sx={{
+            color: row.change24h < 0 ? "status.loss" : "text.profit",
+          }}
+        >
+          % {row.change24h}
+        </Typography>
+      ),
+    },
+    {
+      field: "lowPrice",
+      headerName: (
+        <TableSortToggler fieldPath={"lowPrice"} text="کمترین قیمت" />
+      ),
+    },
+    {
+      field: "highPrice",
+      headerName: "بیشترین قیمت",
+    },
+    {
+      headerName: "عملیات",
+      renderCell: () => <ButtonTableAction>{"معامله"}</ButtonTableAction>,
+    },
+  ];
+
+  return (
+    <PagePaper>
+      <PagePaperHeading sx={{ mb: "32px" }}>
+        <PagePaperTitle>{"لیست محصولات"}</PagePaperTitle>
+        <TableControls />
+      </PagePaperHeading>
+      <DataTable rows={sorter(products)} columns={columns} />
+    </PagePaper>
+  );
+}
 
 function ProductsTable() {
-  const [status, setStatus] = useState<ProductStatus>("all");
-
-  const statusHandler = (_: any, value: any) => {
-    if (!!!value) return;
-    setStatus(value);
-  };
-
-  const productsQuery = useQuery({
-    ...queryConfig,
-    queryKey: productsDynamicKey(status),
-  });
-
-  const isSuccessQuery = productsQuery.status === "success";
-
   return (
-    <>
-      <PagePaper>
-        <PagePaperHeading sx={{ mb: "42px" }}>
-          <ToggleTabGroup size="small" value={status} onChange={statusHandler}>
-            <ToggleButton value={"all" satisfies ProductStatus}>
-              {"همه"}
-            </ToggleButton>
-            <Divider orientation="vertical" flexItem />
-            <ToggleButton value={"active" satisfies ProductStatus}>
-              {"محصولات فعال"}
-            </ToggleButton>
-            <Divider orientation="vertical" flexItem />
-            <ToggleButton value={"inActive" satisfies ProductStatus}>
-              {"محصولات غیرفعال"}
-            </ToggleButton>
-          </ToggleTabGroup>
-          <AddProductButton />
-        </PagePaperHeading>
-
-        <FallbackHandler
-          isLoading={productsQuery.isLoading}
-          isError={productsQuery.isError}
-          dataLength={productsQuery.data?.length}
-          fallbacks={{
-            noData: (
-              <TableFallback>
-                <TableFallbackData />
-              </TableFallback>
-            ),
-            loader: (
-              <TableFallback>
-                <TableFallbackLoader />
-              </TableFallback>
-            ),
-          }}
-        />
-
-        {isSuccessQuery && (
-          <Table sx={{ width: "100%" }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>{"نماد"}</TableCell>
-                <TableCell>{"کد محصول"}</TableCell>
-                <TableCell>{"دسته بندی"}</TableCell>
-                <TableCell>{"واحد"}</TableCell>
-                <TableCell>{"وضعیت"}</TableCell>
-                <TableCell>
-                  <Typography
-                    variant="body3"
-                    sx={{ color: "text.caption", textAlign: "center" }}
-                  >
-                    {"عملیات"}
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {productsQuery.data.map((product) => {
-                return (
-                  <TableRow key={product.id}>
-                    <TableCell>{product.productName}</TableCell>
-                    <TableCell>{product.productCode}</TableCell>
-                    <TableCell>{product.categoryId}</TableCell>
-                    <TableCell>{product.unitOfMeasure}</TableCell>
-                    <TableCell>
-                      <StatusBadge color={"disabled"} size="medium">
-                        <CircleIcon />
-                        {product.productStatusId}
-                      </StatusBadge>
-                    </TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "12px",
-                        }}
-                      >
-                        <PenOnPaperIcon sx={{ cursor: "pointer" }} />
-                        <TrashIcon sx={{ cursor: "pointer" }} />
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        )}
-      </PagePaper>
-    </>
+    <SortFilterProvider defaultFieldPath="id">
+      <ProductsTable_ />
+    </SortFilterProvider>
   );
 }
-
 export default ProductsTable;
 
-function AddProductButton() {
-  const [isOpenModal, setIsOPenModal] = useState(false);
-  const closeHandler = () => setIsOPenModal(false);
-  const openHandler = () => setIsOPenModal(true);
-  return (
-    <>
-      <Button
-        variant="contained"
-        size="medium"
-        onClick={openHandler}
-        sx={{ gap: "6px", borderRadius: "14px" }}
-      >
-        <AddIcon sx={{ color: "inherit" }} />
-        {"محصول جدید"}
-      </Button>
-
-      <Dialog open={isOpenModal} onClose={closeHandler}>
-        <AddProductModalForm />
-      </Dialog>
-    </>
-  );
-}
+type Product = {
+  id: string;
+  symbol: string;
+  currentPrice: number;
+  change24h: number;
+  lowPrice: number;
+  highPrice: number;
+};
