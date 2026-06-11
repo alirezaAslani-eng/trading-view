@@ -2,11 +2,13 @@
 import useCheckOverflow from "@/hooks/app/useCheckOverflow";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { nuteralScrollbar } from "@/packages/mui/theme/shared-style";
-import { Box } from "@mui/system";
-/**
- * @param {import("@mui/system").BoxProps & {overflowedSx:import("@mui/material").SxProps<import("@mui/material").Theme>}} props
- */
-function ScrollContainer({ overflowedSx, ...props }) {
+import { Theme } from "@mui/material";
+import { Box, BoxProps, SxProps } from "@mui/material";
+
+interface ScrollContainerProps extends BoxProps {
+  overflowedSx?: SxProps<Theme>;
+}
+function ScrollContainer({ overflowedSx, ...props }: ScrollContainerProps) {
   const { isOverflowing, scrollContainerRef } = useCheckOverflow();
   return (
     <Box
