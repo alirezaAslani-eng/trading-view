@@ -144,7 +144,7 @@ function OrderTypeSelector({ control }: FormSubscriber) {
 }
 
 function LimitedPriceInput({ control }: FormSubscriber) {
-  const { field } = useController({ control, name: "price" }); // <-- تغییر به price
+  const { field } = useController({ control, name: "limitedPrice" });
 
   return (
     <InputTrade
