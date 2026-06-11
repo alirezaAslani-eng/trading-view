@@ -16,7 +16,17 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
-import { InputSelect } from "@/components/ui/Input/InputSelect";
+import {
+  InputSelect,
+  InputSelectMenu,
+} from "@/components/ui/Input/InputSelect";
+import {
+  SelectInputLoader,
+  SelectInputLoaderText,
+} from "@/components/ui/Fallback/SelectInputLoader";
+import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
+import { useDispatch, useSelector } from "@/packages/redux";
+import { selectProductCode, setProductCode } from "@/redux/features/trading";
 
 const inputSelect_sx: SxProps<Theme> = ({ typography }) => ({
   fontSize: typography.button1.fontSize,
@@ -45,11 +55,7 @@ function PriceOverview() {
         gap: "88px",
       }}
     >
-      <InputSelect
-        variant="outlined"
-        placeholder="میلگرد"
-        sx={inputSelect_sx}
-      />
+      <InputSelectProductCode />
       <Box
         sx={{
           display: "flex",
@@ -132,4 +138,48 @@ function PriceOverviewCardTitle(
   );
 }
 
+function InputSelectProductCode() {
+  // TODO fetch products and initialize the state
+
+  const dispatch = useDispatch();
+  const productCode = useSelector(selectProductCode);
+
+  const onChangeHandler = (val: string) => {
+    dispatch(setProductCode(val));
+  };
+
+  return (
+    <>
+      <InputSelect
+        variant="outlined"
+        sx={inputSelect_sx}
+        placeholder="نماد"
+        value={productCode ?? ""}
+        onChange={onChangeHandler}
+      >
+        <InputSelectMenu>
+          <FallbackHandler
+            isLoading={true}
+            isError={true}
+            fallbacks={{
+              loader: (
+                <SelectInputLoader>
+                  <SelectInputLoaderText />
+                </SelectInputLoader>
+              ),
+            }}
+          />
+
+          {/* {products.map((product) => {
+            return (
+              <InputSelectItem key={product.id} value={product.productCode}>
+                {product.title}
+              </InputSelectItem>
+            );
+          })} */}
+        </InputSelectMenu>
+      </InputSelect>
+    </>
+  );
+}
 export default PriceOverview;
