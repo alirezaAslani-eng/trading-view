@@ -2,7 +2,6 @@ import type { BoxProps, MenuProps, Theme } from "@mui/material";
 import { SelectDisplayProps } from "./dropdownButton.types";
 import { ReactNode } from "react";
 import type { SystemStyleObject } from "@mui/system";
-import type { SelectValue } from "@/context/app/InputSelectController/types";
 import {
   InputSizeProps,
   InputThemeProps,
@@ -35,10 +34,12 @@ type InputTextProps = InputProps | TextareaProps;
 // * -------end------- InputText.tsx --------------
 
 // * -------start------- InputSelect.tsx --------------
-interface InputSelectProps extends SelectDisplayProps {
+interface InputSelectProps<
+  TValue extends string | number = string,
+> extends SelectDisplayProps {
   placeholder?: ReactNode;
-  onChange?: (value: SelectValue) => void;
-  value?: SelectValue;
+  onChange?: (value: TValue) => void;
+  value?: TValue;
 }
 // * -------end------- InputSelect.tsx --------------
 
@@ -51,7 +52,7 @@ interface InputSelectMenuProps extends Omit<
 
 // * -------start------- InputSelectItem.tsx --------------
 interface InputSelectItemProps extends BoxProps {
-  value: SelectValue;
+  value: string | number;
 }
 // * -------end------- InputSelectItem.tsx --------------
 

@@ -3,15 +3,14 @@ import {
   UseMuiMenuStateReturn,
 } from "@/hooks/app/types";
 
-type SelectValue = number | string;
-interface InputSelectControllerProvidedValue extends UseMuiMenuStateReturn<HTMLElement> {
-  selectedValue: SelectValue | undefined;
-  updateValue: (value: SelectValue) => void;
+interface InputSelectControllerProvidedValue<
+  TValue extends string | number  = string,
+> extends UseMuiMenuStateReturn<HTMLElement> {
+  selectedValue: TValue | undefined;
+  updateValue: (value: TValue) => void;
 }
-interface InputSelectControllerProps extends UseControlledStateConfig<SelectValue> {}
+interface InputSelectControllerProps<
+  TValue,
+> extends UseControlledStateConfig<TValue> {}
 
-export type {
-  InputSelectControllerProvidedValue,
-  InputSelectControllerProps,
-  SelectValue,
-};
+export type { InputSelectControllerProvidedValue, InputSelectControllerProps };

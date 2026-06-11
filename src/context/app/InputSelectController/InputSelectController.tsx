@@ -8,21 +8,23 @@ import {
 import { PWC } from "@/types/utils";
 
 const InputSelectControllerContext = createContext(
-  {} as InputSelectControllerProvidedValue,
+  {} as InputSelectControllerProvidedValue<any>,
 );
 
-function InputSelectController({
+function InputSelectController<TValue extends string | number = string>({
   children,
   onChange,
   value,
-}: PWC<InputSelectControllerProps>) {
-  
+}: PWC<InputSelectControllerProps<TValue>>) {
   // * ----- Menu dropdown state -----
   const { anchoreEl, anchoreWidth, isOpenMenu, closeMenu, openMenu } =
     useMuiMenuState<HTMLElement>();
 
   // * ----- Selected value state -----
-  const [selectedValue, updateValue] = useControlledState({ value, onChange });
+  const [selectedValue, updateValue] = useControlledState<TValue>({
+    value,
+    onChange,
+  });
 
   return (
     <InputSelectControllerContext

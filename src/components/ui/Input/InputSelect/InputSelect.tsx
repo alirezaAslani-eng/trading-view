@@ -46,11 +46,11 @@ function InputSelect_({
   );
 }
 
-function InputSelect({
+function InputSelect<TValue extends string | number>({
   onChange,
   value,
   ...inputSelectProps
-}: InputSelectProps) {
+}: InputSelectProps<TValue>) {
   return (
     <InputSelectController onChange={onChange} value={value}>
       <InputSelect_ {...inputSelectProps}>
