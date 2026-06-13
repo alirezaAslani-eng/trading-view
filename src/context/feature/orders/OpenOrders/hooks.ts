@@ -1,9 +1,9 @@
 import { useContext, useMemo } from "react";
-import { OrderActions, OrderFilters } from "./types";
-import { OpenOrderFiltersContext } from "./OrderFiltersContext";
+import { OpenOrdersActions, OpenOrdersFilters } from "./types";
+import { OpenOrdersContext } from "./OpenOrdersContext";
 
-function useOpenOrderActions(): OrderActions {
-  const ctx = useContext(OpenOrderFiltersContext)!;
+function useOpenOrderActions(): OpenOrdersActions {
+  const ctx = useContext(OpenOrdersContext)!;
 
   return useMemo(() => {
     return {
@@ -13,8 +13,8 @@ function useOpenOrderActions(): OrderActions {
   }, [ctx.resetFilters, ctx.updateFilter]);
 }
 
-function useOpenOrderFilters(): OrderFilters {
-  const ctx = useContext(OpenOrderFiltersContext)!;
+function useOpenOrderFilters(): OpenOrdersFilters {
+  const ctx = useContext(OpenOrdersContext)!;
   return ctx.filters;
 }
 
