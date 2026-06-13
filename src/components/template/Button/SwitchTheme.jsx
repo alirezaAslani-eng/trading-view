@@ -2,13 +2,14 @@
 import SunIcon from "@/assets/svg/sun.svg";
 import { Box, SvgIcon, Switch, Typography } from "@mui/material";
 
-function SwitchTheme() {
+function SwitchTheme({ collapsed = false }) {
   return (
     <Box
       sx={{
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: collapsed ? "center" : "space-between",
         alignItems: "center",
+        width: collapsed ? "auto" : "100%",
       }}
     >
       <Typography
@@ -17,16 +18,16 @@ function SwitchTheme() {
           color: "text.disabled",
           display: "flex",
           alignItems: "center",
-          gap: "10px",
+          gap: collapsed ? 0 : "10px",
         }}
       >
         <SvgIcon sx={{ color: "text.disabled" }}>
           <SunIcon />
         </SvgIcon>
-        {"حالت تیره"}
+        {!collapsed && "حالت تیره"}
       </Typography>
 
-      <Switch />
+      {!collapsed && <Switch />}
     </Box>
   );
 }
