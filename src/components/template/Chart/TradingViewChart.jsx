@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from "react";
 
 const TRADINGVIEW_SCRIPT = `${process.env.PUBLIC_URL || ""}/charting_library/charting_library.standalone.js`;
@@ -23,7 +24,7 @@ const loadScript = () =>
     document.head.appendChild(script);
   });
 
-export default function ProductChart() {
+function TradingViewChart() {
   const containerRef = React.useRef(null);
 
   useEffect(() => {
@@ -60,3 +61,5 @@ export default function ProductChart() {
 
   return <div ref={containerRef} style={{ width: "100%", height: "100%" }} />;
 }
+
+export default TradingViewChart;
