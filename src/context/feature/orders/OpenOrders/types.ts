@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 /*                                   Types                                    */
 /* -------------------------------------------------------------------------- */
 
-type OpenOrdersFilters = {
+type OrderFilters = {
   search: string;
   symbol: string | null;
   orderType: "market" | "limit" | null;
@@ -12,28 +12,28 @@ type OpenOrdersFilters = {
   sort: "ASC" | "DESC" | null;
 };
 
-type OpenOrdersActions = {
+type OrderActions = {
   resetFilters: () => void;
-  updateFilter: <K extends keyof OpenOrdersFilters>(
+  updateFilter: <K extends keyof OrderFilters>(
     key: K,
-    value: OpenOrdersFilters[K],
+    value: OrderFilters[K],
   ) => void;
 };
 
-interface OpenOrdersContextValue extends OpenOrdersActions {
-  filters: OpenOrdersFilters;
+interface OrderFiltersContextValue extends OrderActions {
+  filters: OrderFilters;
 }
 
 /* -------------------------------------------------------------------------- */
 /*                                 Provider                                   */
 /* -------------------------------------------------------------------------- */
-type OpenOrdersProviderProps = {
+type OrderFiltersProviderProps = {
   children: ReactNode;
 };
 
 export type {
-  OpenOrdersActions,
-  OpenOrdersFilters,
-  OpenOrdersContextValue,
-  OpenOrdersProviderProps,
+  OrderActions,
+  OrderFilters,
+  OrderFiltersContextValue,
+  OrderFiltersProviderProps,
 };
