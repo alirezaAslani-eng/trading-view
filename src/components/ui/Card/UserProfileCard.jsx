@@ -6,7 +6,19 @@ import {
   UserProfileInfo,
 } from "@/components/ui/Profile/UserProfile";
 import { MenueHorizontal } from "../Icon";
-function UserProfileCard() {
+function UserProfileCard({ collapsed = false }) {
+  if (collapsed) {
+    return (
+      <UserProfile>
+        <UserProfileImage
+          src="/images/person.png"
+          alt="My profile"
+          sx={{ width: 36, height: 36 }}
+        />
+      </UserProfile>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -20,6 +32,7 @@ function UserProfileCard() {
         height: "52px",
         borderRadius: "12px",
         gap: "30px",
+        width: "100%",
       }}
     >
       {/* // * ---------- Profile ---------- */}
@@ -28,7 +41,7 @@ function UserProfileCard() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          width:"100%"
+          width: "100%",
         }}
       >
         <UserProfile>

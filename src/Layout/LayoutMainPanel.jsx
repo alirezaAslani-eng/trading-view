@@ -1,11 +1,14 @@
 "use client";
-import { alpha, Box, Button, Portal } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import SidebarPanel from "@/components/template/Sidebar/SidebarPanel";
 import SupportButton from "@/components/template/Button/SupportButton";
 import { HeadPhoneIcon } from "@/components/ui/Icon";
+import { useSidebarContext } from "@/context/app/Sidebar";
 
 function LayoutMainPanel({ children }) {
+  const { sidebarWidth } = useSidebarContext();
+
   return (
     <>
       <Box
@@ -22,8 +25,11 @@ function LayoutMainPanel({ children }) {
             sx={{
               position: "sticky",
               top: "20px",
-              width: "264px",
+              width: `${sidebarWidth}px`,
               height: "calc(100svh - 40px)",
+              transition: "width 0.25s ease",
+              flexShrink: 0,
+              overflow: "visible",
             }}
           >
             <SidebarPanel />

@@ -10,20 +10,29 @@ import useIsActiveLink from "@/hooks/app/useIsActiveLink";
 import { useActiveItemContext } from "@/context/app/ActiveItem";
 const svg_sx = { width: "14px", height: "14px", cursor: "pointer" };
 
-function PanelSidebarDropdown({ icon, text, href, children, id, startWith }) {
+function PanelSidebarDropdown({
+  icon,
+  text,
+  href,
+  children,
+  id,
+  startWith,
+  collapsed = false,
+}) {
   const isActiveLink = useIsActiveLink({ href, startWith });
   const { activeId, removeId, setId } = useActiveItemContext();
-  const isOpenNestedMenu = activeId === id;
-  const LiOrUl = !!children ? "ul" : "li";
+  const isOpenNestedMenu = !collapsed && activeId === id;
+  const LiOrUl = !!children && !collapsed ? "ul" : "li";
   return (
     <LiOrUl>
       <Box
         sx={{
-          px: "16px",
+          px: collapsed ? "0px" : "16px",
           height: "42px",
           borderRadius: "12px",
           display: "flex",
           alignItems: "center",
+          justifyContent: collapsed ? "center" : "flex-start",
           ...(isActiveLink && {
             backgroundColor: "background.sidebarActive",
           }),
@@ -32,25 +41,35 @@ function PanelSidebarDropdown({ icon, text, href, children, id, startWith }) {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: collapsed ? "center" : "space-between",
             alignItems: "center",
-            flex: 1,
+            flex: collapsed ? "initial" : 1,
+            width: collapsed ? "100%" : "auto",
           }}
         >
           {/* // * ---------- Link ---------- */}
           <NextLink
             href={href}
-            sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: collapsed ? "center" : "flex-start",
+              gap: collapsed ? 0 : "10px",
+              width: collapsed ? "100%" : "auto",
+            }}
           >
             {icon}
-            <Typography variant="button3" sx={{ color: "text.heading" }}>
-              {text}
-            </Typography>
+            {!collapsed && (
+              <Typography variant="button3" sx={{ color: "text.heading" }}>
+                {text}
+              </Typography>
+            )}
           </NextLink>
 
           {/* // * ---------- Arrow Icon ---------- */}
 
-          {!!children &&
+          {!collapsed &&
+            !!children &&
             (!isOpenNestedMenu ? (
               <SvgIcon sx={svg_sx} onClick={() => setId(id)}>
                 <ArrowDownIcon />
