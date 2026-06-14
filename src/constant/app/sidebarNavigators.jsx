@@ -9,6 +9,7 @@ import SettingIcon from "@/assets/svg/setting.svg";
 import {
   ArrowUpDownIcon,
   BoxOutlinedIcon,
+  FlashIcon,
   LockIcon,
   UserIcon,
 } from "@/components/ui/Icon";
@@ -71,6 +72,13 @@ const sidebarNavigators = [
     text: "معامله",
     link: "/panel/trade",
     icon: <ArrowUpDownIcon />,
+    id: crypto.randomUUID(),
+    submenus: [],
+  },
+  {
+    text: "خرید آسان",
+    link: "/panel/fast-trade",
+    icon: <FlashIcon />,
     id: crypto.randomUUID(),
     submenus: [],
   },

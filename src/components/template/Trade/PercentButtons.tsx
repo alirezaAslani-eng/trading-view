@@ -9,9 +9,10 @@ function PercentButtons(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
     />
   );
 }
-function Percent(props: { precent?: string }) {
+function Percent(props: { precent?: string; onClick?: () => void }) {
   return (
     <ButtonBase
+      onClick={props.onClick}
       sx={{
         borderRadius: "999px",
         width: "100%",
