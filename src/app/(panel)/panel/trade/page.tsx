@@ -1,4 +1,3 @@
-"use client";
 import PageHeader from "@/components/common/Appbar/PageHeader";
 import OrderBook from "@/components/template/Table/OrderBook";
 import PriceOverview from "@/components/template/Trade/PriceOverview";
@@ -12,7 +11,7 @@ import {
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
 import tradePageSpacing_sx from "@/packages/mui/theme/shared-style/features/trading/tradePageSpacing_sx";
-
+import TradingViewChart from "@/components/template/Chart/TradingViewChart";
 // TODO the spacing style of this page must be a shared `sx`
 
 function page() {
@@ -35,11 +34,18 @@ function page() {
               alignItems: "stretch",
             }}
           >
+            {/* // * -------- Trade Panel -------- */}
             <Box sx={{ width: "270px" }}>
               <TradePanel />
             </Box>
+            {/* // * -------- Order Book -------- */}
             <Box sx={{ width: "270px" }}>
               <OrderBook />
+            </Box>
+
+            {/* // * ---------- Trading Chart ---------- */}
+            <Box sx={{ flex: 1, minWidth: "0px" }}>
+              <TradingViewChart />
             </Box>
           </SectionContent>
         </Section>
