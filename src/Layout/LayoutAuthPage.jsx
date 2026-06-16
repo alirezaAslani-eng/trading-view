@@ -2,7 +2,6 @@
 import NextLink from "@/components/ui/Link/NextLink";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import { Box, Divider, Stack, SvgIcon, Typography } from "@mui/material";
-import React from "react";
 import NextImage from "@/components/ui/Image/NextImage";
 import BrandName from "@/components/ui/Brand/BrandName";
 import BrandIcon from "@/assets/svg/brand-icon.svg";
@@ -13,7 +12,7 @@ const footerTypographyProps = {
 const footerDividerProps = {
   orientation: "vertical",
   flexItem: true,
-  sx: { mx: "12px", color: notDefinedColors["#676767"] },
+  sx: { mx: "12px", borderColor: notDefinedColors["#676767"] },
 };
 function LayoutAuthPage({ children }) {
   return (
@@ -27,17 +26,7 @@ function LayoutAuthPage({ children }) {
           position: "relative",
         }}
       >
-        <NextImage
-          src={"/images/light-mountain.png"}
-          alt="hero image"
-          fill
-          objectFit="cover"
-          sizes="100vh"
-          priority
-          sx={{
-            zIndex: -1,
-          }}
-        />
+        <PageBackground />
         <Stack sx={{ alignItems: "center", mt: "52px  " }}>
           <SvgIcon sx={{ width: "100px", height: "70px" }}>
             <BrandIcon />
@@ -67,3 +56,31 @@ function LayoutAuthPage({ children }) {
 }
 
 export default LayoutAuthPage;
+
+function PageBackground() {
+  return (
+    <>
+      <NextImage
+        src={"/images/light-mountain.png"}
+        alt="hero image"
+        fill
+        objectFit="cover"
+        sizes="100vh"
+        priority
+        sx={{ zIndex: -2 }}
+      />
+      {/* // * ------- gradient effect ------- */}
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: -1,
+          background: "linear-gradient(to bottom, #252525, #1B1B1B)",
+          opacity: 0.48,
+        }}
+      />
+    </>
+  );
+}
