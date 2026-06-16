@@ -18,11 +18,9 @@ interface InputTradeProps extends Omit<
 // ! The component is for MVP version, it will be refined
 
 const step = 10;
-function InputTrade({ label, sx, style, ...props }: InputTradeProps) {
-  const usesFloatingLabel = Boolean(label);
+function InputTrade({ label, ...props }: InputTradeProps) {
   const [isRisedLabel, setIsRisedLabel] = useState(false);
-  const isShowLable =
-    usesFloatingLabel && (!isNaN(Number(props.value)) || isRisedLabel);
+  const isShowLable = !isNaN(Number(props.value)) || isRisedLabel;
 
   const forwardOnChange = (v: string) => {
     if (!!!props.onValueChange) return;
@@ -64,24 +62,22 @@ function InputTrade({ label, sx, style, ...props }: InputTradeProps) {
   return (
     <>
       <Box sx={{ position: "relative" }}>
-        {usesFloatingLabel ? (
-          <Typography
-            component={"label"}
-            variant={"body2"}
-            sx={{
-              color: "text.linkSecondary",
-              textAlign: "center",
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              pointerEvents: "none",
-              transition: "all ease 200ms",
-              transform: `translate(-50%,${isShowLable ? "-25px" : "-50%"}) scale(${isShowLable ? "0.8" : "1"}) `,
-            }}
-          >
-            {label}
-          </Typography>
-        ) : null}
+        <Typography
+          component={"label"}
+          variant={"body2"}
+          sx={{
+            color: "text.linkSecondary",
+            textAlign: "center",
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            pointerEvents: "none",
+            transition: "all ease 200ms",
+            transform: `translate(-50%,${isShowLable ? "-25px" : "-50%"}) scale(${isShowLable ? "0.8" : "1"}) `,
+          }}
+        >
+          {label}
+        </Typography>
         <ButtonBase
           onClick={pluse}
           sx={{
@@ -104,22 +100,11 @@ function InputTrade({ label, sx, style, ...props }: InputTradeProps) {
           onFocus={onFocus}
           onBlur={onBlur}
           {...props}
-          style={style}
           sx={{
             height: "60px",
             px: "calc(44px + 14px)",
             textAlign: "center",
-            ...(usesFloatingLabel
-              ? { pt: "19px" }
-              : {
-                  direction: "rtl",
-                  lineHeight: "60px",
-                  py: 0,
-                  "&::placeholder": {
-                    textAlign: "center",
-                  },
-                }),
-            ...sx,
+            pt: "19px",
           }}
           onValueChange={onChnageHandler}
         />
