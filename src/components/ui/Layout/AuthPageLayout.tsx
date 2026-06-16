@@ -1,5 +1,5 @@
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
-import { BrandIcon } from "../Icon";
+import { BrandIcon, KeyLeftIcon } from "../Icon";
 import BrandName from "../Brand/BrandName";
 import NextLink from "../Link/NextLink";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
@@ -12,6 +12,7 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
+import AuthPageBackButton from "@/components/template/Button/AuthPageBackButton";
 
 const footerTypographyProps: TypographyProps = {
   variant: "button3",
@@ -25,18 +26,31 @@ const footerDividerProps: DividerProps = {
 
 function AuthPageLayout(props: ReplaceSxWithSxOnlyObject<StackProps>) {
   return (
-    <Stack
-      {...props}
-      sx={{
-        alignItems: "center",
-        justifyContent: { xs: "space-between", sm: "center" },
-        minHeight: "100svh",
-        py: { xs: "32px", sm: "16px" },
-        ...props.sx,
-      }}
-    />
+    <>
+      <Box
+        sx={{
+          height: "40px",
+          display: "flex",
+          justifyContent: "end",
+          alignItems: "center",
+        }}
+      >
+        <AuthPageBackButton />
+      </Box>
+      <Stack
+        {...props}
+        sx={{
+          alignItems: "center",
+          justifyContent: { xs: "space-between", sm: "center" },
+          minHeight: "calc(100svh - 40px)",
+          pb: { xs: "32px", sm: "16px" },
+          ...props.sx,
+        }}
+      />
+    </>
   );
 }
+
 
 function AuthPageLayoutFormContainer(
   props: ReplaceSxWithSxOnlyObject<StackProps>,
