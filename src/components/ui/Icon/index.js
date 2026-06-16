@@ -28,3 +28,4 @@ export { default as ArrowUpIcon } from "./ArrowUpIcon";
 export { default as StockIcon } from "./StockIcon";
 export { default as FlashIcon } from "./FlashIcon";
 export { default as BrandIcon } from "./BrandIcon";
+export { default as KeyLeftIcon } from "./KeyLeftIcon";
