@@ -9,7 +9,8 @@ interface CustomTypographyVariants extends Record<
   | "caption1"
   | "caption2"
   | "h7"
-  | "button5",
+  | "button5"
+  | "body4",
   TypographyStyle
 > {}
 
