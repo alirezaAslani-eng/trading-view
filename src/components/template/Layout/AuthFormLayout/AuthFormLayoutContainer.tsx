@@ -5,7 +5,7 @@ function AuthFormLayoutContainer(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
   return (
     <Box
       {...props}
-      sx={{ px: "calc(50px - 18px)", width: "100%", ...props.sx }}
+      sx={{ px: { sm: "calc(50px - 18px)" }, width: "100%", ...props.sx }}
     />
   );
 }
