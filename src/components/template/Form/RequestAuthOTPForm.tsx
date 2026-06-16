@@ -19,6 +19,7 @@ import { RequestAuthOTPSchemaType } from "@/validations/types";
 import { promiseAlert } from "@/packages/react-hot-toast";
 import alertMessages from "@/constant/app/alertMessages";
 import { storeIdentifier } from "@/utils/features/auth/userIdentifierStoreHandlers";
+import { authContent } from "@/content/auth";
 
 const mutationConfig = requestAuthOTPConfig();
 
@@ -56,12 +57,12 @@ function RequestAuthOTPForm() {
     <FormLayout onSubmit={form.handleSubmit(onSubmitHandler)}>
       <FormLayoutField>
         <FormLayoutLable htmlFor={phoneLabelID}>
-          {"شماره موبایل"}
+          {authContent.requestOtpContent.phoneInputLable}
         </FormLayoutLable>
         <InputPhoneNumber id={phoneLabelID} {...form.register("identifier")} />
       </FormLayoutField>
       <FormLayoutSubmit disabled={form.formState.isSubmitting}>
-        {"تایید و دریافت کد"}
+        {authContent.requestOtpContent.submitText}
       </FormLayoutSubmit>
     </FormLayout>
   );
