@@ -18,6 +18,7 @@ function ScrollContainer({ overflowedSx, ...props }: ScrollContainerProps) {
         return {
           overflow: "auto",
           transition: "all ease 150ms",
+          scrollbarGutter: "stable",
           ...nuteralScrollbar(tm),
           ...identifySxProp(tm, props?.sx),
           ...(isOverflowing && identifySxProp(tm, overflowedSx)),
