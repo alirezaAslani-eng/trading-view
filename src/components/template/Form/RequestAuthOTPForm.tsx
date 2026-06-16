@@ -9,17 +9,15 @@ import requestAuthOTPSchema from "@/validations/auth/requestAuthOTPSchema";
 import { requestAuthOTPConfig } from "@/packages/react-query";
 import { useRouter } from "next/navigation";
 import clientEnv from "@/validations/env/clientEnv";
-import {
-  FormLayout,
-  FormLayoutField,
-  FormLayoutLable,
-  FormLayoutSubmit,
-} from "@/components/ui/Layout/FormLayout";
 import { RequestAuthOTPSchemaType } from "@/validations/types";
 import { promiseAlert } from "@/packages/react-hot-toast";
 import alertMessages from "@/constant/app/alertMessages";
 import { storeIdentifier } from "@/utils/features/auth/userIdentifierStoreHandlers";
 import { authContent } from "@/content/auth";
+import AuthFormLayoutField from "../Layout/AuthFormLayout/AuthFormLayoutField";
+import AuthFormLayoutLable from "../Layout/AuthFormLayout/AuthFormLayoutLable";
+import AuthFormLayoutSubmit from "../Layout/AuthFormLayout/AuthFormLayoutSubmit";
+import { Box } from "@mui/material";
 
 const mutationConfig = requestAuthOTPConfig();
 
@@ -54,17 +52,18 @@ function RequestAuthOTPForm() {
   };
 
   return (
-    <FormLayout onSubmit={form.handleSubmit(onSubmitHandler)}>
-      <FormLayoutField>
-        <FormLayoutLable htmlFor={phoneLabelID}>
+    <Box component={"form"} onSubmit={form.handleSubmit(onSubmitHandler)}>
+      <AuthFormLayoutField>
+        <AuthFormLayoutLable htmlFor={phoneLabelID}>
           {authContent.requestOtpContent.phoneInputLable}
-        </FormLayoutLable>
+        </AuthFormLayoutLable>
         <InputPhoneNumber id={phoneLabelID} {...form.register("identifier")} />
-      </FormLayoutField>
-      <FormLayoutSubmit disabled={form.formState.isSubmitting}>
+      </AuthFormLayoutField>
+
+      <AuthFormLayoutSubmit disabled={form.formState.isSubmitting}>
         {authContent.requestOtpContent.submitText}
-      </FormLayoutSubmit>
-    </FormLayout>
+      </AuthFormLayoutSubmit>
+    </Box>
   );
 }
 
