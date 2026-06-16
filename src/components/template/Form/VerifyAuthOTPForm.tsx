@@ -1,5 +1,5 @@
 "use client";
-import { Box, ButtonBase, Typography } from "@mui/material";
+import { Box, ButtonBase, SxProps, Theme, Typography } from "@mui/material";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
 import InputVerifyCode from "@/components/template/Input/InputVerifyCode";
@@ -29,6 +29,7 @@ import {
   getStoredIdentifier,
   removeStoredIdentifier,
 } from "@/utils/features/auth/userIdentifierStoreHandlers";
+import BouncCircleLoader from "@/components/ui/Fallback/BounceCircleLoader";
 
 const mutationConfig = verifyAuthOTPConfig();
 
@@ -114,24 +115,48 @@ function VerifyAuthOTPForm() {
 export default VerifyAuthOTPForm;
 
 const requestOtpConfig = requestAuthOTPConfig();
+
+const requestOtpButton_sx: SxProps<Theme> = {
+  display: "flex",
+  alignItems: "center",
+  gap: "6px",
+  color: "text.primary",
+  minHeight: "20px",
+};
+
 function RequestOtpButton() {
-  const mutation = useMutation(requestOtpConfig);
+  const mutation = useMutation({
+    ...requestOtpConfig,
+    meta: {
+      successMessage: "کد ارسال شد",
+    },
+  });
 
   const requestOtp = async () => {
     const identifier = getStoredIdentifier();
+    mutation.mutate({ identifier });
   };
+
+  // TODO Implement remaining time logic
   return (
     <ButtonBase
       disableRipple
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: "6px",
-        color: "text.primary",
-      }}
+      disabled={mutation.isPending}
+      onClick={requestOtp}
+      sx={requestOtpButton_sx}
     >
-      <RestartRightIcon sx={{ color: "inherit" }} />
-      <Typography variant="body3">{"اصلاح شماره موبایل"}</Typography>
+      {!mutation.isPending && <RestartRightIcon sx={{ color: "inherit" }} />}
+
+      <Typography variant="body3">
+        {mutation.isPending ? "در حال ارسال" : "اصلاح شماره موبایل"}
+      </Typography>
+
+      {mutation.isPending && (
+        <BouncCircleLoader
+          sx={{ gap: "4px" }}
+          bounceSx={{ width: "4px", backgroundColor: "text.primary" }}
+        />
+      )}
     </ButtonBase>
   );
 }
