@@ -30,6 +30,9 @@ import {
   removeStoredIdentifier,
 } from "@/utils/features/auth/userIdentifierStoreHandlers";
 import BouncCircleLoader from "@/components/ui/Fallback/BounceCircleLoader";
+import AuthFormLayoutField from "../Layout/AuthFormLayout/AuthFormLayoutField";
+import AuthFormLayoutLable from "../Layout/AuthFormLayout/AuthFormLayoutLable";
+import AuthFormLayoutSubmit from "../Layout/AuthFormLayout/AuthFormLayoutSubmit";
 
 const mutationConfig = verifyAuthOTPConfig();
 
@@ -66,9 +69,9 @@ function VerifyAuthOTPForm() {
 
   return (
     <>
-      <FormLayout onSubmit={form.handleSubmit(submiter)}>
-        <FormLayoutField>
-          <FormLayoutLable>{"کد تایید"}</FormLayoutLable>
+      <Box component={"form"} onSubmit={form.handleSubmit(submiter)}>
+        <AuthFormLayoutField>
+          <AuthFormLayoutLable>{"کد تایید"}</AuthFormLayoutLable>
           <Controller
             control={form.control}
             name="code"
@@ -83,12 +86,12 @@ function VerifyAuthOTPForm() {
               );
             }}
           />
-        </FormLayoutField>
+        </AuthFormLayoutField>
 
-        <FormLayoutSubmit disabled={form.formState.isSubmitting}>
+        <AuthFormLayoutSubmit disabled={form.formState.isSubmitting}>
           {"تایید و ادامه"}
-        </FormLayoutSubmit>
-      </FormLayout>
+        </AuthFormLayoutSubmit>
+      </Box>
       <Box
         sx={{
           width: "100%",
@@ -98,7 +101,7 @@ function VerifyAuthOTPForm() {
           alignItems: "center",
         }}
       >
-        <NextLink href={""}>
+        <NextLink href={"/auth"}>
           <Typography
             variant="body3"
             sx={{ color: notDefinedColors["#C6C6C6"] }}
