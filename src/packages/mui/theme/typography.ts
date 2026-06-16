@@ -55,6 +55,11 @@ const typography: TypographyVariantsOptions = {
     lineHeight: 1.2,
     fontFamily: "var(--iranyekan-regular)",
   },
+  body4: {
+    fontSize: "12px",
+    lineHeight: 1.5,
+    fontFamily: "var(--iranyekan-regular)",
+  },
   // * -------------- Button --------------
 
   button1: {
