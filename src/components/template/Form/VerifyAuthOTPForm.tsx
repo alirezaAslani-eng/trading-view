@@ -1,12 +1,15 @@
 "use client";
-import { Box, Typography } from "@mui/material";
+import { Box, ButtonBase, Typography } from "@mui/material";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
 import InputVerifyCode from "@/components/template/Input/InputVerifyCode";
 import SendAuthOTP from "@/components/template/Button/SendAuthOTP";
 import { RestartRightIcon } from "@/components/ui/Icon";
 import { useMutation } from "@tanstack/react-query";
-import { verifyAuthOTPConfig } from "@/packages/react-query";
+import {
+  requestAuthOTPConfig,
+  verifyAuthOTPConfig,
+} from "@/packages/react-query";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import verifyAuthOTPSchema from "@/validations/auth/verifyAuthOTPSchema";
@@ -18,11 +21,14 @@ import {
   FormLayoutLable,
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
-import { identifierSessionKey } from "@/constant/features/auth/sessionStorageKeys";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { promiseAlert } from "@/packages/react-hot-toast";
 import alertMessages from "@/constant/app/alertMessages";
+import {
+  getStoredIdentifier,
+  removeStoredIdentifier,
+} from "@/utils/features/auth/userIdentifierStoreHandlers";
 
 const mutationConfig = verifyAuthOTPConfig();
 
@@ -34,16 +40,13 @@ function VerifyAuthOTPForm() {
   });
 
   useEffect(() => {
-    form.setValue(
-      "identifier",
-      sessionStorage.getItem(identifierSessionKey) ?? "",
-    );
-  }, [form.setValue, identifierSessionKey]);
+    form.setValue("identifier", getStoredIdentifier());
+  }, [form.setValue]);
 
   const mutation = useMutation({
     ...mutationConfig,
     onSuccess: () => {
-      sessionStorage.removeItem(identifierSessionKey);
+      removeStoredIdentifier();
       router.replace("/panel/profile/my-info");
     },
     meta: {
@@ -102,14 +105,33 @@ function VerifyAuthOTPForm() {
             {"اصلاح شماره موبایل"}
           </Typography>
         </NextLink>
-
-        <SendAuthOTP>
-          <RestartRightIcon sx={{ color: "inherit" }} />
-          {"اصلاح شماره موبایل"}
-        </SendAuthOTP>
+        <RequestOtpButton />
       </Box>
     </>
   );
 }
 
 export default VerifyAuthOTPForm;
+
+const requestOtpConfig = requestAuthOTPConfig();
+function RequestOtpButton() {
+  const mutation = useMutation(requestOtpConfig);
+
+  const requestOtp = async () => {
+    const identifier = getStoredIdentifier();
+  };
+  return (
+    <ButtonBase
+      disableRipple
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: "6px",
+        color: "text.primary",
+      }}
+    >
+      <RestartRightIcon sx={{ color: "inherit" }} />
+      <Typography variant="body3">{"اصلاح شماره موبایل"}</Typography>
+    </ButtonBase>
+  );
+}

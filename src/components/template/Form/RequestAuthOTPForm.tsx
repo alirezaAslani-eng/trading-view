@@ -9,8 +9,6 @@ import requestAuthOTPSchema from "@/validations/auth/requestAuthOTPSchema";
 import { requestAuthOTPConfig } from "@/packages/react-query";
 import { useRouter } from "next/navigation";
 import clientEnv from "@/validations/env/clientEnv";
-import useSessionStorage from "@/hooks/app/useSessionStorage";
-import { identifierSessionKey } from "@/constant/features/auth/sessionStorageKeys";
 import {
   FormLayout,
   FormLayoutField,
@@ -20,6 +18,7 @@ import {
 import { RequestAuthOTPSchemaType } from "@/validations/types";
 import { promiseAlert } from "@/packages/react-hot-toast";
 import alertMessages from "@/constant/app/alertMessages";
+import { storeIdentifier } from "@/utils/features/auth/userIdentifierStoreHandlers";
 
 const mutationConfig = requestAuthOTPConfig();
 
@@ -36,7 +35,7 @@ function RequestAuthOTPForm() {
   const mutation = useMutation({
     ...mutationConfig,
     onSuccess: () => {
-      sessionStorage.setItem(identifierSessionKey, form.watch("identifier"));
+      storeIdentifier(form.watch("identifier"));
       push("/auth/verify");
     },
     meta: {
