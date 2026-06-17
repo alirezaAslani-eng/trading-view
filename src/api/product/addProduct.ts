@@ -3,6 +3,7 @@ import handleApiResponse from "@/utils/app/handleApiResponse";
 import { sharedRequestInit } from "../sharedRequestInit";
 import { AddProductSchemaType } from "@/validations/types";
 import mutationFetch from "@/utils/app/mutationFetch";
+import { SharedHeaders } from "../sharedHeaders";
 
 const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/products`;
 
@@ -13,6 +14,7 @@ async function addProduct(body: AddProductSchemaType): Promise<void> {
       method: "POST",
       body: JSON.stringify(body satisfies AddProductSchemaType),
       headers: {
+        ...new SharedHeaders(),
         "Content-Type": "application/json",
       },
     });
