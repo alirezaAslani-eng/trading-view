@@ -24,10 +24,16 @@ import {
 import UpgradeKycAction from "@/components/template/Button/UpgradeKycAction";
 import { useQuery } from "@tanstack/react-query";
 import { dashboardInfoConfig } from "@/packages/react-query";
-// ! Issiue : Some data dosen't come from server like `nationalId` and `birthdate`
+import { convertToJalali } from "@/packages/dayjs";
+import { KycLevel } from "@/types";
+import KYC_LEVEL_ORDER from "@/constant/features/kyc/kycLevelOreder";
+
+const kycFallback = "نیاز به احراز حویت";
+
 const queryConfig = dashboardInfoConfig();
 function ProfileOverviewSection() {
   const dashboard_info = useQuery(queryConfig);
+
   return (
     <>
       {dashboard_info.status === "success" && (
@@ -46,7 +52,7 @@ function ProfileOverviewSection() {
                   {dashboard_info.data.fullName}
                 </Typography>
                 <Typography variant="body2" sx={{ color: "text.tertiary" }}>
-                  {dashboard_info.data.kycLevel}
+                  {formatKycLevel(dashboard_info.data.kycLevel)}
                 </Typography>
               </UserProfileInfo>
             </UserProfile>
@@ -79,7 +85,7 @@ function ProfileOverviewSection() {
               <UserProfileItemInfo
                 icon={<UserGuardIcon />}
                 title="کد ملی"
-                subTitle={dashboard_info.data.mobile}
+                subTitle={dashboard_info.data.nationalId ?? kycFallback}
               />
             </UserProfileItemCard>
 
@@ -87,7 +93,9 @@ function ProfileOverviewSection() {
               <UserProfileItemInfo
                 icon={<BirthDayCakeIcon />}
                 title="تاریخ تولد"
-                // subTitle={dashboard_info}
+                subTitle={
+                  formatBirthdate(dashboard_info.data?.birthDate) ?? kycFallback
+                }
               />
             </UserProfileItemCard>
 
@@ -152,3 +160,17 @@ function ProfileOverviewSection() {
 }
 
 export default ProfileOverviewSection;
+
+function formatBirthdate(birthdate: string | null | undefined): string | null {
+  const formatedBirthdate = !!birthdate
+    ? convertToJalali(birthdate).format("YYYY/MM/DD")
+    : null;
+
+  return formatedBirthdate;
+}
+
+function formatKycLevel(kycLevel: KycLevel) {
+  const kycOrder = KYC_LEVEL_ORDER[kycLevel];
+  if (kycOrder === 0) return kycFallback;
+  return `سطح ${KYC_LEVEL_ORDER[kycLevel]}`;
+}
