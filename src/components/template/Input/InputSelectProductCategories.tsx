@@ -35,7 +35,7 @@ function InputSelectProductCategory(props: ComponentProps<typeof InputSelect>) {
         {isSuccessQuery &&
           query.data.map((category) => {
             return (
-              <InputSelectItem key={category.id} value={category.id}>
+              <InputSelectItem key={category.id} value={String(category.id)}>
                 {category.name}
               </InputSelectItem>
             );
