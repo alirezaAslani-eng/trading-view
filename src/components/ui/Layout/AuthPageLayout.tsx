@@ -30,7 +30,7 @@ function AuthPageLayout(props: ReplaceSxWithSxOnlyObject<StackProps>) {
       <Box
         sx={{
           height: "40px",
-          display: "flex",
+          display: { xs: "flex", sm: "none" },
           justifyContent: "end",
           alignItems: "center",
         }}
@@ -50,7 +50,6 @@ function AuthPageLayout(props: ReplaceSxWithSxOnlyObject<StackProps>) {
     </>
   );
 }
-
 
 function AuthPageLayoutFormContainer(
   props: ReplaceSxWithSxOnlyObject<StackProps>,
