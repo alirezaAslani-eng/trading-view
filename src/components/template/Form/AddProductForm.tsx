@@ -1,12 +1,5 @@
 "use client";
 import InputText from "@/components/ui/Input/InputText";
-import {
-  FormLayout,
-  FormLayoutField,
-  FormLayoutFieldGroup,
-  FormLayoutLable,
-  FormLayoutSubmit,
-} from "@/components/ui/Layout/FormLayout";
 import addProductSchema from "@/validations/product/addProductSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -16,7 +9,24 @@ import safeAsync from "@/utils/app/safeAsync";
 import { addProductConfig } from "@/packages/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { AddProductSchemaType } from "@/validations/types";
+import { ComponentProps } from "react";
+import CheckBox from "@/components/ui/Checkbox/CheckBox";
+import InputNumeric from "@/components/ui/Input/InputNumeric";
 import alertMessages from "@/constant/app/alertMessages";
+import {
+  InputSelect,
+  InputSelectItem,
+  InputSelectMenu,
+} from "@/components/ui/Input/InputSelect";
+import {
+  FormLayout,
+  FormLayoutCheckbox,
+  FormLayoutField,
+  FormLayoutFieldGroup,
+  FormLayoutLable,
+  FormLayoutSubmit,
+  FormLayoutCheckboxGroup,
+} from "@/components/ui/Layout/FormLayout";
 
 const mutationConfig = addProductConfig();
 
@@ -27,6 +37,8 @@ function AddProductForm() {
     resolver: zodResolver(addProductSchema),
     defaultValues: {
       categoryId: "",
+      unitOfMeasure: "",
+      productStatusId: false,
     },
   });
 
@@ -45,12 +57,12 @@ function AddProductForm() {
     <FormLayout onSubmit={form.handleSubmit(onSubmitHandler)}>
       <FormLayoutFieldGroup>
         <FormLayoutField>
-          <FormLayoutLable>{"نماد"}</FormLayoutLable>
+          <FormLayoutLable>{"نام محصول"}</FormLayoutLable>
           <InputText
-            placeholder="نماد محصول"
+            placeholder="نام محصول را وارد کنید"
             disabled={form.formState.isSubmitting}
-            error={!!form.formState.errors.name}
-            {...form.register("name")}
+            error={!!form.formState.errors.productName}
+            {...form.register("productName")}
           />
         </FormLayoutField>
 
@@ -59,13 +71,14 @@ function AddProductForm() {
           <Controller
             control={form.control}
             name="categoryId"
-            render={({ field }) => {
+            render={({ field, formState }) => {
               return (
                 <InputSelectProductCategory
                   placeholder="دسته بندی را انتخاب کن"
-                  disabled={form.formState.isSubmitting}
+                  disabled={formState.isSubmitting}
                   error={!!form.formState.errors.categoryId}
-                  {...field}
+                  onChange={field.onChange}
+                  value={field.value}
                 />
               );
             }}
@@ -85,18 +98,74 @@ function AddProductForm() {
         </FormLayoutField>
 
         <FormLayoutField>
-          {/* <FormLayoutLable>{"واحد اندازه گیری"}</FormLayoutLable>
-          <InputSelect placeholder="واحد را انتخاب کن"></InputSelect> */}
+          <FormLayoutLable>{"واحد اندازه گیری"}</FormLayoutLable>
+          <Controller
+            control={form.control}
+            name="unitOfMeasure"
+            render={({ field, formState, fieldState }) => {
+              return (
+                <InputSelectProductUnit
+                  onChange={field.onChange}
+                  value={field.value}
+                  disabled={formState.isSubmitting}
+                  error={!!fieldState.error?.message}
+                />
+              );
+            }}
+          />
         </FormLayoutField>
       </FormLayoutFieldGroup>
 
-      {/* <FormLayoutCheckbox>
+      <FormLayoutFieldGroup>
+        <FormLayoutField>
+          <FormLayoutLable>{"حداکثر حجم معاملات"}</FormLayoutLable>
+          <Controller
+            control={form.control}
+            name="maxTradingSupply"
+            render={({ field, fieldState, formState }) => {
+              return (
+                <InputNumeric
+                  placeholder="حد اکثر حجم را وارد کنید"
+                  disabled={formState.isSubmitting}
+                  error={!!fieldState.error?.message}
+                  value={field.value}
+                  onValueChange={({ floatValue }) => {
+                    field.onChange(floatValue);
+                  }}
+                />
+              );
+            }}
+          />
+        </FormLayoutField>
+
+        <FormLayoutField>
+          <FormLayoutLable>{"قیمت اولیه"}</FormLayoutLable>
+          <Controller
+            control={form.control}
+            name="initialPrice"
+            render={({ field, fieldState, formState }) => {
+              return (
+                <InputNumeric
+                  placeholder="قیمت را واردکنید (تومان)"
+                  disabled={formState.isSubmitting}
+                  error={!!fieldState.error?.message}
+                  value={field.value}
+                  onValueChange={({ floatValue }) => {
+                    field.onChange(floatValue);
+                  }}
+                />
+              );
+            }}
+          />
+        </FormLayoutField>
+      </FormLayoutFieldGroup>
+
+      <FormLayoutCheckbox>
         <FormLayoutLable component={"p"}>{"وضعیت محصول"}</FormLayoutLable>
         <FormLayoutCheckboxGroup>
-          <CheckBox label={"فعال"} />
-          <CheckBox label={"قیر فعال"} />
+          <CheckBox label={"فعال"} {...form.register("productStatusId")} />
         </FormLayoutCheckboxGroup>
-      </FormLayoutCheckbox> */}
+      </FormLayoutCheckbox>
 
       <FormLayoutSubmit disabled={form.formState.isSubmitting}>
         {"افزودن محصول"}
@@ -106,3 +175,13 @@ function AddProductForm() {
 }
 
 export default AddProductForm;
+
+function InputSelectProductUnit(props: ComponentProps<typeof InputSelect>) {
+  return (
+    <InputSelect placeholder="واحد را انتخاب کن" {...props}>
+      <InputSelectMenu>
+        <InputSelectItem value={"kg"}>{"kg"}</InputSelectItem>
+      </InputSelectMenu>
+    </InputSelect>
+  );
+}
