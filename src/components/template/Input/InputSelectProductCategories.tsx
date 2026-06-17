@@ -1,4 +1,5 @@
 "use client";
+import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import {
   SelectInputLoader,
   SelectInputLoaderText,
@@ -19,15 +20,22 @@ function InputSelectProductCategory(props: ComponentProps<typeof InputSelect>) {
   return (
     <InputSelect {...props}>
       <InputSelectMenu>
-        {!!isSuccessQuery && (
-          <SelectInputLoader>
-            <SelectInputLoaderText />
-          </SelectInputLoader>
-        )}
+        <FallbackHandler
+          isLoading={query.isLoading}
+          isError={query.isError}
+          fallbacks={{
+            loader: (
+              <SelectInputLoader>
+                <SelectInputLoaderText />
+              </SelectInputLoader>
+            ),
+          }}
+        />
+
         {isSuccessQuery &&
           query.data.map((category) => {
             return (
-              <InputSelectItem value={category.id}>
+              <InputSelectItem key={category.id} value={category.id}>
                 {category.name}
               </InputSelectItem>
             );
