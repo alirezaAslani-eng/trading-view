@@ -5,9 +5,12 @@ interface DashboardInfoResponse extends WithID {
   email: string | null;
   mobile: string;
   kycLevel: KycLevel;
+  userTier: string;
   isActive: boolean;
   isEmailVerified: boolean;
   isNationalIdVerified: boolean;
+  nationalId: string | null;
+  birthDate: string | null;
   bankAccountsCount: number;
   addressesCount: number;
   monthlyTransactionVolume: number;
