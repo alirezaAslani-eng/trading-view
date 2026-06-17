@@ -51,6 +51,7 @@ function InputSelect<TValue extends string | number>({
   value,
   ...inputSelectProps
 }: InputSelectProps<TValue>) {
+  // TODO delete some props : name, onBlur, onFocus and others that come from react-hook-form Controller or implement their logic
   return (
     <InputSelectController onChange={onChange} value={value}>
       <InputSelect_ {...inputSelectProps}>
