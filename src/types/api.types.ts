@@ -15,8 +15,10 @@ interface ResponseErrorType {
 
 interface ApiOptions<
   TParams extends Record<string, any> = Record<string, unknown>,
+  TQueries extends Record<string, any> = Record<string, unknown>,
 > {
   params?: TParams;
+  queries?: TQueries;
 }
 
 export type { BaseApiResponse, ResponseErrorType, ApiOptions };

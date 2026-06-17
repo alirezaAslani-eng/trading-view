@@ -7,9 +7,9 @@ type ProductCategoriesResponse = {
 // * --end-- productCategories.ts ----
 
 // * --start-- getProducts.ts ----
-type ProductStatus = "inActive" | "active" | "all";
-interface GetProductsParams {
-  productStatus: ProductStatus;
+type ProductStatus = "null" | "true" | "false";
+interface GetProductsQueries {
+  isActive: ProductStatus;
 }
 type ProductsResponse = {
   id: string;
@@ -24,6 +24,6 @@ type ProductsResponse = {
 export type {
   ProductCategoriesResponse,
   ProductsResponse,
-  GetProductsParams,
+  GetProductsQueries,
   ProductStatus,
 };

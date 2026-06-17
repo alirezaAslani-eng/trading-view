@@ -37,7 +37,7 @@ import { ProductStatus } from "@/api/types";
 const queryConfig = productsConfig();
 
 function ProductManagementTable() {
-  const [status, setStatus] = useState<ProductStatus>("all");
+  const [status, setStatus] = useState<ProductStatus>("null");
 
   const statusHandler = (_: any, value: any) => {
     if (!!!value) return;
@@ -56,15 +56,15 @@ function ProductManagementTable() {
       <PagePaper>
         <PagePaperHeading sx={{ mb: "42px" }}>
           <ToggleTabGroup size="small" value={status} onChange={statusHandler}>
-            <ToggleButton value={"all" satisfies ProductStatus}>
+            <ToggleButton value={"null" satisfies ProductStatus}>
               {"همه"}
             </ToggleButton>
             <Divider orientation="vertical" flexItem />
-            <ToggleButton value={"active" satisfies ProductStatus}>
+            <ToggleButton value={"true" satisfies ProductStatus}>
               {"محصولات فعال"}
             </ToggleButton>
             <Divider orientation="vertical" flexItem />
-            <ToggleButton value={"inActive" satisfies ProductStatus}>
+            <ToggleButton value={"false" satisfies ProductStatus}>
               {"محصولات غیرفعال"}
             </ToggleButton>
           </ToggleTabGroup>
@@ -117,9 +117,14 @@ function ProductManagementTable() {
                     <TableCell>{product.categoryId}</TableCell>
                     <TableCell>{product.unitOfMeasure}</TableCell>
                     <TableCell>
-                      <StatusBadge color={"disabled"} size="medium">
+                      <StatusBadge
+                        color={product.productStatusId ? "success" : "warning"}
+                        size="medium"
+                      >
                         <CircleIcon />
-                        {product.productStatusId}
+                        {product.productStatusId
+                          ? "تایید شده"
+                          : "در انتظار تایید"}
                       </StatusBadge>
                     </TableCell>
                     <TableCell>
@@ -165,7 +170,7 @@ function AddProductButton() {
       </Button>
 
       <Dialog open={isOpenModal} onClose={closeHandler}>
-        <AddProductModalForm />
+        <AddProductModalForm onClose={closeHandler} />
       </Dialog>
     </>
   );

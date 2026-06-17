@@ -100,10 +100,10 @@ const productCategoriesConfig = () => {
 
 const productsConfig = () => {
   return queryOptions<ProductsResponse, ResponseErrorType, ProductsResponse>({
-    queryKey: productsDynamicKey("all"),
+    queryKey: productsDynamicKey("null"),
     queryFn: async (query) => {
       const productStatus = query.queryKey[2] as ProductStatus;
-      const res = await getProducts({ params: { productStatus } });
+      const res = await getProducts({ queries: { isActive: productStatus } });
       return res;
     },
   });

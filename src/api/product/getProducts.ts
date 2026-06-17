@@ -1,35 +1,29 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
-import { GetProductsParams, ProductsResponse } from "@/api/types";
+import { GetProductsQueries, ProductsResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
-import { ApiOptions, BaseApiResponse } from "@/types";
+import { ApiOptions } from "@/types";
 
-const getUrl = (params?: GetProductsParams) => {
-  const statusKey: Record<GetProductsParams["productStatus"], string> = {
-    active: "true",
-    inActive: "false",
-    all: "",
-  };
-  const produstStatus = statusKey[params?.productStatus ?? "all"];
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/products/${produstStatus}`;
+const getUrlQueries = (queries?: GetProductsQueries) => {
+  const searchParams = new URLSearchParams({ ...queries });
+  if (queries?.isActive === "null") searchParams.delete("isActive");
+  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/products?${searchParams.toString()}`;
 };
 
 async function getProducts({
-  params,
-}: ApiOptions<GetProductsParams>): Promise<ProductsResponse> {
+  queries,
+}: ApiOptions<{}, GetProductsQueries>): Promise<ProductsResponse> {
   const res = (await fetchHandler(async () => {
-    const response = await fetch(getUrl(params), {
+    const response = await fetch(getUrlQueries(queries), {
       ...sharedRequestInit,
       method: "GET",
     });
     return response;
   })) as Response;
 
-  const data = (await handleApiResponse(
-    res,
-  )) as BaseApiResponse<ProductsResponse>;
+  const data = (await handleApiResponse(res)) as ProductsResponse;
 
-  return data.data;
+  return data;
 }
 
 export default getProducts;
