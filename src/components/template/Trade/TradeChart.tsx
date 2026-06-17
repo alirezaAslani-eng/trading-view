@@ -1,7 +1,7 @@
-import React from "react";
-import TradingViewChart from "@/components/template/Chart/TradingViewChart";
+import { TradingViewChart } from "@/packages/tradingview";
 function TradeChart() {
-  return <TradingViewChart  />;
+  // TODO Integrate the chart with APIs
+  return "TradeChart";
 }
 
 export default TradeChart;
