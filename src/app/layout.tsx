@@ -8,26 +8,28 @@ import { PWC } from "@/types/utils";
 import { QueryClientProvider } from "@/packages/react-query";
 import { ReduxProvider } from "@/packages/redux";
 import { Toaster } from "@/packages/react-hot-toast";
-
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 export default function RootLayout({ children }: PWC) {
   return (
     <QueryClientProvider>
       <ReduxProvider>
-        <AppRouterCacheProvider>
-          <ThemeProvider>
-            <CssBaseline />
-            <html lang="fa" dir="rtl">
-              <Box
-                component={"body"}
-                sx={{ minHeight: "100svh" }}
-                className={`${IranYekanMedium.variable} ${IranYekanDemibold.variable} ${IranYekanRegular.variable}`}
-              >
-                {children}
-                <Toaster />
-              </Box>
-            </html>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <NuqsAdapter>
+          <AppRouterCacheProvider>
+            <ThemeProvider>
+              <CssBaseline />
+              <html lang="fa" dir="rtl">
+                <Box
+                  component={"body"}
+                  sx={{ minHeight: "100svh" }}
+                  className={`${IranYekanMedium.variable} ${IranYekanDemibold.variable} ${IranYekanRegular.variable}`}
+                >
+                  {children}
+                  <Toaster />
+                </Box>
+              </html>
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </NuqsAdapter>
       </ReduxProvider>
     </QueryClientProvider>
   );
