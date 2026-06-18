@@ -1,19 +1,16 @@
 "use client";
 
 import { getMarketTickers } from "@/api";
-import type { MarketTicker } from "@/api/types";
+import type { MarketTicker, MarketTickersResponse } from "@/api/types";
 import { marketTickersKey } from "@/packages/react-query";
 import { getConnection, start } from "@/packages/signalr";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createContext,
   useContext,
   useEffect,
   useMemo,
-  useState,
-  type Dispatch,
   type PropsWithChildren,
-  type SetStateAction,
 } from "react";
 
 type ProductTableRow = {
@@ -29,8 +26,6 @@ type ProductTableRow = {
 
 type ProductsTableContextValue = {
   rows: ProductTableRow[];
-  searchValue: string;
-  setSearchValue: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
   isError: boolean;
 };
@@ -91,21 +86,21 @@ function extractTickerPayload(payload: unknown): MarketTicker[] {
   return nestedPayload.map(normalizeTickerPayload).filter((item) => !!item);
 }
 
-function upsertRows(
-  previousRows: ProductTableRow[],
+function upsertTickers(
+  previousTickers: MarketTickersResponse,
   nextTickers: MarketTicker[],
-): ProductTableRow[] {
-  if (!nextTickers.length) return previousRows;
+): MarketTickersResponse {
+  if (!nextTickers.length) return previousTickers;
 
-  const rowsBySymbol = new Map(
-    previousRows.map((row) => [row.symbol.toLocaleUpperCase(), row]),
+  const tickersBySymbol = new Map(
+    previousTickers.map((ticker) => [ticker.symbol.toLocaleUpperCase(), ticker]),
   );
 
   nextTickers.forEach((ticker) => {
-    rowsBySymbol.set(ticker.symbol.toLocaleUpperCase(), mapTickerToRow(ticker));
+    tickersBySymbol.set(ticker.symbol.toLocaleUpperCase(), ticker);
   });
 
-  return Array.from(rowsBySymbol.values());
+  return Array.from(tickersBySymbol.values());
 }
 
 function mapTickerToRow(ticker: MarketTicker): ProductTableRow {
@@ -122,18 +117,12 @@ function mapTickerToRow(ticker: MarketTicker): ProductTableRow {
 }
 
 function ProductsTableProvider({ children }: PropsWithChildren) {
-  const [searchValue, setSearchValue] = useState("");
-  const [rows, setRows] = useState<ProductTableRow[]>([]);
+  const queryClient = useQueryClient();
 
   const tickersQuery = useQuery({
     queryKey: marketTickersKey,
     queryFn: getMarketTickers,
   });
-
-  useEffect(() => {
-    if (!tickersQuery.data) return;
-    setRows(tickersQuery.data.map(mapTickerToRow));
-  }, [tickersQuery.data]);
 
   useEffect(() => {
     const conn = getConnection();
@@ -142,7 +131,13 @@ function ProductsTableProvider({ children }: PropsWithChildren) {
     const updateRows = (payload: unknown) => {
       const nextTickers = extractTickerPayload(payload);
       if (!nextTickers.length) return;
-      setRows((prevRows) => upsertRows(prevRows, nextTickers));
+
+      queryClient.setQueryData<MarketTickersResponse>(
+        marketTickersKey,
+        (previousTickers = []) => {
+          return upsertTickers(previousTickers, nextTickers);
+        },
+      );
     };
 
     marketEvents.forEach((eventName) => conn.on(eventName, updateRows));
@@ -152,36 +147,19 @@ function ProductsTableProvider({ children }: PropsWithChildren) {
     return () => {
       marketEvents.forEach((eventName) => conn.off(eventName, updateRows));
     };
-  }, []);
+  }, [queryClient]);
 
-  const filteredRows = useMemo(() => {
-    const normalizedSearch = searchValue.trim().toLocaleLowerCase();
-    if (!normalizedSearch) return rows;
-
-    return rows.filter((row) => {
-      const symbol = row.symbol.toLocaleLowerCase();
-      const name = row.name.toLocaleLowerCase();
-      return (
-        symbol.includes(normalizedSearch) || name.includes(normalizedSearch)
-      );
-    });
-  }, [rows, searchValue]);
+  const rows = useMemo(() => {
+    return (tickersQuery.data ?? []).map(mapTickerToRow);
+  }, [tickersQuery.data]);
 
   const value = useMemo(
     () => ({
-      rows: filteredRows,
-      searchValue,
-      setSearchValue,
+      rows,
       isLoading: tickersQuery.isLoading,
       isError: tickersQuery.isError,
     }),
-    [
-      filteredRows,
-      searchValue,
-      setSearchValue,
-      tickersQuery.isLoading,
-      tickersQuery.isError,
-    ],
+    [rows, tickersQuery.isLoading, tickersQuery.isError],
   );
 
   return (

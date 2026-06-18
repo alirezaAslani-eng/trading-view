@@ -27,8 +27,7 @@ import {
 
 function ProductsTable_() {
   const { sorter } = useSortFilter();
-  const { rows, searchValue, setSearchValue, isLoading, isError } =
-    useProductsTable();
+  const { rows, isLoading, isError } = useProductsTable();
 
   const columns: Column<ProductTableRow>[] = [
     {
@@ -107,7 +106,7 @@ function ProductsTable_() {
     <PagePaper>
       <PagePaperHeading sx={{ mb: "32px" }}>
         <PagePaperTitle>{"لیست محصولات"}</PagePaperTitle>
-        <TableControls value={searchValue} onChange={setSearchValue} />
+        <TableControls />
       </PagePaperHeading>
 
       <FallbackHandler

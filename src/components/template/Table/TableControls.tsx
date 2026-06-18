@@ -1,14 +1,8 @@
 import InputText from "@/components/ui/Input/InputText";
 import InputMarker from "@/components/ui/Marker/InputMarker";
 import { SearchIcon } from "@/components/ui/Icon";
-import { ChangeEvent } from "react";
 
-interface TableControlsProps {
-  value?: string;
-  onChange?: (value: string) => void;
-}
-
-function TableControls({ value, onChange }: TableControlsProps) {
+function TableControls() {
   return (
     <InputMarker
       right={"10px"}
@@ -17,10 +11,6 @@ function TableControls({ value, onChange }: TableControlsProps) {
       <InputText
         size={"small"}
         placeholder="جستجو..."
-        value={value}
-        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-          onChange?.(event.target.value)
-        }
         sx={{ width: "194px", pr: "32px" }}
       />
     </InputMarker>
