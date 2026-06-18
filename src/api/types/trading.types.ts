@@ -1,3 +1,5 @@
+import { LibrarySymbolInfo } from "@/packages/tradingview";
+
 // * --start-- candlestickHistory.ts -----------
 interface CandleDataType extends Record<
   "t" | "o" | "h" | "l" | "c" | "v",
@@ -23,9 +25,29 @@ interface TradingViewConfigResponse {
 }
 // * --end-- tradingViewConfig.ts -----------
 
+// * --start--symbolDetails.ts----
+
+type SymbolDetailsResponse = Pick<
+  LibrarySymbolInfo,
+  | "name"
+  | "ticker"
+  | "description"
+  | "type"
+  | "session"
+  | "exchange"
+  | "listed_exchange"
+  | "timezone"
+  | "minmov"
+  | "pricescale"
+  | "has_intraday"
+  | "supported_resolutions"
+>;
+// * --end--symbolDetails.ts----
+
 export type {
   CandleDataType,
   CandlestickHistoryResponse,
   CandlestickHistoryQueries,
   TradingViewConfigResponse,
+  SymbolDetailsResponse,
 };
