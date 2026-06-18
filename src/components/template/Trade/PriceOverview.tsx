@@ -16,7 +16,8 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
-import { productCodeKey } from "@/packages/nuqs";
+import { symbolKey } from "@/packages/nuqs";
+import { uppercaseParser } from "@/packages/nuqs/parsers";
 const price_sx = { color: "text.onPrimary" };
 const oveview_card_title_sx = { color: "text.caption" };
 
@@ -115,16 +116,13 @@ function PriceOverviewCardTitle(
 }
 
 function ProductCodeSelector() {
-  const [productCode, setProductCode] = useQueryState(
-    productCodeKey,
-    parseAsString,
-  );
+  const [symbol, setSymbol] = useQueryState(symbolKey, uppercaseParser);
 
   return (
     <InputSelectProduct
       //@ts-ignore
-      onChange={setProductCode}
-      value={productCode ?? ""}
+      onChange={setSymbol}
+      value={symbol ?? ""}
     />
   );
 }

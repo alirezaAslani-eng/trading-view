@@ -1,3 +1,3 @@
-const productCodeKey = "productCode";
+const symbolKey = "symbol";
 
-export { productCodeKey };
+export { symbolKey };
