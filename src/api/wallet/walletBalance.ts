@@ -3,7 +3,7 @@ import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { WalletBalanceResponse } from "../types";
 import { BaseApiResponse } from "@/types";
-const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/wallet/balance`;
+const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/wallet/portfolio`;
 
 async function walletBalance(
   options?: RequestInit,

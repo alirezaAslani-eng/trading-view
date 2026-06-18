@@ -42,6 +42,9 @@ function WithdrawForm() {
 
   const form = useForm({
     resolver: zodResolver(withdrawSchema),
+    defaultValues: {
+      bankAccountId: "",
+    },
   });
 
   const onSubmitHandler: SubmitHandler<WithdrawSchemaType> = async (fields) => {
@@ -54,7 +57,7 @@ function WithdrawForm() {
   };
 
   const selectAllWallet = () => {
-    form.setValue("amount", walletQuery.data!.balance);
+    form.setValue("amount", walletQuery.data!.totalPortfolioValueIrt);
   };
 
   return (
@@ -70,7 +73,8 @@ function WithdrawForm() {
                 <InputSelectBank
                   disabled={formState.isSubmitting}
                   error={!!fieldState.error?.message}
-                  {...field}
+                  onChange={field.onChange}
+                  value={field.value}
                 />
               );
             }}

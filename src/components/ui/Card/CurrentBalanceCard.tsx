@@ -37,7 +37,7 @@ function CurrentBalanceCard(
       ) : (
         <Price sx={{ gap: "10px" }}>
           <PriceAmount variant="h6" sx={{ color: "text.heading" }}>
-            {formatFaPrice(query.data.balance)}
+            {formatFaPrice(query.data.totalPortfolioValueIrt)}
           </PriceAmount>
           <PriceUnit variant="body1" sx={{ color: "text.secondary" }} />
         </Price>
