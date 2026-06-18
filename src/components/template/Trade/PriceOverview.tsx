@@ -2,6 +2,8 @@
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import { formatFaPrice } from "@/utils";
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
+import InputSelectProduct from "../Input/InputSelectProduct";
+import { parseAsString, useQueryState } from "nuqs";
 import {
   Price,
   PriceAmount,
@@ -11,36 +13,10 @@ import {
   Box,
   Stack,
   StackProps,
-  SxProps,
-  Theme,
   Typography,
   TypographyProps,
 } from "@mui/material";
-import {
-  InputSelect,
-  InputSelectMenu,
-} from "@/components/ui/Input/InputSelect";
-import {
-  SelectInputLoader,
-  SelectInputLoaderText,
-} from "@/components/ui/Fallback/SelectInputLoader";
-import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
-import { useDispatch, useSelector } from "@/packages/redux";
-import { selectProductCode, setProductCode } from "@/redux/features/trading";
-
-const inputSelect_sx: SxProps<Theme> = ({ typography }) => ({
-  fontSize: typography.button1.fontSize,
-  width: "188px",
-  height: "51px",
-  "&.Mui-placeholder": {
-    fontSize: typography.button1.fontSize,
-  },
-  "& .MuiSvgIcon-root": {
-    width: "18px",
-    height: "18px",
-  },
-});
-
+import { productCodeKey } from "@/packages/nuqs";
 const price_sx = { color: "text.onPrimary" };
 const oveview_card_title_sx = { color: "text.caption" };
 
@@ -55,7 +31,7 @@ function PriceOverview() {
         gap: "88px",
       }}
     >
-      <InputSelectProductCode />
+      <ProductCodeSelector />
       <Box
         sx={{
           display: "flex",
@@ -138,48 +114,18 @@ function PriceOverviewCardTitle(
   );
 }
 
-function InputSelectProductCode() {
-  // TODO fetch products and initialize the state
-
-  const dispatch = useDispatch();
-  const productCode = useSelector(selectProductCode);
-
-  const onChangeHandler = (val: string) => {
-    dispatch(setProductCode(val));
-  };
+function ProductCodeSelector() {
+  const [productCode, setProductCode] = useQueryState(
+    productCodeKey,
+    parseAsString,
+  );
 
   return (
-    <>
-      <InputSelect
-        variant="outlined"
-        sx={inputSelect_sx}
-        placeholder="نماد"
-        value={productCode ?? ""}
-        onChange={onChangeHandler}
-      >
-        <InputSelectMenu>
-          <FallbackHandler
-            isLoading={true}
-            isError={true}
-            fallbacks={{
-              loader: (
-                <SelectInputLoader>
-                  <SelectInputLoaderText />
-                </SelectInputLoader>
-              ),
-            }}
-          />
-
-          {/* {products.map((product) => {
-            return (
-              <InputSelectItem key={product.id} value={product.productCode}>
-                {product.title}
-              </InputSelectItem>
-            );
-          })} */}
-        </InputSelectMenu>
-      </InputSelect>
-    </>
+    <InputSelectProduct
+      //@ts-ignore
+      onChange={setProductCode}
+      value={productCode ?? ""}
+    />
   );
 }
 export default PriceOverview;
