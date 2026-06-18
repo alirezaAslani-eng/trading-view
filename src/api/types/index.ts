@@ -5,3 +5,4 @@ export type * from "./wallet.types";
 export type * from "./bank.types";
 export type * from "./products.types";
 export type * from "./market.types";
+export type * from "./trading.types";

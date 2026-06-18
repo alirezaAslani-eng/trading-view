@@ -15,3 +15,4 @@ export { default as productCategories } from "./product/productCategories";
 export { default as addProduct } from "./product/addProduct";
 export { default as addGroup } from "./group/addGroup";
 export { default as getMarketTickers } from "./market/getMarketTickers";
+export { default as candlestickHistory } from "./trading/candlestickHistory";
