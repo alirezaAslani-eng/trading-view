@@ -17,3 +17,4 @@ export { default as addGroup } from "./group/addGroup";
 export { default as getMarketTickers } from "./market/getMarketTickers";
 export { default as tradingViewConfig } from "./trading/tradingViewConfig";
 export { default as candlestickHistory } from "./trading/candlestickHistory";
+export { default as symbols } from "./trading/symbols";

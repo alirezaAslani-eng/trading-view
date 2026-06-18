@@ -44,10 +44,15 @@ type SymbolDetailsResponse = Pick<
 >;
 // * --end--symbolDetails.ts----
 
+// * --start--symbols.ts----
+type SymbolsResponse = SymbolDetailsResponse[];
+// * --end--symbols.ts----
+
 export type {
   CandleDataType,
   CandlestickHistoryResponse,
   CandlestickHistoryQueries,
   TradingViewConfigResponse,
   SymbolDetailsResponse,
+  SymbolsResponse,
 };

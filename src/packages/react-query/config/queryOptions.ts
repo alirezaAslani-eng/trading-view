@@ -6,6 +6,7 @@ import {
   ProductCategoriesResponse,
   WalletBalanceResponse,
   ProductStatus,
+  SymbolsResponse,
 } from "@/api/types";
 import type { ResponseErrorType } from "@/types";
 import { queryOptions } from "@tanstack/react-query";
@@ -16,6 +17,7 @@ import {
   productCategoriesKey,
   walletInfoKey,
   productsDynamicKey,
+  symbolsKey,
 } from "@/packages/react-query";
 import {
   dashboardInfo,
@@ -23,6 +25,7 @@ import {
   getProducts,
   kycStatus,
   productCategories,
+  symbols,
   walletBalance,
 } from "@/api";
 
@@ -108,6 +111,12 @@ const productsConfig = () => {
     },
   });
 };
+const symbolsConfig = () => {
+  return queryOptions<SymbolsResponse, ResponseErrorType, SymbolsResponse>({
+    queryKey: symbolsKey,
+    queryFn: symbols,
+  });
+};
 
 export {
   kycStatusConfig,
@@ -116,4 +125,5 @@ export {
   walletBalanceConfig,
   productsConfig,
   productCategoriesConfig,
+  symbolsConfig,
 };
