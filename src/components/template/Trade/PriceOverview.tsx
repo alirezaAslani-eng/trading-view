@@ -2,7 +2,7 @@
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import { formatFaPrice } from "@/utils";
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
-import InputSelectProduct from "../Input/InputSelectProduct";
+import InputSelectSymbol from "../Input/InputSelectSymbol";
 import { parseAsString, useQueryState } from "nuqs";
 import {
   Price,
@@ -119,7 +119,7 @@ function ProductCodeSelector() {
   const [symbol, setSymbol] = useQueryState(symbolKey, uppercaseParser);
 
   return (
-    <InputSelectProduct
+    <InputSelectSymbol
       //@ts-ignore
       onChange={setSymbol}
       value={symbol ?? ""}

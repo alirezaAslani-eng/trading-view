@@ -1,7 +1,7 @@
 "use client";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { useQuery } from "@tanstack/react-query";
-import { productsConfig } from "@/packages/react-query";
+import { symbolsConfig } from "@/packages/react-query";
 import { SxProps, Theme } from "@mui/material";
 import {
   InputSelect,
@@ -26,11 +26,10 @@ const inputSelect_sx: SxProps<Theme> = ({ typography }) => ({
     height: "18px",
   },
 });
-const queryConfig = productsConfig();
+const queryConfig = symbolsConfig();
 
-function InputSelectProduct(props: ComponentProps<typeof InputSelect>) {
+function InputSelectSymbol(props: ComponentProps<typeof InputSelect>) {
   const query = useQuery(queryConfig);
-  const isSuccessQuery = query.status === "success";
 
   return (
     <>
@@ -53,18 +52,17 @@ function InputSelectProduct(props: ComponentProps<typeof InputSelect>) {
             }}
           />
 
-          {isSuccessQuery &&
-            query.data.map((product) => {
-              return (
-                <InputSelectItem key={product.id} value={product.productCode}>
-                  {product.productName}
-                </InputSelectItem>
-              );
-            })}
+          {query.data?.map((symbol) => {
+            return (
+              <InputSelectItem key={symbol.name} value={symbol.name}>
+                {symbol.description}
+              </InputSelectItem>
+            );
+          })}
         </InputSelectMenu>
       </InputSelect>
     </>
   );
 }
 
-export default InputSelectProduct;
+export default InputSelectSymbol;
