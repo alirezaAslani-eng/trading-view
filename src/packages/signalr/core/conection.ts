@@ -8,7 +8,7 @@ function getConnection(): HubConnection | null {
   if (!connection) {
     console.log("signalr: creating object");
     connection = new HubConnectionBuilder()
-      .withUrl("http://localhost:5000/stocks", { withCredentials: true })
+      .withUrl(process.env.NEXT_PUBLIC_HUB_BASEURL!, { withCredentials: true })
       .withAutomaticReconnect()
       .build();
   }
