@@ -13,81 +13,31 @@ import {
   PagePaperTitle,
 } from "@/components/ui/Layout/PaperLayout";
 import TableControls from "./TableControls";
-
-const products: Product[] = [
-  {
-    id: "prod-1",
-    symbol: "میلگرد",
-    currentPrice: 32500,
-    change24h: 2.8,
-    lowPrice: 31800,
-    highPrice: 33200,
-  },
-  {
-    id: "prod-2",
-    symbol: "تیرآهن",
-    currentPrice: 41800,
-    change24h: -1.4,
-    lowPrice: 41200,
-    highPrice: 42700,
-  },
-  {
-    id: "prod-3",
-    symbol: "ورق سیاه",
-    currentPrice: 35600,
-    change24h: 0.9,
-    lowPrice: 34900,
-    highPrice: 36100,
-  },
-  {
-    id: "prod-4",
-    symbol: "ورق گالوانیزه",
-    currentPrice: 47200,
-    change24h: 4.1,
-    lowPrice: 45100,
-    highPrice: 47900,
-  },
-  {
-    id: "prod-5",
-    symbol: "نبشی",
-    currentPrice: 28900,
-    change24h: -0.7,
-    lowPrice: 28500,
-    highPrice: 29400,
-  },
-  {
-    id: "prod-6",
-    symbol: "ناودانی",
-    currentPrice: 30100,
-    change24h: 1.2,
-    lowPrice: 29700,
-    highPrice: 30600,
-  },
-  {
-    id: "prod-7",
-    symbol: "لوله صنعتی",
-    currentPrice: 38700,
-    change24h: -2.3,
-    lowPrice: 38100,
-    highPrice: 39800,
-  },
-  {
-    id: "prod-8",
-    symbol: "شمش فولادی",
-    currentPrice: 26500,
-    change24h: 3.5,
-    lowPrice: 25800,
-    highPrice: 27100,
-  },
-];
+import {
+  ProductsTableProvider,
+  useProductsTable,
+  type ProductTableRow,
+} from "./ProductsTableProvider";
+import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
+import {
+  TableFallback,
+  TableFallbackData,
+  TableFallbackLoader,
+} from "@/components/ui/Fallback/TableFallback";
 
 function ProductsTable_() {
   const { sorter } = useSortFilter();
+  const { rows, searchValue, setSearchValue, isLoading, isError } =
+    useProductsTable();
 
-  const columns: Column<Product>[] = [
+  const columns: Column<ProductTableRow>[] = [
     {
       field: "symbol",
       headerName: <TableSortToggler fieldPath={"symbol"} text="نماد" />,
+    },
+    {
+      field: "name",
+      headerName: <TableSortToggler fieldPath={"name"} text="نام محصول" />,
     },
     {
       field: "currentPrice",
@@ -112,14 +62,40 @@ function ProductsTable_() {
       ),
     },
     {
-      field: "lowPrice",
+      field: "change7d",
       headerName: (
-        <TableSortToggler fieldPath={"lowPrice"} text="کمترین قیمت" />
+        <TableSortToggler fieldPath={"change7d"} text="تغییرات 7d" />
+      ),
+      renderCell: (row) => (
+        <Typography
+          variant="inherit"
+          sx={{
+            color: row.change7d < 0 ? "status.loss" : "text.profit",
+          }}
+        >
+          % {row.change7d}
+        </Typography>
       ),
     },
     {
-      field: "highPrice",
-      headerName: "بیشترین قیمت",
+      field: "change30d",
+      headerName: (
+        <TableSortToggler fieldPath={"change30d"} text="تغییرات 30d" />
+      ),
+      renderCell: (row) => (
+        <Typography
+          variant="inherit"
+          sx={{
+            color: row.change30d < 0 ? "status.loss" : "text.profit",
+          }}
+        >
+          % {row.change30d}
+        </Typography>
+      ),
+    },
+    {
+      field: "volume24h",
+      headerName: <TableSortToggler fieldPath={"volume24h"} text="حجم 24h" />,
     },
     {
       headerName: "عملیات",
@@ -131,27 +107,41 @@ function ProductsTable_() {
     <PagePaper>
       <PagePaperHeading sx={{ mb: "32px" }}>
         <PagePaperTitle>{"لیست محصولات"}</PagePaperTitle>
-        <TableControls />
+        <TableControls value={searchValue} onChange={setSearchValue} />
       </PagePaperHeading>
-      <DataTable rows={sorter(products)} columns={columns} />
+
+      <FallbackHandler
+        isLoading={isLoading}
+        isError={isError}
+        dataLength={rows.length}
+        fallbacks={{
+          noData: (
+            <TableFallback>
+              <TableFallbackData />
+            </TableFallback>
+          ),
+          loader: (
+            <TableFallback>
+              <TableFallbackLoader />
+            </TableFallback>
+          ),
+        }}
+      />
+
+      {!isLoading && !!rows.length && (
+        <DataTable rows={sorter(rows)} columns={columns} />
+      )}
     </PagePaper>
   );
 }
 
 function ProductsTable() {
   return (
-    <SortFilterProvider defaultFieldPath="id">
-      <ProductsTable_ />
-    </SortFilterProvider>
+    <ProductsTableProvider>
+      <SortFilterProvider defaultFieldPath="symbol">
+        <ProductsTable_ />
+      </SortFilterProvider>
+    </ProductsTableProvider>
   );
 }
 export default ProductsTable;
-
-type Product = {
-  id: string;
-  symbol: string;
-  currentPrice: number;
-  change24h: number;
-  lowPrice: number;
-  highPrice: number;
-};
