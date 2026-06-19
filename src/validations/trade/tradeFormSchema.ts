@@ -1,10 +1,11 @@
-import { object, enum as enum_, coerce } from "zod";
+import { object, enum as enum_, coerce, string } from "zod";
 
 const tradeFormSchema = object({
   orderSide: enum_(["buy", "sell"]).transform((val) => (val === "buy" ? 0 : 1)),
   weight: coerce.number().positive(),
   marketPrice: coerce.number().positive().optional(),
   limitedPrice: coerce.number().positive().optional(),
+  productCode: string(" "),
   orderType: enum_(["market", "limit"]).transform((val) =>
     val === "market" ? 1 : 0,
   ),
