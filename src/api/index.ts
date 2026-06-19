@@ -20,3 +20,4 @@ export { default as candlestickHistory } from "./trading/candlestickHistory";
 export { default as symbols } from "./trading/symbols";
 export { default as placeOrder } from "./trading/placeOrder";
 export { default as marketTickerInfo } from "./market/marketTickerInfo";
+export { default as orderBook } from "./market/orderBook";

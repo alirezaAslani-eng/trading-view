@@ -8,6 +8,7 @@ import {
   ProductStatus,
   SymbolsResponse,
   MarketTicker,
+  OrderBookResponse,
 } from "@/api/types";
 import type { ResponseErrorType } from "@/types";
 import { queryOptions } from "@tanstack/react-query";
@@ -27,6 +28,7 @@ import {
   getProducts,
   kycStatus,
   marketTickerInfo,
+  orderBook,
   productCategories,
   symbols,
   walletBalance,
@@ -126,6 +128,12 @@ const marketTickerInfoConfig = (tickerName: string) => {
     queryFn: () => marketTickerInfo(tickerName),
   });
 };
+const orderBookConfig = (symbol: string) => {
+  return queryOptions<OrderBookResponse, ResponseErrorType, MarketTicker>({
+    queryKey: marketTickerInfoKey(symbol),
+    queryFn: () => orderBook(symbol),
+  });
+};
 
 export {
   kycStatusConfig,
@@ -136,4 +144,5 @@ export {
   productCategoriesConfig,
   symbolsConfig,
   marketTickerInfoConfig,
+  orderBookConfig,
 };

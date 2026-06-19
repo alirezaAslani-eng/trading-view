@@ -23,6 +23,7 @@ const productCategoriesKey = [...authBaseKey, "product-categories"];
 const marketTickersKey = ["tickers"];
 const marketTickerInfoKey = (tickerName: string) => ["ticker-info", tickerName];
 const symbolsKey = ["symbols"];
+const orderBookKey = (symbol: string) => [...authBaseKey, "order-book", symbol];
 export {
   kycStatusKey,
   dashboardInfoKey,
@@ -34,6 +35,7 @@ export {
   marketTickersKey,
   symbolsKey,
   marketTickerInfoKey,
+  orderBookKey,
 };
 
 // * prefix keys
