@@ -1,7 +1,9 @@
 import PageHeader from "@/components/common/Appbar/PageHeader";
 import OrderBook from "@/components/template/Table/OrderBook";
 import PriceOverview from "@/components/template/Trade/PriceOverview";
-import TradePanel from "@/components/template/Trade/TradePanel";
+import TradePanel from "@/components/template/TradePanel/TradePanel";
+import tradePageSpacing_sx from "@/packages/mui/theme/shared-style/features/trading/tradePageSpacing_sx";
+import TradeChart from "@/components/template/Trade/TradeChart";
 import { Box } from "@mui/material";
 import {
   Header,
@@ -10,9 +12,6 @@ import {
   Section,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
-import tradePageSpacing_sx from "@/packages/mui/theme/shared-style/features/trading/tradePageSpacing_sx";
-import TradeChart from "@/components/template/Trade/TradeChart";
-// TODO the spacing style of this page must be a shared `sx`
 
 function page() {
   return (
