@@ -1,18 +1,25 @@
 "use client";
+import BouncCircleLoader from "@/components/ui/Fallback/BounceCircleLoader";
+import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { TradeOrderIcon } from "@/components/ui/Icon";
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import ScrollContainer from "@/components/ui/ScrollContainer/ScrollContainer";
 import Tabs from "@/components/ui/Tabs/Tabs";
 import TabsSibling from "@/components/ui/Tabs/TabsSibling";
 import { TabsProvider } from "@/context/app/TabsContext";
+import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { symbolKey } from "@/packages/nuqs";
+import { parseAsUppercase } from "@/packages/nuqs/parsers";
+import {
+  marketTickerInfoConfig,
+  orderBookConfig,
+} from "@/packages/react-query";
 import { formatFaPrice } from "@/utils";
 import { Box, Stack, Tab, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { useQueryState } from "nuqs";
 
-type OrderBookRow = {
-  price: string;
-  amount: string;
-  total: string;
-};
+type OrderBookRow = {};
 
 type OrderBookListProps = {
   rows: OrderBookRow[];
@@ -26,24 +33,96 @@ const TABS = [
   { value: "last-trades", label: "آخرین معاملات" },
 ];
 
-const SAMPLE_SELL_ORDERS: OrderBookRow[] = [
-  { price: "28,700", amount: "2,000", total: "2,000,350" },
-  { price: "28,400", amount: "5,000", total: "2,040,350" },
-  { price: "28,325", amount: "3,000", total: "2,040,350" },
-  { price: "28,325", amount: "5,000", total: "3,041,244" },
-  { price: "28,700", amount: "2,000", total: "2,000,350" },
-  { price: "28,400", amount: "5,000", total: "2,040,350" },
-];
+export default function OrderBook() {
+  const [symbol] = useQueryState<string>(symbolKey, parseAsUppercase);
+  const orderBookQuery = useQuery(orderBookConfig(symbol ?? ""));
+  const tickerInfoQuery = useQuery(marketTickerInfoConfig(symbol ?? ""));
 
-const SAMPLE_BUY_ORDERS: OrderBookRow[] = [
-  { price: "28,700", amount: "2,000", total: "2,000,350" },
-  { price: "28,400", amount: "5,000", total: "2,040,350" },
-  { price: "28,325", amount: "3,000", total: "2,040,350" },
-  { price: "28,700", amount: "2,000", total: "2,000,350" },
-  { price: "28,400", amount: "5,000", total: "2,040,350" },
-  { price: "28,325", amount: "3,000", total: "2,040,350" },
-  { price: "28,325", amount: "5,000", total: "3,041,244" },
-];
+  return (
+    <PanelPaper
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        p: "4px 10px 20px 10px",
+        width: "100%",
+        maxWidth: "270px",
+        height: "100%",
+      }}
+    >
+      {/* Tabs (fixed height) */}
+      <TabsProvider defaultState="open-orders">
+        <Box sx={{ display: "flex" }}>
+          <Tabs size="small" sx={{ width: "100%" }}>
+            {TABS.map((tab) => (
+              <Tab
+                key={tab.value}
+                value={tab.value}
+                label={tab.label}
+                sx={({ typography }) => ({
+                  fontSize: `${typography.button3.fontSize} !important`,
+                  fontFamily: `${typography.button3.fontFamily} !important`,
+                })}
+              />
+            ))}
+          </Tabs>
+          <TabsSibling>
+            <TradeOrderIcon sx={{ cursor: "pointer" }} />
+          </TabsSibling>
+        </Box>
+      </TabsProvider>
+      <OrderBookHeader />
+
+      <Box
+        sx={{
+          flex: 1,
+          minHeight: 0,
+          display: "flex",
+          flexDirection: "column",
+          mt: "12px",
+        }}
+      >
+        {/* // * --------- Data fallback --------- */}
+        <FallbackHandler
+          isLoading={orderBookQuery.isLoading}
+          isError={orderBookQuery.isError}
+          fallbacks={{
+            loader: (
+              <BouncCircleLoader
+                sx={{ mx: "auto", my: "auto" }}
+                bounceSx={{ width: "8px" }}
+              />
+            ),
+          }}
+        />
+
+        {orderBookQuery.status === "success" && (
+          <>
+            <OrderBookList
+              rows={orderBookQuery.data.asks}
+              priceColor={notDefinedColors["#f26672"]}
+            />
+
+            <Typography
+              variant="button3"
+              sx={{
+                py: "12px",
+                textAlign: "center",
+                color: notDefinedColors["#f26672"],
+              }}
+            >
+              {formatFaPrice(tickerInfoQuery.data?.lastPrice ?? "")}
+            </Typography>
+
+            <OrderBookList
+              rows={orderBookQuery.data.bids}
+              priceColor="text.profit"
+            />
+          </>
+        )}
+      </Box>
+    </PanelPaper>
+  );
+}
 
 function OrderBookHeader() {
   return (
@@ -79,12 +158,7 @@ function OrderBookHeader() {
   );
 }
 
-function OrderBookRowItem({
-  price,
-  amount,
-  total,
-  priceColor,
-}: OrderBookRow & { priceColor: string }) {
+function OrderBookRowItem({ priceColor }: { priceColor: string }) {
   return (
     <Box
       sx={{
@@ -96,19 +170,19 @@ function OrderBookRowItem({
         variant="caption2"
         sx={{ textAlign: "right", color: priceColor }}
       >
-        {price}
+        {"price"}
       </Typography>
       <Typography
         variant="caption2"
         sx={{ textAlign: "center", color: "text.secondary" }}
       >
-        {amount}
+        {"amount"}
       </Typography>
       <Typography
         variant="caption2"
         sx={{ textAlign: "left", color: "text.secondary" }}
       >
-        {total}
+        {"total"}
       </Typography>
     </Box>
   );
@@ -120,84 +194,33 @@ function OrderBookList({ rows, priceColor }: OrderBookListProps) {
       sx={{
         scrollbarGutter: "stable",
         pl: "8px",
-        maxHeight: "200px",
+        maxHeight: "180px",
       }}
     >
-      <Stack spacing={2}>
-        {rows.map((row, index) => (
-          <OrderBookRowItem
-            key={`${priceColor}-${index}`}
-            {...row}
-            priceColor={priceColor}
-          />
-        ))}
-      </Stack>
-    </ScrollContainer>
-  );
-}
-
-export default function OrderBook() {
-  return (
-    <PanelPaper
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        p: "4px 10px 20px 10px",
-        maxWidth: "270px",
-        height: "100%",
-      }}
-    >
-      {/* Tabs (fixed height) */}
-      <TabsProvider defaultState="open-orders">
-        <Box sx={{ display: "flex" }}>
-          <Tabs size="small">
-            {TABS.map((tab) => (
-              <Tab
-                key={tab.value}
-                value={tab.value}
-                label={tab.label}
-                sx={({ typography }) => ({
-                  fontSize: `${typography.button3.fontSize} !important`,
-                  fontFamily: `${typography.button3.fontFamily} !important`,
-                })}
-              />
-            ))}
-          </Tabs>
-          <TabsSibling>
-            <TradeOrderIcon sx={{ cursor: "pointer" }} />
-          </TabsSibling>
-        </Box>
-      </TabsProvider>
-      <OrderBookHeader />
-
-      <Box
-        sx={{
-          flex: 1,
-          minHeight: 0,
-          display: "flex",
-          flexDirection: "column",
-          mt: "12px",
-        }}
-      >
-        {/* SELL (flex share) */}
-
-        <OrderBookList rows={SAMPLE_SELL_ORDERS} priceColor="status.loss" />
-
-        {/* Middle price (fixed) */}
-        <Typography
-          variant="button3"
+      {!!!rows.length && (
+        <Stack
           sx={{
-            py: "12px",
-            textAlign: "center",
-            color: "status.loss",
+            height: "180px",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          {formatFaPrice(245785000)}
-        </Typography>
-
-        {/* BUY (flex share) */}
-        <OrderBookList rows={SAMPLE_BUY_ORDERS} priceColor="status.profit" />
-      </Box>
-    </PanelPaper>
+          <Typography variant="body3" sx={{ color: "text.disabled" }}>
+            {"سفارش وجود ندارد"}
+          </Typography>
+        </Stack>
+      )}
+      {!!rows.length && (
+        <Stack spacing={2}>
+          {rows.map((row, index) => (
+            <OrderBookRowItem
+              key={`${priceColor}-${index}`}
+              {...row}
+              priceColor={priceColor}
+            />
+          ))}
+        </Stack>
+      )}
+    </ScrollContainer>
   );
 }
