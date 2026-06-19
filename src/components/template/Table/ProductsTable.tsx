@@ -45,9 +45,27 @@ function ProductsTable_() {
       ),
     },
     {
+      field: "high24h",
+      headerName: <TableSortToggler fieldPath={"high24h"} text="بیشترین 24h" />,
+      renderCell: (row) => (
+        <Typography variant="inherit" sx={{ color: "text.profit" }}>
+          {row.high24h}
+        </Typography>
+      ),
+    },
+    {
+      field: "low24h",
+      headerName: <TableSortToggler fieldPath={"low24h"} text="کمترین 24h" />,
+      renderCell: (row) => (
+        <Typography variant="inherit" sx={{ color: "status.loss" }}>
+          {row.low24h}
+        </Typography>
+      ),
+    },
+    {
       field: "change24h",
       headerName: (
-        <TableSortToggler fieldPath={"change24h"} text="تغیرات 24h" />
+        <TableSortToggler fieldPath={"change24h"} text="تغییرات 24h" />
       ),
       renderCell: (row) => (
         <Typography

@@ -14,6 +14,7 @@ import {
   Section,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
+import useMarketMovers from "@/hooks/features/market/useMarketMovers";
 
 function page() {
   return (
@@ -39,21 +40,41 @@ function page() {
 export default page;
 
 function MarketMovers() {
+  const { mostProfit, mostLoss, mostTraded } = useMarketMovers();
+
   return (
     <SectionContent>
       <MarketMoverCardPaper color="profit" sx={{ flex: 1 }}>
-        <MarketMoverCardHeader percentage={20} title="بیشترین سود 24H" />
-        <MarketMoverCardPrice asset="میلگرد" price={28_700} />
+        <MarketMoverCardHeader
+          percentage={mostProfit?.percentage ?? 0}
+          title="بیشترین سود 24H"
+        />
+        <MarketMoverCardPrice
+          asset={mostProfit?.asset ?? "-"}
+          price={mostProfit?.price ?? 0}
+        />
       </MarketMoverCardPaper>
 
       <MarketMoverCardPaper color="loss" sx={{ flex: 1 }}>
-        <MarketMoverCardHeader percentage={20} title="بیشترین سود 24H" />
-        <MarketMoverCardPrice asset="میلگرد" price={28_700} />
+        <MarketMoverCardHeader
+          percentage={mostLoss?.percentage ?? 0}
+          title="بیشترین ضرر 24H"
+        />
+        <MarketMoverCardPrice
+          asset={mostLoss?.asset ?? "-"}
+          price={mostLoss?.price ?? 0}
+        />
       </MarketMoverCardPaper>
 
       <MarketMoverCardPaper color="profit" sx={{ flex: 1 }}>
-        <MarketMoverCardHeader percentage={20} title="بیشترین سود 24H" />
-        <MarketMoverCardPrice asset="میلگرد" price={28_700} />
+        <MarketMoverCardHeader
+          percentage={mostTraded?.percentage ?? 0}
+          title="بیشترین معامله 24H"
+        />
+        <MarketMoverCardPrice
+          asset={mostTraded?.asset ?? "-"}
+          price={mostTraded?.price ?? 0}
+        />
       </MarketMoverCardPaper>
     </SectionContent>
   );

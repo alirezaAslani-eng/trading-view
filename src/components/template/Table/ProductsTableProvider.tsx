@@ -18,6 +18,8 @@ type ProductTableRow = {
   symbol: string;
   name: string;
   currentPrice: number;
+  high24h: number;
+  low24h: number;
   change24h: number;
   change7d: number;
   change30d: number;
@@ -62,6 +64,8 @@ function normalizeTickerPayload(payload: unknown): MarketTicker | null {
     symbol,
     name,
     lastPrice: asNumber(payload.lastPrice ?? payload.LastPrice),
+    high24h: asNumber(payload.high24h ?? payload.High24h),
+    low24h: asNumber(payload.low24h ?? payload.Low24h),
     change24h: asNumber(payload.change24h ?? payload.Change24h),
     change7d: asNumber(payload.change7d ?? payload.Change7d),
     change30d: asNumber(payload.change30d ?? payload.Change30d),
@@ -109,6 +113,8 @@ function mapTickerToRow(ticker: MarketTicker): ProductTableRow {
     symbol: ticker.symbol,
     name: ticker.name,
     currentPrice: ticker.lastPrice,
+    high24h: ticker.high24h,
+    low24h: ticker.low24h,
     change24h: ticker.change24h,
     change7d: ticker.change7d,
     change30d: ticker.change30d,
