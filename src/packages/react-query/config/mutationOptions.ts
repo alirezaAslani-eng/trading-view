@@ -2,6 +2,7 @@ import {
   addProduct,
   deleteBankAccount,
   kycL2,
+  placeOrder,
   requestAuthOTP,
   verifyAuthOTP,
   withdraw,
@@ -35,6 +36,7 @@ import queryClient from "../core/queryClient";
 import { banksKey, productsKey, walletInfoKey } from "../keys/queryKeys";
 import deposit, { DepositPayload } from "@/api/transaction/deposit";
 import addgroup from "@/api/group/addGroup";
+import { TradeFormSchemaOutputType } from "@/validations/types/trade.types";
 
 const requestAuthOTPConfig = () => {
   return mutationOptions<void, ResponseErrorType, RequestAuthOTPSchemaType>({
@@ -144,6 +146,14 @@ const addGroupConfig = () => {
     },
   });
 };
+const placeOrderConfig = () => {
+  return mutationOptions<void, ResponseErrorType, TradeFormSchemaOutputType>({
+    mutationFn: placeOrder,
+    onSuccess: () => {
+      //  TODO must invalidate user's orders
+    },
+  });
+};
 
 export {
   requestAuthOTPConfig,
@@ -157,4 +167,5 @@ export {
   depositConfig,
   addProductConfig,
   addGroupConfig,
+  placeOrderConfig,
 };
