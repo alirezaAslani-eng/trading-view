@@ -7,6 +7,8 @@ type MarketTicker = {
   change24h: number;
   change7d: number;
   change30d: number;
+  high24h: number;
+  low24h: number;
   volume24h: number;
 };
 
