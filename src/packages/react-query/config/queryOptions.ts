@@ -7,6 +7,7 @@ import {
   WalletBalanceResponse,
   ProductStatus,
   SymbolsResponse,
+  MarketTicker,
 } from "@/api/types";
 import type { ResponseErrorType } from "@/types";
 import { queryOptions } from "@tanstack/react-query";
@@ -18,6 +19,7 @@ import {
   walletInfoKey,
   productsDynamicKey,
   symbolsKey,
+  marketTickerInfoKey,
 } from "@/packages/react-query";
 import {
   dashboardInfo,
@@ -117,6 +119,11 @@ const symbolsConfig = () => {
     queryFn: symbols,
   });
 };
+const marketTickerInfoConfig = () => {
+  return queryOptions<MarketTicker, ResponseErrorType, MarketTicker>({
+    queryKey: marketTickerInfoKey,
+  });
+};
 
 export {
   kycStatusConfig,
@@ -126,4 +133,5 @@ export {
   productsConfig,
   productCategoriesConfig,
   symbolsConfig,
+  marketTickerInfoConfig,
 };

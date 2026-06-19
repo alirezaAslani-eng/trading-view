@@ -21,6 +21,7 @@ const productsDynamicKey = (productStatus: ProductStatus) => [
 
 const productCategoriesKey = [...authBaseKey, "product-categories"];
 const marketTickersKey = ["tickers"];
+const marketTickerInfoKey = ["ticker-info"];
 const symbolsKey = ["symbols"];
 export {
   kycStatusKey,
@@ -32,6 +33,7 @@ export {
   productsDynamicKey,
   marketTickersKey,
   symbolsKey,
+  marketTickerInfoKey,
 };
 
 // * prefix keys
