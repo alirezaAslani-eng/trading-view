@@ -27,6 +27,11 @@ function SortFilterProvider({
     direction: defaultDirection,
   });
 
+  // * ------------ Search state ------------
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const setSearch = (query: string) => setSearchQuery(query);
+
   // * ------ sortState dispatchers ------
   const setSort = (fieldPath: string, direction?: SortDirection) => {
     setSortState((prev) => ({
@@ -70,6 +75,19 @@ function SortFilterProvider({
     });
   };
 
+  // * ------ Searcher data transformer ------
+  const searcher = <K extends object>(data: K[], fieldPaths: string[]) => {
+    const query = searchQuery.trim().toLocaleLowerCase();
+    if (!query) return data;
+    return data.filter((item) =>
+      fieldPaths.some((path) => {
+        const value = objectGetter({ obj: item, path });
+        if (value == null) return false;
+        return String(value).toLocaleLowerCase().includes(query);
+      }),
+    );
+  };
+
   const value: TableSortContextValue = useMemo(
     () => ({
       sortState,
@@ -77,8 +95,11 @@ function SortFilterProvider({
       toggleSort,
       sorter,
       getFieldState,
+      searchQuery,
+      setSearch,
+      searcher,
     }),
-    [sortState],
+    [sortState, searchQuery],
   );
 
   return <TableSortContext value={value}>{children}</TableSortContext>;

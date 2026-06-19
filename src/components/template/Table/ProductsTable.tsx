@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/Fallback/TableFallback";
 
 function ProductsTable_() {
-  const { sorter } = useSortFilter();
+  const { sorter, searcher, searchQuery, setSearch } = useSortFilter();
   const { rows, isLoading, isError } = useProductsTable();
 
   const columns: Column<ProductTableRow>[] = [
@@ -124,7 +124,7 @@ function ProductsTable_() {
     <PagePaper>
       <PagePaperHeading sx={{ mb: "32px" }}>
         <PagePaperTitle>{"لیست محصولات"}</PagePaperTitle>
-        <TableControls />
+        <TableControls value={searchQuery} onChange={setSearch} />
       </PagePaperHeading>
 
       <FallbackHandler
@@ -146,7 +146,10 @@ function ProductsTable_() {
       />
 
       {!isLoading && !!rows.length && (
-        <DataTable rows={sorter(rows)} columns={columns} />
+        <DataTable
+          rows={sorter(searcher(rows, ["symbol", "name"]))}
+          columns={columns}
+        />
       )}
     </PagePaper>
   );

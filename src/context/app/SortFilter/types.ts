@@ -20,6 +20,12 @@ type TableSortContextValue = {
   toggleSort: (fieldPath: FieldPath) => void;
   sorter: <TItemToSort extends object>(data: TItemToSort[]) => TItemToSort[];
   getFieldState: (fieldPath: FieldPath) => GetFieldStateReturn;
+  searchQuery: string;
+  setSearch: (query: string) => void;
+  searcher: <TItemToSearch extends object>(
+    data: TItemToSearch[],
+    fieldPaths: FieldPath[],
+  ) => TItemToSearch[];
 };
 type ProviderProps = {
   children: React.ReactNode;
