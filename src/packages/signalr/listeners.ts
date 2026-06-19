@@ -1,2 +1,3 @@
 const onTradeExecuted = "OnTradeExecuted";
-export { onTradeExecuted };
+const orderBookUpdated = "OrderBookUpdated";
+export { onTradeExecuted, orderBookUpdated };
