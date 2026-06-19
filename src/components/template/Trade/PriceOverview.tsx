@@ -17,7 +17,7 @@ import {
   TypographyProps,
 } from "@mui/material";
 import { symbolKey } from "@/packages/nuqs";
-import { uppercaseParser } from "@/packages/nuqs/parsers";
+import { parseAsUppercase } from "@/packages/nuqs/parsers";
 const price_sx = { color: "text.onPrimary" };
 const oveview_card_title_sx = { color: "text.caption" };
 
@@ -116,7 +116,7 @@ function PriceOverviewCardTitle(
 }
 
 function ProductCodeSelector() {
-  const [symbol, setSymbol] = useQueryState(symbolKey, uppercaseParser);
+  const [symbol, setSymbol] = useQueryState(symbolKey, parseAsUppercase);
 
   return (
     <InputSelectSymbol

@@ -31,7 +31,7 @@ import {
 import LimitedPriceForm from "./LimitedPriceForm";
 import MarketPriceForm from "./MarketPriceForm";
 import { TradeFormSubscriber } from "./types";
-import { uppercaseParser } from "@/packages/nuqs/parsers";
+import { parseAsUppercase } from "@/packages/nuqs/parsers";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
@@ -40,9 +40,8 @@ const placeOrderMutationConfig = placeOrderConfig();
 
 function TradePanel() {
   // * -------- productCode/Symbol --------
-  const [symbol] = useQueryState(symbolKey, uppercaseParser);
-  
-  
+  const [symbol] = useQueryState(symbolKey, parseAsUppercase);
+
   // * --------- From API ---------
   const placeOrderApi = useMutation({
     ...placeOrderMutationConfig,

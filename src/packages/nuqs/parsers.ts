@@ -1,6 +1,6 @@
 import { createParser } from "nuqs";
 
-export const uppercaseParser = createParser({
+export const parseAsUppercase = createParser({
   parse: (value) => {
     return value?.toUpperCase() ?? null;
   },
