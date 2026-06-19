@@ -21,6 +21,7 @@ import {
   productsDynamicKey,
   symbolsKey,
   marketTickerInfoKey,
+  orderBookKey,
 } from "@/packages/react-query";
 import {
   dashboardInfo,
@@ -129,8 +130,8 @@ const marketTickerInfoConfig = (tickerName: string) => {
   });
 };
 const orderBookConfig = (symbol: string) => {
-  return queryOptions<OrderBookResponse, ResponseErrorType, MarketTicker>({
-    queryKey: marketTickerInfoKey(symbol),
+  return queryOptions<OrderBookResponse, ResponseErrorType, OrderBookResponse>({
+    queryKey: orderBookKey(symbol),
     queryFn: () => orderBook(symbol),
   });
 };
