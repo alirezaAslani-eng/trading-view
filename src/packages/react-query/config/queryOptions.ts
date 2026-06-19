@@ -26,6 +26,7 @@ import {
   getBankAccounts,
   getProducts,
   kycStatus,
+  marketTickerInfo,
   productCategories,
   symbols,
   walletBalance,
@@ -119,9 +120,10 @@ const symbolsConfig = () => {
     queryFn: symbols,
   });
 };
-const marketTickerInfoConfig = () => {
+const marketTickerInfoConfig = (tickerName: string) => {
   return queryOptions<MarketTicker, ResponseErrorType, MarketTicker>({
-    queryKey: marketTickerInfoKey,
+    queryKey: marketTickerInfoKey(tickerName),
+    queryFn: () => marketTickerInfo(tickerName),
   });
 };
 
