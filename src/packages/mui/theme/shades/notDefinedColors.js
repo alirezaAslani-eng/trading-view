@@ -20,6 +20,7 @@ const notDefinedColors = {
   "#003975": "#003975", // * < blue 700
   "#002247": "#002247", // * < blue 800
   "#121212": "#121212",
+  "#f26672": "#f26672", // * < red 400
 };
 
 export default notDefinedColors;
