@@ -25,100 +25,62 @@ import {
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
 
+const columns: Column<ProductTableRow>[] = [
+  {
+    field: "symbol",
+    headerName: <TableSortToggler fieldPath={"symbol"} text="نماد" />,
+  },
+  {
+    field: "currentPrice",
+    headerName: (
+      <TableSortToggler fieldPath={"currentPrice"} text="قیمت زنده" />
+    ),
+  },
+  {
+    field: "change24h",
+    headerName: (
+      <TableSortToggler fieldPath={"change24h"} text="تغییرات 24h" />
+    ),
+    renderCell: (row) => (
+      <Typography
+        variant="inherit"
+        sx={{
+          color: row.change24h < 0 ? "status.loss" : "text.profit",
+        }}
+      >
+        % {row.change24h}
+      </Typography>
+    ),
+  },
+  {
+    field: "low24h",
+    headerName: <TableSortToggler fieldPath={"low24h"} text="کمترین 24h" />,
+    renderCell: (row) => (
+      <Typography variant="inherit" sx={{ color: "status.loss" }}>
+        {row.low24h}
+      </Typography>
+    ),
+  },
+  {
+    field: "high24h",
+    headerName: <TableSortToggler fieldPath={"high24h"} text="بیشترین 24h" />,
+    renderCell: (row) => (
+      <Typography variant="inherit" sx={{ color: "text.profit" }}>
+        {row.high24h}
+      </Typography>
+    ),
+  },
+
+  {
+    headerName: "عملیات",
+    renderCell: () => <ButtonTableAction>{"معامله"}</ButtonTableAction>,
+  },
+];
+
 function ProductsTable_() {
   const { sorter, searcher, searchQuery, setSearch } = useSortFilter();
   const { rows, isLoading, isError } = useProductsTable();
 
-  const columns: Column<ProductTableRow>[] = [
-    {
-      field: "symbol",
-      headerName: <TableSortToggler fieldPath={"symbol"} text="نماد" />,
-    },
-    {
-      field: "name",
-      headerName: <TableSortToggler fieldPath={"name"} text="نام محصول" />,
-    },
-    {
-      field: "currentPrice",
-      headerName: (
-        <TableSortToggler fieldPath={"currentPrice"} text="قیمت زنده" />
-      ),
-    },
-    {
-      field: "high24h",
-      headerName: <TableSortToggler fieldPath={"high24h"} text="بیشترین 24h" />,
-      renderCell: (row) => (
-        <Typography variant="inherit" sx={{ color: "text.profit" }}>
-          {row.high24h}
-        </Typography>
-      ),
-    },
-    {
-      field: "low24h",
-      headerName: <TableSortToggler fieldPath={"low24h"} text="کمترین 24h" />,
-      renderCell: (row) => (
-        <Typography variant="inherit" sx={{ color: "status.loss" }}>
-          {row.low24h}
-        </Typography>
-      ),
-    },
-    {
-      field: "change24h",
-      headerName: (
-        <TableSortToggler fieldPath={"change24h"} text="تغییرات 24h" />
-      ),
-      renderCell: (row) => (
-        <Typography
-          variant="inherit"
-          sx={{
-            color: row.change24h < 0 ? "status.loss" : "text.profit",
-          }}
-        >
-          % {row.change24h}
-        </Typography>
-      ),
-    },
-    {
-      field: "change7d",
-      headerName: (
-        <TableSortToggler fieldPath={"change7d"} text="تغییرات 7d" />
-      ),
-      renderCell: (row) => (
-        <Typography
-          variant="inherit"
-          sx={{
-            color: row.change7d < 0 ? "status.loss" : "text.profit",
-          }}
-        >
-          % {row.change7d}
-        </Typography>
-      ),
-    },
-    {
-      field: "change30d",
-      headerName: (
-        <TableSortToggler fieldPath={"change30d"} text="تغییرات 30d" />
-      ),
-      renderCell: (row) => (
-        <Typography
-          variant="inherit"
-          sx={{
-            color: row.change30d < 0 ? "status.loss" : "text.profit",
-          }}
-        >
-          % {row.change30d}
-        </Typography>
-      ),
-    },
-    {
-      field: "volume24h",
-      headerName: <TableSortToggler fieldPath={"volume24h"} text="حجم 24h" />,
-    },
-    {
-      headerName: "عملیات",
-      renderCell: () => <ButtonTableAction>{"معامله"}</ButtonTableAction>,
-    },
-  ];
 
   return (
     <PagePaper>
@@ -147,7 +109,7 @@ function ProductsTable_() {
 
       {!isLoading && !!rows.length && (
         <DataTable
-          rows={sorter(searcher(rows, ["symbol", "name"]))}
+          rows={sorter(searcher(rows, ["symbol"]))}
           columns={columns}
         />
       )}
