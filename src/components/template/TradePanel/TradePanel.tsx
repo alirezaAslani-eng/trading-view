@@ -1,50 +1,81 @@
 "use client";
-
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import Tabs from "@/components/ui/Tabs/Tabs";
 import { TabsProvider } from "@/context/app/TabsContext";
 import { Box, Stack, Tab, ToggleButton } from "@mui/material";
-import { InputTrade } from "./InputTrade";
-import { Percent, PercentButtons } from "./PercentButtons";
-import AmountDisplay from "./AmountDisplay";
-import { formatFaPrice } from "@/utils";
 import Button from "@/components/ui/Button/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import tradeFormSchema from "@/validations/trade/tradeFormSchema";
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import tradeTogglebuttonSell_sx from "@/packages/mui/theme/shared-style/features/trading/tradeTogglebuttonSell_sx";
-import { Activity } from "react";
+import { useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { placeOrderConfig } from "@/packages/react-query";
+import safeAsync from "@/utils/app/safeAsync";
+import { promiseAlert } from "@/packages/react-hot-toast";
+import alertMessages from "@/constant/app/alertMessages";
+import BouncCircleLoader from "@/components/ui/Fallback/BounceCircleLoader";
+import { useQueryState } from "nuqs";
+import { symbolKey } from "@/packages/nuqs";
 import {
-  Control,
-  SubmitHandler,
+  FormProvider,
   useController,
   useForm,
+  useFormState,
   useWatch,
 } from "react-hook-form";
 import {
   TradeFormSchemaInputType,
   TradeFormSchemaOutputType,
 } from "@/validations/types/trade.types";
+import LimitedPriceForm from "./LimitedPriceForm";
+import MarketPriceForm from "./MarketPriceForm";
+import { TradeFormSubscriber } from "./types";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
 
+const placeOrderMutationConfig = placeOrderConfig();
+
 function TradePanel() {
+  // * -------- productCode/Symbol --------
+  const [symbol] = useQueryState(symbolKey);
+
+  // * --------- From API ---------
+  const placeOrderApi = useMutation({
+    ...placeOrderMutationConfig,
+    meta: {
+      successMessage: "سفارش ثبت شد",
+    },
+  });
+
   // * ------- Form Configuration -------
   const form = useForm({
     resolver: zodResolver(tradeFormSchema),
     defaultValues: {
       orderSide: "buy",
-      orderType: "limit",
+      orderType: "market",
+      productCode: symbol ?? "",
     },
   });
+
+  // * --------- Track productCode value ---------
+  useEffect(() => {
+    if (!symbol) return;
+    form.setValue("productCode", symbol);
+  }, [symbol]);
 
   //  * ------- Order type state ---------
   const isMarketType = form.watch("orderType") === "market";
   const isLimitedType = form.watch("orderType") === "limit";
 
   //  * ------- Submit handler ---------
-  const onSubmit: SubmitHandler<TradeFormSchemaOutputType> = (fields) => {};
+  const onSubmit = async (fields: TradeFormSchemaOutputType) => {
+    await promiseAlert(
+      safeAsync(() => placeOrderApi.mutateAsync(fields)),
+      { loading: alertMessages.loading },
+    );
+  };
 
   return (
     <PanelPaper sx={{ p: "20px 12px", height: "100%" }}>
@@ -57,40 +88,16 @@ function TradePanel() {
             {/* //* ---------- Order type selector ---------- */}
             <OrderTypeSelector control={form.control} />
 
-            {/* // * ---------- Limited Price Tab ---------- */}
-            <Activity mode={isLimitedType ? "visible" : "hidden"}>
-              <Box sx={{ mt: "32px" }}>
-                <LimitedPriceInput control={form.control} />
+            <FormProvider {...form}>
+              {/* // * ---------- Limited Price Tab ---------- */}
+              <Box hidden={!isLimitedType}>
+                <LimitedPriceForm />
               </Box>
-              <Box sx={{ mt: "14px" }}>
-                <WeightInput control={form.control} />
+              {/* // * ---------- Market Price Tab ---------- */}
+              <Box hidden={!isMarketType}>
+                <MarketPriceForm />
               </Box>
-            </Activity>
-
-            {/* // * ---------- Market Price Tab ---------- */}
-            <Activity mode={isMarketType ? "visible" : "hidden"}>
-              <Box sx={{ mt: "32px" }}>
-                <BestPriceDisplay control={form.control} />
-              </Box>
-              <Box sx={{ mt: "14px" }}>
-                <WeightInput control={form.control} />
-              </Box>
-            </Activity>
-
-            {/* //* ----- Quick percentage selector -----*/}
-            <PercentButtons sx={{ mt: "8px" }}>
-              <Percent precent="25%" />
-              <Percent precent="50%" />
-              <Percent precent="75%" />
-              <Percent precent="100%" />
-            </PercentButtons>
-
-            {/* //* ----- Calculated order total ----- */}
-            <AmountDisplay
-              label="کل (تومان)"
-              sx={{ mt: "24px" }}
-              value={formatFaPrice(200000)}
-            />
+            </FormProvider>
 
             {/* //* Submit order */}
             <SubmitOrderButton control={form.control} />
@@ -104,15 +111,8 @@ function TradePanel() {
 export default TradePanel;
 
 // * ============= Internal components ===============
-interface FormSubscriber {
-  control: Control<
-    TradeFormSchemaInputType,
-    unknown,
-    TradeFormSchemaOutputType
-  >;
-}
 
-function TradeSideSelector({ control }: FormSubscriber) {
+function TradeSideSelector({ control }: TradeFormSubscriber) {
   const { field } = useController({ control, name: "orderSide" });
   return (
     <ToggleButtonGroup
@@ -131,7 +131,7 @@ function TradeSideSelector({ control }: FormSubscriber) {
   );
 }
 
-function OrderTypeSelector({ control }: FormSubscriber) {
+function OrderTypeSelector({ control }: TradeFormSubscriber) {
   const { field } = useController({ control, name: "orderType" });
   return (
     <TabsProvider onChange={field.onChange} value={field.value}>
@@ -143,37 +143,14 @@ function OrderTypeSelector({ control }: FormSubscriber) {
   );
 }
 
-function LimitedPriceInput({ control }: FormSubscriber) {
-  const { field } = useController({ control, name: "limitedPrice" });
-
-  return (
-    <InputTrade
-      label="قیمت (تومان)"
-      onValueChange={field.onChange}
-      value={field.value as string}
-    />
-  );
-}
-
-function WeightInput({ control }: FormSubscriber) {
-  const { field } = useController({ control, name: "weight" });
-
-  return (
-    <InputTrade
-      suffix=" kg"
-      label="مقدار (کیلو گرم)"
-      onValueChange={field.onChange}
-      value={field.value as string}
-    />
-  );
-}
-
-function SubmitOrderButton({ control }: FormSubscriber) {
+function SubmitOrderButton({ control }: TradeFormSubscriber) {
+  const formState = useFormState({ control });
   const orderSide = useWatch({
     name: "orderSide",
     control,
   });
   const isBuy = orderSide === "buy";
+  const isLoading = formState.isSubmitting;
   return (
     <Button
       fullWidth
@@ -181,14 +158,13 @@ function SubmitOrderButton({ control }: FormSubscriber) {
       variant="contained"
       sx={{ mt: "74px" }}
       type="submit"
+      disabled={isLoading}
     >
-      {isBuy ? "خرید" : "فروش"}
+      {isLoading ? (
+        <BouncCircleLoader bounceSx={{ width: "5px" }} />
+      ) : (
+        <>{isBuy ? "خرید" : "فروش"}</>
+      )}
     </Button>
   );
-}
-
-function BestPriceDisplay({ control }: FormSubscriber) {
-  // TODO fetch current price of the selected product and update the `price` field when it changes
-  const { field } = useController({ control, name: "marketPrice" });
-  return <AmountDisplay label="قیمت بازار" value={formatFaPrice("3000000")} />;
 }
