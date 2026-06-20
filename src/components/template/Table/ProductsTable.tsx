@@ -24,6 +24,7 @@ import {
   TableFallbackData,
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
+import NextLink from "@/components/ui/Link/NextLink";
 
 const columns: Column<ProductTableRow>[] = [
   {
@@ -38,9 +39,7 @@ const columns: Column<ProductTableRow>[] = [
   },
   {
     field: "change24h",
-    headerName: (
-      <TableSortToggler fieldPath={"change24h"} text="تغییرات 24h" />
-    ),
+    headerName: <TableSortToggler fieldPath={"change24h"} text="تغییرات 24h" />,
     renderCell: (row) => (
       <Typography
         variant="inherit"
@@ -73,14 +72,17 @@ const columns: Column<ProductTableRow>[] = [
 
   {
     headerName: "عملیات",
-    renderCell: () => <ButtonTableAction>{"معامله"}</ButtonTableAction>,
+    renderCell: (row) => (
+      <NextLink href={`/panel/trade?symbol=${row.symbol}`}>
+        <ButtonTableAction>{"معامله"}</ButtonTableAction>
+      </NextLink>
+    ),
   },
 ];
 
 function ProductsTable_() {
   const { sorter, searcher, searchQuery, setSearch } = useSortFilter();
   const { rows, isLoading, isError } = useProductsTable();
-
 
   return (
     <PagePaper>
