@@ -12,9 +12,15 @@ type MarketTicker = {
 
 type MarketTickersResponse = MarketTicker[];
 
+type OrderBookType = [number, number];
 interface OrderBookResponse {
-  bids: [];
-  asks: [];
+  bids: Array<OrderBookType>;
+  asks: Array<OrderBookType>;
 }
 
-export type { MarketTicker, MarketTickersResponse, OrderBookResponse };
+export type {
+  MarketTicker,
+  MarketTickersResponse,
+  OrderBookResponse,
+  OrderBookType,
+};
