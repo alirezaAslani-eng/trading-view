@@ -1,6 +1,7 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { SymbolsResponse } from "@/api/types";
+import { BaseApiResponse } from "@/types";
 
 const URL = `${process.env.NEXT_PUBLIC_BASEURL}/api/udf/all-symbols`;
 
@@ -10,9 +11,11 @@ async function symbols(): Promise<SymbolsResponse> {
     return response;
   })) as Response;
 
-  const data = (await handleApiResponse(res)) as SymbolsResponse;
+  const data = (await handleApiResponse(
+    res,
+  )) as BaseApiResponse<SymbolsResponse>;
 
-  return data;
+  return data.data;
 }
 
 export default symbols;
