@@ -9,12 +9,14 @@ type Column<T> = {
   renderCell?: (row: T) => React.ReactNode;
 };
 
+type Row<T> = { id?: string | number } & T;
+
 type CustomTableProps<T> = {
   columns: Column<T>[];
-  rows?: T[];
+  rows?: Row<T>[];
 };
 
-function DataTable<T extends { id: string | number }>({
+function DataTable<T extends object>({
   columns,
   rows = [],
 }: CustomTableProps<T>) {
@@ -22,8 +24,11 @@ function DataTable<T extends { id: string | number }>({
     <Table>
       <TableHead>
         <TableRow>
-          {columns?.map?.((column) => (
-            <TableCell key={String(column.field)} align={column.align}>
+          {columns?.map?.((column, index) => (
+            <TableCell
+              key={String(column?.field ?? index)}
+              align={column.align}
+            >
               <>{column.headerName}</>
             </TableCell>
           ))}
@@ -31,11 +36,11 @@ function DataTable<T extends { id: string | number }>({
       </TableHead>
 
       <TableBody>
-        {rows?.map?.((row) => (
-          <TableRow key={row?.id ?? ""}>
-            {columns.map((column) => (
+        {rows?.map?.((row, index) => (
+          <TableRow key={row?.id ?? index}>
+            {columns?.map((column, index) => (
               <TableCell
-                key={String(column.field ?? column.headerName)}
+                key={String(column.field ?? index)}
                 align={column.align}
               >
                 <>
