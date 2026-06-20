@@ -9,7 +9,7 @@ function useIRTAssetQuery() {
     ...walletPortfolioQueryConfig,
     select(data): WalletAsset {
       const IRTAssetInfo = data.assets.find((asset) => {
-        asset.assetSymbol === "IRT";
+        return asset.assetSymbol === "IRT";
       });
       if (!IRTAssetInfo)
         return {
