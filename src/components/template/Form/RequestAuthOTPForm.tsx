@@ -28,7 +28,6 @@ function RequestAuthOTPForm() {
 
   const form = useForm({
     resolver: zodResolver(requestAuthOTPSchema),
-    defaultValues: { identifier: clientEnv?.NEXT_PUBLIC_USER_IDENTIFIER! },
   });
 
   const mutation = useMutation({
