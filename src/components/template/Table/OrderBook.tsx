@@ -1,4 +1,5 @@
 "use client";
+import { OrderBookType } from "@/api/types";
 import BouncCircleLoader from "@/components/ui/Fallback/BounceCircleLoader";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { TradeOrderIcon } from "@/components/ui/Icon";
@@ -18,26 +19,39 @@ import { formatFaPrice } from "@/utils";
 import { Box, Stack, Tab, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
-
-type OrderBookRow = {};
+import { useState } from "react";
 
 type OrderBookListProps = {
-  rows: OrderBookRow[];
+  rows: OrderBookType[];
   priceColor: string;
 };
 
-const GRID_TEMPLATE = "1fr 1fr 1fr";
+const GRID_TEMPLATE = "1fr 1fr";
 
 const TABS = [
   { value: "open-orders", label: "سفارشات بازار" },
   { value: "last-trades", label: "آخرین معاملات" },
 ];
 
+type OrderBookViewType = "asks" | "bids" | "all";
+const orderBookViewOrder: Record<OrderBookViewType, OrderBookViewType> = {
+  all: "asks",
+  asks: "bids",
+  bids: "all",
+};
 export default function OrderBook() {
   const [symbol] = useQueryState<string>(symbolKey, parseAsUppercase);
+
+  const [orderBookView, setOrderBookView] = useState<OrderBookViewType>("all");
+
   const orderBookQuery = useQuery(orderBookConfig(symbol ?? ""));
   const tickerInfoQuery = useQuery(marketTickerInfoConfig(symbol ?? ""));
 
+  const orderBookViewToggle = () => {
+    setOrderBookView((prev) => {
+      return orderBookViewOrder[prev];
+    });
+  };
   return (
     <PanelPaper
       sx={{
@@ -66,7 +80,10 @@ export default function OrderBook() {
             ))}
           </Tabs>
           <TabsSibling>
-            <TradeOrderIcon sx={{ cursor: "pointer" }} />
+            <TradeOrderIcon
+              sx={{ cursor: "pointer" }}
+              onClick={orderBookViewToggle}
+            />
           </TabsSibling>
         </Box>
       </TabsProvider>
@@ -97,26 +114,34 @@ export default function OrderBook() {
 
         {orderBookQuery.status === "success" && (
           <>
-            <OrderBookList
-              rows={orderBookQuery.data.asks}
-              priceColor={notDefinedColors["#f26672"]}
-            />
+            {/* // * ----------- Asks ----------- */}
+            {(orderBookView === "all" || orderBookView === "asks") && (
+              <OrderBookList
+                rows={orderBookQuery.data.asks}
+                priceColor={notDefinedColors["#f26672"]}
+              />
+            )}
 
-            <Typography
-              variant="button3"
-              sx={{
-                py: "12px",
-                textAlign: "center",
-                color: notDefinedColors["#f26672"],
-              }}
-            >
-              {formatFaPrice(tickerInfoQuery.data?.lastPrice ?? "")}
-            </Typography>
+            {orderBookView === "all" && (
+              <Typography
+                variant="button3"
+                sx={{
+                  py: "12px",
+                  textAlign: "center",
+                  color: notDefinedColors["#f26672"],
+                }}
+              >
+                {formatFaPrice(tickerInfoQuery.data?.lastPrice ?? "")}
+              </Typography>
+            )}
 
-            <OrderBookList
-              rows={orderBookQuery.data.bids}
-              priceColor="text.profit"
-            />
+            {/* // * ----------- Bids ----------- */}
+            {(orderBookView === "all" || orderBookView === "bids") && (
+              <OrderBookList
+                rows={orderBookQuery.data.bids}
+                priceColor="text.profit"
+              />
+            )}
           </>
         )}
       </Box>
@@ -142,23 +167,26 @@ function OrderBookHeader() {
       >
         قیمت (IRT)
       </Typography>
-      <Typography
-        variant="caption2"
-        sx={{ textAlign: "center", color: "text.caption" }}
-      >
-        مقدار (kg)
-      </Typography>
+
       <Typography
         variant="caption2"
         sx={{ textAlign: "left", color: "text.caption" }}
       >
-        مجموع (IRT)
+        حجم (IRT)
       </Typography>
     </Box>
   );
 }
 
-function OrderBookRowItem({ priceColor }: { priceColor: string }) {
+function OrderBookRowItem({
+  priceColor,
+  price,
+  volumn,
+}: {
+  priceColor: string;
+  price: number | string;
+  volumn: string | number;
+}) {
   return (
     <Box
       sx={{
@@ -170,19 +198,14 @@ function OrderBookRowItem({ priceColor }: { priceColor: string }) {
         variant="caption2"
         sx={{ textAlign: "right", color: priceColor }}
       >
-        {"price"}
+        {formatFaPrice(price ?? "")}
       </Typography>
-      <Typography
-        variant="caption2"
-        sx={{ textAlign: "center", color: "text.secondary" }}
-      >
-        {"amount"}
-      </Typography>
+
       <Typography
         variant="caption2"
         sx={{ textAlign: "left", color: "text.secondary" }}
       >
-        {"total"}
+        {formatFaPrice(volumn ?? "")}
       </Typography>
     </Box>
   );
@@ -215,7 +238,8 @@ function OrderBookList({ rows, priceColor }: OrderBookListProps) {
           {rows.map((row, index) => (
             <OrderBookRowItem
               key={`${priceColor}-${index}`}
-              {...row}
+              price={row[0]}
+              volumn={row[1]}
               priceColor={priceColor}
             />
           ))}
