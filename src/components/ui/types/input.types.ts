@@ -30,7 +30,7 @@ type TextareaProps = BaseInputProps &
     textarea?: true;
   };
 
-type InputTextProps = InputProps | TextareaProps;
+type InputTextProps = InputProps & { textarea?: boolean };
 // * -------end------- InputText.tsx --------------
 
 // * -------start------- InputSelect.tsx --------------
