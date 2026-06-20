@@ -1,7 +1,7 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { sharedRequestInit } from "../sharedRequestInit";
-import { ApiOptions } from "@/types";
+import { ApiOptions, BaseApiResponse } from "@/types";
 import {
   CandlestickHistoryQueries,
   CandlestickHistoryResponse,
@@ -21,14 +21,22 @@ async function candlestickHistory({
   const res = (await fetchHandler(async () => {
     const response = await fetch(getUrlQueries(queries), {
       ...sharedRequestInit,
-      method: "GET",
     });
     return response;
   })) as Response;
 
-  const data = (await handleApiResponse(res)) as CandlestickHistoryResponse;
+  const data = (await handleApiResponse(
+    res,
+  )) as BaseApiResponse<CandlestickHistoryResponse>;
 
-  return data;
+  return normalizeData(data.data);
 }
 
 export default candlestickHistory;
+
+function normalizeData(
+  data: object | CandlestickHistoryResponse,
+): CandlestickHistoryResponse {
+  if (Array.isArray(data)) return data;
+  return [];
+}
