@@ -95,6 +95,7 @@ function AssetCartTable() {
             value={searchQuery}
             onChange={searchHandler}
             placeholder="جستجو نماد"
+            size="small"
             sx={{ width: "194px", pr: "32px" }}
           />
         </InputMarker>
