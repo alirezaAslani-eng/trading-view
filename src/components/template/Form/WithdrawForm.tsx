@@ -2,7 +2,7 @@
 import { AddIcon } from "@/components/ui/Icon";
 import {
   bankAccountsConfig,
-  walletBalanceConfig,
+  walletPortfolioConfig,
   withdrawConfig,
 } from "@/packages/react-query";
 import { Box } from "@mui/material";
@@ -34,7 +34,7 @@ import safeAsync from "@/utils/app/safeAsync";
 import { WithdrawSchemaType } from "@/validations/types";
 import alertMessages from "@/constant/app/alertMessages";
 
-const walletQueryConfig = walletBalanceConfig();
+const walletQueryConfig = walletPortfolioConfig();
 const withdrawMutationConfig = withdrawConfig();
 function WithdrawForm() {
   const withdrawMutate = useMutation(withdrawMutationConfig);

@@ -33,7 +33,7 @@ import { kycL1 } from "@/api";
 import addCard from "@/api/bank/addcard";
 import addShaba from "@/api/bank/addShaba";
 import queryClient from "../core/queryClient";
-import { banksKey, productsKey, walletInfoKey } from "../keys/queryKeys";
+import { banksKey, productsKey, walletProtfolioKey } from "../keys/queryKeys";
 import deposit, { DepositPayload } from "@/api/transaction/deposit";
 import addgroup from "@/api/group/addGroup";
 import { TradeFormSchemaOutputType } from "@/validations/types/trade.types";
@@ -112,7 +112,7 @@ const withdrawConfig = () => {
     mutationFn: withdraw,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: walletInfoKey,
+        queryKey: walletProtfolioKey,
         refetchType: "active",
       });
     },
@@ -124,7 +124,7 @@ const depositConfig = () => {
     mutationFn: deposit,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: walletInfoKey,
+        queryKey: walletProtfolioKey,
         refetchType: "active",
       });
     },

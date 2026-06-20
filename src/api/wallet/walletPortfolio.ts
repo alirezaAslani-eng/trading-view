@@ -1,13 +1,13 @@
 import { sharedRequestInit } from "../sharedRequestInit";
 import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
-import { WalletBalanceResponse } from "../types";
+import { WalletPortfolioResponse } from "../types";
 import { BaseApiResponse } from "@/types";
 const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/wallet/portfolio`;
 
 async function walletBalance(
   options?: RequestInit,
-): Promise<WalletBalanceResponse> {
+): Promise<WalletPortfolioResponse> {
   const res = (await fetchHandler(async () => {
     const res = await fetch(URL, {
       ...sharedRequestInit,
@@ -18,7 +18,7 @@ async function walletBalance(
 
   const data = (await handleApiResponse(
     res,
-  )) as BaseApiResponse<WalletBalanceResponse>;
+  )) as BaseApiResponse<WalletPortfolioResponse>;
 
   return data.data;
 }

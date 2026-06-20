@@ -6,9 +6,9 @@ import { ComponentProps } from "react";
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 import { formatFaPrice } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
-import { walletBalanceConfig } from "@/packages/react-query";
+import { walletPortfolioConfig } from "@/packages/react-query";
 
-const queryConfig = walletBalanceConfig();
+const queryConfig = walletPortfolioConfig();
 
 function CurrentBalanceCard(
   props: ReplaceSxWithSxOnlyObject<ComponentProps<typeof PanelPaper>>,

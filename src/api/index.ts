@@ -7,7 +7,7 @@ export { default as kycStatus } from "./kyc/kycStatus";
 export { default as kycL1 } from "./kyc/kycL1";
 export { default as kycL2 } from "./kyc/kycL2";
 export { default as dashboardInfo } from "./user/dashboardInfo";
-export { default as walletBalance } from "./wallet/walletBalance";
+export { default as walletPortfolio } from "./wallet/walletPortfolio";
 export { default as withdraw } from "./transaction/withdraw";
 export { default as deposit } from "./transaction/deposit";
 export { default as getProducts } from "./product/getProducts";

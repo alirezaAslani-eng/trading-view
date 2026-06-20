@@ -4,20 +4,20 @@ import {
   KycStatusResponse,
   ProductsResponse,
   ProductCategoriesResponse,
-  WalletBalanceResponse,
+  WalletPortfolioResponse,
   ProductStatus,
   SymbolsResponse,
   MarketTicker,
   OrderBookResponse,
 } from "@/api/types";
 import type { ResponseErrorType } from "@/types";
-import { queryOptions } from "@tanstack/react-query";
+import { QueryOptions, queryOptions } from "@tanstack/react-query";
 import {
   banksKey,
   dashboardInfoKey,
   kycStatusKey,
   productCategoriesKey,
-  walletInfoKey,
+  walletProtfolioKey,
   productsDynamicKey,
   symbolsKey,
   marketTickerInfoKey,
@@ -32,7 +32,7 @@ import {
   orderBook,
   productCategories,
   symbols,
-  walletBalance,
+  walletPortfolio,
 } from "@/api";
 
 const kycStatusConfig = () => {
@@ -78,18 +78,15 @@ const bankAccountsConfig = () => {
     },
   });
 };
-const walletBalanceConfig = () => {
+const walletPortfolioConfig = () => {
   return queryOptions<
-    WalletBalanceResponse,
+    WalletPortfolioResponse,
     ResponseErrorType,
-    WalletBalanceResponse,
-    typeof walletInfoKey
+    WalletPortfolioResponse,
+    typeof walletProtfolioKey
   >({
-    queryKey: walletInfoKey,
-    queryFn: async () => {
-      const res = await walletBalance();
-      return res;
-    },
+    queryKey: walletProtfolioKey,
+    queryFn: walletPortfolio,
   });
 };
 const productCategoriesConfig = () => {
@@ -140,7 +137,7 @@ export {
   kycStatusConfig,
   dashboardInfoConfig,
   bankAccountsConfig,
-  walletBalanceConfig,
+  walletPortfolioConfig,
   productsConfig,
   productCategoriesConfig,
   symbolsConfig,

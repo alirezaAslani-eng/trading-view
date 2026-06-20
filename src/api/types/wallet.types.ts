@@ -1,4 +1,3 @@
-
 interface WalletAsset {
   assetSymbol: string;
   availableBalance: number;
@@ -7,8 +6,8 @@ interface WalletAsset {
   totalValueInIrt: number;
 }
 
-interface WalletBalanceResponse {
+interface WalletPortfolioResponse {
   totalPortfolioValueIrt: number;
   assets: WalletAsset[];
 }
-export type { WalletBalanceResponse };
+export type { WalletPortfolioResponse };

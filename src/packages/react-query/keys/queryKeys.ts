@@ -11,7 +11,7 @@ const kycBaseKey = [cacheDomain.auth, cacheDomain.kyc];
 const kycStatusKey = [...kycBaseKey, "status" as const];
 const dashboardInfoKey = [...kycBaseKey, "dashboard-info" as const];
 const banksKey = [...authBaseKey, "banks"];
-const walletInfoKey = [...authBaseKey, "wallet-info"];
+const walletProtfolioKey = [...authBaseKey, "wallet-portfolio"];
 
 const productsKey = [...authBaseKey, "products"];
 const productsDynamicKey = (productStatus: ProductStatus) => [
@@ -28,7 +28,7 @@ export {
   kycStatusKey,
   dashboardInfoKey,
   banksKey,
-  walletInfoKey,
+  walletProtfolioKey,
   productCategoriesKey,
   productsKey,
   productsDynamicKey,
