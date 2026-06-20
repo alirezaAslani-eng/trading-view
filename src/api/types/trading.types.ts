@@ -26,8 +26,28 @@ interface TradingViewConfigResponse {
 // * --end-- tradingViewConfig.ts -----------
 
 // * --start--symbolDetails.ts----
+type SymbolDetailsResponse = Symbol;
+// * --end--symbolDetails.ts----
 
-type SymbolDetailsResponse = Pick<
+// * --start--symbols.ts----
+type SymbolsResponse = Symbol[];
+// * --end--symbols.ts----
+
+// * --start--searchSymbols.ts----
+type SearchSymbolsResponse = SearchedSymbol[];
+// * --end--searchSymbols.ts----
+
+export type {
+  CandleDataType,
+  CandlestickHistoryResponse,
+  CandlestickHistoryQueries,
+  TradingViewConfigResponse,
+  SymbolDetailsResponse,
+  SymbolsResponse,
+  SearchSymbolsResponse,
+};
+
+type Symbol = Pick<
   LibrarySymbolInfo,
   | "name"
   | "ticker"
@@ -42,17 +62,8 @@ type SymbolDetailsResponse = Pick<
   | "has_intraday"
   | "supported_resolutions"
 >;
-// * --end--symbolDetails.ts----
 
-// * --start--symbols.ts----
-type SymbolsResponse = SymbolDetailsResponse[];
-// * --end--symbols.ts----
-
-export type {
-  CandleDataType,
-  CandlestickHistoryResponse,
-  CandlestickHistoryQueries,
-  TradingViewConfigResponse,
-  SymbolDetailsResponse,
-  SymbolsResponse,
-};
+type SearchedSymbol = Pick<
+  LibrarySymbolInfo,
+  "description" | "type" | "exchange" | "full_name"
+> & { symbol: string };
