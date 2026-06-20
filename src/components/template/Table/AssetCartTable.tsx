@@ -67,7 +67,6 @@ const columns: Column<WalletAsset>[] = [
 function AssetCartTable() {
   const assetsQuery = useAssetsQuery();
 
-  
   const { search, searchQuery, setSearchQuery } = useSearch();
 
   const searchHandler = (
@@ -76,12 +75,13 @@ function AssetCartTable() {
     setSearchQuery(e.target.value);
   };
 
+  const isVisableTable =
+    assetsQuery.status === "success" && !!assetsQuery.data.length;
 
   return (
     <PagePaper>
       <PagePaperHeading sx={{ mb: "40px" }}>
-        <PagePaperTitle>{"لیست دارایی کالا"}</PagePaperTitle>
-
+        <PagePaperTitle>{"همه دارایی ها"}</PagePaperTitle>
 
         <InputMarker
           right="10px"
@@ -99,9 +99,6 @@ function AssetCartTable() {
             sx={{ width: "194px", pr: "32px" }}
           />
         </InputMarker>
-
-
-
       </PagePaperHeading>
 
       <FallbackHandler
@@ -122,7 +119,7 @@ function AssetCartTable() {
         }}
       />
 
-      {assetsQuery.status === "success" && (
+      {isVisableTable && (
         <DataTable
           rows={search(assetsQuery.data, ["assetSymbol"])}
           columns={columns}
