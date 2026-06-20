@@ -69,7 +69,7 @@ const sidebarNavigators = [
   },
   {
     text: "معامله",
-    link: "/panel/trade",
+    link: "/panel/trade?symbol=REBAR",
     icon: <ArrowUpDownIcon />,
     id: crypto.randomUUID(),
     submenus: [],
