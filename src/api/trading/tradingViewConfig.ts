@@ -1,6 +1,7 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { TradingViewConfigResponse } from "@/api/types";
+import { BaseApiResponse } from "@/types";
 
 const URL = `${process.env.NEXT_PUBLIC_BASEURL}/api/udf/config`;
 async function tradingViewConfig(): Promise<TradingViewConfigResponse> {
@@ -9,9 +10,11 @@ async function tradingViewConfig(): Promise<TradingViewConfigResponse> {
     return response;
   })) as Response;
 
-  const data = (await handleApiResponse(res)) as TradingViewConfigResponse;
+  const data = (await handleApiResponse(
+    res,
+  )) as BaseApiResponse<TradingViewConfigResponse>;
 
-  return data;
+  return data.data;
 }
 
 export default tradingViewConfig;
