@@ -10,4 +10,4 @@ interface WalletPortfolioResponse {
   totalPortfolioValueIrt: number;
   assets: WalletAsset[];
 }
-export type { WalletPortfolioResponse };
+export type { WalletPortfolioResponse, WalletAsset };
