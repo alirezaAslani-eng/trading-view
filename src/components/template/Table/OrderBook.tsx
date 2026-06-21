@@ -128,7 +128,7 @@ export default function OrderBook() {
                 sx={{
                   py: "12px",
                   textAlign: "center",
-                  color: notDefinedColors["#f26672"],
+                  color: "text.secondary",
                 }}
               >
                 {formatFaPrice(tickerInfoQuery.data?.lastPrice ?? "")}
