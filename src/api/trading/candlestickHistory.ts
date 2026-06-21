@@ -7,7 +7,7 @@ import {
   CandlestickHistoryResponse,
 } from "@/api/types";
 
-const getUrlQueries = (queries: CandlestickHistoryQueries) => {
+const URL = (queries: CandlestickHistoryQueries) => {
   const searchParams = new URLSearchParams({ ...queries });
   return `${process.env.NEXT_PUBLIC_BASEURL}/api/udf/history?${searchParams.toString()}`;
 };
@@ -19,7 +19,7 @@ async function candlestickHistory({
   queries,
 }: CandlestickHistoryConfig): Promise<CandlestickHistoryResponse> {
   const res = (await fetchHandler(async () => {
-    const response = await fetch(getUrlQueries(queries), {
+    const response = await fetch(URL(queries), {
       ...sharedRequestInit,
     });
     return response;
@@ -29,14 +29,7 @@ async function candlestickHistory({
     res,
   )) as BaseApiResponse<CandlestickHistoryResponse>;
 
-  return normalizeData(data.data);
+  return data.data;
 }
 
 export default candlestickHistory;
-
-function normalizeData(
-  data: object | CandlestickHistoryResponse,
-): CandlestickHistoryResponse {
-  if (Array.isArray(data)) return data;
-  return [];
-}

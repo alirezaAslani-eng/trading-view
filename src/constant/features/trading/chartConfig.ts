@@ -1,7 +1,7 @@
 "use client";
 import { candlestickHistory, searchSymbols, tradingViewConfig } from "@/api";
 import symbolDetails from "@/api/trading/symbolDetails";
-import { ResolutionString, WidgetOptions } from "@/packages/tradingview";
+import { Bar, ResolutionString, WidgetOptions } from "@/packages/tradingview";
 import safeAsync from "@/utils/app/safeAsync";
 import {
   getConnection,
@@ -10,6 +10,7 @@ import {
   start,
   subscribeToMarket,
 } from "@/packages/signalr";
+import { CandleDataType } from "@/api/types";
 
 //@ts-ignore
 const datafeed: WidgetOptions["datafeed"] = {
@@ -59,20 +60,11 @@ const datafeed: WidgetOptions["datafeed"] = {
       onError(errMessage);
       return;
     }
+    const candles = normalizeCandles(candleHistory.data);
 
-    onResult(
-      candleHistory.data.map((candle) => ({
-        time: candle.t,
-        open: candle.o,
-        close: candle.c,
-        high: candle.h,
-        low: candle.l,
-        volume: candle.v,
-      })),
-      {
-        noData: candleHistory.data.length === 0,
-      },
-    );
+    onResult(candles, {
+      noData: candles.length === 0,
+    });
   },
 
   searchSymbols: async (query, _, __, onResult) => {
@@ -122,7 +114,7 @@ const datafeed: WidgetOptions["datafeed"] = {
 
 const widgetOptions = {
   datafeed,
-  
+
   library_path: "/charting_library/",
 
   interval: "1" as ResolutionString,
@@ -137,3 +129,20 @@ const widgetOptions = {
 } satisfies Partial<WidgetOptions>;
 
 export { datafeed, widgetOptions };
+
+function normalizeCandles(candleData: CandleDataType): Bar[] {
+  if (!!!candleData?.s) return [];
+  const candleCounts = candleData.t!.length;
+
+  const candles: Bar[] = Array.from({ length: candleCounts }, (_, index) => {
+    return {
+      time: candleData.t![index] * 1000,
+      close: candleData.c![index],
+      open: candleData.o![index],
+      high: candleData.h![index],
+      low: candleData.l![index],
+      volume: candleData.v![index],
+    };
+  });
+  return candles;
+}

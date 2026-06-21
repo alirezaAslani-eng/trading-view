@@ -1,18 +1,21 @@
 import { LibrarySymbolInfo } from "@/packages/tradingview";
 
-// * --start-- candlestickHistory.ts -----------
-interface CandleDataType extends Record<
-  "t" | "o" | "h" | "l" | "c" | "v",
-  number
-> {
+// * --start-- candlestickHistory.ts ----------
+type CandleDataType = Partial<{
   s: string;
-}
+  t: number[];
+  o: number[];
+  h: number[];
+  l: number[];
+  c: number[];
+  v: number[];
+}>;
 
 type CandlestickHistoryQueryKeys = "symbol" | "resolution" | "from" | "to";
 
 type CandlestickHistoryQueries = Record<CandlestickHistoryQueryKeys, string>;
 
-type CandlestickHistoryResponse = CandleDataType[];
+type CandlestickHistoryResponse = CandleDataType;
 // * --end-- candlestickHistory.ts -----------
 
 // * --start-- tradingViewConfig.ts -----------
