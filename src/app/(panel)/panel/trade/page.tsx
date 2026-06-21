@@ -12,6 +12,7 @@ import {
   Section,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
+import { Suspense } from "react";
 
 function page() {
   return (
@@ -24,7 +25,9 @@ function page() {
       </Header>
       <Main>
         <Section>
-          <PriceOverview />
+          <Suspense>
+            <PriceOverview />
+          </Suspense>
         </Section>
         <Section sx={tradePageSpacing_sx.section_sx}>
           <SectionContent
@@ -35,16 +38,22 @@ function page() {
           >
             {/* // * -------- Trade Panel -------- */}
             <Box sx={{ width: "270px" }}>
-              <TradePanel />
+              <Suspense>
+                <TradePanel />
+              </Suspense>
             </Box>
             {/* // * -------- Order Book -------- */}
             <Box sx={{ width: "270px" }}>
-              <OrderBook />
+              <Suspense>
+                <OrderBook />
+              </Suspense>
             </Box>
 
             {/* // * ---------- Trading Chart ---------- */}
             <Box sx={{ flex: 1, minWidth: "0px" }}>
-              <TradeChart />
+              <Suspense>
+                <TradeChart />
+              </Suspense>
             </Box>
           </SectionContent>
         </Section>
