@@ -33,12 +33,13 @@ const datafeed: WidgetOptions["datafeed"] = {
       onError("Faild to find symbol");
       return;
     }
+    console.log({ symbolData: symbolInfo.data });
 
     onResolve({
       ...symbolInfo.data,
       format: "price",
       full_name: symbolInfo.data.description,
-      has_intraday: true,
+      // has_intraday: true,
     });
   },
 
@@ -46,7 +47,7 @@ const datafeed: WidgetOptions["datafeed"] = {
     const candleHistory = await safeAsync(() =>
       candlestickHistory({
         queries: {
-          from: String(periodParams.from),
+          from: String(1718957982),
           to: String(periodParams.to),
           resolution,
           symbol: symbolInfo.name,
