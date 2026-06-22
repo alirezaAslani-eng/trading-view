@@ -20,7 +20,7 @@ import {
   walletProtfolioKey,
   productsDynamicKey,
   symbolsKey,
-  marketTickerInfoKey,
+  marketTickerInfoDynamicKey,
   orderBookKey,
 } from "@/packages/react-query";
 import {
@@ -122,7 +122,7 @@ const symbolsConfig = () => {
 };
 const marketTickerInfoConfig = (tickerName: string) => {
   return queryOptions<MarketTicker, ResponseErrorType, MarketTicker>({
-    queryKey: marketTickerInfoKey(tickerName),
+    queryKey: marketTickerInfoDynamicKey(tickerName),
     queryFn: () => marketTickerInfo(tickerName),
   });
 };

@@ -21,7 +21,11 @@ const productsDynamicKey = (productStatus: ProductStatus) => [
 
 const productCategoriesKey = [...authBaseKey, "product-categories"];
 const marketTickersKey = ["tickers"];
-const marketTickerInfoKey = (tickerName: string) => ["ticker-info", tickerName];
+const marketTickerInfoKey = ["ticker-info"];
+const marketTickerInfoDynamicKey = (tickerName: string) => [
+  marketTickerInfoKey,
+  tickerName,
+];
 const symbolsKey = ["symbols"];
 const orderBookKey = (symbol: string) => [...authBaseKey, "order-book", symbol];
 export {
@@ -34,6 +38,7 @@ export {
   productsDynamicKey,
   marketTickersKey,
   symbolsKey,
+  marketTickerInfoDynamicKey,
   marketTickerInfoKey,
   orderBookKey,
 };
