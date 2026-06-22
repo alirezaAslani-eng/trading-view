@@ -90,6 +90,7 @@ const datafeed: WidgetOptions["datafeed"] = {
     };
     startConection();
     const handler = (trade: OnTradeExecutedInfo) => {
+      if (trade.productCode !== symbolInfo.name) return;
       onTick({
         volume: trade.volum,
         time: trade.time * 1000,
