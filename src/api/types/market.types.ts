@@ -11,6 +11,7 @@ type MarketTicker = {
 };
 
 type MarketTickersResponse = MarketTicker[];
+type MarketTickerInfoResponse = MarketTicker;
 
 type OrderBookType = [number, number];
 interface OrderBookResponse {
@@ -21,6 +22,7 @@ interface OrderBookResponse {
 export type {
   MarketTicker,
   MarketTickersResponse,
+  MarketTickerInfoResponse,
   OrderBookResponse,
   OrderBookType,
 };
