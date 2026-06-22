@@ -19,7 +19,7 @@ async function orderBook(symbol: string): Promise<OrderBookResponse> {
     res,
   )) as BaseApiResponse<OrderBookResponse>;
 
-  return data.data;
+  return { ...data.data, symbol: symbol };
 }
 
 export default orderBook;

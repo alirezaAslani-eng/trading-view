@@ -17,6 +17,7 @@ type OrderBookType = [number, number];
 interface OrderBookResponse {
   bids: Array<OrderBookType>;
   asks: Array<OrderBookType>;
+  symbol: string;
 }
 
 export type {
