@@ -27,7 +27,8 @@ const marketTickerInfoDynamicKey = (tickerName: string) => [
   tickerName,
 ];
 const symbolsKey = ["symbols"];
-const orderBookKey = (symbol: string) => [...authBaseKey, "order-book", symbol];
+const orderBookKey = [...authBaseKey, "order-book"];
+const orderBookDynamicKey = (symbol: string) => [...orderBookKey, symbol];
 export {
   kycStatusKey,
   dashboardInfoKey,
@@ -40,6 +41,7 @@ export {
   symbolsKey,
   marketTickerInfoDynamicKey,
   marketTickerInfoKey,
+  orderBookDynamicKey,
   orderBookKey,
 };
 
