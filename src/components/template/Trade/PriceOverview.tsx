@@ -23,10 +23,13 @@ import { symbolKey } from "@/packages/nuqs";
 import { parseAsUppercase } from "@/packages/nuqs/parsers";
 import { useQuery } from "@tanstack/react-query";
 import { marketTickerInfoConfig } from "@/packages/react-query";
+import useInvokeTickerInfo from "@/hooks/features/market/useInvokeTickerInfo";
 const price_sx = { color: "text.onPrimary" };
 const oveview_card_title_sx = { color: "text.caption" };
 
 function PriceOverview() {
+  const [symbol] = useQueryState(symbolKey, parseAsUppercase);
+  useInvokeTickerInfo(symbol!);
   return (
     <PanelPaper
       sx={{

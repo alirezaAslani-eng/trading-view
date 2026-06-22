@@ -9,11 +9,13 @@ import { QueryClientProvider } from "@/packages/react-query";
 import { ReduxProvider } from "@/packages/redux";
 import { Toaster } from "@/packages/react-hot-toast";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import TickerInfoSyncProvider from "@/context/feature/market/TickerInfoSyncProvider";
 export default function RootLayout({ children }: PWC) {
   return (
     <QueryClientProvider>
       <ReduxProvider>
         <NuqsAdapter>
+          <TickerInfoSyncProvider />
           <AppRouterCacheProvider>
             <ThemeProvider>
               <CssBaseline />
