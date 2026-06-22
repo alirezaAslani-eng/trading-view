@@ -23,7 +23,7 @@ const productCategoriesKey = [...authBaseKey, "product-categories"];
 const marketTickersKey = ["tickers"];
 const marketTickerInfoKey = ["ticker-info"];
 const marketTickerInfoDynamicKey = (tickerName: string) => [
-  marketTickerInfoKey,
+  ...marketTickerInfoKey,
   tickerName,
 ];
 const symbolsKey = ["symbols"];
