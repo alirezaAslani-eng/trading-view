@@ -3,14 +3,12 @@ import { Components, Theme } from "@mui/material/styles";
 export const MuiSwitch = {
   styleOverrides: {
     root: ({ theme }) => ({
-      width: 34,
-      height: "18px",
-      padding:0,
-
+ width: 35,
+height: 19,
+      padding: 0,
       "& .MuiSwitch-switchBase": {
-        padding:"2px",
+        padding: "2.5px",
         transitionDuration: "200ms",
-
         "&.Mui-checked": {
           transform: "translateX(16px)",
           "&  .MuiSwitch-track": {
@@ -21,14 +19,12 @@ export const MuiSwitch = {
       },
 
       "& .MuiSwitch-thumb": {
-        
         width: "14px",
         height: "14px",
         boxShadow: "none",
-         backgroundColor: theme.palette.common.white,
-       
+        backgroundColor: theme.palette.common.white,
       },
-     
+
       "& .MuiSwitch-track": {
         borderRadius: 9,
         backgroundColor: "#4F4F4F",
