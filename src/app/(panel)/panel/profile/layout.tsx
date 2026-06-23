@@ -11,7 +11,8 @@ import {
   PageSubNavigation,
   PageSubNavigationLink,
 } from "@/components/ui/PageSubNavigation/PageSubNavigation";
-import React, { PropsWithChildren } from "react";
+import { ROUTES } from "@/constant/app/routes";
+import { PropsWithChildren } from "react";
 
 function layout({ children }: PropsWithChildren) {
   return (
@@ -27,11 +28,11 @@ function layout({ children }: PropsWithChildren) {
         <Section>
           <SectionContent sx={{ gap: "32px" }}>
             <PageSubNavigation>
-              <PageSubNavigationLink href="/panel/profile/my-info">
+              <PageSubNavigationLink href={ROUTES.PROFILE.OVERIVIEW}>
                 <UserIcon />
                 {"مشخصات کاربری"}
               </PageSubNavigationLink>
-              <PageSubNavigationLink href="/panel/profile/banks">
+              <PageSubNavigationLink href={ROUTES.PROFILE.BANKS}>
                 <UserIcon />
                 {"اطلاعات بانکی"}
               </PageSubNavigationLink>

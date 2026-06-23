@@ -12,12 +12,7 @@ import {
   InputSelectItem,
   InputSelectMenu,
 } from "@/components/ui/Input/InputSelect";
-import {
-  Header,
-  Main,
-  Page,
-  Section,
-} from "@/components/ui/Layout/PageLayout";
+import { Header, Main, Page, Section } from "@/components/ui/Layout/PageLayout";
 import { PagePaperTitle } from "@/components/ui/Layout/PaperLayout";
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import {
@@ -28,6 +23,8 @@ import {
 import { formatFaPrice } from "@/utils";
 import { Box, Divider, Stack, ToggleButton } from "@mui/material";
 import NextLink from "@/components/ui/Link/NextLink";
+import { ROUTES } from "@/constant/app/routes";
+import { defaultSymbol } from "@/constant/features/trading/symbol";
 
 type Timeframe = "monthly" | "quarterly" | "biannual" | "annual";
 
@@ -106,7 +103,9 @@ function page() {
               minHeight: "420px",
             }}
           >
-            <Box sx={{ display: "flex", gap: "32px", alignItems: "flex-start" }}>
+            <Box
+              sx={{ display: "flex", gap: "32px", alignItems: "flex-start" }}
+            >
               <Box
                 sx={{
                   width: { xs: "100%", md: "340px" },
@@ -122,7 +121,7 @@ function page() {
                   value={productId}
                   onChange={setProductId}
                   sx={{
-                    width: "186px"
+                    width: "186px",
                   }}
                 >
                   <InputSelectMenu>
@@ -148,7 +147,9 @@ function page() {
                   value={timeframe}
                   onChange={handleTimeframeChange}
                 >
-                  <ToggleButton value="annual">{timeframeLabels.annual}</ToggleButton>
+                  <ToggleButton value="annual">
+                    {timeframeLabels.annual}
+                  </ToggleButton>
                   <Divider orientation="vertical" flexItem />
                   <ToggleButton value="biannual">
                     {timeframeLabels.biannual}
@@ -187,10 +188,16 @@ function page() {
                 <Stack sx={{ gap: "20px", flex: 1 }}>
                   <ChartStatRow label="آخرین قیمت">
                     <Price sx={{ gap: "6px" }}>
-                      <PriceAmount variant="body2" sx={{ color: "text.heading" }}>
+                      <PriceAmount
+                        variant="body2"
+                        sx={{ color: "text.heading" }}
+                      >
                         {formatFaPrice(productStats.lastPrice)}
                       </PriceAmount>
-                      <PriceUnit variant="caption2" sx={{ color: "text.caption" }} />
+                      <PriceUnit
+                        variant="caption2"
+                        sx={{ color: "text.caption" }}
+                      />
                     </Price>
                   </ChartStatRow>
 
@@ -202,24 +209,39 @@ function page() {
 
                   <ChartStatRow label="کمترین قیمت">
                     <Price sx={{ gap: "6px" }}>
-                      <PriceAmount variant="body2" sx={{ color: "text.heading" }}>
+                      <PriceAmount
+                        variant="body2"
+                        sx={{ color: "text.heading" }}
+                      >
                         {formatFaPrice(productStats.lowestPrice)}
                       </PriceAmount>
-                      <PriceUnit variant="caption2" sx={{ color: "text.caption" }} />
+                      <PriceUnit
+                        variant="caption2"
+                        sx={{ color: "text.caption" }}
+                      />
                     </Price>
                   </ChartStatRow>
 
                   <ChartStatRow label="بیشترین قیمت">
                     <Price sx={{ gap: "6px" }}>
-                      <PriceAmount variant="body2" sx={{ color: "text.heading" }}>
+                      <PriceAmount
+                        variant="body2"
+                        sx={{ color: "text.heading" }}
+                      >
                         {formatFaPrice(productStats.highestPrice)}
                       </PriceAmount>
-                      <PriceUnit variant="caption2" sx={{ color: "text.caption" }} />
+                      <PriceUnit
+                        variant="caption2"
+                        sx={{ color: "text.caption" }}
+                      />
                     </Price>
                   </ChartStatRow>
                 </Stack>
 
-                <NextLink href="/panel/trade" sx={{ mt: "32px", width: "100%" }}>
+                <NextLink
+                  href={ROUTES.TRADE.BY_SYMBOL(defaultSymbol)}
+                  sx={{ mt: "32px", width: "100%" }}
+                >
                   <Button
                     variant="outlined"
                     color="primary"

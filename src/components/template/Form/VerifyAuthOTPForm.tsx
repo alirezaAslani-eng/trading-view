@@ -3,7 +3,6 @@ import { Box, ButtonBase, SxProps, Theme, Typography } from "@mui/material";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
 import InputVerifyCode from "@/components/template/Input/InputVerifyCode";
-import SendAuthOTP from "@/components/template/Button/SendAuthOTP";
 import { RestartRightIcon } from "@/components/ui/Icon";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -15,12 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import verifyAuthOTPSchema from "@/validations/auth/verifyAuthOTPSchema";
 import safeAsync from "@/utils/app/safeAsync";
 import { VerifyAuthOTPSchemaType } from "@/validations/types";
-import {
-  FormLayout,
-  FormLayoutField,
-  FormLayoutLable,
-  FormLayoutSubmit,
-} from "@/components/ui/Layout/FormLayout";
+
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { promiseAlert } from "@/packages/react-hot-toast";
@@ -33,6 +27,7 @@ import BouncCircleLoader from "@/components/ui/Fallback/BounceCircleLoader";
 import AuthFormLayoutField from "../Layout/AuthFormLayout/AuthFormLayoutField";
 import AuthFormLayoutLable from "../Layout/AuthFormLayout/AuthFormLayoutLable";
 import AuthFormLayoutSubmit from "../Layout/AuthFormLayout/AuthFormLayoutSubmit";
+import { ROUTES } from "@/constant/app/routes";
 
 const mutationConfig = verifyAuthOTPConfig();
 
@@ -51,7 +46,7 @@ function VerifyAuthOTPForm() {
     ...mutationConfig,
     onSuccess: () => {
       removeStoredIdentifier();
-      router.replace("/panel/profile/my-info");
+      router.replace(ROUTES.PROFILE.OVERIVIEW);
     },
     meta: {
       successMessage: "خوش اومدی! 👋",
