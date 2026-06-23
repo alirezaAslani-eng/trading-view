@@ -22,3 +22,4 @@ export { default as placeOrder } from "./trading/placeOrder";
 export { default as marketTickerInfo } from "./market/marketTickerInfo";
 export { default as orderBook } from "./market/orderBook";
 export { default as searchSymbols } from "./trading/searchSymbols";
+export { default as activeOrders } from "./order/activeOrders";
