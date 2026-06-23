@@ -21,4 +21,18 @@ interface ApiOptions<
   queries?: TQueries;
 }
 
-export type { BaseApiResponse, ResponseErrorType, ApiOptions };
+type PaginationQueries = Partial<Record<"page" | "pageSize", string>>;
+type PaginationResponse<TData extends any[] = []> = {
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  items: TData;
+};
+
+export type {
+  BaseApiResponse,
+  ResponseErrorType,
+  ApiOptions,
+  PaginationQueries,
+  PaginationResponse,
+};
