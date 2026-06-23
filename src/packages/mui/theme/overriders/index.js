@@ -12,3 +12,4 @@ export { default as MuiDialog } from "./MuiDialog";
 export { default as MuiAccordion } from "./MuiAccordion";
 export { default as MuiAccordionSummary } from "./MuiAccordionSummary";
 export { default as MuiAccordionDetails } from "./MuiAccordionDetails";
+export { default as MuiSwitch } from "./MuiSwitch";

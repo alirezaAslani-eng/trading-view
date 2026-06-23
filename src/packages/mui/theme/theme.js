@@ -16,6 +16,7 @@ import {
   MuiSvgIcon,
   MuiToggleButton,
   MuiToggleButtonGroup,
+  MuiSwitch,
 } from "./overriders";
 // import breakpoints from "./breakpoints";
 /**
@@ -42,6 +43,7 @@ const theme = {
     MuiAccordion,
     MuiAccordionSummary,
     MuiAccordionDetails,
+    MuiSwitch,
     MuiTypography: {
       defaultProps: {
         component: "p",
