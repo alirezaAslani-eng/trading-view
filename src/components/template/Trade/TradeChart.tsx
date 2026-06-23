@@ -1,13 +1,11 @@
 "use client";
 import { widgetOptions } from "@/constant/features/trading/chartConfig";
-import { symbolKey } from "@/packages/nuqs";
-import { parseAsUppercase } from "@/packages/nuqs/parsers";
+import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
 import { TradingViewChart, WidgetOptions } from "@/packages/tradingview";
-import { useQueryState } from "nuqs";
 import { useMemo } from "react";
 
 function TradeChart() {
-  const [symbol, setSymbol] = useQueryState(symbolKey, parseAsUppercase);
+  const [symbol, setSymbolParam] = useSymbolParams();
 
   const widgetConfig = useMemo(
     () =>
@@ -22,7 +20,7 @@ function TradeChart() {
     <TradingViewChart
       widgetOptions={widgetConfig}
       onSymbolChange={(symbolName) => {
-        setSymbol(symbolName);
+        setSymbolParam(symbolName);
       }}
     />
   );
