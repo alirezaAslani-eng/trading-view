@@ -18,7 +18,8 @@ const kvcL1Schema = object({
   birthMonth: string(inValidDateError)
     .regex(/^\d+$/, inValidDateError)
     .min(0, inValidDateError)
-    .max(11, inValidDateError),
+    .max(11, inValidDateError)
+    .transform((v) => String(Number(v) + 1)),
   birthYear: string(inValidDateError).regex(/^\d+$/, inValidDateError),
 });
 
