@@ -140,7 +140,7 @@ const activeOrdersConfig = (filters?: UserOrderFilters) => {
     queryKey: activeOrdersDynamicKey(filters),
     queryFn: (query) => {
       const filters = query.queryKey[3] as UserOrderFilters | undefined;
-      activeOrders(serializeQueries(filters ?? {}).toString());
+      return activeOrders(serializeQueries(filters ?? {}).toString());
     },
   });
 };
