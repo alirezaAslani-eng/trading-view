@@ -25,6 +25,7 @@ import {
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
 import NextLink from "@/components/ui/Link/NextLink";
+import { ROUTES } from "@/constant/app/routes";
 
 const columns: Column<ProductTableRow>[] = [
   {
@@ -73,7 +74,7 @@ const columns: Column<ProductTableRow>[] = [
   {
     headerName: "عملیات",
     renderCell: (row) => (
-      <NextLink href={`/panel/trade?symbol=${row.symbol}`}>
+      <NextLink href={ROUTES.TRADE.BY_SYMBOL(row.symbol)}>
         <ButtonTableAction>{"معامله"}</ButtonTableAction>
       </NextLink>
     ),

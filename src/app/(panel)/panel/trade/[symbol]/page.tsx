@@ -25,9 +25,7 @@ function page() {
       </Header>
       <Main>
         <Section>
-          <Suspense>
-            <PriceOverview />
-          </Suspense>
+          <PriceOverview />
         </Section>
         <Section sx={tradePageSpacing_sx.section_sx}>
           <SectionContent
@@ -38,22 +36,16 @@ function page() {
           >
             {/* // * -------- Trade Panel -------- */}
             <Box sx={{ width: "270px" }}>
-              <Suspense>
-                <TradePanel />
-              </Suspense>
+              <TradePanel />
             </Box>
             {/* // * -------- Order Book -------- */}
             <Box sx={{ width: "270px" }}>
-              <Suspense>
-                <OrderBook />
-              </Suspense>
+              <OrderBook />
             </Box>
 
             {/* // * ---------- Trading Chart ---------- */}
             <Box sx={{ flex: 1, minWidth: "0px" }}>
-              <Suspense>
-                <TradeChart />
-              </Suspense>
+              <TradeChart />
             </Box>
           </SectionContent>
         </Section>

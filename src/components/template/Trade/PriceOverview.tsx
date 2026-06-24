@@ -3,7 +3,10 @@ import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import { formatFaPrice } from "@/utils";
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 import InputSelectSymbol from "../Input/InputSelectSymbol";
-import { parseAsString, useQueryState } from "nuqs";
+import { useQuery } from "@tanstack/react-query";
+import { marketTickerInfoConfig } from "@/packages/react-query";
+import useInvokeTickerInfo from "@/hooks/features/market/useInvokeTickerInfo";
+import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
 import {
   Price,
   PriceAmount,
@@ -19,17 +22,12 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
-import { symbolKey } from "@/packages/nuqs";
-import { parseAsUppercase } from "@/packages/nuqs/parsers";
-import { useQuery } from "@tanstack/react-query";
-import { marketTickerInfoConfig } from "@/packages/react-query";
-import useInvokeTickerInfo from "@/hooks/features/market/useInvokeTickerInfo";
 const price_sx = { color: "text.onPrimary" };
 const oveview_card_title_sx = { color: "text.caption" };
 
 function PriceOverview() {
-  const [symbol] = useQueryState(symbolKey, parseAsUppercase);
-  useInvokeTickerInfo(symbol!);
+  const [symbol] = useSymbolParams();
+  useInvokeTickerInfo(symbol);
   return (
     <PanelPaper
       sx={{
@@ -69,12 +67,12 @@ function PriceOverviewCardTitle(
 }
 
 function ProductCodeSelector() {
-  const [symbol, setSymbol] = useQueryState(symbolKey, parseAsUppercase);
+  const [symbol, setSymbolParam] = useSymbolParams();
 
   return (
     <InputSelectSymbol
       //@ts-ignore
-      onChange={setSymbol}
+      onChange={setSymbolParam}
       value={symbol ?? ""}
     />
   );
@@ -85,7 +83,7 @@ const skleton_sx: SxProps<Theme> = {
   width: "100px",
 };
 function PriceOverViewSection() {
-  const [symbol] = useQueryState(symbolKey, parseAsUppercase);
+  const [symbol] = useSymbolParams();
   const tickerInfoQuery = useQuery(marketTickerInfoConfig(symbol ?? ""));
   const isLoading = tickerInfoQuery.isLoading;
   // tickerInfoQuery.data.

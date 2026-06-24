@@ -17,6 +17,7 @@ import {
   PageSubNavigation,
   PageSubNavigationLink,
 } from "@/components/ui/PageSubNavigation/PageSubNavigation";
+import { ROUTES } from "@/constant/app/routes";
 
 function page() {
   return (
@@ -31,21 +32,13 @@ function page() {
         <Section>
           <SectionContent sx={{ gap: "32px" }}>
             <PageSubNavigation>
-              <PageSubNavigationLink href="/panel/profile/my-info">
+              <PageSubNavigationLink href={ROUTES.PROFILE.OVERIVIEW}>
                 <UserIcon />
                 {"مشخصات کاربری"}
               </PageSubNavigationLink>
-              <PageSubNavigationLink href="/panel/profile/banks">
+              <PageSubNavigationLink href={ROUTES.PROFILE.BANKS}>
                 <UserIcon />
                 {"اطلاعات بانکی"}
-              </PageSubNavigationLink>
-              <PageSubNavigationLink href="/panel/profile/security">
-                <UserIcon />
-                {"امنیت"}
-              </PageSubNavigationLink>
-              <PageSubNavigationLink href="/panel/profile/settings">
-                <UserIcon />
-                {"تنظیمات"}
               </PageSubNavigationLink>
             </PageSubNavigation>
 

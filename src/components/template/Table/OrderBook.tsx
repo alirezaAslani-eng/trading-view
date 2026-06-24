@@ -8,9 +8,8 @@ import ScrollContainer from "@/components/ui/ScrollContainer/ScrollContainer";
 import Tabs from "@/components/ui/Tabs/Tabs";
 import TabsSibling from "@/components/ui/Tabs/TabsSibling";
 import { TabsProvider } from "@/context/app/TabsContext";
+import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
-import { symbolKey } from "@/packages/nuqs";
-import { parseAsUppercase } from "@/packages/nuqs/parsers";
 import {
   marketTickerInfoConfig,
   orderBookConfig,
@@ -18,7 +17,6 @@ import {
 import { formatFaPrice } from "@/utils";
 import { Box, Stack, Tab, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { useQueryState } from "nuqs";
 import { useState } from "react";
 
 type OrderBookListProps = {
@@ -40,12 +38,12 @@ const orderBookViewOrder: Record<OrderBookViewType, OrderBookViewType> = {
   bids: "all",
 };
 export default function OrderBook() {
-  const [symbol] = useQueryState<string>(symbolKey, parseAsUppercase);
+  const [symbol] = useSymbolParams();
 
   const [orderBookView, setOrderBookView] = useState<OrderBookViewType>("all");
 
-  const orderBookQuery = useQuery(orderBookConfig(symbol ?? ""));
-  const tickerInfoQuery = useQuery(marketTickerInfoConfig(symbol ?? ""));
+  const orderBookQuery = useQuery(orderBookConfig(symbol));
+  const tickerInfoQuery = useQuery(marketTickerInfoConfig(symbol));
 
   const orderBookViewToggle = () => {
     setOrderBookView((prev) => {

@@ -7,14 +7,17 @@ import mutationFetch from "@/utils/app/mutationFetch";
 const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/kyc/level1`;
 
 async function kycL1(body: KycL1SchemaType): Promise<void> {
-
   const res = (await fetchHandler(async () => {
     const res = await mutationFetch(URL, {
       ...sharedRequestInit,
       method: "POST",
       body: JSON.stringify({
         nationalId: body.nationalId,
-        birthDateShamsi: `${body.birthYear}/0${body.birthMonth}/0${body.birthDay}`,
+        birthDateShamsi: formatShamsiDate(
+          body.birthYear,
+          body.birthMonth,
+          body.birthDay,
+        ),
       } satisfies KycL1RequestBody),
       headers: {
         "Content-Type": "application/json",
@@ -27,3 +30,14 @@ async function kycL1(body: KycL1SchemaType): Promise<void> {
 }
 
 export default kycL1;
+
+function formatShamsiDate(
+  year: number | string,
+  month: number | string,
+  day: number | string,
+): string {
+  function pad2(value: number | string): string {
+    return String(value).padStart(2, "0");
+  }
+  return `${year}/${pad2(month)}/${pad2(day)}`;
+}

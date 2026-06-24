@@ -5,7 +5,7 @@ import { Box, debounce } from "@mui/material";
 import ButtonTableAction from "@/components/ui/Button/ButtonTableAction";
 import NextLink from "@/components/ui/Link/NextLink";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
-import { ChangeEvent, useState, useTransition } from "react";
+import { ChangeEvent } from "react";
 import useAssetsQuery from "@/hooks/features/wallet/useAssetsQuery";
 import {
   PagePaper,
@@ -18,11 +18,11 @@ import {
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
 import { formatFaPrice } from "@/utils";
-import objectGetter from "@/utils/app/objectGetter";
 import InputText from "@/components/ui/Input/InputText";
 import useSearch from "@/hooks/app/useSearch";
 import InputMarker from "@/components/ui/Marker/InputMarker";
 import { SearchIcon } from "@/components/ui/Icon";
+import { ROUTES } from "@/constant/app/routes";
 
 const columns: Column<WalletAsset>[] = [
   { field: "assetSymbol", headerName: "نماد" },
@@ -55,7 +55,7 @@ const columns: Column<WalletAsset>[] = [
     renderCell(row) {
       return (
         <Box sx={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <NextLink href={`/panel/trade?symbol=${row.assetSymbol}`}>
+          <NextLink href={ROUTES.TRADE.BY_SYMBOL(row.assetSymbol)}>
             <ButtonTableAction>{"معامله"}</ButtonTableAction>
           </NextLink>
         </Box>

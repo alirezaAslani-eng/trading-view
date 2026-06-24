@@ -8,15 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import tradeFormSchema from "@/validations/trade/tradeFormSchema";
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import tradeTogglebuttonSell_sx from "@/packages/mui/theme/shared-style/features/trading/tradeTogglebuttonSell_sx";
-import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { placeOrderConfig } from "@/packages/react-query";
 import safeAsync from "@/utils/app/safeAsync";
 import { promiseAlert } from "@/packages/react-hot-toast";
 import alertMessages from "@/constant/app/alertMessages";
 import BouncCircleLoader from "@/components/ui/Fallback/BounceCircleLoader";
-import { useQueryState } from "nuqs";
-import { symbolKey } from "@/packages/nuqs";
 import {
   FormProvider,
   useController,
@@ -31,7 +28,7 @@ import {
 import LimitedPriceForm from "./LimitedPriceForm";
 import MarketPriceForm from "./MarketPriceForm";
 import { TradeFormSubscriber } from "./types";
-import { parseAsUppercase } from "@/packages/nuqs/parsers";
+import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
@@ -40,7 +37,7 @@ const placeOrderMutationConfig = placeOrderConfig();
 
 function TradePanel() {
   // * -------- productCode/Symbol --------
-  const [symbol] = useQueryState(symbolKey, parseAsUppercase);
+  const [symbol] = useSymbolParams();
 
   // * --------- From API ---------
   const placeOrderApi = useMutation({
@@ -56,15 +53,9 @@ function TradePanel() {
     defaultValues: {
       orderSide: "buy",
       orderType: "market",
-      productCode: symbol ?? "",
+      productCode: symbol,
     },
   });
-
-  // * --------- Track productCode value ---------
-  useEffect(() => {
-    if (!symbol) return;
-    form.setValue("productCode", symbol);
-  }, [symbol]);
 
   //  * ------- Order type state ---------
   const isMarketType = form.watch("orderType") === "market";
