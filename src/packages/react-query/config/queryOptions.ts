@@ -11,7 +11,7 @@ import {
   OrderBookResponse,
 } from "@/api/types";
 import type { ResponseErrorType, UserOrderFilters } from "@/types";
-import { queryOptions } from "@tanstack/react-query";
+import { keepPreviousData, queryOptions } from "@tanstack/react-query";
 import {
   banksKey,
   dashboardInfoKey,
@@ -138,6 +138,7 @@ const orderBookConfig = (symbol: string) => {
 const activeOrdersConfig = (filters?: UserOrderFilters) => {
   return queryOptions({
     queryKey: activeOrdersDynamicKey(filters),
+    placeholderData: keepPreviousData,
     queryFn: (query) => {
       const filters = query.queryKey[3] as UserOrderFilters | undefined;
       return activeOrders(serializeQueries(filters ?? {}).toString());
