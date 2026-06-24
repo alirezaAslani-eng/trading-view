@@ -1,3 +1,4 @@
+type OrderStatusClient = "pending" | "failed" | "filled";
 type OrderStatus =
   | "Cancelled"
   | "Active"
@@ -18,4 +19,10 @@ interface UserOrderFilters {
   // onlyOpenOrders: boolean;
 }
 
-export type { OrderStatus, OrderSide, OrderType, UserOrderFilters };
+export type {
+  OrderStatus,
+  OrderSide,
+  OrderType,
+  UserOrderFilters,
+  OrderStatusClient,
+};
