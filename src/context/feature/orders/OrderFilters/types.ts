@@ -4,29 +4,29 @@ import { ReactNode } from "react";
 /*                                   Types                                    */
 /* -------------------------------------------------------------------------- */
 
-type OpenOrdersFilters = UserOrderFilters;
-type OpenOrdersActions = {
+type OrderFiltersFilters = UserOrderFilters;
+type OrderFiltersActions = {
   resetFilters: () => void;
-  updateFilter: <K extends keyof OpenOrdersFilters>(
+  updateFilter: <K extends keyof OrderFiltersFilters>(
     key: K,
-    value: OpenOrdersFilters[K],
+    value: OrderFiltersFilters[K],
   ) => void;
 };
 
-interface OrderFiltersContextValue extends OpenOrdersActions {
-  filters: OpenOrdersFilters;
+interface OrderFiltersContextValue extends OrderFiltersActions {
+  filters: OrderFiltersFilters;
 }
 
 /* -------------------------------------------------------------------------- */
 /*                                 Provider                                   */
 /* -------------------------------------------------------------------------- */
-type OpenOrdersProviderProps = {
+type OrderFiltersProviderProps = {
   children: ReactNode;
 };
 
 export type {
-  OpenOrdersActions,
-  OpenOrdersFilters,
+  OrderFiltersActions,
+  OrderFiltersFilters,
   OrderFiltersContextValue,
-  OpenOrdersProviderProps,
+  OrderFiltersProviderProps,
 };

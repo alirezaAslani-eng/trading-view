@@ -1,15 +1,15 @@
 import { createContext, useCallback, useState } from "react";
 import {
   OrderFiltersContextValue,
-  OpenOrdersFilters,
-  OpenOrdersProviderProps,
+  OrderFiltersFilters,
+  OrderFiltersProviderProps,
 } from "./types";
 
 const OrderFiltersContext = createContext<OrderFiltersContextValue | null>(
   null,
 );
 
-const INITIAL_FILTERS: OpenOrdersFilters = {
+const INITIAL_FILTERS: OrderFiltersFilters = {
   page: 1,
   pageSize: 10,
 };
@@ -17,19 +17,19 @@ const INITIAL_FILTERS: OpenOrdersFilters = {
 /*                                 Provider                                   */
 /* -------------------------------------------------------------------------- */
 
-function OpenOrdersProvider({ children }: OpenOrdersProviderProps) {
+function OrderFiltersProvider({ children }: OrderFiltersProviderProps) {
   /**
    * filter state.
    */
-  const [filters, setFilters] = useState<OpenOrdersFilters>(INITIAL_FILTERS);
+  const [filters, setFilters] = useState<OrderFiltersFilters>(INITIAL_FILTERS);
 
   /**
    * Update a single filter field.
    */
   const updateFilter = useCallback(
-    <K extends keyof OpenOrdersFilters>(
+    <K extends keyof OrderFiltersFilters>(
       key: K,
-      value: OpenOrdersFilters[K],
+      value: OrderFiltersFilters[K],
     ) => {
       setFilters((prev) => ({
         ...prev,
@@ -58,4 +58,4 @@ function OpenOrdersProvider({ children }: OpenOrdersProviderProps) {
   return <OrderFiltersContext value={value}>{children}</OrderFiltersContext>;
 }
 
-export { OrderFiltersContext, OpenOrdersProvider };
+export { OrderFiltersContext, OrderFiltersProvider };

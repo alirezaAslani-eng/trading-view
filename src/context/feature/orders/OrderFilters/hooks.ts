@@ -1,8 +1,7 @@
 import { useContext } from "react";
-import { OpenOrdersActions } from "./types";
 import { OrderFiltersContext } from "./OrderFiltersContext";
 
-function useOrderFilters(): OpenOrdersActions {
+function useOrderFilters() {
   const ctx = useContext(OrderFiltersContext)!;
   return ctx;
 }
