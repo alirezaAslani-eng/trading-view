@@ -1,12 +1,15 @@
 import { ProductStatus } from "@/api/types";
+import { UserOrderFilters } from "@/types";
 
 const cacheDomain = {
   auth: "auth",
   kyc: "kyc",
+  trade: "trade",
 } as const;
 
 const authBaseKey = [cacheDomain.auth];
 const kycBaseKey = [cacheDomain.auth, cacheDomain.kyc];
+const TradeBaseKey = [cacheDomain.auth, cacheDomain.trade];
 
 const kycStatusKey = [...kycBaseKey, "status" as const];
 const dashboardInfoKey = [...kycBaseKey, "dashboard-info" as const];
@@ -29,6 +32,13 @@ const marketTickerInfoDynamicKey = (tickerName: string) => [
 const symbolsKey = ["symbols"];
 const orderBookKey = [...authBaseKey, "order-book"];
 const orderBookDynamicKey = (symbol: string) => [...orderBookKey, symbol];
+
+const activeOrdersKey = [...TradeBaseKey, "active-orders"];
+const activeOrdersDynamicKey = (filters?: UserOrderFilters) => [
+  ...activeOrdersKey,
+  filters,
+];
+const ordersHistoryKey = [...TradeBaseKey, "orders-history"];
 export {
   kycStatusKey,
   dashboardInfoKey,
@@ -42,8 +52,28 @@ export {
   marketTickerInfoDynamicKey,
   marketTickerInfoKey,
   orderBookDynamicKey,
+  activeOrdersDynamicKey,
   orderBookKey,
+  activeOrdersKey,
+  ordersHistoryKey,
 };
 
 // * prefix keys
 export { authBaseKey, kycBaseKey };
+
+function QueryFilterKey<TFilters extends object | null | undefined = object>(
+  filters: TFilters,
+):
+  | (TFilters & {
+      queryFilter: true;
+    })
+  | null {
+  if (!filters) return null;
+
+  const signedFilters = structuredClone(filters) as TFilters & {
+    queryFilter: true;
+  };
+  signedFilters.queryFilter = true;
+
+  return signedFilters;
+}
