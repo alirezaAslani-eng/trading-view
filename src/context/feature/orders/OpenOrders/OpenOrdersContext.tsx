@@ -8,12 +8,8 @@ import {
 const OpenOrdersContext = createContext<OpenOrdersContextValue | null>(null);
 
 const INITIAL_FILTERS: OpenOrdersFilters = {
-  search: "",
-  symbol: null,
-  orderType: null,
-  side: null,
-  sort: null,
-  onlyOpenOrders: false,
+  page: 1,
+  pageSize: 10,
 };
 /* -------------------------------------------------------------------------- */
 /*                                 Provider                                   */
