@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 /*                                   Types                                    */
 /* -------------------------------------------------------------------------- */
 
-type OpenOrdersFilters = UserOrderFilters
+type OpenOrdersFilters = UserOrderFilters;
 type OpenOrdersActions = {
   resetFilters: () => void;
   updateFilter: <K extends keyof OpenOrdersFilters>(
@@ -13,7 +13,7 @@ type OpenOrdersActions = {
   ) => void;
 };
 
-interface OpenOrdersContextValue extends OpenOrdersActions {
+interface OrderFiltersContextValue extends OpenOrdersActions {
   filters: OpenOrdersFilters;
 }
 
@@ -27,6 +27,6 @@ type OpenOrdersProviderProps = {
 export type {
   OpenOrdersActions,
   OpenOrdersFilters,
-  OpenOrdersContextValue,
+  OrderFiltersContextValue,
   OpenOrdersProviderProps,
 };

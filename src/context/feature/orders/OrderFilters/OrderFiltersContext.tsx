@@ -1,11 +1,13 @@
 import { createContext, useCallback, useState } from "react";
 import {
-  OpenOrdersContextValue,
+  OrderFiltersContextValue,
   OpenOrdersFilters,
   OpenOrdersProviderProps,
 } from "./types";
 
-const OpenOrdersContext = createContext<OpenOrdersContextValue | null>(null);
+const OrderFiltersContext = createContext<OrderFiltersContextValue | null>(
+  null,
+);
 
 const INITIAL_FILTERS: OpenOrdersFilters = {
   page: 1,
@@ -53,7 +55,7 @@ function OpenOrdersProvider({ children }: OpenOrdersProviderProps) {
     resetFilters,
   };
 
-  return <OpenOrdersContext value={value}>{children}</OpenOrdersContext>;
+  return <OrderFiltersContext value={value}>{children}</OrderFiltersContext>;
 }
 
-export { OpenOrdersContext, OpenOrdersProvider };
+export { OrderFiltersContext, OpenOrdersProvider };
