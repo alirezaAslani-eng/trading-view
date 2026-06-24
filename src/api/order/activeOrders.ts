@@ -4,13 +4,11 @@ import { UserOrdersResponse, MarketTickersResponse } from "@/api/types";
 import { BaseApiResponse, PaginationQueries } from "@/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 
-const URL = (queries?: PaginationQueries) => {
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/active?${new URLSearchParams(queries)}`;
+const URL = (queries?: string) => {
+  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/active?${queries}`;
 };
 
-async function activeOrders(
-  queries?: PaginationQueries,
-): Promise<UserOrdersResponse> {
+async function activeOrders(queries?: string): Promise<UserOrdersResponse> {
   const res = (await fetchHandler(async () => {
     const response = await fetch(URL(queries), {
       ...sharedRequestInit,
