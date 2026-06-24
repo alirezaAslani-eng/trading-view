@@ -11,6 +11,7 @@ type OrderType = "Market" | "Limit";
 type OrderSide = "Buy" | "Sell";
 interface UserOrderFilters {
   page: number;
+  pageSize: number;
   // search: string;
   // symbol: null | string;
   // orderType: null | string;
