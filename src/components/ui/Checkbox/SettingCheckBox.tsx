@@ -1,35 +1,48 @@
 import React from "react";
-import { Box, Switch, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import DynamicSwitch from "@/components/template/DynamicSwitch/DynamicSwitch";
 
-interface SettingCheckBoxType {
+interface SettingCheckboxProps {
   title: string;
   description: string;
+  disabled?: boolean;
+  checked: boolean;
+  onChange: (value: boolean) => void;
 }
-const SettingCheckBox = ({ title, description }: SettingCheckBoxType) => (
-  <Box
-    sx={{
-      display: "flex",
-      alignItems: "start",
-      gap: "12px",
-      justifyContent: "center",
-    }}>
-    <Box>
-      <Switch />
-    </Box>
+export default function SettingCheckBox({
+  title,
+  description,
+  disabled = false,
+  checked,
+  onChange,
+}: SettingCheckboxProps) {
+  return (
     <Box
       sx={{
-        display: "flexRow",
-        gap:"6px",
-      }}>
-      <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
-        ورود با حساب گوگل
-      </Typography>
-      <Typography variant="body3" sx={{ color: "text.tertiary" }}>
-        در صورت فعال بودن این گزینه، می‌توانید با حساب کاربری گوگل/جیمیل خود
-        وارد شوید
-      </Typography>
+        display: "flex",
+        alignItems: "flex-start",
+        gap: "12px",
+      }}
+    >
+      <DynamicSwitch
+        checked={checked}
+        disabled={disabled}
+        onChange={onChange}
+      />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "6px",
+        }}
+      >
+        <Typography variant="body2" color="text.onPrimary">
+          {title}title
+        </Typography>
+        <Typography variant="body3" color="text.tertiary">
+          {description}mvvvvvvvvvvvvvvvvvvvvvvvvvvdcffffffffff
+        </Typography>
+      </Box>
     </Box>
-  </Box>
-);
-
-export default SettingCheckBox;
+  );
+}
