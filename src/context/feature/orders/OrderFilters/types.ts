@@ -1,17 +1,10 @@
+import { UserOrderFilters } from "@/types";
 import { ReactNode } from "react";
 /* -------------------------------------------------------------------------- */
 /*                                   Types                                    */
 /* -------------------------------------------------------------------------- */
 
-type OpenOrdersFilters = {
-  search: string;
-  symbol: string | null;
-  orderType: "market" | "limit" | null;
-  side: "buy" | "sell" | null;
-  onlyOpenOrders: boolean;
-  sort: "ASC" | "DESC" | null;
-};
-
+type OpenOrdersFilters = UserOrderFilters;
 type OpenOrdersActions = {
   resetFilters: () => void;
   updateFilter: <K extends keyof OpenOrdersFilters>(
@@ -20,7 +13,7 @@ type OpenOrdersActions = {
   ) => void;
 };
 
-interface OpenOrdersContextValue extends OpenOrdersActions {
+interface OrderFiltersContextValue extends OpenOrdersActions {
   filters: OpenOrdersFilters;
 }
 
@@ -34,6 +27,6 @@ type OpenOrdersProviderProps = {
 export type {
   OpenOrdersActions,
   OpenOrdersFilters,
-  OpenOrdersContextValue,
+  OrderFiltersContextValue,
   OpenOrdersProviderProps,
 };

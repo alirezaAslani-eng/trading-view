@@ -28,3 +28,5 @@ export const YEARS: DateItem[] = Array.from({ length: 100 }, (_, i) => {
     value: String(year),
   };
 });
+
+export const JALALI_FORMAT = "YYYY/MM/DD";
