@@ -1,8 +1,11 @@
+import SettingCheckBox from '@/components/ui/Checkbox/SettingCheckBox'
 import React from 'react'
 
 function page() {
   return (
-    <div>page</div>
+    <div>
+      <SettingCheckBox />
+    </div>
   )
 }
 

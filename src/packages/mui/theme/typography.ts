@@ -60,6 +60,8 @@ const typography: TypographyVariantsOptions = {
     lineHeight: 1.5,
     fontFamily: "var(--iranyekan-regular)",
   },
+
+
   // * -------------- Button --------------
 
   button1: {
