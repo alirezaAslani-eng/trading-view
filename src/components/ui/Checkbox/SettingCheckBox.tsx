@@ -12,18 +12,15 @@ const SettingCheckBox = ({ title, description }: SettingCheckBoxType) => (
       alignItems: "start",
       gap: "12px",
       justifyContent: "center",
-      marginTop: "20px",
-    }}
-  >
+    }}>
     <Box>
       <Switch />
     </Box>
     <Box
       sx={{
         display: "flexRow",
-        gap: "6px",
-      }}
-    >
+        gap:"6px",
+      }}>
       <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
         ورود با حساب گوگل
       </Typography>
