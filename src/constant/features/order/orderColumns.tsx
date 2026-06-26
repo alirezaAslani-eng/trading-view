@@ -64,7 +64,7 @@ export const orderTableColumns: DefaultColumns = {
       return (
         <Typography variant="caption1" sx={{ color }}>
           {isPending && "در حال تکمیل"}
-          {isFaild && "تکمیل"}
+          {isFaild && "لغو"}
           {isFilled && "تکمیل"}
         </Typography>
       );
