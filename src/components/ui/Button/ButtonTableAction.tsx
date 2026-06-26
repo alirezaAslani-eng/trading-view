@@ -1,7 +1,6 @@
 "use client";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
-import styled from "@emotion/styled";
-import { Button } from "@mui/material";
+import { Button, styled  } from "@mui/material";
 
 const ButtonTableAction = styled(Button)(({ theme }) => {
   return {
@@ -11,6 +10,10 @@ const ButtonTableAction = styled(Button)(({ theme }) => {
     padding: "0px 14px",
     border: "1px solid",
     borderColor: notDefinedColors["#363636"],
+    "&.Mui-disabled": {
+      opacity: 0.5,
+      color: theme.palette.text.onPrimary,
+    },
     color: theme.palette.text.onPrimary,
     fontSize: theme.typography.button4.fontSize,
     fontFamily: theme.typography.button4.fontFamily,
