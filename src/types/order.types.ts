@@ -15,10 +15,10 @@ interface OrderFilters {
   page: number;
   pageSize: number;
   type: OrdersType;
+  orderSide: null | OrderSide;
   // search: string;
   // symbol: null | string;
   // orderType: null | string;
-  // side: null | OrderSide;
   // sort: null | "ASC" | "DESC";
   // onlyOpenOrders: boolean;
 }
