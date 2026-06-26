@@ -7,12 +7,16 @@ import { OrderFiltersContextValue, OrderFiltersProviderProps } from "./types";
 const OrderFiltersContext = createContext<OrderFiltersContextValue | undefined>(
   undefined,
 );
-
+const DEFAULT_FILTERS: OrderFilters = {
+  page: 1,
+  pageSize: 10,
+  type: "active",
+};
 function OrderFiltersProvider({
   children,
   defaultFilters,
 }: PropsWithChildren<OrderFiltersProviderProps>) {
-  const filters = useOrderFilters(defaultFilters);
+  const filters = useOrderFilters({ ...DEFAULT_FILTERS, ...defaultFilters });
 
   return <OrderFiltersContext value={filters}>{children}</OrderFiltersContext>;
 }

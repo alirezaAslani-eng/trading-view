@@ -3,7 +3,7 @@ import { OrderFilters, ResponseErrorType } from "@/types";
 import { UseQueryResult } from "@tanstack/react-query";
 
 interface OrderFiltersProviderProps {
-  defaultFilters: OrderFilters;
+  defaultFilters?: Partial<OrderFilters>;
 }
 interface OrderFiltersContextValue {
   filters: OrderFilters;
