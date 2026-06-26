@@ -2,15 +2,15 @@
 import DataTable, { Column } from "@/components/ui/Table/DataTable";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { Order } from "@/api/types";
-import { useActiveOrders } from "@/context/feature/orders/ActiveOrders/ActiveOrdersContext";
+import { useOrders } from "@/context/feature/orders/Orders/hooks";
 import {
   TableFallback,
   TableFallbackData,
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
 
-function ActiveOrdersTable({ columns }: { columns: Column<Order>[] }) {
-  const query = useActiveOrders();
+function OrdersTable({ columns }: { columns: Column<Order>[] }) {
+  const query = useOrders()!;
   return (
     <>
       <FallbackHandler
@@ -34,4 +34,4 @@ function ActiveOrdersTable({ columns }: { columns: Column<Order>[] }) {
   );
 }
 
-export default ActiveOrdersTable;
+export default OrdersTable;
