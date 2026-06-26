@@ -1,5 +1,5 @@
 import { ProductStatus } from "@/api/types";
-import { UserOrderFilters } from "@/types";
+import { OrderFilters } from "@/types";
 
 const cacheDomain = {
   auth: "auth",
@@ -33,12 +33,8 @@ const symbolsKey = ["symbols"];
 const orderBookKey = [...authBaseKey, "order-book"];
 const orderBookDynamicKey = (symbol: string) => [...orderBookKey, symbol];
 
-const activeOrdersKey = [...TradeBaseKey, "active-orders"];
-const activeOrdersDynamicKey = (filters?: UserOrderFilters) => [
-  ...activeOrdersKey,
-  filters,
-];
-const ordersHistoryKey = [...TradeBaseKey, "orders-history"];
+const ordersKey = [...TradeBaseKey, "orders"];
+const ordersDynamicKey = (filters: OrderFilters) => [...ordersKey, filters];
 export {
   kycStatusKey,
   dashboardInfoKey,
@@ -52,10 +48,9 @@ export {
   marketTickerInfoDynamicKey,
   marketTickerInfoKey,
   orderBookDynamicKey,
-  activeOrdersDynamicKey,
+  ordersDynamicKey,
   orderBookKey,
-  activeOrdersKey,
-  ordersHistoryKey,
+  ordersKey,
 };
 
 // * prefix keys

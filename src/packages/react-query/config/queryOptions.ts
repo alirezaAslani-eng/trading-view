@@ -10,7 +10,7 @@ import {
   MarketTicker,
   OrderBookResponse,
 } from "@/api/types";
-import type { ResponseErrorType, UserOrderFilters } from "@/types";
+import type { ResponseErrorType, OrderFilters } from "@/types";
 import { keepPreviousData, queryOptions } from "@tanstack/react-query";
 import {
   banksKey,
@@ -22,10 +22,10 @@ import {
   symbolsKey,
   marketTickerInfoDynamicKey,
   orderBookDynamicKey,
-  activeOrdersDynamicKey,
+  ordersDynamicKey,
 } from "@/packages/react-query";
 import {
-  activeOrders,
+  orders,
   dashboardInfo,
   getBankAccounts,
   getProducts,
@@ -135,13 +135,18 @@ const orderBookConfig = (symbol: string) => {
     queryFn: () => orderBook(symbol),
   });
 };
-const activeOrdersConfig = (filters?: UserOrderFilters) => {
+const ordersConfig = (filters: OrderFilters) => {
   return queryOptions({
-    queryKey: activeOrdersDynamicKey(filters),
+    queryKey: ordersDynamicKey(filters),
     placeholderData: keepPreviousData,
     queryFn: (query) => {
-      const filters = query.queryKey[3] as UserOrderFilters | undefined;
-      return activeOrders(serializeQueries(filters ?? {}).toString());
+      const filters = query.queryKey[3] as OrderFilters;
+      return orders({
+        queries: serializeQueries(filters).toString(),
+        params: {
+          type: filters.type,
+        },
+      });
     },
   });
 };
@@ -156,5 +161,5 @@ export {
   symbolsConfig,
   marketTickerInfoConfig,
   orderBookConfig,
-  activeOrdersConfig,
+  ordersConfig,
 };

@@ -11,8 +11,11 @@ interface Order {
   status: OrderStatus;
 }
 
-// * --start-- activeOrders.ts ----
-type UserOrdersResponse = PaginationResponse<Order[]>;
-// * --end-- activeOrders.ts ----
+// * --start-- orders.ts ----
+type OrdersType = "active" | "history";
+type OrdersApiConfig = { params: { type: OrdersType }; queries?: string };
 
-export type { UserOrdersResponse, Order };
+type OrdersResponse = PaginationResponse<Order[]>;
+// * --end-- orders.ts ----
+
+export type { OrdersResponse, OrdersApiConfig, Order, OrdersType };
