@@ -1,14 +1,14 @@
 "use client";
 import { createContext, PropsWithChildren } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useOrderFilters } from "./hooks";
+import { useOrderFiltersProvider } from "./hooks";
 import { ordersConfig } from "@/packages/react-query";
 import { OrdersContextValue } from "./types";
 
 const OrdersContext = createContext<OrdersContextValue | undefined>(undefined);
 
 function OrdersProvider({ children }: PropsWithChildren) {
-  const orderFilters = useOrderFilters()!;
+  const orderFilters = useOrderFiltersProvider()!;
 
   const query = useQuery(ordersConfig(orderFilters.filters));
 
