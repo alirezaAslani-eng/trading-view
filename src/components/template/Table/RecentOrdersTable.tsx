@@ -11,6 +11,7 @@ import { ordersConfig } from "@/packages/react-query";
 import { OrderFilters } from "@/types";
 import { ToggleButton } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
+import CancleOrderTableAction from "../Button/CancleOrderTableAction";
 import {
   TableFallback,
   TableFallbackData,
@@ -28,7 +29,7 @@ const orderColumns = buildOrderColumns({
     {
       headerName: "عملیات",
       renderCell(row) {
-        return <ButtonTableAction>{"لغو"}</ButtonTableAction>;
+        return <CancleOrderTableAction orderId={row.orderId} />;
       },
     },
   ],
