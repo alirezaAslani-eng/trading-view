@@ -18,4 +18,14 @@ type OrdersApiConfig = { params: { type: OrdersType }; queries?: string };
 type OrdersResponse = PaginationResponse<Order[]>;
 // * --end-- orders.ts ----
 
-export type { OrdersResponse, OrdersApiConfig, Order, OrdersType };
+// * --start-- cancleOrder.ts ----
+type CancleOrderParam = `${number}` | number;
+// * --end-- cancleOrder.ts ----
+
+export type {
+  OrdersResponse,
+  OrdersApiConfig,
+  Order,
+  OrdersType,
+  CancleOrderParam,
+};

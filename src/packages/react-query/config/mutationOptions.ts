@@ -1,5 +1,6 @@
 import {
   addProduct,
+  cancleOrder,
   deleteBankAccount,
   kycL2,
   placeOrder,
@@ -155,6 +156,15 @@ const placeOrderConfig = () => {
   });
 };
 
+const cancleOrderConfig = () => {
+  return mutationOptions({
+    mutationFn: cancleOrder,
+    meta: {
+      successMessage: "سفارش باموفقیت لغو شد",
+    },
+  });
+};
+
 export {
   requestAuthOTPConfig,
   verifyAuthOTPConfig,
@@ -168,4 +178,5 @@ export {
   addProductConfig,
   addGroupConfig,
   placeOrderConfig,
+  cancleOrderConfig,
 };
