@@ -9,9 +9,10 @@ type OrderStatus =
 
 type OrderType = "Market" | "Limit";
 type OrderSide = "Buy" | "Sell";
-interface UserOrderFilters {
+interface OrderFilters {
   page: number;
   pageSize: number;
+  type: "active" | "history";
   // search: string;
   // symbol: null | string;
   // orderType: null | string;
@@ -24,6 +25,6 @@ export type {
   OrderStatus,
   OrderSide,
   OrderType,
-  UserOrderFilters,
+  OrderFilters,
   OrderStatusClient,
 };
