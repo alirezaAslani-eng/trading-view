@@ -1,3 +1,5 @@
+import { OrdersType } from "@/api/types";
+
 type OrderStatusClient = "pending" | "failed" | "filled";
 type OrderStatus =
   | "Cancelled"
@@ -12,7 +14,7 @@ type OrderSide = "Buy" | "Sell";
 interface OrderFilters {
   page: number;
   pageSize: number;
-  type: "active" | "history";
+  type: OrdersType;
   // search: string;
   // symbol: null | string;
   // orderType: null | string;
