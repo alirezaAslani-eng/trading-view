@@ -3,8 +3,8 @@ import TotalAssetCard from "@/components/template/Card/TotalAssetCard";
 import ExchangeAssetForm from "@/components/template/Form/ExchangeAssetForm";
 import { Box } from "@mui/material";
 import AssetCartTable from "@/components/template/Table/AssetCartTable";
-import OpenBuysTable from "@/components/template/Table/OpenBuysTable";
 import BuySellQueueCard from "@/components/template/Card/BuySellQueueCard";
+import RecentOrdersTable from "@/components/template/Table/RecentOrdersTable";
 import {
   Page,
   Main,
@@ -49,7 +49,7 @@ function page() {
           </SectionHeading>
           <SectionContent>
             <Box sx={{ width: "75.90%", minHeight: "318px" }}>
-              <OpenBuysTable />
+              <RecentOrdersTable />
             </Box>
             <Box sx={{ width: "21.90%", minHeight: "318px" }}>
               <BuySellQueueCard />
