@@ -7,3 +7,4 @@ export type * from "./products.types";
 export type * from "./market.types";
 export type * from "./trading.types";
 export type * from "./order.types";
+export type * from "./permission.types";

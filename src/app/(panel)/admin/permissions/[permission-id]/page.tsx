@@ -1,3 +1,4 @@
+"use client";
 import PageHeader from "@/components/common/Appbar/PageHeader";
 import NextLink from "@/components/ui/Link/NextLink";
 import {
@@ -48,41 +49,7 @@ function page() {
       <Main sx={{ pb: "0px" }}>
         <Section>
           <SectionContent sx={{ gap: "32px" }}>
-            <PageSubNavigation>
-              <PagePaperHeading>
-                <PagePaperTitle>{"نقش‌ ها"}</PagePaperTitle>
-              </PagePaperHeading>
-
-              <Divider
-                sx={{ mt: "12px", mb: "16px", borderColor: "border.dark" }}
-              />
-
-              <PageSubNavigationLink href={"/admin/permissions/admin"}>
-                <HeadPhoneIcon />
-                {"پشتیبان"}
-              </PageSubNavigationLink>
-              <PageSubNavigationLink href={"/admin/permissions/admin1"}>
-                <HeadPhoneIcon />
-                {"پشتیبان"}
-              </PageSubNavigationLink>
-              <PageSubNavigationLink href={"/admin/permissions/admin2"}>
-                <HeadPhoneIcon />
-                {"پشتیبان"}
-              </PageSubNavigationLink>
-              <Divider
-                sx={{ mt: "4px", mb: "4px", borderColor: "border.dark" }}
-              />
-
-              <Button
-                color="primary"
-                variant="text"
-                disableRipple
-                sx={{ px: "14px", gap: "8px", justifyContent: "start" }}
-              >
-                <AddIcon sx={{ color: "inherit" }} />
-                {"نقش جدید"}
-              </Button>
-            </PageSubNavigation>
+            <PermissionGroups />
             <PermissionList />
           </SectionContent>
         </Section>
@@ -141,5 +108,41 @@ function PermissionList() {
         </Accordion>
       </Stack>
     </PagePaper>
+  );
+}
+
+function PermissionGroups() {
+  return (
+    <PageSubNavigation>
+      <PagePaperHeading>
+        <PagePaperTitle>{"نقش‌ ها"}</PagePaperTitle>
+      </PagePaperHeading>
+
+      <Divider sx={{ mt: "12px", mb: "16px", borderColor: "border.dark" }} />
+
+      <PageSubNavigationLink href={"/admin/permissions/admin"}>
+        <HeadPhoneIcon />
+        {"پشتیبان"}
+      </PageSubNavigationLink>
+      <PageSubNavigationLink href={"/admin/permissions/admin1"}>
+        <HeadPhoneIcon />
+        {"پشتیبان"}
+      </PageSubNavigationLink>
+      <PageSubNavigationLink href={"/admin/permissions/admin2"}>
+        <HeadPhoneIcon />
+        {"پشتیبان"}
+      </PageSubNavigationLink>
+      <Divider sx={{ mt: "4px", mb: "4px", borderColor: "border.dark" }} />
+
+      <Button
+        color="primary"
+        variant="text"
+        disableRipple
+        sx={{ px: "14px", gap: "8px", justifyContent: "start" }}
+      >
+        <AddIcon sx={{ color: "inherit" }} />
+        {"نقش جدید"}
+      </Button>
+    </PageSubNavigation>
   );
 }
