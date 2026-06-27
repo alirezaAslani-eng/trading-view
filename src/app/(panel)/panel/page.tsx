@@ -14,6 +14,7 @@ import {
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
 import ProductsTable from "@/components/template/Table/ProductsTable";
+import KycPromoBanner from "@/components/template/kycbanner/KycPromoBanner";
 function page() {
   return (
     <Page>
@@ -24,6 +25,7 @@ function page() {
         />
       </Header>
       <Main>
+        <KycPromoBanner />
         <Section>
           <SectionContent>
             <Box sx={{ width: "63.4%", minHeight: "242px" }}>
