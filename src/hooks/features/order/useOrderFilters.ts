@@ -33,6 +33,8 @@ function useOrderFilters(initialState?: Partial<OrderFilters>) {
     setFilters((prev) => ({
       ...prev,
       [key]: value,
+      // * ant filter can have a pagination result so reset it
+      ...(key !== "page" && { page: 1 }),
     }));
   };
 
