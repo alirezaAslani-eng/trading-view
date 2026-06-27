@@ -1,4 +1,5 @@
 import { OrderView } from "@/api/types";
+import { PaginationFilter } from "./filter.types";
 
 type OrderStatusClient = "pending" | "failed" | "filled";
 type OrderStatus =
@@ -11,9 +12,7 @@ type OrderStatus =
 
 type OrderType = "Market" | "Limit";
 type OrderSide = "Buy" | "Sell";
-interface OrderFilters {
-  page: number;
-  pageSize: number;
+interface OrderFilters extends PaginationFilter {
   view: OrderView;
   orderSide: null | OrderSide;
   productCode: string | null;
