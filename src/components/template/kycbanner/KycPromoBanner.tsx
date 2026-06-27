@@ -1,14 +1,22 @@
 "use client";
 import NextImage from "@/components/ui/Image/NextImage";
-import UpgradeKycAction from "@/components/template/Button/UpgradeKycAction";
-import ArrowDownIcon from "@/assets/svg/arrow-down.svg";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
-import { Box, BoxProps, Stack, styled, SvgIcon, Typography } from "@mui/material";
+import { DownMinimalIcon } from "@/components/ui/Icon";
+import {
+  Box,
+  BoxProps,
+  Button,
+  Fade,
+  Stack,
+  styled,
+  Typography,
+} from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { kycStatusConfig } from "@/packages/react-query";
 import isMaximumKycLevel from "@/utils/features/kyc/isMaximumKycLevel";
-
-const queryConfig = kycStatusConfig();
+import { Section } from "@/components/ui/Layout/PageLayout";
+import { useDispatch } from "@/packages/redux";
+import { upgradeKycLevel } from "@/redux/features/kyc";
 
 const GradientDotPanelRoot = styled(Box)({
   position: "relative",
@@ -41,6 +49,21 @@ const GradientDotPanelBackground = styled(Box)({
   },
 });
 
+const PromoButton = styled(Button)(({ theme }) => {
+  const { palette } = theme;
+  return {
+    alignSelf: "flex-start",
+    backgroundColor: palette.common.white,
+    color: palette.text.primary,
+    borderRadius: "999px",
+    border: "none",
+    boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.12)",
+    px: "20px",
+    height: "40px",
+    gap: "6px",
+  };
+});
+
 function GradientDotPanel({ sx, children, ...props }: BoxProps) {
   return (
     <GradientDotPanelRoot sx={(tm) => identifySxProp(tm, sx)} {...props}>
@@ -52,125 +75,105 @@ function GradientDotPanel({ sx, children, ...props }: BoxProps) {
   );
 }
 
+const queryConfig = kycStatusConfig();
+
 function KycPromoBanner() {
-  const kycStatus = useQuery(queryConfig);
+  const query = useQuery(queryConfig);
 
-  const isKycComplete =
-    kycStatus.status === "success" &&
-    isMaximumKycLevel(kycStatus.data.kycLevel);
+  if (!query.isSuccess) return null;
+  if (isMaximumKycLevel(query.data.kycLevel)) return null;
 
-  if (isKycComplete) {
-    return null;
-  }
+  const dispatch = useDispatch();
 
+  const openKycModal = () => {
+    dispatch(upgradeKycLevel());
+  };
   return (
-    <Box sx={{ mt: "24px", pt: "4px", pb: "8px" }}>
-      <GradientDotPanel sx={{ mt: "-4px", overflow: "visible" }}>
-        <Box
-          sx={{
-            position: "relative",
-            minHeight: "168px",
-            px: "40px",
-            pb: "32px",
-            pt: "32px",
-            overflow: "visible",
-          }}
-        >
+    <>
+      <Section>
+        <GradientDotPanel sx={{ mt: "-4px", overflow: "visible" }}>
           <Box
             sx={{
-              position: "absolute",
-              left: "145px",
-              bottom: "-20px",
-              width: "224.06px",
-              height: "229.44px",
-              zIndex: 2,
-              pointerEvents: "none",
+              position: "relative",
+              minHeight: "168px",
+              px: "40px",
+              pb: "32px",
+              pt: "32px",
+              overflow: "visible",
             }}
           >
-            <NextImage
-              src="/images/banner.png"
-              alt=""
-              width={224.06}
-              height={229.44}
+            <Box
               sx={{
+                position: "absolute",
+                left: "145px",
+                bottom: "-20px",
                 width: "224.06px",
                 height: "229.44px",
-                objectFit: "contain",
-                objectPosition: "bottom center",
-              }}
-            />
-          </Box>
-
-          <Stack
-            spacing={0}
-            sx={{
-              position: "absolute",
-              right: "40px",
-              top: "32px",
-              bottom: "32px",
-              justifyContent: "center",
-              maxWidth: "52%",
-              alignItems: "flex-start",
-              textAlign: "right",
-            }}
-          >
-            <Typography
-              variant="h5"
-              sx={{
-                color: "#FFFFFF",
-                fontFamily: "var(--iranyekan-demibold)",
-                mb: 0,
+                zIndex: 2,
+                pointerEvents: "none",
               }}
             >
-              {"یک قدم تا شروع معامله!"}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                color: "#FFFFFF",
-                lineHeight: 1.7,
-                opacity: 0.95,
-                mt: 0,
-              }}
-            >
-              {
-                "برای ادامه فعالیت و انجام معاملات، لطفاً احراز هویت خود را تکمیل کنید"
-              }
-            </Typography>
-            <Box sx={{ mt: "24px" }}>
-              <UpgradeKycAction
-                size="medium"
-                endIcon={
-                  <SvgIcon sx={{ fontSize: "18px", color: "#307CF2" }}>
-                    <ArrowDownIcon />
-                  </SvgIcon>
-                }
+              <NextImage
+                src="/images/banner.png"
+                alt=""
+                width={224.06}
+                height={229.44}
                 sx={{
-                  alignSelf: "flex-start",
-                  backgroundColor: "#FFFFFF",
-                  color: "#307CF2",
-                  borderRadius: "999px",
-                  border: "none",
-                  boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.12)",
-                  px: "20px",
-                  height: "44px",
-                  "& .MuiButton-endIcon": {
-                    marginInlineStart: "8px",
-                    marginInlineEnd: "-4px",
-                    transform: "rotate(90deg)",
-                  },
-                  "&:hover": {
-                    backgroundColor: "#F0F4FF",
-                  },
+                  width: "224.06px",
+                  height: "229.44px",
+                  objectFit: "contain",
+                  objectPosition: "bottom center",
+                }}
+              />
+            </Box>
+
+            <Stack
+              spacing={0}
+              sx={{
+                position: "absolute",
+                right: "40px",
+                top: "32px",
+                bottom: "32px",
+                justifyContent: "center",
+                maxWidth: "52%",
+                alignItems: "flex-start",
+                textAlign: "right",
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{
+                  color: "#FFFFFF",
+                  fontFamily: "var(--iranyekan-demibold)",
+                  mb: 0,
                 }}
               >
+                {"یک قدم تا شروع معامله!"}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "#FFFFFF",
+                  lineHeight: 1.7,
+                  opacity: 0.95,
+                  mt: 0,
+                }}
+              >
+                {
+                  "برای ادامه فعالیت و انجام معاملات، لطفاً احراز هویت خود را تکمیل کنید"
+                }
+              </Typography>
+              <PromoButton sx={{ mt: "24px" }} onClick={openKycModal}>
                 {"شروع احراز هویت"}
-              </UpgradeKycAction>
-            </Box>
-          </Stack>
-        </Box>
-      </GradientDotPanel>
-    </Box>
+                <DownMinimalIcon
+                  sx={{ color: "inherit", transform: "rotate(90deg)" }}
+                />
+              </PromoButton>
+            </Stack>
+          </Box>
+        </GradientDotPanel>
+      </Section>
+    </>
   );
 }
 
