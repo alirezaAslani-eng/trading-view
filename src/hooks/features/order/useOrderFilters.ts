@@ -5,7 +5,7 @@ const INITIAL_FILTERS: OrderFilters = {
   orderSide: null,
   page: 1,
   pageSize: 10,
-  type: "active",
+  view: "active",
   productCode: null,
   status: null,
 };

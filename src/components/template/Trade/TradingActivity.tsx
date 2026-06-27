@@ -64,10 +64,10 @@ function TradingActivity_() {
   const orderFilters = useOrderFiltersProvider()!;
 
   const setOrderHistory = useEffectEvent(() => {
-    orderFilters.setFilter("type", "history");
+    orderFilters.setFilter("view", "history");
   });
   const setActiveOrders = useEffectEvent(() => {
-    orderFilters.setFilter("type", "active");
+    orderFilters.setFilter("view", "active");
   });
   useUpdateEffect(() => {
     if (tab === "active-orders") setActiveOrders();
@@ -100,7 +100,7 @@ function TradingActivity_() {
         {isOrdersTab && (
           <OrdersTable
             columns={
-              orderFilters.filters.type === "active"
+              orderFilters.filters.view === "active"
                 ? activeOrderColumns
                 : orderHystoryColumns
             }
@@ -123,7 +123,7 @@ function TradingActivity_() {
 
 function TradingActivity() {
   return (
-    <OrderFiltersProvider defaultFilters={{ type: "active", pageSize: 10 }}>
+    <OrderFiltersProvider defaultFilters={{ view: "active", pageSize: 10 }}>
       <OrdersProvider>
         <TradingActivity_ />
       </OrdersProvider>

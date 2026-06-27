@@ -8,7 +8,7 @@ const URL = ({
   params,
   queries,
 }: Pick<OrdersApiConfig, "params" | "queries">) => {
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/${params.type}?${queries}`;
+  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/${params.view}?${queries}`;
 };
 
 async function orders({

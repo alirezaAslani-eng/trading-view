@@ -153,7 +153,7 @@ const ordersConfig = (filters: OrderFilters) => {
       return orders({
         queries: serializeQueries(filters).toString(),
         params: {
-          type: filters.type,
+          view: filters.view,
         },
       });
     },

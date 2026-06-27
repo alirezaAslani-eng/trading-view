@@ -1,4 +1,4 @@
-import { OrdersType } from "@/api/types";
+import { OrderView } from "@/api/types";
 
 type OrderStatusClient = "pending" | "failed" | "filled";
 type OrderStatus =
@@ -14,7 +14,7 @@ type OrderSide = "Buy" | "Sell";
 interface OrderFilters {
   page: number;
   pageSize: number;
-  type: OrdersType;
+  view: OrderView;
   orderSide: null | OrderSide;
   productCode: string | null;
   status: OrderStatus | null;
