@@ -5,6 +5,7 @@ import TradePanel from "@/components/template/TradePanel/TradePanel";
 import tradePageSpacing_sx from "@/packages/mui/theme/shared-style/features/trading/tradePageSpacing_sx";
 import TradeChart from "@/components/template/Trade/TradeChart";
 import { Box } from "@mui/material";
+import TradingActivity from "@/components/template/Trade/TradingActivity";
 import {
   Header,
   Main,
@@ -12,7 +13,6 @@ import {
   Section,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
-import { Suspense } from "react";
 
 function page() {
   return (
@@ -35,7 +35,7 @@ function page() {
             }}
           >
             {/* // * -------- Trade Panel -------- */}
-            <Box sx={{ width: "270px" }}>
+            <Box sx={{ width: "270px", maxWidth: "270px" }}>
               <TradePanel />
             </Box>
             {/* // * -------- Order Book -------- */}
@@ -48,6 +48,9 @@ function page() {
               <TradeChart />
             </Box>
           </SectionContent>
+        </Section>
+        <Section sx={tradePageSpacing_sx.section_sx}>
+          <TradingActivity />
         </Section>
       </Main>
     </Page>
