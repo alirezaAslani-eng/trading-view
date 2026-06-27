@@ -35,6 +35,7 @@ export const ROUTES = {
 
   PERMISSIONS: {
     ROOT: "/admin/permissions/admin",
+        BYGROUP_ID: (id: string | number) => `/admin/permissions/${id}`,
   },
 } as const;
 

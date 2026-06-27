@@ -5,6 +5,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Dialog,
   Divider,
   Stack,
   Typography,
@@ -38,6 +39,12 @@ import {
   PageSubNavigationLink,
 } from "@/components/ui/PageSubNavigation/PageSubNavigation";
 import Button from "@/components/ui/Button/Button";
+import { permissionConfig } from "@/packages/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { ROUTES } from "@/constant/app/routes";
+import { useState } from "react";
+import AddGroupModal from "@/components/template/Modal/AddGroupModal";
+import { log } from "console";
 
 function page() {
   return (
@@ -112,26 +119,30 @@ function PermissionList() {
 }
 
 function PermissionGroups() {
+       const [open, setOpen] = useState(false);
+
+   const query = useQuery(permissionConfig());
+   console.log("PermissionGroups query data:", query.data);
+
   return (
     <PageSubNavigation>
       <PagePaperHeading>
-        <PagePaperTitle>{"نقش‌ ها"}</PagePaperTitle>
+        <PagePaperTitle>نقش‌ها</PagePaperTitle>
       </PagePaperHeading>
 
       <Divider sx={{ mt: "12px", mb: "16px", borderColor: "border.dark" }} />
 
-      <PageSubNavigationLink href={"/admin/permissions/admin"}>
-        <HeadPhoneIcon />
-        {"پشتیبان"}
-      </PageSubNavigationLink>
-      <PageSubNavigationLink href={"/admin/permissions/admin1"}>
-        <HeadPhoneIcon />
-        {"پشتیبان"}
-      </PageSubNavigationLink>
-      <PageSubNavigationLink href={"/admin/permissions/admin2"}>
-        <HeadPhoneIcon />
-        {"پشتیبان"}
-      </PageSubNavigationLink>
+      {query.isLoading && <div>در حال بارگذاری...</div>}
+
+      {query.data?.map((group) => (
+        <PageSubNavigationLink
+          key={group.id}
+          href={ROUTES.PERMISSIONS.BYGROUP_ID(group.id)}
+        >
+          {group.description}
+        </PageSubNavigationLink>
+      ))}
+
       <Divider sx={{ mt: "4px", mb: "4px", borderColor: "border.dark" }} />
 
       <Button
@@ -139,10 +150,20 @@ function PermissionGroups() {
         variant="text"
         disableRipple
         sx={{ px: "14px", gap: "8px", justifyContent: "start" }}
+         onClick={() => setOpen(true)}
       >
         <AddIcon sx={{ color: "inherit" }} />
-        {"نقش جدید"}
+        نقش جدید
       </Button>
+      
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <AddGroupModal onClose={() => setOpen(false)} />
+      </Dialog>
     </PageSubNavigation>
   );
 }

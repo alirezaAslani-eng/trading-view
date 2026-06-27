@@ -10,14 +10,11 @@ async function PermissionGroups():Promise<PermissionGroupsResponse> {
     const response = await fetch(URL, {
       ...sharedRequestInit,
     });
-
     return response;
   })) as Response;
-
   const data = (await handleApiResponse(
     res,
   )) as PermissionGroupsResponse;
-
   return data;
 }
 

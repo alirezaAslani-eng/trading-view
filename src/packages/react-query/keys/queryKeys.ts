@@ -5,11 +5,13 @@ const cacheDomain = {
   auth: "auth",
   kyc: "kyc",
   trade: "trade",
+  permission:"permission"
 } as const;
 
 const authBaseKey = [cacheDomain.auth];
 const kycBaseKey = [cacheDomain.auth, cacheDomain.kyc];
 const TradeBaseKey = [cacheDomain.auth, cacheDomain.trade];
+const PermissionBaseKey = [cacheDomain.auth, cacheDomain.permission];
 
 const kycStatusKey = [...kycBaseKey, "status" as const];
 const dashboardInfoKey = [...kycBaseKey, "dashboard-info" as const];
@@ -35,6 +37,7 @@ const orderBookDynamicKey = (symbol: string) => [...orderBookKey, symbol];
 
 const ordersKey = [...TradeBaseKey, "orders"];
 const ordersDynamicKey = (filters: OrderFilters) => [...ordersKey, filters];
+const permissionGroupsKey=[...PermissionBaseKey,"groups"]
 export {
   kycStatusKey,
   dashboardInfoKey,
@@ -42,6 +45,7 @@ export {
   walletProtfolioKey,
   productCategoriesKey,
   productsKey,
+  permissionGroupsKey,
   productsDynamicKey,
   marketTickersKey,
   symbolsKey,

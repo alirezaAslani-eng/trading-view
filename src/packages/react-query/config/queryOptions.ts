@@ -9,6 +9,7 @@ import {
   SymbolsResponse,
   MarketTicker,
   OrderBookResponse,
+  PermissionGroupsResponse,
 } from "@/api/types";
 import type { ResponseErrorType, OrderFilters } from "@/types";
 import { queryOptions } from "@tanstack/react-query";
@@ -23,6 +24,7 @@ import {
   marketTickerInfoDynamicKey,
   orderBookDynamicKey,
   ordersDynamicKey,
+  permissionGroupsKey,
 } from "@/packages/react-query";
 import {
   orders,
@@ -37,6 +39,7 @@ import {
   walletPortfolio,
 } from "@/api";
 import serializeQueries from "@/utils/app/serializeQueries";
+import PermissionGroups from "@/api/permission/permission";
 
 const kycStatusConfig = () => {
   return queryOptions<
@@ -135,6 +138,12 @@ const orderBookConfig = (symbol: string) => {
     queryFn: () => orderBook(symbol),
   });
 };
+const permissionConfig=()=>{
+    return queryOptions<PermissionGroupsResponse>({
+    queryKey: permissionGroupsKey,
+    queryFn: PermissionGroups,
+  });
+}
 const ordersConfig = (filters: OrderFilters) => {
   return queryOptions({
     queryKey: ordersDynamicKey(filters),
@@ -162,4 +171,5 @@ export {
   marketTickerInfoConfig,
   orderBookConfig,
   ordersConfig,
+  permissionConfig
 };
