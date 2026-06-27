@@ -11,7 +11,7 @@ import {
   OrderBookResponse,
 } from "@/api/types";
 import type { ResponseErrorType, OrderFilters } from "@/types";
-import { keepPreviousData, queryOptions } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import {
   banksKey,
   dashboardInfoKey,
@@ -138,7 +138,6 @@ const orderBookConfig = (symbol: string) => {
 const ordersConfig = (filters: OrderFilters) => {
   return queryOptions({
     queryKey: ordersDynamicKey(filters),
-    placeholderData: keepPreviousData,
     gcTime: 30000,
     queryFn: (query) => {
       const filters = query.queryKey[3] as OrderFilters;
