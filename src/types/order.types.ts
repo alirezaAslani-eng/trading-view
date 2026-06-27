@@ -16,11 +16,8 @@ interface OrderFilters {
   pageSize: number;
   type: OrdersType;
   orderSide: null | OrderSide;
-  // search: string;
-  // symbol: null | string;
-  // orderType: null | string;
-  // sort: null | "ASC" | "DESC";
-  // onlyOpenOrders: boolean;
+  productCode: string | null;
+  status: OrderStatus | null;
 }
 
 export type {

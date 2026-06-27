@@ -6,6 +6,8 @@ const INITIAL_FILTERS: OrderFilters = {
   page: 1,
   pageSize: 10,
   type: "active",
+  productCode: null,
+  status: null,
 };
 
 function useOrderFilters(initialState?: Partial<OrderFilters>) {
