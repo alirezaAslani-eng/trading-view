@@ -30,7 +30,13 @@ const forwardFetch = async (url: URL | string, req: Request) => {
 const handler: RouteHandler<string[]> = async (req, context) => {
   const params = await context.params;
 
-  const url = createProxyUrl(`/${params.path.join("/")}`);
+  // * Preserve the original query string (?page=1&pageSize=10&productCode=REBAR)
+  const incomingUrl = new URL(req.url);
+  const url = createProxyUrl(
+    `/${params.path.join("/")}${incomingUrl.search}`,
+  );
+
+  console.log({ url: url.toString() });
 
   const reqCookies = await cookies();
 
@@ -70,7 +76,7 @@ const handler: RouteHandler<string[]> = async (req, context) => {
     return gateWayResponse(err);
   }
   const headers = new Headers(res.headers);
-  headers.set("set-cookie", updatedCookies); // این قسمت بعضی موقع ها با اینکه ریسپانس ریزالو مبشه میگه : TypeError: immutable
+  headers.set("set-cookie", updatedCookies);
   return new Response(res.body, {
     headers,
     status: res.status,
@@ -82,7 +88,9 @@ export { handler as GET, handler as POST, handler as PUT, handler as DELETE };
 
 function response(res: Response): Response {
   return new Response(res.body, {
-    headers: res.headers,
+    // * Wrapped in `new Headers()` — some runtimes return an immutable
+    // * Headers object from `fetch`, and setting on it later throws.
+    headers: new Headers(res.headers),
     status: res.status,
     statusText: res.statusText,
   });
