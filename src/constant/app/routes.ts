@@ -1,6 +1,10 @@
 export const ROUTES = {
   HOME: "/",
 
+  PANEL: {
+    ROOT: "/panel",
+  },
+
   MARKET: {
     ROOT: "/panel/market",
   },

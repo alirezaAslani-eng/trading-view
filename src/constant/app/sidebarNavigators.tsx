@@ -16,6 +16,13 @@ import {
 
 const sidebarNavigators = [
   {
+    text: "داشبورد",
+    link: ROUTES.PANEL.ROOT,
+    icon: <DashboardIcon />,
+    id: crypto.randomUUID(),
+    submenus: [],
+  },
+  {
     text: "بازار ها",
     link: ROUTES.MARKET.ROOT,
     icon: <MarketIcon />,
