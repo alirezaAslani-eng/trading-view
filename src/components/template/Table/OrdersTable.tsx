@@ -11,24 +11,26 @@ import {
 
 function OrdersTable({ columns }: { columns: Column<Order>[] }) {
   const query = useOrders()!;
+  const dataLength = query.data?.items.length;
   return (
     <>
       <FallbackHandler
         isLoading={query.isLoading}
         isError={query.isError}
-        dataLength={query.data?.items.length}
+        dataLength={dataLength}
         fallbacks={{
           loader: <TableFallbackLoader columns={columns} />,
           noData: (
             <TableFallback>
+              {/* // TODO Show the reason why data is empty */}
               <TableFallbackData />
             </TableFallback>
           ),
         }}
       />
 
-      {query.isSuccess && (
-        <DataTable columns={columns} rows={query.data.items} />
+      {!query.isLoading && !!dataLength && (
+        <DataTable columns={columns} rows={query.data?.items} />
       )}
     </>
   );
