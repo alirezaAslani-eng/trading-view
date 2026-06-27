@@ -48,6 +48,13 @@ const sidebarNavigators = [
     ],
   },
   {
+    text: "تاریخ چه",
+    link: ROUTES.HISTORY.ROOT,
+    icon: <HistoryIcon />,
+    id: crypto.randomUUID(),
+    submenus: [],
+  },
+  {
     text: "معامله",
     link: ROUTES.TRADE.BY_SYMBOL("REBAR"),
     icon: <ArrowUpDownIcon />,

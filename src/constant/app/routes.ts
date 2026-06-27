@@ -37,6 +37,10 @@ export const ROUTES = {
     ROOT: "/admin/permissions/admin",
         BYGROUP_ID: (id: string | number) => `/admin/permissions/${id}`,
   },
+
+  HISTORY: {
+    ROOT: "/panel/history",
+  },
 } as const;
 
 // Optional: derive a union type of all static string routes
