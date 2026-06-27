@@ -1,11 +1,17 @@
-import SettingCheckBox from '@/components/ui/Checkbox/SettingCheckBox'
+import  {SettingSwitch, SettingSwitchInfo } from '@/components/ui/Checkbox/SettingCheckBox'
+import { Box, Switch } from '@mui/material'
 import React from 'react'
 
 function page() {
   return (
-    <div>
-      <SettingCheckBox title=''  description=''/>
-    </div>
+
+<SettingSwitch>
+  <Switch/>
+  <SettingSwitchInfo
+    title="ورود با گوگل"
+    description="نیییییییییییییییییییییییییییییییی"
+  />
+</SettingSwitch>
   )
 }
 

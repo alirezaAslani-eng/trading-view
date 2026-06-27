@@ -1,48 +1,56 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
-import DynamicSwitch from "@/components/template/DynamicSwitch/DynamicSwitch";
+import React, { PropsWithChildren } from "react";
+import { Box, BoxProps, Switch, Typography } from "@mui/material";
+import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 
-interface SettingCheckboxProps {
-  title: string;
-  description: string;
-  disabled?: boolean;
-  checked: boolean;
-  onChange: (value: boolean) => void;
-}
-export default function SettingCheckBox({
+
+type SettingSwitchProps = PropsWithChildren<
+  ReplaceSxWithSxOnlyObject<BoxProps>
+>;
+
+const SettingSwitch = ({
+  children,
+  sx,
+  ...props
+}: SettingSwitchProps) => {
+  return (
+    <Box
+      {...props}
+      sx={{
+        display: "flex",
+        alignItems: "flex-start",
+        // justifyContent:"center",
+        gap: "12px",
+        ...sx,
+      }}
+    >
+    
+      {children}
+    </Box>
+  );
+};
+
+const SettingSwitchInfo = ({
   title,
   description,
-  disabled = false,
-  checked,
-  onChange,
-}: SettingCheckboxProps) {
+}: {
+  title: string;
+  description: string;
+}) => {
   return (
     <Box
       sx={{
         display: "flex",
-        alignItems: "flex-start",
-        gap: "12px",
+        flexDirection:"column",
+        gap: "6px",
       }}
     >
-      <DynamicSwitch
-        checked={checked}
-        disabled={disabled}
-        onChange={onChange}
-      />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "6px",
-        }}
-      >
-        <Typography variant="body2" color="text.onPrimary">
-          {title}title
-        </Typography>
-        <Typography variant="body3" color="text.tertiary">
-          {description}mvvvvvvvvvvvvvvvvvvvvvvvvvvdcffffffffff
-        </Typography>
-      </Box>
+      <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
+        {title}
+      </Typography>
+      <Typography variant="body3" sx={{ color: "text.tertiary" }}>
+        {description}
+      </Typography>
     </Box>
   );
-}
+};
+ export{SettingSwitch,SettingSwitchInfo}
