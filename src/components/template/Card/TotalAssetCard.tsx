@@ -15,7 +15,7 @@ import {
 import { ROUTES } from "@/constant/app/routes";
 import { walletPortfolioConfig } from "@/packages/react-query";
 import { formatFaPrice } from "@/utils";
-import extractIRTAsset from "@/utils/features/order/extractIRTAsset";
+import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
 import { Box, Divider, Skeleton, Stack, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 

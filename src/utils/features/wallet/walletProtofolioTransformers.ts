@@ -17,4 +17,13 @@ function extractIRTAsset(
   );
 }
 
-export default extractIRTAsset;
+function extractNonIRTAssets(
+  walletPortofolio: WalletPortfolioResponse | undefined,
+): WalletAsset[] {
+  const assets = walletPortofolio?.assets;
+  if (!assets || !Array.isArray(assets)) return [];
+
+  return assets.filter((asset) => asset.assetSymbol !== "IRT");
+}
+
+export { extractNonIRTAssets, extractIRTAsset };
