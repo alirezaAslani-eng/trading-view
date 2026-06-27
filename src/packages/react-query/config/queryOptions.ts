@@ -139,6 +139,7 @@ const ordersConfig = (filters: OrderFilters) => {
   return queryOptions({
     queryKey: ordersDynamicKey(filters),
     placeholderData: keepPreviousData,
+    gcTime: 30000,
     queryFn: (query) => {
       const filters = query.queryKey[3] as OrderFilters;
       return orders({
