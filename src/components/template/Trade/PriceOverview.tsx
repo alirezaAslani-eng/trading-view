@@ -24,6 +24,18 @@ import {
 } from "@mui/material";
 const price_sx = { color: "text.onPrimary" };
 const oveview_card_title_sx = { color: "text.caption" };
+const inputSelect_sx: SxProps<Theme> = ({ typography }) => ({
+  fontSize: typography.button1.fontSize,
+  width: "188px",
+  height: "51px",
+  "&.Mui-placeholder": {
+    fontSize: typography.button1.fontSize,
+  },
+  "& .MuiSvgIcon-root": {
+    width: "18px",
+    height: "18px",
+  },
+});
 
 function PriceOverview() {
   const [symbol] = useSymbolParams();
@@ -71,6 +83,7 @@ function ProductCodeSelector() {
 
   return (
     <InputSelectSymbol
+      sx={inputSelect_sx}
       //@ts-ignore
       onChange={setSymbolParam}
       value={symbol ?? ""}

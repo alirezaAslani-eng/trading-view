@@ -14,18 +14,7 @@ import {
 } from "@/components/ui/Fallback/SelectInputLoader";
 import { ComponentProps } from "react";
 
-const inputSelect_sx: SxProps<Theme> = ({ typography }) => ({
-  fontSize: typography.button1.fontSize,
-  width: "188px",
-  height: "51px",
-  "&.Mui-placeholder": {
-    fontSize: typography.button1.fontSize,
-  },
-  "& .MuiSvgIcon-root": {
-    width: "18px",
-    height: "18px",
-  },
-});
+
 const queryConfig = symbolsConfig();
 
 function InputSelectSymbol(props: ComponentProps<typeof InputSelect>) {
@@ -35,7 +24,6 @@ function InputSelectSymbol(props: ComponentProps<typeof InputSelect>) {
     <>
       <InputSelect
         variant="outlined"
-        sx={inputSelect_sx}
         placeholder="نماد"
         {...props}
       >
