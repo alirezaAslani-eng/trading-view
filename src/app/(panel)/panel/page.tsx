@@ -1,0 +1,51 @@
+import PageHeader from "@/components/common/Appbar/PageHeader";
+import TotalAssetCard from "@/components/template/Card/TotalAssetCard";
+import ExchangeAssetForm from "@/components/template/Form/ExchangeAssetForm";
+import { Box } from "@mui/material";
+import BuySellQueueCard from "@/components/template/Card/BuySellQueueCard";
+import RecentOrdersTable from "@/components/template/Table/RecentOrdersTable";
+import {
+  Page,
+  Main,
+  Header,
+  Section,
+  SectionHeading,
+  SectionTitle,
+  SectionContent,
+} from "@/components/ui/Layout/PageLayout";
+import ProductsTable from "@/components/template/Table/ProductsTable";
+function page() {
+  return (
+    <Page>
+      <Header>
+        <PageHeader
+          title="داشبورد"
+          subtitle="مرور سریع بازار، قیمت‌ها و معاملات"
+        />
+      </Header>
+      <Main>
+        <Section>
+          <SectionContent>
+            <Box sx={{ width: "63.4%", minHeight: "242px" }}>
+              <TotalAssetCard />
+            </Box>
+            <Box sx={{ width: "34.36%", minHeight: "242px" }}>
+              <ExchangeAssetForm />
+            </Box>
+          </SectionContent>
+        </Section>
+
+        <Section>
+          <SectionHeading>
+            <SectionTitle>{"قیمت‌های لحظه‌ای بازار"}</SectionTitle>
+          </SectionHeading>
+          <SectionContent>
+            <ProductsTable />
+          </SectionContent>
+        </Section>
+      </Main>
+    </Page>
+  );
+}
+
+export default page;
