@@ -2,7 +2,7 @@ import { OrderFilters } from "@/types";
 import { useState } from "react";
 
 const INITIAL_FILTERS: OrderFilters = {
-  orderSide: "Buy",
+  orderSide: null,
   page: 1,
   pageSize: 10,
   type: "active",

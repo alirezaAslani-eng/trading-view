@@ -38,7 +38,11 @@ const orderColumns = buildOrderColumns({
 type OrderSideFilter = OrderFilters["orderSide"];
 
 function RecentOrdersTable() {
-  const orderFilters = useOrderFilters({ type: "active", pageSize: 4 });
+  const orderFilters = useOrderFilters({
+    type: "active",
+    pageSize: 4,
+    orderSide: "Buy",
+  });
 
   const ordersQuery = useQuery(ordersConfig(orderFilters.filters));
   const ordersLenght = ordersQuery.data?.items.length;
