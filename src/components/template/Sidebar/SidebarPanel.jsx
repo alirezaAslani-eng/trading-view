@@ -91,7 +91,7 @@ function SidebarPanel(props) {
         }}
       >
         <ActiveItemProvider>
-          {sidebarNavigators.map((nav) => {
+          {sidebarNavigators.map((nav) => {            
             return (
               <Badge
                 key={nav.id}

@@ -56,7 +56,7 @@ const sidebarNavigators = [
   },
   {
     text: "سطوح دسترسی",
-    link: ROUTES.PERMISSIONS,
+    link: ROUTES.PERMISSIONS.ROOT,
     icon: <LockIcon />,
     id: crypto.randomUUID(),
     submenus: [],
