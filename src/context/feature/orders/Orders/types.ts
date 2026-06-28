@@ -1,18 +1,12 @@
 import { OrdersResponse } from "@/api/types";
+import { UseOrderFiltersReturn } from "@/hooks/features/order/types";
 import { OrderFilters, ResponseErrorType } from "@/types";
 import { UseQueryResult } from "@tanstack/react-query";
 
 interface OrderFiltersProviderProps {
   defaultFilters?: Partial<OrderFilters>;
 }
-interface OrderFiltersContextValue {
-  filters: OrderFilters;
-  resetFilters: () => void;
-  setFilter: <K extends keyof OrderFilters>(
-    key: K,
-    value: OrderFilters[K],
-  ) => void;
-}
+interface OrderFiltersContextValue extends UseOrderFiltersReturn {}
 
 type OrdersContextValue = UseQueryResult<OrdersResponse, ResponseErrorType>;
 

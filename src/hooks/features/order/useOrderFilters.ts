@@ -1,5 +1,6 @@
 import { OrderFilters } from "@/types";
 import { useState } from "react";
+import { UseOrderFiltersReturn } from "./types";
 
 const INITIAL_FILTERS: OrderFilters = {
   orderSide: null,
@@ -10,7 +11,9 @@ const INITIAL_FILTERS: OrderFilters = {
   status: null,
 };
 
-function useOrderFilters(initialState?: Partial<OrderFilters>) {
+function useOrderFilters(
+  initialState?: Partial<OrderFilters>,
+): UseOrderFiltersReturn {
   /**
    * overridable default filters.
    */
@@ -44,11 +47,21 @@ function useOrderFilters(initialState?: Partial<OrderFilters>) {
   const resetFilters = () => {
     setFilters(initialFilters);
   };
+  /**
+   * Reset a single filter to their initial state.
+   */
+  const resetFilter = <K extends keyof OrderFilters>(key: K) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: initialFilters[key],
+    }));
+  };
 
   return {
     filters,
     setFilter,
     resetFilters,
+    resetFilter,
   };
 }
 
