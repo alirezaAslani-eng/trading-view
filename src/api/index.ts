@@ -24,3 +24,4 @@ export { default as orderBook } from "./market/orderBook";
 export { default as searchSymbols } from "./trading/searchSymbols";
 export { default as orders } from "./order/orders";
 export { default as cancleOrder } from "./order/cancleOrder";
+export { default as transactions } from "./transaction/transactions";

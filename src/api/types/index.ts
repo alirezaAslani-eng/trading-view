@@ -8,3 +8,4 @@ export type * from "./market.types";
 export type * from "./trading.types";
 export type * from "./order.types";
 export type * from "./permission.types";
+export type * from "./transactions.types";
