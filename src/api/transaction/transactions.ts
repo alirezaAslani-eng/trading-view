@@ -2,9 +2,10 @@ import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { TransactionsResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
+import { BaseApiResponse } from "@/types";
 
 const URL = (queries?: string) =>
-  `/api/v1/wallet/transactions?${queries ?? ""}`;
+  `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/wallet/transactions?${queries ?? ""}`;
 
 async function transactions({
   queries,
@@ -18,9 +19,11 @@ async function transactions({
     return response;
   })) as Response;
 
-  const data = (await handleApiResponse(res)) as TransactionsResponse;
+  const data = (await handleApiResponse(
+    res,
+  )) as BaseApiResponse<TransactionsResponse>;
 
-  return data;
+  return data.data;
 }
 
 export default transactions;
