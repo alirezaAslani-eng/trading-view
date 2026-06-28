@@ -144,12 +144,12 @@ const orderBookConfig = (symbol: string) => {
     queryFn: () => orderBook(symbol),
   });
 };
-const permissionConfig=()=>{
-    return queryOptions<PermissionGroupsResponse>({
+const permissionGroupsConfig = () => {
+  return queryOptions<PermissionGroupsResponse>({
     queryKey: permissionGroupsKey,
     queryFn: PermissionGroups,
   });
-}
+};
 const ordersConfig = (filters: OrderFilters) => {
   return queryOptions({
     queryKey: ordersDynamicKey(filters),
@@ -190,4 +190,5 @@ export {
   orderBookConfig,
   ordersConfig,
   transactionsConfig,
+  permissionGroupsConfig,
 };

@@ -1,6 +1,5 @@
 "use client";
 import PageHeader from "@/components/common/Appbar/PageHeader";
-import NextLink from "@/components/ui/Link/NextLink";
 import {
   AccordionDetails,
   AccordionSummary,
@@ -28,7 +27,7 @@ import {
   PagePaperHeading,
   PagePaperTitle,
 } from "@/components/ui/Layout/PaperLayout";
-import { AddIcon, BoxOutlinedIcon, HeadPhoneIcon } from "@/components/ui/Icon";
+import { AddIcon, BoxOutlinedIcon } from "@/components/ui/Icon";
 import {
   InputSelect,
   InputSelectItem,
@@ -39,12 +38,11 @@ import {
   PageSubNavigationLink,
 } from "@/components/ui/PageSubNavigation/PageSubNavigation";
 import Button from "@/components/ui/Button/Button";
-import { permissionConfig } from "@/packages/react-query";
+import { permissionGroupsConfig } from "@/packages/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { ROUTES } from "@/constant/app/routes";
 import { useState } from "react";
 import AddGroupModal from "@/components/template/Modal/AddGroupModal";
-import { log } from "console";
 
 function page() {
   return (
@@ -119,10 +117,9 @@ function PermissionList() {
 }
 
 function PermissionGroups() {
-       const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-   const query = useQuery(permissionConfig());
-   console.log("PermissionGroups query data:", query.data);
+  const query = useQuery(permissionGroupsConfig());
 
   return (
     <PageSubNavigation>
@@ -150,12 +147,12 @@ function PermissionGroups() {
         variant="text"
         disableRipple
         sx={{ px: "14px", gap: "8px", justifyContent: "start" }}
-         onClick={() => setOpen(true)}
+        onClick={() => setOpen(true)}
       >
         <AddIcon sx={{ color: "inherit" }} />
         نقش جدید
       </Button>
-      
+
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
