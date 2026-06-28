@@ -9,7 +9,7 @@ const URL = (queries?: string) =>
 async function transactions({
   queries,
 }: {
-  queries: string;
+  queries?: string;
 }): Promise<TransactionsResponse> {
   const res = (await fetchHandler(async () => {
     const response = await fetch(URL(queries), {
