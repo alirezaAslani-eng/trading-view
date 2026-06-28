@@ -1,17 +1,19 @@
 import { ProductStatus } from "@/api/types";
-import { OrderFilters } from "@/types";
+import { OrderFilters, TransactionFilters } from "@/types";
 
 const cacheDomain = {
   auth: "auth",
   kyc: "kyc",
   trade: "trade",
-  permission:"permission"
+  permission:"permission",
+  transaction: "transaction",
 } as const;
 
 const authBaseKey = [cacheDomain.auth];
 const kycBaseKey = [cacheDomain.auth, cacheDomain.kyc];
 const TradeBaseKey = [cacheDomain.auth, cacheDomain.trade];
 const PermissionBaseKey = [cacheDomain.auth, cacheDomain.permission];
+const TransactionKey = [cacheDomain.auth, cacheDomain.transaction];
 
 const kycStatusKey = [...kycBaseKey, "status" as const];
 const dashboardInfoKey = [...kycBaseKey, "dashboard-info" as const];
@@ -38,6 +40,12 @@ const orderBookDynamicKey = (symbol: string) => [...orderBookKey, symbol];
 const ordersKey = [...TradeBaseKey, "orders"];
 const ordersDynamicKey = (filters: OrderFilters) => [...ordersKey, filters];
 const permissionGroupsKey=[...PermissionBaseKey,"groups"]
+
+const transactionsKey = [...TransactionKey, "transactions"];
+const transactionsDynamicKey = (filters: TransactionFilters) => [
+  ...ordersKey,
+  filters,
+];
 export {
   kycStatusKey,
   dashboardInfoKey,
@@ -55,6 +63,8 @@ export {
   ordersDynamicKey,
   orderBookKey,
   ordersKey,
+  transactionsKey,
+  transactionsDynamicKey,
 };
 
 // * prefix keys
