@@ -13,5 +13,15 @@ const TRANSACTION_STATUS_LABELS: Record<TransactionStatus, string> = {
   [TRANSACTION_STATUS.Failed]: "ناموفق",
 };
 
-export { TRANSACTION_STATUS, TRANSACTION_STATUS_LABELS };
+const getTransactionStatus = (
+  status: TransactionStatus,
+): Record<`is${TransactionStatus}`, boolean> => {
+  return {
+    isPending: status === TRANSACTION_STATUS.Pending,
+    isFailed: status === TRANSACTION_STATUS.Failed,
+    isSuccess: status === TRANSACTION_STATUS.Success,
+  };
+};
+
+export { TRANSACTION_STATUS, TRANSACTION_STATUS_LABELS, getTransactionStatus };
 export type { TransactionStatus };
