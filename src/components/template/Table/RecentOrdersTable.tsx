@@ -1,5 +1,4 @@
 "use client";
-import ButtonTableAction from "@/components/ui/Button/ButtonTableAction";
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import DataTable from "@/components/ui/Table/DataTable";
@@ -39,7 +38,7 @@ type OrderSideFilter = OrderFilters["orderSide"];
 
 function RecentOrdersTable() {
   const orderFilters = useOrderFilters({
-    type: "active",
+    view: "active",
     pageSize: 4,
     orderSide: "Buy",
   });
