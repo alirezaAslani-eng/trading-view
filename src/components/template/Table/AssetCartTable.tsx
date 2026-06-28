@@ -23,6 +23,7 @@ import useSearch from "@/hooks/app/useSearch";
 import InputMarker from "@/components/ui/Marker/InputMarker";
 import { SearchIcon } from "@/components/ui/Icon";
 import { ROUTES } from "@/constant/app/routes";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
 
 const columns: Column<WalletAsset>[] = [
   { field: "assetSymbol", headerName: "نماد" },
@@ -35,7 +36,7 @@ const columns: Column<WalletAsset>[] = [
   {
     headerName: "مقدار قفل شده",
     renderCell(row) {
-      return `${formatFaPrice(row.lockedBalance ?? "")} تومان `;
+      return `${formatFaPrice(row.lockedBalance ?? "")} ${PRICE_UNITS.IRT.displayName} `;
     },
   },
   {
@@ -47,7 +48,7 @@ const columns: Column<WalletAsset>[] = [
   {
     headerName: "قیمت زنده",
     renderCell(row) {
-      return `${formatFaPrice(row.livePrice ?? "")} تومان `;
+      return `${formatFaPrice(row.livePrice ?? "")} ${PRICE_UNITS.IRT.displayName} `;
     },
   },
   {

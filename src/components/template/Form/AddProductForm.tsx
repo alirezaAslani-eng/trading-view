@@ -13,6 +13,7 @@ import { ComponentProps } from "react";
 import CheckBox from "@/components/ui/Checkbox/CheckBox";
 import InputNumeric from "@/components/ui/Input/InputNumeric";
 import alertMessages from "@/constant/app/alertMessages";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
 import {
   InputSelect,
   InputSelectItem,
@@ -146,7 +147,7 @@ function AddProductForm() {
             render={({ field, fieldState, formState }) => {
               return (
                 <InputNumeric
-                  placeholder="قیمت را واردکنید (تومان)"
+                  placeholder={`قیمت را واردکنید (${PRICE_UNITS.IRT.displayName})`}
                   disabled={formState.isSubmitting}
                   error={!!fieldState.error?.message}
                   value={field.value}

@@ -6,6 +6,7 @@ import {
   BuildColumnsOptions,
   DefColumns,
 } from "@/utils/app/buildColumns";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
 
 type DefaultColumns = DefColumns<WalletAsset>;
 
@@ -19,28 +20,28 @@ const walletAssetTableColumns: DefaultColumns = {
   },
   availableBalance: {
     field: "availableBalance",
-    headerName: "موجودی قابل برداشت (تومان)",
+    headerName: `موجودی قابل برداشت (${PRICE_UNITS.IRT.displayName})`,
     renderCell: (row) => {
       return formatFaPrice(row.availableBalance);
     },
   },
   lockedBalance: {
     field: "lockedBalance",
-    headerName: "موجودی لاک شده (تومان)",
+    headerName: `موجودی لاک شده (${PRICE_UNITS.IRT.displayName})`,
     renderCell: (row) => {
       return formatFaPrice(row.lockedBalance);
     },
   },
   livePrice: {
     field: "livePrice",
-    headerName: "قیمت لحضه ای (تومان)",
+    headerName: `قیمت لحضه ای (${PRICE_UNITS.IRT.displayName})`,
     renderCell: (row) => {
       return formatFaPrice(row.livePrice);
     },
   },
   totalValueInIrt: {
     field: "totalValueInIrt",
-    headerName: "ارزش کل (تومان)",
+    headerName: `ارزش کل (${PRICE_UNITS.IRT.displayName})`,
     renderCell: (row) => {
       return formatFaPrice(row.totalValueInIrt);
     },

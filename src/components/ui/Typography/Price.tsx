@@ -1,5 +1,6 @@
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 import { Box, Typography, BoxProps, TypographyProps } from "@mui/material";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
 
 function Price(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
   return (
@@ -28,7 +29,7 @@ function PriceAmount(props: ReplaceSxWithSxOnlyObject<TypographyProps>) {
 function PriceUnit(props: ReplaceSxWithSxOnlyObject<TypographyProps>) {
   return (
     <Typography variant="button3" {...props}>
-      {props.children ?? "تومان"}
+      {props.children ?? PRICE_UNITS.IRT.displayName}
     </Typography>
   );
 }

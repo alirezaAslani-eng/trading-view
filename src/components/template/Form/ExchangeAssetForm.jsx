@@ -12,6 +12,7 @@ import {
   PagePaperTitle,
 } from "@/components/ui/Layout/PaperLayout";
 import { Box, Stack, styled, Typography } from "@mui/material";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
 
 const SmallBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -35,7 +36,7 @@ function ExchangeAssetForm() {
           variant="caption2"
           sx={{ color: "text.caption", alignSelf: "end" }}
         >
-          {"معادل:  ۵۹,۴۰۰,۰۰۰  تومان"}
+          {`معادل:  ۵۹,۴۰۰,۰۰۰  ${PRICE_UNITS.IRT.displayName}`}
         </Typography>
         <Stack sx={{ gap: "16px" }}>
           <TemporaryComponent>

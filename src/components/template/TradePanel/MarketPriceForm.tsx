@@ -14,6 +14,7 @@ import {
   TradeFormSchemaInputType,
   TradeFormSchemaOutputType,
 } from "@/validations/types";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
 
 function MarketPriceForm() {
   const form = useFormContext<
@@ -61,7 +62,10 @@ function MarketTotalPrice({ control }: TradeFormSubscriber) {
   const weight = useWatch({ control, name: "weight" });
   const sum = calculateTotalTradePrice(Number(weight), Number(marketPrice));
   return (
-    <AmountDisplay label="کل (تومان)" value={sum ? formatFaPrice(sum) : "0"} />
+    <AmountDisplay
+      label={`کل (${PRICE_UNITS.IRT.displayName})`}
+      value={sum ? formatFaPrice(sum) : "0"}
+    />
   );
 }
 

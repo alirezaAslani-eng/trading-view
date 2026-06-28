@@ -33,6 +33,7 @@ import { promiseAlert } from "@/packages/react-hot-toast";
 import safeAsync from "@/utils/app/safeAsync";
 import { WithdrawSchemaType } from "@/validations/types";
 import alertMessages from "@/constant/app/alertMessages";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
 
 const walletQueryConfig = walletPortfolioConfig();
 const withdrawMutationConfig = withdrawConfig();
@@ -103,7 +104,7 @@ function WithdrawForm() {
                     disabled={formState.isSubmitting}
                     sx={{ flex: 1 }}
                     scale="medium"
-                    placeholder="مبلغ مورد نظر را به تومان وارد کنید"
+                    placeholder={`مبلغ مورد نظر را به ${PRICE_UNITS.IRT.displayName} وارد کنید`}
                     value={field.value}
                     error={!!fieldState.error?.message}
                     onValueChange={({ floatValue }) => {

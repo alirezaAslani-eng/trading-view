@@ -14,6 +14,7 @@ import {
   TransactionFormLayoutSubmit,
 } from "@/components/ui/Layout/TransactionFormLayout";
 import alertMessages from "@/constant/app/alertMessages";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
 
 const withdrawMutationConfig = depositConfig();
 function DepositForm() {
@@ -50,7 +51,7 @@ function DepositForm() {
                     disabled={formState.isSubmitting}
                     sx={{ flex: 1 }}
                     scale="medium"
-                    placeholder="مبلغ مورد نظر را به تومان وارد کنید"
+                    placeholder={`مبلغ مورد نظر را به ${PRICE_UNITS.IRT.displayName} وارد کنید`}
                     value={field.value}
                     error={!!fieldState.error?.message}
                     onValueChange={({ floatValue }) => {

@@ -15,6 +15,7 @@ import { TradeFormSubscriber } from "./types";
 import { InputTrade } from "../Trade/InputTrade";
 import { calculateTotalTradePrice, formatFaPrice } from "@/utils";
 import AmountDisplay from "../Trade/AmountDisplay";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
 
 function LimitedPriceForm() {
   const form = useFormContext<
@@ -55,7 +56,7 @@ function LimitedPriceInput({ control }: TradeFormSubscriber) {
 
   return (
     <InputTrade
-      label="قیمت (تومان)"
+      label={`قیمت (${PRICE_UNITS.IRT.displayName})`}
       onValueChange={field.onChange}
       value={field.value as string}
       disabled={formState.isSubmitting}
@@ -72,7 +73,7 @@ function LimitTotalPrice({ control }: TradeFormSubscriber) {
   );
   return (
     <AmountDisplay
-      label="کل (تومان)"
+      label={`کل (${PRICE_UNITS.IRT.displayName})`}
       value={!!totalPrice ? formatFaPrice(totalPrice) : "0"}
     />
   );
