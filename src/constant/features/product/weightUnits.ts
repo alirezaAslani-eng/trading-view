@@ -5,11 +5,11 @@ interface WeightUnit {
   lable: string;
 }
 
-const WEIGHT_INIT_LIST: WeightUnit[] = [
+const WEIGHT_UNIT_LIST: WeightUnit[] = [
   {
     lable: "کیلو",
     unit: "kg",
   },
 ];
 
-export { WEIGHT_INIT_LIST };
+export { WEIGHT_UNIT_LIST };
