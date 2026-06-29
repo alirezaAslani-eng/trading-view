@@ -2,6 +2,7 @@ import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { ProductCategoriesResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
+import { BaseApiResponse } from "@/types";
 
 const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/products/categories`;
 
@@ -11,9 +12,9 @@ async function productCategories(): Promise<ProductCategoriesResponse> {
     return res;
   })) as Response;
 
-  const data = (await handleApiResponse(res)) as ProductCategoriesResponse;
+  const data = (await handleApiResponse(res)) as BaseApiResponse<ProductCategoriesResponse>;
 
-  return data;
+  return data.data;
 }
 
 export default productCategories;
