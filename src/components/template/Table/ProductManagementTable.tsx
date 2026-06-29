@@ -2,39 +2,29 @@
 
 import { productsConfig, productsDynamicKey } from "@/packages/react-query";
 import ToggleTabGroup from "@/components/ui/ButtonGroup/ToggleTabGroup";
-import Table from "@/components/ui/Table/Table";
 import AddIcon from "@/components/ui/Icon/AddIcon";
-import StatusBadge from "@/components/ui/Status/StatusBadge";
-import CircleIcon from "@/components/ui/Icon/CircleIcon";
-import { PenOnPaperIcon, TrashIcon } from "@/components/ui/Icon";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { useQuery } from "@tanstack/react-query";
 import Button from "@/components/ui/Button/Button";
 import { useState } from "react";
 import AddProductModalForm from "../Modal/AddProductModalForm";
+import { Dialog, Divider, ToggleButton } from "@mui/material";
+import { AdminProduct, ProductStatus } from "@/api/types";
+import { buildProductColumns } from "@/constant/features/product/productTableColumns";
+import DataTable from "@/components/ui/Table/DataTable";
 import {
   PagePaper,
   PagePaperHeading,
 } from "@/components/ui/Layout/PaperLayout";
 import {
-  Box,
-  Dialog,
-  Divider,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  ToggleButton,
-  Typography,
-} from "@mui/material";
-import {
   TableFallback,
   TableFallbackData,
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
-import { ProductStatus } from "@/api/types";
 
 const queryConfig = productsConfig();
+
+const adminProductsTable = buildProductColumns();
 
 function ProductManagementTable() {
   const [status, setStatus] = useState<ProductStatus>("null");
@@ -49,7 +39,7 @@ function ProductManagementTable() {
     queryKey: productsDynamicKey(status),
   });
 
-  const isSuccessQuery = productsQuery.status === "success";
+  const dataLength = productsQuery.data?.length;
 
   return (
     <>
@@ -74,77 +64,26 @@ function ProductManagementTable() {
         <FallbackHandler
           isLoading={productsQuery.isLoading}
           isError={productsQuery.isError}
-          dataLength={productsQuery.data?.length}
+          dataLength={dataLength}
           fallbacks={{
+            loader: (
+              <TableFallback>
+                <TableFallbackLoader columns={adminProductsTable} />
+              </TableFallback>
+            ),
             noData: (
               <TableFallback>
                 <TableFallbackData />
               </TableFallback>
             ),
-            loader: (
-              <TableFallback>
-                <TableFallbackLoader />
-              </TableFallback>
-            ),
           }}
         />
 
-        {!productsQuery.isLoading && !!productsQuery.data?.length && (
-          <Table sx={{ width: "100%" }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>{"نماد"}</TableCell>
-                <TableCell>{"کد محصول"}</TableCell>
-                <TableCell>{"دسته بندی"}</TableCell>
-                <TableCell>{"واحد"}</TableCell>
-                <TableCell>{"وضعیت"}</TableCell>
-                <TableCell>
-                  <Typography
-                    variant="body3"
-                    sx={{ color: "text.caption", textAlign: "center" }}
-                  >
-                    {"عملیات"}
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {productsQuery.data.map((product) => {
-                return (
-                  <TableRow key={product.id}>
-                    <TableCell>{product.productName}</TableCell>
-                    <TableCell>{product.productCode}</TableCell>
-                    <TableCell>{product.categoryId}</TableCell>
-                    <TableCell>{product.unitOfMeasure}</TableCell>
-                    <TableCell>
-                      <StatusBadge
-                        color={product.productStatusId ? "success" : "warning"}
-                        size="medium"
-                      >
-                        <CircleIcon />
-                        {product.productStatusId
-                          ? "تایید شده"
-                          : "در انتظار تایید"}
-                      </StatusBadge>
-                    </TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "12px",
-                        }}
-                      >
-                        <PenOnPaperIcon sx={{ cursor: "pointer" }} />
-                        <TrashIcon sx={{ cursor: "pointer" }} />
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+        {!productsQuery.isLoading && !!dataLength && (
+          <DataTable<AdminProduct>
+            columns={adminProductsTable}
+            rows={productsQuery.data}
+          />
         )}
       </PagePaper>
     </>
