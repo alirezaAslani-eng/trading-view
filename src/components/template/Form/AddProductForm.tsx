@@ -9,7 +9,6 @@ import safeAsync from "@/utils/app/safeAsync";
 import { addProductConfig } from "@/packages/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { AddProductSchemaType } from "@/validations/types";
-import { ComponentProps } from "react";
 import CheckBox from "@/components/ui/Checkbox/CheckBox";
 import InputNumeric from "@/components/ui/Input/InputNumeric";
 import alertMessages from "@/constant/app/alertMessages";
@@ -28,6 +27,7 @@ import {
   FormLayoutSubmit,
   FormLayoutCheckboxGroup,
 } from "@/components/ui/Layout/FormLayout";
+import { WEIGHT_UNIT_LIST } from "@/constant/features/product/weightUnits";
 
 const mutationConfig = addProductConfig();
 
@@ -105,12 +105,23 @@ function AddProductForm() {
             name="unitOfMeasure"
             render={({ field, formState, fieldState }) => {
               return (
-                <InputSelectProductUnit
+                <InputSelect
+                  placeholder="واحد را انتخاب کن"
                   onChange={field.onChange}
                   value={field.value}
                   disabled={formState.isSubmitting}
                   error={!!fieldState.error?.message}
-                />
+                >
+                  <InputSelectMenu>
+                    {WEIGHT_UNIT_LIST.map((unitItem) => {
+                      return (
+                        <InputSelectItem value={unitItem.unit}>
+                          {unitItem.lable}
+                        </InputSelectItem>
+                      );
+                    })}
+                  </InputSelectMenu>
+                </InputSelect>
               );
             }}
           />
@@ -176,13 +187,3 @@ function AddProductForm() {
 }
 
 export default AddProductForm;
-
-function InputSelectProductUnit(props: ComponentProps<typeof InputSelect>) {
-  return (
-    <InputSelect placeholder="واحد را انتخاب کن" {...props}>
-      <InputSelectMenu>
-        <InputSelectItem value={"kg"}>{"kg"}</InputSelectItem>
-      </InputSelectMenu>
-    </InputSelect>
-  );
-}

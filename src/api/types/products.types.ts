@@ -11,14 +11,15 @@ type ProductStatus = "null" | "true" | "false";
 interface GetProductsQueries {
   isActive: ProductStatus;
 }
-type ProductsResponse = {
+interface AdminProduct {
   id: string;
   productName: string;
   productCode: string;
   unitOfMeasure: string;
   productStatusId: boolean;
   categoryId: string;
-}[];
+}
+type ProductsResponse = AdminProduct[];
 // * --end-- getProducts.ts ----
 
 export type {
@@ -26,4 +27,5 @@ export type {
   ProductsResponse,
   GetProductsQueries,
   ProductStatus,
+  AdminProduct,
 };
