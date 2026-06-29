@@ -112,14 +112,8 @@ function BankTableList() {
                   <TableHead>
                     <TableRow>
                       <TableCell>{"بانک"}</TableCell>
-
                       <TableCell>{"شماره کارت"}</TableCell>
-
-                      <TableCell>{"وضعیت"}</TableCell>
-
-                      <TableCell sx={{ textAlign: "center !important" }}>
-                        {"عملیات"}
-                      </TableCell>
+                      <TableCell>{"وضعیت"}</TableCell>{" "}
                     </TableRow>
                   </TableHead>
 
@@ -136,16 +130,6 @@ function BankTableList() {
                           >
                             {account.isVerified ? "تایید شده" : "در حال بررسی"}
                           </StatusBadge>
-                        </TableCell>
-                        <TableCell
-                          sx={{ display: "flex", justifyContent: "center" }}
-                        >
-                          <Box
-                            sx={{ cursor: "pointer" }}
-                            onClick={() => bankMutation.mutate(account.id)}
-                          >
-                            <TrashIcon />
-                          </Box>
                         </TableCell>
                       </TableRow>
                     ))}
