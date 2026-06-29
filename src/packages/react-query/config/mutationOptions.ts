@@ -2,6 +2,7 @@ import {
   addProduct,
   cancleOrder,
   deleteBankAccount,
+  deleteProduct,
   kycL2,
   placeOrder,
   requestAuthOTP,
@@ -164,6 +165,14 @@ const cancleOrderConfig = () => {
     },
   });
 };
+const deletProductConfig = () => {
+  return mutationOptions({
+    mutationFn: deleteProduct,
+    meta: {
+      successMessage: "محصول با موفقیت حذف شد",
+    },
+  });
+};
 
 export {
   requestAuthOTPConfig,
@@ -179,4 +188,5 @@ export {
   addGroupConfig,
   placeOrderConfig,
   cancleOrderConfig,
+  deletProductConfig,
 };

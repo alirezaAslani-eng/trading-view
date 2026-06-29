@@ -25,3 +25,4 @@ export { default as searchSymbols } from "./trading/searchSymbols";
 export { default as orders } from "./order/orders";
 export { default as cancleOrder } from "./order/cancleOrder";
 export { default as transactions } from "./transaction/transactions";
+export { default as deleteProduct } from "./product/deleteProduct";
