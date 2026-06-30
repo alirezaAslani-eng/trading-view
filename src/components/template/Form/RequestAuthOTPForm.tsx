@@ -2,67 +2,60 @@
 import InputPhoneNumber from "@/components/ui/Input/InputPhoneNumber";
 import { useId } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import safeAsync from "@/utils/app/safeAsync";
 import { zodResolver } from "@hookform/resolvers/zod";
 import requestAuthOTPSchema from "@/validations/auth/requestAuthOTPSchema";
-import { requestAuthOTPConfig } from "@/packages/react-query";
-import { useRouter } from "next/navigation";
-import clientEnv from "@/validations/env/clientEnv";
 import { RequestAuthOTPSchemaType } from "@/validations/types";
-import { promiseAlert } from "@/packages/react-hot-toast";
-import alertMessages from "@/constant/app/alertMessages";
-import { storeIdentifier } from "@/utils/features/auth/userIdentifierStoreHandlers";
 import { authContent } from "@/content/auth";
 import AuthFormLayoutField from "../Layout/AuthFormLayout/AuthFormLayoutField";
 import AuthFormLayoutLable from "../Layout/AuthFormLayout/AuthFormLayoutLable";
 import AuthFormLayoutSubmit from "../Layout/AuthFormLayout/AuthFormLayoutSubmit";
 import { Box } from "@mui/material";
-
-const mutationConfig = requestAuthOTPConfig();
+import { useAuthFlow } from "@/context/feature/auth/AuthFlow/AuthFlowContext";
+import AuthFormLayout from "../Layout/AuthFormLayout/AuthFormLayout";
+import AuthFormLayoutHeading from "../Layout/AuthFormLayout/AuthFormLayoutHeading";
+import AuthFormLayoutContainer from "../Layout/AuthFormLayout/AuthFormLayoutContainer";
 
 function RequestAuthOTPForm() {
+  const authFlow = useAuthFlow()!;
   const phoneLabelID = useId();
-
-  const { push } = useRouter();
 
   const form = useForm({
     resolver: zodResolver(requestAuthOTPSchema),
-  });
-
-  const mutation = useMutation({
-    ...mutationConfig,
-    onSuccess: () => {
-      storeIdentifier(form.watch("identifier"));
-      push("/auth/verify");
-    },
-    meta: {
-      disableSuccessAlert: true,
+    defaultValues: {
+      identifier: authFlow.identifier,
     },
   });
 
   const onSubmitHandler: SubmitHandler<RequestAuthOTPSchemaType> = async (
     fields,
   ) => {
-    await promiseAlert(
-      safeAsync(async () => await mutation.mutateAsync(fields)),
-      { loading: alertMessages.loading },
-    );
+    authFlow.submitIdentifier(fields.identifier);
   };
 
   return (
-    <Box component={"form"} onSubmit={form.handleSubmit(onSubmitHandler)}>
-      <AuthFormLayoutField>
-        <AuthFormLayoutLable htmlFor={phoneLabelID}>
-          {authContent.requestOtpContent.phoneInputLable}
-        </AuthFormLayoutLable>
-        <InputPhoneNumber id={phoneLabelID} {...form.register("identifier")} />
-      </AuthFormLayoutField>
+    <AuthFormLayout>
+      <AuthFormLayoutHeading
+        title="به آیرونکس خوش آمدید"
+        subTitle="جهت عضویت و ورود به پلتفرم، شماره تماس خود را وارد کنید"
+      />
+      <AuthFormLayoutContainer>
+        <Box component={"form"} onSubmit={form.handleSubmit(onSubmitHandler)}>
+          <AuthFormLayoutField>
+            <AuthFormLayoutLable htmlFor={phoneLabelID}>
+              {authContent.requestOtpContent.phoneInputLable}
+            </AuthFormLayoutLable>
+            <InputPhoneNumber
+              id={phoneLabelID}
+              {...form.register("identifier")}
+            />
+          </AuthFormLayoutField>
 
-      <AuthFormLayoutSubmit disabled={form.formState.isSubmitting}>
-        {authContent.requestOtpContent.submitText}
-      </AuthFormLayoutSubmit>
-    </Box>
+          <AuthFormLayoutSubmit disabled={form.formState.isSubmitting}>
+            {authContent.requestOtpContent.submitText}
+          </AuthFormLayoutSubmit>
+        </Box>
+      </AuthFormLayoutContainer>
+    </AuthFormLayout>
   );
 }
 
