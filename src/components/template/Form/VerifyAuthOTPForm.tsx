@@ -146,7 +146,7 @@ function RequestOtpButton() {
       {!mutation.isPending && <RestartRightIcon sx={{ color: "inherit" }} />}
 
       <Typography variant="body3">
-        {mutation.isPending ? "در حال ارسال" : "اصلاح شماره موبایل"}
+        {mutation.isPending ? "در حال ارسال" : "درخواست مجدد"}
       </Typography>
 
       {mutation.isPending && (
