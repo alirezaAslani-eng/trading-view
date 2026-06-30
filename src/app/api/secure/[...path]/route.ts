@@ -32,11 +32,7 @@ const handler: RouteHandler<string[]> = async (req, context) => {
 
   // * Preserve the original query string (?page=1&pageSize=10&productCode=REBAR)
   const incomingUrl = new URL(req.url);
-  const url = createProxyUrl(
-    `/${params.path.join("/")}${incomingUrl.search}`,
-  );
-
-  console.log({ url: url.toString() });
+  const url = createProxyUrl(`/${params.path.join("/")}${incomingUrl.search}`);
 
   const reqCookies = await cookies();
 
@@ -47,6 +43,7 @@ const handler: RouteHandler<string[]> = async (req, context) => {
     try {
       res = await forwardFetch(url, req);
     } catch (err) {
+      console.log({ ForwardFetch: err });
       return gateWayResponse(err);
     }
     return response(res);
@@ -58,6 +55,7 @@ const handler: RouteHandler<string[]> = async (req, context) => {
   try {
     refreshRes = await refreshToken(reqCookies.toString());
   } catch (err) {
+    console.log({ RefreshTokenRes: err });
     return gateWayResponse(err);
   }
 
@@ -73,6 +71,7 @@ const handler: RouteHandler<string[]> = async (req, context) => {
   try {
     res = await forwardFetch(url, req);
   } catch (err) {
+    console.log({ FetchAfterRefresh: err });
     return gateWayResponse(err);
   }
   const headers = new Headers(res.headers);
@@ -97,6 +96,7 @@ function response(res: Response): Response {
 }
 
 function gateWayResponse(err: unknown) {
+  reportLog("502 Error -> ", err);
   return Response.json(
     { message: "مشکلی رخ داده است", details: err },
     { status: 502 },
@@ -105,4 +105,8 @@ function gateWayResponse(err: unknown) {
 
 function createProxyUrl(path: string): URL {
   return new URL(path, process.env.SOURCE_BASEURL!);
+}
+
+function reportLog(...error: any) {
+  console.log("ERROR ----- >", error);
 }
