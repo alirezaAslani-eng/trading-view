@@ -30,7 +30,6 @@ import {
   ordersDynamicKey,
   permissionGroupsKey,
   transactionsDynamicKey,
-  permissionListDynamicKey,
   permissionChecklistDynamicKey,
 } from "@/packages/react-query";
 import {

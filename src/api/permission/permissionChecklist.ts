@@ -5,7 +5,7 @@ import { PermissionChecklistResponse } from "../types";
 import { BaseApiResponse } from "@/types";
 
 const URL = (groupId: string | number) => {
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/permissions/groups/${groupId}/checklist`;
+  return `${process.env.NEXT_PUBLIC_BASEURL}/api/permissions/groups/${groupId}/checklist`;
 };
 
 async function permissionChecklist(

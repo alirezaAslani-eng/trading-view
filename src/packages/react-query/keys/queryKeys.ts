@@ -52,10 +52,7 @@ const permissionGroupsKey = [...PermissionBaseKey, "groups"];
 const permissionListKey = [...PermissionBaseKey, "categories"];
 const permissionChecklistKey = [...PermissionBaseKey, "checklist"];
 
-const permissionListDynamicKey = (id: string | number) => [
-  ...permissionListKey,
-  id,
-];
+
 
 const permissionChecklistDynamicKey = (groupId: string | number) => [
   ...permissionChecklistKey,
