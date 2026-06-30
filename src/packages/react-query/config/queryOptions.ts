@@ -31,6 +31,7 @@ import {
   permissionGroupsKey,
   transactionsDynamicKey,
   permissionChecklistDynamicKey,
+  userPermissionsDynamicKey,
 } from "@/packages/react-query";
 import {
   orders,
@@ -151,19 +152,14 @@ const permissionGroupsConfig = () => {
     queryKey: permissionGroupsKey,
     queryFn: PermissionGroups,
   });
-}
+};
 
-export const permissionChecklistConfig = (
- groupId:string|number
-)=>{
- return queryOptions({
-  queryKey:
-   permissionChecklistDynamicKey(groupId),
-  queryFn:
-   ()=>permissionChecklist(groupId)
- });
-}
-
+export const permissionChecklistConfig = (groupId: string | number) => {
+  return queryOptions({
+    queryKey: permissionChecklistDynamicKey(groupId),
+    queryFn: () => permissionChecklist(groupId),
+  });
+};
 
 const ordersConfig = (filters: OrderFilters) => {
   return queryOptions({
@@ -192,6 +188,17 @@ const transactionsConfig = (filters: TransactionFilters) => {
     },
   });
 };
+const userPermissonsConfig = (userID: string) => {
+  return queryOptions({
+    queryKey: userPermissionsDynamicKey(userID),
+    gcTime: 30000,
+    queryFn: (query) => {
+      return transactions({
+        queries: serializeQueries(userID).toString(),
+      });
+    },
+  });
+};
 
 export {
   kycStatusConfig,
@@ -206,4 +213,5 @@ export {
   ordersConfig,
   transactionsConfig,
   permissionGroupsConfig,
+  userPermissonsConfig,
 };

@@ -5,7 +5,7 @@ const cacheDomain = {
   auth: "auth",
   kyc: "kyc",
   trade: "trade",
-  permission:"permission",
+  permission: "permission",
   transaction: "transaction",
 } as const;
 
@@ -14,7 +14,6 @@ const kycBaseKey = [cacheDomain.auth, cacheDomain.kyc];
 const TradeBaseKey = [cacheDomain.auth, cacheDomain.trade];
 const PermissionBaseKey = [cacheDomain.auth, cacheDomain.permission];
 const TransactionKey = [cacheDomain.auth, cacheDomain.transaction];
-
 
 const kycStatusKey = [...kycBaseKey, "status" as const];
 const dashboardInfoKey = [...kycBaseKey, "dashboard-info" as const];
@@ -41,7 +40,6 @@ const orderBookDynamicKey = (symbol: string) => [...orderBookKey, symbol];
 const ordersKey = [...TradeBaseKey, "orders"];
 const ordersDynamicKey = (filters: OrderFilters) => [...ordersKey, filters];
 
-
 const transactionsKey = [...TransactionKey, "transactions"];
 const transactionsDynamicKey = (filters: TransactionFilters) => [
   ...ordersKey,
@@ -52,11 +50,15 @@ const permissionGroupsKey = [...PermissionBaseKey, "groups"];
 const permissionListKey = [...PermissionBaseKey, "categories"];
 const permissionChecklistKey = [...PermissionBaseKey, "checklist"];
 
-
-
 const permissionChecklistDynamicKey = (groupId: string | number) => [
   ...permissionChecklistKey,
   groupId,
+];
+
+const userPermissionsKey = [...PermissionBaseKey, "user-permissions"];
+const userPermissionsDynamicKey = (userID: string) => [
+  ...userPermissionsKey,
+  userID,
 ];
 
 export {
@@ -80,6 +82,7 @@ export {
   ordersKey,
   transactionsKey,
   transactionsDynamicKey,
+  userPermissionsDynamicKey,
 };
 
 // * prefix keys
