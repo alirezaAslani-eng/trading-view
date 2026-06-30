@@ -48,7 +48,7 @@ const sidebarNavigators = [
     ],
   },
   {
-    text: "تاریخ چه",
+    text: "تاریخچه",
     link: ROUTES.HISTORY.ROOT,
     icon: <HistoryIcon />,
     id: crypto.randomUUID(),

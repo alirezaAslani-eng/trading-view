@@ -27,12 +27,15 @@ import { dashboardInfoConfig } from "@/packages/react-query";
 import { convertToJalali } from "@/packages/dayjs";
 import { KycLevel } from "@/types";
 import KYC_LEVEL_ORDER from "@/constant/features/kyc/kycLevelOreder";
+import { UseQueryResult } from "@tanstack/react-query";
+import { getInitials } from "@/utils/features/user/getInitials";
 
 const kycFallback = "نیاز به احراز حویت";
 
 const queryConfig = dashboardInfoConfig();
 function ProfileOverviewSection() {
   const dashboard_info = useQuery(queryConfig);
+  const initials = getInitials(dashboard_info.data?.fullName);
 
   return (
     <>
@@ -41,12 +44,22 @@ function ProfileOverviewSection() {
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             {/* // * ----start---- User Profile -------- */}
             <UserProfile sx={{ gap: "16px" }}>
-              <UserProfileImage
-                width={70}
-                height={70}
-                src={"/images/person.png"}
-                alt="my profile"
-              />
+              <Box
+                sx={{
+                  width: 70,
+                  height: 70,
+                  borderRadius: "50%",
+                  backgroundColor: "primary.main",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  fontSize: "24px",
+                  fontWeight: 600,
+                }}
+              >
+                {initials}
+              </Box>
               <UserProfileInfo sx={{ gap: "4px" }}>
                 <Typography variant="body1" sx={{ color: "text.onPrimary" }}>
                   {dashboard_info.data.fullName}
