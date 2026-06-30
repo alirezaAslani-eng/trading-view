@@ -11,6 +11,8 @@ const errorMessagesFa = {
     "در حال حاضر امکان انجام این درخواست وجود ندارد. لطفاً بعداً دوباره تلاش کنید.",
 } as const;
 
+const OTP_RAET_LIMIT_MESSAGE =
+  "شما به سقف مجاز درخواست کد تأیید رسیده‌اید. لطفاً کمی بعد دوباره تلاش کنید.";
 function getErrorMessageFa(status: number) {
   if (status >= 500) {
     return errorMessagesFa.SERVER_ERROR;
@@ -22,4 +24,4 @@ function getErrorMessageFa(status: number) {
   );
 }
 
-export { errorMessagesFa, getErrorMessageFa };
+export { errorMessagesFa, OTP_RAET_LIMIT_MESSAGE, getErrorMessageFa };
