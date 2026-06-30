@@ -69,7 +69,6 @@ export {
   permissionGroupsKey,
   permissionListKey,
   permissionChecklistDynamicKey,
-  permissionListDynamicKey,
   productsDynamicKey,
   marketTickersKey,
   symbolsKey,
