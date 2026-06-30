@@ -35,11 +35,15 @@ export const ROUTES = {
 
   PERMISSIONS: {
     ROOT: "/admin/permissions/admin",
-        BYGROUP_ID: (id: string | number) => `/admin/permissions/${id}`,
+    BYGROUP_ID: (id: string | number) => `/admin/permissions/${id}`,
   },
 
   HISTORY: {
     ROOT: "/panel/history",
+  },
+
+  ADMIN: {
+    ROOT: "/admin",
   },
 } as const;
 
