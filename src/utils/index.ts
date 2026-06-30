@@ -7,3 +7,4 @@ export { default as formatFaPrice } from "./features/price/formatFaPrice";
 export { default as sortCompairing } from "./app/sortCompairing";
 export { default as calculateTotalTradePrice } from "./features/trading/calculateTotalTradePrice";
 export { default as formatMsDuration } from "./app/formatMsDuration";
+export { default as normalizeOtpExpIn } from "./features/otp/normalizeOtpExpIn";
