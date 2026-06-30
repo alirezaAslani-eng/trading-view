@@ -11,4 +11,14 @@ interface RefreshAuthTokenResponse {
 }
 // *‌ ------end----- refreshAuthToken.ts ---------
 
-export type { VerifyAuthOTPResponse, RefreshAuthTokenResponse };
+// *‌ ------start----- requestAuthOTP.ts ---------
+interface RequestAuthOTPResponse {
+  expIn: number;
+}
+// *‌ ------end----- requestAuthOTP.ts ---------
+
+export type {
+  VerifyAuthOTPResponse,
+  RefreshAuthTokenResponse,
+  RequestAuthOTPResponse,
+};
