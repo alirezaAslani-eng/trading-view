@@ -30,6 +30,8 @@ import {
   ordersDynamicKey,
   permissionGroupsKey,
   transactionsDynamicKey,
+  permissionListDynamicKey,
+  permissionChecklistDynamicKey,
 } from "@/packages/react-query";
 import {
   orders,
@@ -45,7 +47,8 @@ import {
   transactions,
 } from "@/api";
 import serializeQueries from "@/utils/app/serializeQueries";
-import PermissionGroups from "@/api/permission/permission";
+import PermissionGroups from "@/api/permission/permissionGroups";
+import permissionChecklist from "@/api/permission/permissionChecklist";
 
 const kycStatusConfig = () => {
   return queryOptions<
@@ -149,7 +152,20 @@ const permissionGroupsConfig = () => {
     queryKey: permissionGroupsKey,
     queryFn: PermissionGroups,
   });
-};
+}
+
+export const permissionChecklistConfig = (
+ groupId:string|number
+)=>{
+ return queryOptions({
+  queryKey:
+   permissionChecklistDynamicKey(groupId),
+  queryFn:
+   ()=>permissionChecklist(groupId)
+ });
+}
+
+
 const ordersConfig = (filters: OrderFilters) => {
   return queryOptions({
     queryKey: ordersDynamicKey(filters),

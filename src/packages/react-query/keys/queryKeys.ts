@@ -15,6 +15,7 @@ const TradeBaseKey = [cacheDomain.auth, cacheDomain.trade];
 const PermissionBaseKey = [cacheDomain.auth, cacheDomain.permission];
 const TransactionKey = [cacheDomain.auth, cacheDomain.transaction];
 
+
 const kycStatusKey = [...kycBaseKey, "status" as const];
 const dashboardInfoKey = [...kycBaseKey, "dashboard-info" as const];
 const banksKey = [...authBaseKey, "banks"];
@@ -39,13 +40,28 @@ const orderBookDynamicKey = (symbol: string) => [...orderBookKey, symbol];
 
 const ordersKey = [...TradeBaseKey, "orders"];
 const ordersDynamicKey = (filters: OrderFilters) => [...ordersKey, filters];
-const permissionGroupsKey=[...PermissionBaseKey,"groups"]
+
 
 const transactionsKey = [...TransactionKey, "transactions"];
 const transactionsDynamicKey = (filters: TransactionFilters) => [
   ...ordersKey,
   filters,
 ];
+
+const permissionGroupsKey = [...PermissionBaseKey, "groups"];
+const permissionListKey = [...PermissionBaseKey, "categories"];
+const permissionChecklistKey = [...PermissionBaseKey, "checklist"];
+
+const permissionListDynamicKey = (id: string | number) => [
+  ...permissionListKey,
+  id,
+];
+
+const permissionChecklistDynamicKey = (groupId: string | number) => [
+  ...permissionChecklistKey,
+  groupId,
+];
+
 export {
   kycStatusKey,
   dashboardInfoKey,
@@ -54,6 +70,9 @@ export {
   productCategoriesKey,
   productsKey,
   permissionGroupsKey,
+  permissionListKey,
+  permissionChecklistDynamicKey,
+  permissionListDynamicKey,
   productsDynamicKey,
   marketTickersKey,
   symbolsKey,

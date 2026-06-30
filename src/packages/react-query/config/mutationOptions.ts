@@ -39,6 +39,7 @@ import { banksKey, productsKey, walletProtfolioKey } from "../keys/queryKeys";
 import deposit, { DepositPayload } from "@/api/transaction/deposit";
 import addgroup from "@/api/group/addGroup";
 import { TradeFormSchemaOutputType } from "@/validations/types/trade.types";
+import assignPermissions from "@/api/permission/assignPermissions";
 
 const requestAuthOTPConfig = () => {
   return mutationOptions<void, ResponseErrorType, RequestAuthOTPSchemaType>({
@@ -174,6 +175,12 @@ const deletProductConfig = () => {
   });
 };
 
+const assignPermissionsConfig = () => {
+  return mutationOptions({
+    mutationFn: assignPermissions,
+  });
+};
+
 export {
   requestAuthOTPConfig,
   verifyAuthOTPConfig,
@@ -189,4 +196,5 @@ export {
   placeOrderConfig,
   cancleOrderConfig,
   deletProductConfig,
+  assignPermissionsConfig,
 };
