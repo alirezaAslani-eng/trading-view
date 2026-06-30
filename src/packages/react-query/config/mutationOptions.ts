@@ -26,7 +26,6 @@ import {
   AddShabaSchemaType,
   KycL1SchemaType,
   KycL2SchemaType,
-  RequestAuthOTPSchemaType,
   VerifyAuthOTPSchemaType,
   WithdrawSchemaType,
 } from "@/validations/types";
@@ -42,7 +41,7 @@ import { TradeFormSchemaOutputType } from "@/validations/types/trade.types";
 import assignPermissions from "@/api/permission/assignPermissions";
 
 const requestAuthOTPConfig = () => {
-  return mutationOptions<void, ResponseErrorType, RequestAuthOTPSchemaType>({
+  return mutationOptions({
     mutationKey: requestAuthOTPKey,
     mutationFn: requestAuthOTP,
   });
