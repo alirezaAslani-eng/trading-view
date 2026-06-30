@@ -65,7 +65,7 @@ function UserProfileCard({ collapsed = false }) {
           >
             <Typography variant="body2" sx={{color:"text.onPrimary"}}>{initials}</Typography>
             
-          </Box>          <UserProfileInfo sx={{ width: "100px" }}>
+          </Box>          <UserProfileInfo sx={{ width: "110px" }}>
             {/* // * ---------- Name ---------- */}
             <Typography
               variant="body3"

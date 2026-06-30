@@ -23,6 +23,7 @@ const queryConfig = walletPortfolioConfig();
 
 function TotalAssetCard() {
   const portofolioQuery = useQuery(queryConfig);
+  // console.log(portofolioQuery);
 
   const isSuccessQuery = portofolioQuery.isSuccess;
 
@@ -45,7 +46,7 @@ function TotalAssetCard() {
           {isSuccessQuery && (
             <Price sx={{ gap: "10px", color: "text.heading" }}>
               <PriceAmount variant="h5">
-                {formatFaPrice(portofolioQuery.data?.totalPortfolioValueIrt)}
+                {formatFaPrice(portofolioQuery.data?.totalPortfolioValueIrt??"")}
               </PriceAmount>
               <PriceUnit variant="body1" />
             </Price>
@@ -95,9 +96,14 @@ function TotalAssetCard() {
               {"سود/ضرر 24 ساعته"}
             </Typography>
             <Price sx={{ color: "text.profit" }}>
-              <PriceAmount>{"1.700.000"}</PriceAmount>
+              <PriceAmount>
+                {" "}
+                {formatFaPrice(portofolioQuery.data?.totalProfitLoss24hIrt)}
+              </PriceAmount>
               <PriceUnit />
-              <Typography variant="button2">{"1.4%"}</Typography>
+              <Typography variant="button2">
+                {portofolioQuery.data?.totalProfitLoss24hPercentage}%
+              </Typography>
             </Price>
           </Stack>
         </Box>

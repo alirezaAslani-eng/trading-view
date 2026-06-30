@@ -19,6 +19,7 @@ async function walletBalance(
   const data = (await handleApiResponse(
     res,
   )) as BaseApiResponse<WalletPortfolioResponse>;
+console.log("Portofolio",data);
 
   return data.data;
 }
