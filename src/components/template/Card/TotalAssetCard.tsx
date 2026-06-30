@@ -97,8 +97,7 @@ function TotalAssetCard() {
             </Typography>
             <Price sx={{ color: "text.profit" }}>
               <PriceAmount>
-                {" "}
-                {formatFaPrice(portofolioQuery.data?.totalProfitLoss24hIrt)}
+                {formatFaPrice(portofolioQuery.data?.totalProfitLoss24hIrt??"")}
               </PriceAmount>
               <PriceUnit />
               <Typography variant="button2">
