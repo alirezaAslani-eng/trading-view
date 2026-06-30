@@ -49,16 +49,15 @@ function ProfileOverviewSection() {
                   width: 70,
                   height: 70,
                   borderRadius: "50%",
-                  backgroundColor: "primary.main",
+                  backgroundColor: "background.primary",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "white",
-                  fontSize: "24px",
-                  fontWeight: 600,
                 }}
               >
-                {initials}
+                <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
+                  {initials}
+                </Typography>
               </Box>
               <UserProfileInfo sx={{ gap: "4px" }}>
                 <Typography variant="body1" sx={{ color: "text.onPrimary" }}>
