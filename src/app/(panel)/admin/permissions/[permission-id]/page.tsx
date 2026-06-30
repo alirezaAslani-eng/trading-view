@@ -4,6 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  CircularProgress,
   Dialog,
   Divider,
   Stack,
@@ -38,11 +39,17 @@ import {
   PageSubNavigationLink,
 } from "@/components/ui/PageSubNavigation/PageSubNavigation";
 import Button from "@/components/ui/Button/Button";
-import { permissionGroupsConfig } from "@/packages/react-query";
+import {
+  assignPermissionsConfig,
+  permissionChecklistConfig,
+  permissionGroupsConfig,
+} from "@/packages/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { ROUTES } from "@/constant/app/routes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddGroupModal from "@/components/template/Modal/AddGroupModal";
+import { useParams } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 
 function page() {
   return (
@@ -50,7 +57,6 @@ function page() {
       <Header>
         <PageHeader title="سطوح دسترسی" subtitle="تعریف و ویرایش نمادها" />
       </Header>
-
       <Main sx={{ pb: "0px" }}>
         <Section>
           <SectionContent sx={{ gap: "32px" }}>
@@ -64,13 +70,57 @@ function page() {
 }
 
 export default page;
-
 function PermissionList() {
+  const params = useParams();
+
+  const groupId = params["permission-id"] as string;
+
+  const query = useQuery(permissionChecklistConfig(groupId));
+
+  const [selectedPermissions, setSelectedPermissions] = useState<number[]>([]);
+  const [loadingPermissionId, setLoadingPermissionId] = useState<number | null>(
+    null,
+  );
+  const mutation = useMutation(assignPermissionsConfig());
+  useEffect(() => {
+    if (query.data) {
+      const ids = query.data.categories
+        .flatMap((category) => category.permissions)
+        .filter((permission) => permission.isAssigned)
+        .map((permission) => permission.id);
+
+      setSelectedPermissions(ids);
+    }
+  }, [query.data]);
+  const handlePermissionChange = (permissionId: number, checked: boolean) => {
+    let newPermissions: number[];
+
+    if (checked) {
+      newPermissions = [...selectedPermissions, permissionId];
+    } else {
+      newPermissions = selectedPermissions.filter((id) => id !== permissionId);
+    }
+
+    setSelectedPermissions(newPermissions);
+
+    setLoadingPermissionId(permissionId);
+
+    mutation.mutate(
+      {
+        groupId: Number(groupId),
+        permissionIds: newPermissions,
+      },
+      {
+        onSettled: () => {
+          setLoadingPermissionId(null);
+        },
+      },
+    );
+  };
   return (
     <PagePaper>
       <PagePaperHeading>
         <PagePaperTitle>{"لیست دسترسی‌ها"}</PagePaperTitle>
-
         <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <Typography
             component={"label"}
@@ -95,22 +145,58 @@ function PermissionList() {
       </PagePaperHeading>
       <Divider sx={{ borderColor: "border.dark", mt: "12px", mb: "16px" }} />
 
-      <Stack sx={{ gap: "10px" }}>
-        <Accordion variant={"contained"} size="large" accordionBorder>
-          <AccordionSummary>
-            <BoxOutlinedIcon />
-            {"محصولات"}
-          </AccordionSummary>
-
-          <AccordionDetails>
-            <AccordionCheckboxItem sx={{ px: "12px" }}>
-              <AccordionCheckboxLabel sx={{ color: "text.primary2" }}>
-                {"همه"}
-              </AccordionCheckboxLabel>
-              <CheckBox size="small" color="primary" variant="outlined" />
-            </AccordionCheckboxItem>
-          </AccordionDetails>
-        </Accordion>
+      <Stack
+        sx={{
+          gap: "10px",
+        }}
+      >
+        {query.data?.categories?.map((category) => (
+          <Accordion
+            key={category.categoryId}
+            variant="contained"
+            size="large"
+            accordionBorder
+          >
+            <AccordionSummary>
+              <BoxOutlinedIcon />
+              {category.caption}
+            </AccordionSummary>
+            <AccordionDetails>
+              {category.permissions.map((permission) => (
+                <AccordionCheckboxItem
+                  key={permission.id}
+                  sx={{
+                    px: "12px",
+                  }}
+                >
+                  <AccordionCheckboxLabel
+                    sx={{
+                      color: "text.onPrimary",
+                    }}
+                  >
+                    {permission.displayName}
+                  </AccordionCheckboxLabel>
+                  {loadingPermissionId === permission.id ? (
+                    <CircularProgress size={16} />
+                  ) : (
+                    <CheckBox
+                      size="small"
+                      color="primary"
+                      variant="outlined"
+                      checked={selectedPermissions.includes(permission.id)}
+                      onChange={(event) => {
+                        handlePermissionChange(
+                          permission.id,
+                          event.target.checked,
+                        );
+                      }}
+                    />
+                  )}
+                </AccordionCheckboxItem>
+              ))}
+            </AccordionDetails>
+          </Accordion>
+        ))}
       </Stack>
     </PagePaper>
   );
