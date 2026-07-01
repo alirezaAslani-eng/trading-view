@@ -149,7 +149,7 @@ function BankTableList() {
             variant="on-surface"
           >
             <AddIcon /> &nbsp;{" "}
-            {selectedTab === "banks" ? "افزودن کارت" : "افزودن شباه"}
+            {selectedTab === "banks" ? "افزودن شماره کارت" : "افزودن شماره شبا"}
           </Button>
         </>
       </Stack>
@@ -157,7 +157,7 @@ function BankTableList() {
       <Dialog open={modalState === "bank"} onClose={() => setModalState(null)}>
         <ModalLayout>
           <ModalLayoutHeading>
-            <ModalLayoutTitle title="افزودن کارت" subtitle="" />
+            <ModalLayoutTitle title="افزودن شماره کارت" subtitle="" />
             <ModalLayoutCloseIcon onClick={() => setModalState(null)} />
           </ModalLayoutHeading>
           <ModalLayoutBody>

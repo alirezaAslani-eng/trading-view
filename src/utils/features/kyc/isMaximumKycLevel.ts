@@ -3,6 +3,7 @@ import { KycLevel } from "@/types";
 
 function isMaximumKycLevel(kycLevel: KycLevel): boolean {
   const kycOrders = Object.values(KYC_LEVEL_ORDER).sort((a, b) => a - b);
+  if(kycLevel === "Level2_Advanced") return true // ! This code will be removed later 
   if (kycOrders.length - 1 > KYC_LEVEL_ORDER[kycLevel]) return false;
   return true;
 }

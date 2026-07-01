@@ -23,11 +23,21 @@ function UserProfileCard({ collapsed = false }) {
   if (collapsed) {
     return (
       <UserProfile>
-        <UserProfileImage
-          src="/images/person.png"
-          alt="My profile"
-          sx={{ width: 36, height: 36 }}
-        />
+       <Box
+          sx={{
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            backgroundColor: "background.primary",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
+            {initials}
+          </Typography>
+        </Box>
       </UserProfile>
     );
   }

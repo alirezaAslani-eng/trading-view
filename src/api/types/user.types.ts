@@ -16,6 +16,7 @@ interface DashboardInfoResponse extends WithID {
   bankAccountsCount: number;
   addressesCount: number;
   monthlyTransactionVolume: number;
+  lastLoginAt:string,
   limits: {
     maxTx: string;
     daily: string;

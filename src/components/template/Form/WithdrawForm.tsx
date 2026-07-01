@@ -1,5 +1,4 @@
 "use client";
-import { AddIcon } from "@/components/ui/Icon";
 import {
   bankAccountsConfig,
   walletPortfolioConfig,
@@ -125,8 +124,8 @@ function WithdrawForm() {
           type="submit"
           disabled={form.formState.isSubmitting}
         >
-          <AddIcon sx={{ color: "inherit" }} />
-          {"افزودن شبای جدید"}
+          
+          {"برداشت"}
         </TransactionFormLayoutSubmit>
       </TransactionFormLayout>
     </Box>

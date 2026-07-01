@@ -9,7 +9,6 @@ import NextLink from "@/components/ui/Link/NextLink";
 import isMaximumKycLevel from "@/utils/features/kyc/isMaximumKycLevel";
 import {
   BirthDayCakeIcon,
-  PenOnPaperIcon,
   UserGuardIcon,
 } from "@/components/ui/Icon";
 import {
@@ -79,7 +78,7 @@ function ProfileOverviewSection() {
                 whiteSpace: "pre",
               }}
             >
-              {"آخرین ورود   10:35   1405/02/08"}
+              {(dashboard_info.data.lastLoginAt)}
             </Typography>
             {/* // * ---end--- Last Login Date ------- */}
           </Box>
@@ -117,9 +116,7 @@ function ProfileOverviewSection() {
                 title="شماره موبایل"
                 subTitle={dashboard_info.data.mobile}
               />
-              <NextLink href="">
-                <PenOnPaperIcon />
-              </NextLink>
+             
             </UserProfileItemCard>
           </Box>
           {/* // * ---end--- User Profile Items -------- */}

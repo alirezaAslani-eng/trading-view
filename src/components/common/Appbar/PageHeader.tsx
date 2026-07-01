@@ -5,6 +5,7 @@ import SearchIcon from "@/assets/svg/search-icon.svg";
 import NotificationIcon from "@/assets/svg/notification.svg";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import InputMarker from "@/components/ui/Marker/InputMarker";
+import LogoutIcon from "@/components/ui/Icon/Logout";
 
 interface PageHeaderProps extends Pick<BoxProps, "sx"> {
   title: string;
@@ -66,7 +67,9 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
               },
             }}
           />
+          
         </InputMarker>
+        <LogoutIcon/>
         <SvgIcon sx={{ width: "24px", height: "24px" }}>
           <NotificationIcon />
         </SvgIcon>

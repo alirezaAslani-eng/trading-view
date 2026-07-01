@@ -43,7 +43,7 @@ const transactionColumns = buildTransactionColumns();
 
 type TabState = "orders" | "deposit" | "withdraw";
 const TABS: { value: TabState; displayName: string }[] = [
-  { value: "orders", displayName: "سفارش‌ها" },
+  { value: "orders", displayName: "تاریخچه  سفارش ها" },
   { value: "deposit", displayName: "واریزها" },
   { value: "withdraw", displayName: "برداشت‌ها" },
 ];
