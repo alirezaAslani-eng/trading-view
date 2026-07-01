@@ -1,7 +1,7 @@
 import { Column } from "@/components/ui/Table/DataTable";
 import { Order } from "@/api/types";
 import { convertToJalali } from "@/packages/dayjs";
-import { JALALI_FORMAT, JALALI_TIME_FORMAT } from "@/constant/app/date";
+import { JALALI_FORMAT } from "@/constant/app/date";
 import { formatFaPrice } from "@/utils";
 import normalizeOrderStatus from "@/utils/features/order/normalizeOrderStatus";
 import { Typography } from "@mui/material";
