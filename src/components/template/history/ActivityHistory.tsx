@@ -2,50 +2,46 @@
 import Button from "@/components/ui/Button/Button";
 import ToggleTabGroup from "@/components/ui/ButtonGroup/ToggleTabGroup";
 import DownloadIcon from "@/components/ui/Icon/DownloadIcon";
-
-import {
-  PagePaper,
-  PagePaperHeading,
-} from "@/components/ui/Layout/PaperLayout";
 import { useOrderFiltersProvider } from "@/context/feature/orders/Orders/hooks";
 import { OrderFiltersProvider } from "@/context/feature/orders/Orders/OrderFiltersContext";
 import { OrdersProvider } from "@/context/feature/orders/Orders/OrdersContext";
 import { Box, Divider, Stack, ToggleButton } from "@mui/material";
 import InputSelectSymbol from "../Input/InputSelectSymbol";
+import { OrderFilters, TransactionFilters } from "@/types";
+import CheckBox from "@/components/ui/Checkbox/CheckBox";
+import OrdersTable from "../Table/OrdersTable";
+import buildOrderColumns from "@/constant/features/order/orderColumns";
+import { PropsWithChildren, useState } from "react";
+import OrdersPagination from "../Pagination/OrdersPagination";
+import { createNonNullToggleHandler } from "@/packages/mui/theme";
+import { TransactionFiltersProvider } from "@/context/feature/transaction/Transactions/TransactionFiltersContext";
+import { TransactionsProvider } from "@/context/feature/transaction/Transactions/TransactionsContext";
+import { useTransactionFiltersProvider } from "@/context/feature/transaction/Transactions/hooks";
+import TransactionsTable from "../Table/TransactionsTable";
+import buildTransactionColumns from "@/constant/features/transaction/transactionColumns";
+
+import {
+  PagePaper,
+  PagePaperHeading,
+} from "@/components/ui/Layout/PaperLayout";
 import {
   InputSelect,
   InputSelectItem,
   InputSelectMenu,
 } from "@/components/ui/Input/InputSelect";
-import { OrderFilters, OrderType } from "@/types";
-import CheckBox from "@/components/ui/Checkbox/CheckBox";
-import OrdersTable from "../Table/OrdersTable";
-import buildOrderColumns from "@/constant/features/order/orderColumns";
 import {
-  Fragment,
-  PropsWithChildren,
-  useEffect,
-  useEffectEvent,
-  useState,
-} from "react";
-import OrdersPagination from "../Pagination/OrdersPagination";
-import { createNonNullToggleHandler } from "@/packages/mui/theme";
-import useUpdateEffect from "@/hooks/app/useUpdateEffect";
-import { TransactionFiltersProvider } from "@/context/feature/transaction/Transactions/TransactionFiltersContext";
-import { TransactionsProvider } from "@/context/feature/transaction/Transactions/TransactionsContext";
-import { useTransactionFiltersProvider } from "@/context/feature/transaction/Transactions/hooks";
-import { TRANSACTION_TYPE } from "@/constant/features/transaction/transactionType";
-import TransactionsTable from "../Table/TransactionsTable";
-import buildTransactionColumns from "@/constant/features/transaction/transactionColumns";
+  TRANSACTION_TYPE,
+  TRANSACTION_TYPE_LABELS,
+} from "@/constant/features/transaction/transactionType";
+import TransactionsPagination from "../Pagination/TransactionsPagination";
 
 const orderColumns = buildOrderColumns();
 const transactionColumns = buildTransactionColumns();
 
-type TabState = "orders" | "deposit" | "withdraw";
+type TabState = "orders" | "transactions";
 const TABS: { value: TabState; displayName: string }[] = [
   { value: "orders", displayName: "تاریخچه  سفارش ها" },
-  { value: "deposit", displayName: "واریزها" },
-  { value: "withdraw", displayName: "برداشت‌ها" },
+  { value: "transactions", displayName: "تراکنش ها" },
 ];
 
 function ActivityHistory() {
@@ -54,23 +50,7 @@ function ActivityHistory() {
   const tabHandler = createNonNullToggleHandler(setTab);
 
   const isOrdersTab = tab === "orders";
-  const isTransactionsTab = tab === "deposit" || tab === "withdraw";
-
-  // * ------------ Transaction Filtering ------------
-  const transactionFilters = useTransactionFiltersProvider()!;
-
-  const depositFilter = useEffectEvent(() => {
-    transactionFilters.setFilter("Type", TRANSACTION_TYPE.Deposit);
-  });
-
-  const withdrawFilter = useEffectEvent(() => {
-    transactionFilters.setFilter("Type", TRANSACTION_TYPE.Withdrawal);
-  });
-
-  useUpdateEffect(() => {
-    if (tab === "deposit") depositFilter();
-    if (tab === "withdraw") withdrawFilter();
-  }, [tab]);
+  const isTransactionsTab = tab === "transactions";
 
   return (
     <>
@@ -98,6 +78,7 @@ function ActivityHistory() {
 
           {/* // * Filter Bar */}
           {isOrdersTab && <OrderFilterControls />}
+          {isTransactionsTab && <TransactionFilterControls />}
 
           {/* // * Tables  */}
           <Box sx={{ mt: "40px" }}>
@@ -112,6 +93,7 @@ function ActivityHistory() {
       </PagePaper>
       <Box sx={{ mt: "38px", display: "flex", justifyContent: "center" }}>
         {isOrdersTab && <OrdersPagination />}
+        {isTransactionsTab && <TransactionsPagination />}
       </Box>
     </>
   );
@@ -131,6 +113,47 @@ function ActivityHistoryProvider({ children }: PropsWithChildren) {
 
 type OrderSideFilter = OrderFilters["orderSide"];
 
+function TransactionFilterControls() {
+  const transactionFilters = useTransactionFiltersProvider()!;
+
+  const transactionTypeHandler = (type: string) => {
+    transactionFilters.setFilter(
+      "Type",
+      type ? (type as TransactionFilters["Type"]) : null,
+    );
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: "32px",
+      }}
+    >
+      <InputSelect
+        sx={{ width: "200px" }}
+        variant="outlined"
+        size="small"
+        placeholder="نوع تراکنش"
+        value={transactionFilters.filters.Type ?? ""}
+        onChange={transactionTypeHandler}
+      >
+        <InputSelectMenu>
+          <InputSelectItem value={""}>{"همه"}</InputSelectItem>
+          {Object.keys(TRANSACTION_TYPE).map((type) => {
+            const type_key = type as keyof typeof TRANSACTION_TYPE;
+            return (
+              <InputSelectItem value={TRANSACTION_TYPE[type_key]}>
+                {TRANSACTION_TYPE_LABELS[type_key]}
+              </InputSelectItem>
+            );
+          })}
+        </InputSelectMenu>
+      </InputSelect>
+    </Box>
+  );
+}
 function OrderFilterControls() {
   const orderFilters = useOrderFiltersProvider()!;
 
