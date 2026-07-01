@@ -1,11 +1,8 @@
+import type { ReactNode } from "react";
 import { ROUTES } from "@/constant/app/routes"; // adjust path to wherever routes.ts lives
 import DashboardIcon from "@/assets/svg/dashboard.svg";
 import MarketIcon from "@/assets/svg/markets.svg";
 import HistoryIcon from "@/assets/svg/history.svg";
-import LinearIcon from "@/assets/svg/linear.svg";
-import ChartIcon from "@/assets/svg/chart.svg";
-import MessageIcon from "@/assets/svg/message.svg";
-import SettingIcon from "@/assets/svg/setting.svg";
 import WalletIcon from "@/assets/svg/wallet.svg";
 import {
   ArrowUpDownIcon,
@@ -13,76 +10,80 @@ import {
   LockIcon,
   UserIcon,
 } from "@/components/ui/Icon";
+import {
+  getPermissionGroup,
+  PermissionGroup,
+} from "../features/permission/permissionGroups";
 
-const sidebarNavigators = [
-  {
-    text: "داشبورد",
-    link: ROUTES.PANEL.ROOT,
-    icon: <DashboardIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
-  {
-    text: "بازار ها",
-    link: ROUTES.MARKET.ROOT,
-    icon: <MarketIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
-  {
-    text: "دارایی‌ها",
-    link: ROUTES.ASSETS.ROOT,
-    icon: <WalletIcon />,
-    id: crypto.randomUUID(),
-    submenus: [
-      {
-        text: "برداشت",
-        link: ROUTES.ASSETS.WITHDRAW,
-        id: crypto.randomUUID(),
-      },
-      {
-        text: "واریز",
-        link: ROUTES.ASSETS.DEPOSIT,
-        id: crypto.randomUUID(),
-      },
-    ],
-  },
-  {
-    text: "تاریخچه",
-    link: ROUTES.HISTORY.ROOT,
-    icon: <HistoryIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
-  {
-    text: "معامله",
-    link: ROUTES.TRADE.BY_SYMBOL("REBAR"),
-    icon: <ArrowUpDownIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
-  {
-    text: "مدریت محصول",
-    link: ROUTES.PRODUCTS.ROOT,
-    icon: <BoxOutlinedIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
-  {
-    text: "سطوح دسترسی",
-    link: ROUTES.PERMISSIONS.ROOT,
-    icon: <LockIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
-  {
-    text: "پروفایل",
-    link: ROUTES.PROFILE.OVERIVIEW,
-    icon: <UserIcon />,
-    id: crypto.randomUUID(),
-    submenus: [],
-  },
-  // ...commented blocks unchanged
+interface SidebarSubMenuItem {
+  id: string;
+  text: string;
+  link: string;
+}
+
+interface SidebarNavItem {
+  id: string;
+  text: string;
+  link: string;
+  icon: ReactNode;
+  submenus: SidebarSubMenuItem[];
+}
+
+const createSubMenu = (text: string, link: string): SidebarSubMenuItem => ({
+  id: crypto.randomUUID(),
+  text,
+  link,
+});
+
+const createNavItem = (
+  text: string,
+  link: string,
+  icon: ReactNode,
+  submenus: SidebarSubMenuItem[] = [],
+): SidebarNavItem => ({
+  id: crypto.randomUUID(),
+  text,
+  link,
+  icon,
+  submenus,
+});
+
+const sidebarNavigators: SidebarNavItem[] = [
+  createNavItem("داشبورد", ROUTES.PANEL.ROOT, <DashboardIcon />),
+  createNavItem("بازار ها", ROUTES.MARKET.ROOT, <MarketIcon />),
+  createNavItem("دارایی‌ها", ROUTES.ASSETS.ROOT, <WalletIcon />, [
+    createSubMenu("برداشت", ROUTES.ASSETS.WITHDRAW),
+    createSubMenu("واریز", ROUTES.ASSETS.DEPOSIT),
+  ]),
+  createNavItem("تاریخچه", ROUTES.HISTORY.ROOT, <HistoryIcon />),
+  createNavItem("معامله", ROUTES.TRADE.BY_SYMBOL("REBAR"), <ArrowUpDownIcon />),
+  createNavItem("مدریت محصول", ROUTES.PRODUCTS.ROOT, <BoxOutlinedIcon />),
+  createNavItem("سطوح دسترسی", ROUTES.PERMISSIONS.ROOT, <LockIcon />),
+  createNavItem("پروفایل", ROUTES.PROFILE.OVERIVIEW, <UserIcon />),
 ];
 
-export default sidebarNavigators;
+interface getSidebarNavigatorsConfig {
+  permissionGroups: PermissionGroup[] | undefined;
+}
+function getSidebarNavigators({
+  permissionGroups,
+}: getSidebarNavigatorsConfig): SidebarNavItem[] {
+  // * Returns StandardUser navigators when permissionGroups is pending
+  if (permissionGroups === undefined || !!permissionGroups?.length)
+    return StandardUserNavs();
+
+  const { isStandardUser } = getPermissionGroup(permissionGroups);
+
+  if (isStandardUser) return StandardUserNavs();
+
+  return sidebarNavigators;
+}
+
+export { getSidebarNavigators };
+export type { SidebarNavItem, SidebarSubMenuItem };
+
+function StandardUserNavs(): SidebarNavItem[] {
+  return sidebarNavigators.filter(
+    (nav) => !nav.link.startsWith(ROUTES.ADMIN.ROOT),
+  );
+}
