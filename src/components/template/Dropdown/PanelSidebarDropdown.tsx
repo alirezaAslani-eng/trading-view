@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { type ReactNode } from "react";
 import { Box } from "@mui/system";
 import { ButtonBase, SvgIcon, Typography } from "@mui/material";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
@@ -8,7 +8,20 @@ import NextLink from "@/components/ui/Link/NextLink";
 import ArrowDownIcon from "@/assets/svg/arrow-down.svg";
 import useIsActiveLink from "@/hooks/app/useIsActiveLink";
 import { useActiveItemContext } from "@/context/app/ActiveItem";
+
 const svg_sx = { width: "14px", height: "14px", cursor: "pointer" };
+
+type NextLinkProps = React.ComponentProps<typeof NextLink>;
+
+interface PanelSidebarDropdownProps {
+  icon?: ReactNode;
+  text: string;
+  href: NextLinkProps["href"];
+  children?: ReactNode;
+  id: string;
+  startWith?: string;
+  collapsed?: boolean;
+}
 
 function PanelSidebarDropdown({
   icon,
@@ -18,11 +31,13 @@ function PanelSidebarDropdown({
   id,
   startWith,
   collapsed = false,
-}) {
+}: PanelSidebarDropdownProps) {
   const isActiveLink = useIsActiveLink({ href, startWith });
-  const { activeId, removeId, setId } = useActiveItemContext();
+  const { activeId, toggleId } = useActiveItemContext()!;
+
   const isOpenNestedMenu = !collapsed && activeId === id;
   const LiOrUl = !!children && !collapsed ? "ul" : "li";
+
   return (
     <LiOrUl>
       <Box
@@ -43,7 +58,6 @@ function PanelSidebarDropdown({
           sx={{
             display: "flex",
             justifyContent: collapsed ? "center" : "space-between",
-            // alignItems: "center",
             flex: collapsed ? "initial" : 1,
             width: collapsed ? "100%" : "auto",
             height: "100%",
@@ -69,18 +83,17 @@ function PanelSidebarDropdown({
           </NextLink>
 
           {/* // * ---------- Arrow Icon ---------- */}
-
           {!collapsed && !!children && (
-            <ButtonBase sx={{px:"15px",color:"text.onPrimary",borderRadius:"16px"}}>
+            <ButtonBase
+              onClick={() => toggleId(id)}
+              sx={{ px: "15px", color: "text.onPrimary", borderRadius: "16px" }}
+            >
               {!isOpenNestedMenu ? (
-                <SvgIcon sx={svg_sx} onClick={() => setId(id)}>
+                <SvgIcon sx={svg_sx}>
                   <ArrowDownIcon />
                 </SvgIcon>
               ) : (
-                <SvgIcon
-                  onClick={removeId}
-                  sx={{ ...svg_sx, transform: "rotate(180deg)" }}
-                >
+                <SvgIcon sx={{ ...svg_sx, transform: "rotate(180deg)" }}>
                   <ArrowDownIcon />
                 </SvgIcon>
               )}
@@ -89,9 +102,9 @@ function PanelSidebarDropdown({
         </Box>
       </Box>
 
-      {/* // * ------ nesetd items ------ */}
+      {/* // * ------ nested items ------ */}
       {isOpenNestedMenu && !!children && (
-        <Box component={"ul"} sx={{ pr: "20px", mt: "18px", mb: "8px" }}>
+        <Box component="ul" sx={{ pr: "20px", mt: "18px", mb: "8px" }}>
           <Box
             sx={{
               borderRight: "1px solid",
@@ -107,12 +120,9 @@ function PanelSidebarDropdown({
   );
 }
 
-/**
- * @param {React.ComponentProps<typeof NextLink>} param0
- */
-function PanelSidebarNestedItem(props) {
+function PanelSidebarNestedItem(props: NextLinkProps) {
   return (
-    <Box component={"li"}>
+    <Box component="li">
       <NextLink
         {...props}
         sx={(tm) => ({
@@ -124,6 +134,7 @@ function PanelSidebarNestedItem(props) {
           ...identifySxProp(tm, props.sx),
           "&.Mui-active": {
             backgroundColor: "background.sidebarActive",
+            //@ts-ignore
             ...identifySxProp(tm, props.sx)?.["&.Mui-active"],
           },
         })}
@@ -135,8 +146,3 @@ function PanelSidebarNestedItem(props) {
 }
 
 export { PanelSidebarDropdown, PanelSidebarNestedItem };
-
-/**
- *
- * @param {React.ComponentProps<typeof NextLink>} props
- */
