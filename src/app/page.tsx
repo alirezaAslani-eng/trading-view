@@ -4,14 +4,7 @@ import React from 'react'
 
 function page() {
   return (
-
-<SettingSwitch>
-  <Switch/>
-  <SettingSwitchInfo
-    title="ورود با گوگل"
-    description="نیییییییییییییییییییییییییییییییی"
-  />
-</SettingSwitch>
+<div></div>
   )
 }
 

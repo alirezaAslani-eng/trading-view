@@ -122,25 +122,7 @@ function PermissionList() {
       <PagePaperHeading>
         <PagePaperTitle>{"لیست دسترسی‌ها"}</PagePaperTitle>
         <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <Typography
-            component={"label"}
-            variant="body3"
-            sx={{ color: "text.secondary" }}
-          >
-            {"نقش انتخابی:"}
-          </Typography>
-          <InputSelect
-            sx={{ minWidth: "160px" }}
-            size="small"
-            variant="outlined"
-            placeholder="نقش را انتخاب کنید"
-            value="1"
-          >
-            <InputSelectMenu>
-              <InputSelectItem value="1">{"ادمین"}</InputSelectItem>
-              <InputSelectItem value="2">{"کاربر"}</InputSelectItem>
-            </InputSelectMenu>
-          </InputSelect>
+    
         </Box>
       </PagePaperHeading>
       <Divider sx={{ borderColor: "border.dark", mt: "12px", mb: "16px" }} />
