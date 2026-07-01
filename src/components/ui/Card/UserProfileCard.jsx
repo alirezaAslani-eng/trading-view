@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, MenuItem, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { lineClamp } from "@/packages/mui/theme/helpers";
 import {
   UserProfile,
@@ -11,8 +11,8 @@ import { MenueHorizontal } from "../Icon";
 import { dashboardInfoConfig } from "@/packages/react-query";
 import { getInitials } from "@/utils/features/user/getInitials";
 import { useQuery } from "@tanstack/react-query";
-import InputSelectMenu from "@/components/ui/Input/InputSelect/InputSelectMenu"
 import { useInputSelectController } from "@/context/app/InputSelectController";
+import PanelPaper from "../Paper/PanelPaper";
 
 const queryConfig = dashboardInfoConfig();
 
@@ -45,7 +45,7 @@ function UserProfileCard({ collapsed = false }) {
 
 
   return (
-    <Box
+    <PanelPaper
       sx={{
         border: "1px solid",
         borderColor: "border.default",
@@ -92,7 +92,7 @@ function UserProfileCard({ collapsed = false }) {
         </UserProfileInfo>
       </UserProfile>
       <MenueHorizontal />
-    </Box>
+    </PanelPaper>
   );
 }
 

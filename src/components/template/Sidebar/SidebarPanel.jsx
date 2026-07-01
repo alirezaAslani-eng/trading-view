@@ -41,7 +41,7 @@ function SidebarPanel(props) {
     >
       <SidebarToggle />
 
-      <Box
+      <Stack
         component={"aside"}
         {...props}
         sx={(tm) => ({
@@ -58,99 +58,104 @@ function SidebarPanel(props) {
           ...identifySxProp(tm, props.sx),
         })}
       >
-      {/* // * ----- brand logo ----- */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: isCollapsed ? 0 : "12px",
-          borderBottom: "1px solid",
-          borderColor: "border.dark",
-          pb: "39px",
-        }}
-      >
-        {!isCollapsed && <BrandName />}
-        <NextImage
-          src={"/images/brand-logo.png"}
-          alt="brand logo"
-          width={isCollapsed ? 32 : 51}
-          height={isCollapsed ? 24 : 38}
-          sx={{ objectFit: "cover" }}
-        />
-      </Box>
+        {/* // * ----- brand logo ----- */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: isCollapsed ? 0 : "12px",
+            borderBottom: "1px solid",
+            borderColor: "border.dark",
+            pb: "39px",
+          }}
+        >
+          {!isCollapsed && <BrandName />}
+          <NextImage
+            src={"/images/brand-logo.png"}
+            alt="brand logo"
+            width={isCollapsed ? 32 : 51}
+            height={isCollapsed ? 24 : 38}
+            sx={{ objectFit: "cover" }}
+          />
+        </Box>
+        <Stack
+          sx={{ justifyContent: "space-between", flex: 1, minHeight: "0px" }}
+        >
+          {/* // * -------- Menu list -------- */}
+          <Stack
+            sx={{
+              gap: "8px",
+              pb: "20px",
+              mt: "32px",
+              borderBottom: "1px solid",
+              borderColor: "border.dark",
+            }}
+          >
+            <ActiveItemProvider>
+              {sidebarNavigators.map((nav) => {
+                return (
+                  <Badge
+                    key={nav.id}
+                    color="error"
+                    sx={{ display: "block", width: "100%" }}
+                    slotProps={{ badge: { sx: badge_sx } }}
+                  >
+                    <PanelSidebarDropdown
+                      icon={<SvgIcon>{nav.icon}</SvgIcon>}
+                      text={nav.text}
+                      href={nav.link}
+                      id={nav.id}
+                      collapsed={isCollapsed}
+                    >
+                      {!!nav.submenus.length &&
+                        nav.submenus.map((subNav) => {
+                          return (
+                            <PanelSidebarNestedItem
+                              key={subNav.id}
+                              href={subNav.link}
+                            >
+                              <Typography
+                                variant="button3"
+                                sx={{ color: "text.heading" }}
+                              >
+                                {subNav.text}
+                              </Typography>
+                            </PanelSidebarNestedItem>
+                          );
+                        })}
+                    </PanelSidebarDropdown>
+                  </Badge>
+                );
+              })}
+            </ActiveItemProvider>
 
-      {/* // * -------- Menu list -------- */}
-      <Stack
-        sx={{
-          gap: "8px",
-          pb: "20px",
-          mt: "32px",
-          borderBottom: "1px solid",
-          borderColor: "border.dark",
-        }}
-      >
-        <ActiveItemProvider>
-          {sidebarNavigators.map((nav) => {            
-            return (
-              <Badge
-                key={nav.id}
-                color="error"
-                sx={{ display: "block", width: "100%" }}
-                slotProps={{ badge: { sx: badge_sx } }}
-              >
-                <PanelSidebarDropdown
-                  icon={<SvgIcon>{nav.icon}</SvgIcon>}
-                  text={nav.text}
-                  href={nav.link}
-                  id={nav.id}
-                  collapsed={isCollapsed}
-                >
-                  {!!nav.submenus.length &&
-                    nav.submenus.map((subNav) => {
-                      return (
-                        <PanelSidebarNestedItem
-                          key={subNav.id}
-                          href={subNav.link}
-                        >
-                          <Typography
-                            variant="button3"
-                            sx={{ color: "text.heading" }}
-                          >
-                            {subNav.text}
-                          </Typography>
-                        </PanelSidebarNestedItem>
-                      );
-                    })}
-                </PanelSidebarDropdown>
-              </Badge>
-            );
-          })}
-        </ActiveItemProvider>
+            {/* // * -------- Dark/Light Button -------- */}
+            <Box
+              sx={{
+                mt: "calc(32px - 8px)",
+                display: "flex",
+                justifyContent: isCollapsed ? "center" : "stretch",
+              }}
+            >
+              <SwitchTheme collapsed={isCollapsed} />
+            </Box>
+          </Stack>
+
+          {/* // * ----- user profile ------ */}
+          <Box
+            sx={{
+              mt: "20px",
+              display: "flex",
+              justifyContent: isCollapsed ? "center" : "stretch",
+              position: "sticky",
+              bottom: "2px",
+            }}
+          >
+            <UserProfileCard collapsed={isCollapsed} />
+          </Box>
+        </Stack>
       </Stack>
-
-      {/* // * -------- Dark/Light Button -------- */}
-      <Box
-        sx={{
-          mt: "32px",
-          display: "flex",
-          justifyContent: isCollapsed ? "center" : "stretch",
-        }}
-      >
-        <SwitchTheme collapsed={isCollapsed} />
-      </Box>
-
-      {/* // * ----- user profile ------ */}
-      <Box
-        sx={{
-          mt: "144px",
-          display: "flex",
-          justifyContent: isCollapsed ? "center" : "stretch",
-        }}
-      >
-        <UserProfileCard collapsed={isCollapsed} />
-      </Box>
-      </Box>
     </Box>
   );
 }
