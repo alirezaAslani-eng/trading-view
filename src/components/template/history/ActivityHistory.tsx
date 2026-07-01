@@ -60,14 +60,11 @@ function ActivityHistory() {
   const transactionFilters = useTransactionFiltersProvider()!;
 
   const depositFilter = useEffectEvent(() => {
-    transactionFilters.setFilter("TransactionType", TRANSACTION_TYPE.Deposit);
+    transactionFilters.setFilter("Type", TRANSACTION_TYPE.Deposit);
   });
 
   const withdrawFilter = useEffectEvent(() => {
-    transactionFilters.setFilter(
-      "TransactionType",
-      TRANSACTION_TYPE.Withdrawal,
-    );
+    transactionFilters.setFilter("Type", TRANSACTION_TYPE.Withdrawal);
   });
 
   useUpdateEffect(() => {

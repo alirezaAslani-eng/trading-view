@@ -3,7 +3,7 @@ import { PaginationFilter } from "./filter.types";
 import { TransactionType } from "@/constant/features/transaction/transactionType";
 
 interface TransactionFilters extends PaginationFilter {
-  TransactionType: null | TransactionType;
+  Type: null | TransactionType;
 }
 
 export type { TransactionFilters };

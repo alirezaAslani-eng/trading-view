@@ -5,7 +5,7 @@ import { UseTransactionFiltersReturn } from "./types";
 const INITIAL_FILTERS: TransactionFilters = {
   page: 1,
   pageSize: 10,
-  TransactionType: null,
+  type: null,
 };
 
 function useTransactionFilters(
