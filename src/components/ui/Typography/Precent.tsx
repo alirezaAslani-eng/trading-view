@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import clsx from "clsx";
 
 interface PrecentProps extends Omit<TypographyProps, "children"> {
-  value?: number;
+  precentValue?: number;
   decimals?: number;
   showSign?: boolean;
   neutralThreshold?: number;
@@ -25,17 +25,17 @@ const StyledPercentTypography = styled(Typography)(({ theme }) => ({
 }));
 
 const Precent = ({
-  value = 0,
+  precentValue = 0,
   decimals = 2,
   showSign = true,
   neutralThreshold = 0,
   ...typographyProps
 }: PrecentProps) => {
-  const isPositive = value > neutralThreshold;
-  const isNegative = value < -neutralThreshold;
+  const isPositive = precentValue > neutralThreshold;
+  const isNegative = precentValue < -neutralThreshold;
 
   const sign = !showSign ? "" : isPositive ? "+" : isNegative ? "-" : "";
-  const absValue = Math.abs(value).toFixed(decimals);
+  const absValue = Math.abs(precentValue).toFixed(decimals);
   const formatted = `% ${absValue} ${sign}`;
 
   return (
