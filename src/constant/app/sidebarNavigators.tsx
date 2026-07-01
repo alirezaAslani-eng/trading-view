@@ -69,12 +69,12 @@ function getSidebarNavigators({
   permissionGroups,
 }: getSidebarNavigatorsConfig): SidebarNavItem[] {
   // * Returns StandardUser navigators when permissionGroups is pending
-  if (permissionGroups === undefined || !!permissionGroups?.length)
+  if (permissionGroups === undefined || !!!permissionGroups?.length)
     return StandardUserNavs();
 
-  const { isStandardUser } = getPermissionGroup(permissionGroups);
+  const { isStandardUser, isAdmin } = getPermissionGroup(permissionGroups);
 
-  if (isStandardUser) return StandardUserNavs();
+  if (isStandardUser && !isAdmin) return StandardUserNavs();
 
   return sidebarNavigators;
 }
