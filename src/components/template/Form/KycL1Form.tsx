@@ -59,7 +59,7 @@ function KycL1Form(mutationProps: KycL1FormProps) {
   return (
     <FormLayout onSubmit={form.handleSubmit(onSubmit)}>
       <FormLayoutAlert>
-        {"شماره شبا باید متعلق به صاحب کد ملی باشد"}
+        {"شماره موبایل باید متعلق به کد ملی باشد"}
       </FormLayoutAlert>
       <FormLayoutFieldGroup>
         {/* // * ----------- National Id ----------- */}
