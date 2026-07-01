@@ -22,6 +22,7 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
+import Precent from "@/components/ui/Typography/Precent";
 const price_sx = { color: "text.onPrimary" };
 const oveview_card_title_sx = { color: "text.caption" };
 const inputSelect_sx: SxProps<Theme> = ({ typography }) => ({
@@ -128,11 +129,7 @@ function PriceOverViewSection() {
           {"درصد تغییرات"}
         </PriceOverviewCardTitle>
         {isLoading && <Skeleton sx={skleton_sx} />}
-        {!isLoading && (
-          <Typography variant="button2" sx={{ color: "text.profit" }}>
-            {`% ${tickerInfoQuery.data?.change24h}`}
-          </Typography>
-        )}
+        {!isLoading && <Precent value={tickerInfoQuery.data?.change24h ?? 0} />}
       </PriceOverviewCard>
 
       <PriceOverviewCard>
