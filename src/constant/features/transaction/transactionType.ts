@@ -1,12 +1,11 @@
 const TRANSACTION_TYPE = {
   TradeLock: "TradeLock",
-  TradeUnLock: "TradeUnLock",
+  TradeUnlock: "TradeUnlock",
   TradeExecution: "TradeExecution",
   AdminAdjustment: "AdminAdjustment",
   Fee: "Fee",
   Deposit: "Deposit",
   Withdrawal: "Withdrawal",
-  Trade: "Trade",
 } as const;
 
 type TransactionType = (typeof TRANSACTION_TYPE)[keyof typeof TRANSACTION_TYPE];
@@ -15,11 +14,10 @@ const TRANSACTION_TYPE_LABELS: Record<TransactionType, string> = {
   [TRANSACTION_TYPE.Deposit]: "واریز",
   [TRANSACTION_TYPE.Withdrawal]: "برداشت",
   [TRANSACTION_TYPE.TradeLock]: "قفل موجودی",
-  [TRANSACTION_TYPE.TradeUnLock]: "آزادسازی موجودی",
+  [TRANSACTION_TYPE.TradeUnlock]: "آزادسازی موجودی",
   [TRANSACTION_TYPE.TradeExecution]: "اجرای معامله",
   [TRANSACTION_TYPE.AdminAdjustment]: "اصلاح توسط مدیر",
   [TRANSACTION_TYPE.Fee]: "کارمزد",
-  [TRANSACTION_TYPE.Trade]: "معامله",
 };
 
 const getTransactionType = (
@@ -29,11 +27,10 @@ const getTransactionType = (
     isDeposit: type === TRANSACTION_TYPE.Deposit,
     isWithdrawal: type === TRANSACTION_TYPE.Withdrawal,
     isTradeLock: type === TRANSACTION_TYPE.TradeLock,
-    isTradeUnLock: type === TRANSACTION_TYPE.TradeUnLock,
+    isTradeUnlock: type === TRANSACTION_TYPE.TradeUnlock,
     isTradeExecution: type === TRANSACTION_TYPE.TradeExecution,
     isAdminAdjustment: type === TRANSACTION_TYPE.AdminAdjustment,
     isFee: type === TRANSACTION_TYPE.Fee,
-    isTrade: type === TRANSACTION_TYPE.Trade,
   };
 };
 
