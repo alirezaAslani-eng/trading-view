@@ -1,3 +1,4 @@
+import { PermissionGroup } from "@/constant/features/permission/permissionGroups";
 import { KycLevel, WithID } from "@/types";
 
 interface DashboardInfoResponse extends WithID {
@@ -7,7 +8,7 @@ interface DashboardInfoResponse extends WithID {
   kycLevel: KycLevel;
   userTier: string;
   isActive: boolean;
-  userPermissionGroups: string[];
+  userPermissionGroups: PermissionGroup[];
   isEmailVerified: boolean;
   isNationalIdVerified: boolean;
   nationalId: string | null;
