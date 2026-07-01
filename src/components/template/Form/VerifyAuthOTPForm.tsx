@@ -4,10 +4,7 @@ import { notDefinedColors } from "@/packages/mui/theme/shades";
 import InputVerifyCode from "@/components/template/Input/InputVerifyCode";
 import { RestartRightIcon } from "@/components/ui/Icon";
 import { useMutation } from "@tanstack/react-query";
-import {
-  requestAuthOTPConfig,
-  verifyAuthOTPConfig,
-} from "@/packages/react-query";
+import { verifyAuthOTPConfig } from "@/packages/react-query";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import verifyAuthOTPSchema from "@/validations/auth/verifyAuthOTPSchema";
@@ -120,8 +117,6 @@ function VerifyAuthOTPForm() {
 }
 
 export default VerifyAuthOTPForm;
-
-const requestOtpConfig = requestAuthOTPConfig();
 
 const requestOtpButton_sx: SxProps<Theme> = {
   display: "flex",
