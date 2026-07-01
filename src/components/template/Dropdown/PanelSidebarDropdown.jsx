@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Box } from "@mui/system";
-import { SvgIcon, Typography } from "@mui/material";
+import { ButtonBase, SvgIcon, Typography } from "@mui/material";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
@@ -27,12 +27,13 @@ function PanelSidebarDropdown({
     <LiOrUl>
       <Box
         sx={{
-          px: collapsed ? "0px" : "16px",
+          p: collapsed ? "0px" : "0px 16px 0px 0px",
           height: "42px",
           borderRadius: "12px",
           display: "flex",
           alignItems: "center",
           justifyContent: collapsed ? "center" : "flex-start",
+          overflowX: "hidden",
           ...(isActiveLink && {
             backgroundColor: "background.sidebarActive",
           }),
@@ -42,9 +43,10 @@ function PanelSidebarDropdown({
           sx={{
             display: "flex",
             justifyContent: collapsed ? "center" : "space-between",
-            alignItems: "center",
+            // alignItems: "center",
             flex: collapsed ? "initial" : 1,
             width: collapsed ? "100%" : "auto",
+            height: "100%",
           }}
         >
           {/* // * ---------- Link ---------- */}
@@ -68,20 +70,22 @@ function PanelSidebarDropdown({
 
           {/* // * ---------- Arrow Icon ---------- */}
 
-          {!collapsed &&
-            !!children &&
-            (!isOpenNestedMenu ? (
-              <SvgIcon sx={svg_sx} onClick={() => setId(id)}>
-                <ArrowDownIcon />
-              </SvgIcon>
-            ) : (
-              <SvgIcon
-                onClick={removeId}
-                sx={{ ...svg_sx, transform: "rotate(180deg)" }}
-              >
-                <ArrowDownIcon />
-              </SvgIcon>
-            ))}
+          {!collapsed && !!children && (
+            <ButtonBase sx={{px:"15px",color:"text.onPrimary",borderRadius:"16px"}}>
+              {!isOpenNestedMenu ? (
+                <SvgIcon sx={svg_sx} onClick={() => setId(id)}>
+                  <ArrowDownIcon />
+                </SvgIcon>
+              ) : (
+                <SvgIcon
+                  onClick={removeId}
+                  sx={{ ...svg_sx, transform: "rotate(180deg)" }}
+                >
+                  <ArrowDownIcon />
+                </SvgIcon>
+              )}
+            </ButtonBase>
+          )}
         </Box>
       </Box>
 
