@@ -7,6 +7,7 @@ interface DashboardInfoResponse extends WithID {
   kycLevel: KycLevel;
   userTier: string;
   isActive: boolean;
+  userPermissionGroups: string[];
   isEmailVerified: boolean;
   isNationalIdVerified: boolean;
   nationalId: string | null;
