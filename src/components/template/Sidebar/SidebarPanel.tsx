@@ -1,12 +1,19 @@
 "use client";
 import BrandName from "@/components/ui/Brand/BrandName";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
-import { Badge, Box, Stack, SvgIcon, Typography } from "@mui/material";
+import {
+  Badge,
+  Box,
+  Stack,
+  StackProps,
+  SvgIcon,
+  Typography,
+} from "@mui/material";
 import { hideScrollBar } from "@/packages/mui/theme/shared-style";
 import SwitchTheme from "../Button/SwitchTheme";
 import UserProfileCard from "@/components/ui/Card/UserProfileCard";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
-import sidebarNavigators from "@/constant/app/sidebarNavigators";
+import { getSidebarNavigators } from "@/constant/app/sidebarNavigators";
 import { ActiveItemProvider } from "@/context/app/ActiveItem";
 import { useSidebarContext } from "@/context/app/Sidebar";
 import NextImage from "@/components/ui/Image/NextImage";
@@ -15,6 +22,8 @@ import {
   PanelSidebarDropdown,
   PanelSidebarNestedItem,
 } from "@/components/template/Dropdown/PanelSidebarDropdown";
+import { useQuery } from "@tanstack/react-query";
+import { dashboardInfoConfig } from "@/packages/react-query";
 
 const badge_sx = {
   right: "initial",
@@ -22,12 +31,9 @@ const badge_sx = {
   left: "2px",
 };
 
-/**
- * @param {import("@mui/material").BoxProps} props
- */
-
-function SidebarPanel(props) {
+function SidebarPanel(props: StackProps) {
   const { isCollapsed } = useSidebarContext();
+  const dashboardQuery = useQuery(dashboardInfoConfig());
 
   return (
     <Box
@@ -86,14 +92,16 @@ function SidebarPanel(props) {
             sx={{
               gap: "8px",
               pb: "20px",
-              mb:"50px",
+              mb: "50px",
               mt: "32px",
               borderBottom: "1px solid",
               borderColor: "border.dark",
             }}
           >
             <ActiveItemProvider>
-              {sidebarNavigators.map((nav) => {
+              {getSidebarNavigators({
+                permissionGroups: dashboardQuery.data?.userPermissionGroups,
+              }).map((nav) => {
                 return (
                   <Badge
                     key={nav.id}
