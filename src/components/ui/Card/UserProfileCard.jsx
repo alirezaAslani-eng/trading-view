@@ -1,35 +1,24 @@
 "use client";
-
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, MenuItem, IconButton } from "@mui/material";
 import { lineClamp } from "@/packages/mui/theme/helpers";
+import { MenueHorizontal } from "../Icon";
+import { dashboardInfoConfig } from "@/packages/react-query";
+import { getInitials } from "@/utils/features/user/getInitials";
+import { useQuery } from "@tanstack/react-query";
+import Dropdown from "../Menu/Dropdown";
+import LogoutIcon from "../Icon/Logout";
+import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import {
   UserProfile,
   UserProfileImage,
   UserProfileInfo,
 } from "@/components/ui/Profile/UserProfile";
-import { MenueHorizontal } from "../Icon";
-import { dashboardInfoConfig } from "@/packages/react-query";
-import { getInitials } from "@/utils/features/user/getInitials";
-import { useQuery } from "@tanstack/react-query";
-import { useInputSelectController } from "@/context/app/InputSelectController";
-import PanelPaper from "../Paper/PanelPaper";
 
 const queryConfig = dashboardInfoConfig();
 
 function UserProfileCard({ collapsed = false }) {
   const dashboard_info = useQuery(queryConfig);
   const initials = getInitials(dashboard_info.data?.fullName);
-
-  const { setAnchoreEl } = useInputSelectController();
-
-  const handleLogout = () => {
-    // logout
-  };
-
-  const handleAddImage = () => {
-    // add image
-  };
-
 
   if (collapsed) {
     return (
@@ -42,7 +31,6 @@ function UserProfileCard({ collapsed = false }) {
       </UserProfile>
     );
   }
-
 
   return (
     <PanelPaper
@@ -91,7 +79,31 @@ function UserProfileCard({ collapsed = false }) {
           </Typography>
         </UserProfileInfo>
       </UserProfile>
-      <MenueHorizontal />
+
+      <Dropdown
+        trigger={() => (
+          <IconButton size="small">
+            <MenueHorizontal />
+          </IconButton>
+        )}
+      >
+        <MenuItem
+          onClick={() => console.log("logout")}
+          sx={{
+            justifyContent: "center",
+            textAlign: "center",
+            gap: "6px",
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{ color: "text.onPrimary", textAlign: "center" }}
+          >
+            خروج
+          </Typography>
+          <LogoutIcon sx={{ color: "text.primary", textAlign: "center" }} />
+        </MenuItem>
+      </Dropdown>
     </PanelPaper>
   );
 }
