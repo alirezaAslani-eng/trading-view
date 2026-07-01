@@ -6,7 +6,6 @@ import { useOrderFiltersProvider } from "@/context/feature/orders/Orders/hooks";
 import { OrderFiltersProvider } from "@/context/feature/orders/Orders/OrderFiltersContext";
 import { OrdersProvider } from "@/context/feature/orders/Orders/OrdersContext";
 import { Box, Divider, Stack, ToggleButton } from "@mui/material";
-import InputSelectSymbol from "../Input/InputSelectSymbol";
 import { OrderFilters, TransactionFilters } from "@/types";
 import CheckBox from "@/components/ui/Checkbox/CheckBox";
 import OrdersTable from "../Table/OrdersTable";
@@ -34,6 +33,9 @@ import {
   TRANSACTION_TYPE_LABELS,
 } from "@/constant/features/transaction/transactionType";
 import TransactionsPagination from "../Pagination/TransactionsPagination";
+import { useQuery } from "@tanstack/react-query";
+import { symbolsConfig } from "@/packages/react-query";
+import { SelectInputLoader } from "@/components/ui/Fallback/SelectInputLoader";
 
 const orderColumns = buildOrderColumns();
 const transactionColumns = buildTransactionColumns();
@@ -157,12 +159,20 @@ function TransactionFilterControls() {
 function OrderFilterControls() {
   const orderFilters = useOrderFiltersProvider()!;
 
+  const symbolsQuery = useQuery(symbolsConfig());
+
   const orderSideHandler = (side: string | null) => {
-    orderFilters.setFilter("orderSide", side as OrderSideFilter);
+    orderFilters.setFilter(
+      "orderSide",
+      side ? (side as OrderSideFilter) : null,
+    );
   };
 
   const symbolHandler = (symbol: string | null) => {
-    orderFilters.setFilter("productCode", symbol as OrderSideFilter);
+    orderFilters.setFilter(
+      "productCode",
+      symbol ? (symbol as OrderSideFilter) : null,
+    );
   };
 
   return (
@@ -182,15 +192,33 @@ function OrderFilterControls() {
         }}
       >
         {/* // * Symbol  */}
-        <InputSelectSymbol
+        <InputSelect
           size="small"
           variant="outlined"
           color="primary"
           sx={{ flex: 1 }}
+          placeholder="نماد"
           //@ts-ignore
           onChange={symbolHandler}
           value={orderFilters.filters.productCode ?? ""}
-        />
+        >
+          <InputSelectMenu>
+            {symbolsQuery.isLoading && <SelectInputLoader />}
+
+            {!symbolsQuery.isLoading && (
+              <InputSelectItem value={""}>{"همه"}</InputSelectItem>
+            )}
+
+            {!symbolsQuery.isLoading &&
+              symbolsQuery.data?.map((symbol) => {
+                return (
+                  <InputSelectItem value={symbol.name}>
+                    {symbol.name}
+                  </InputSelectItem>
+                );
+              })}
+          </InputSelectMenu>
+        </InputSelect>
 
         {/* // * Order side  */}
         <InputSelect
@@ -203,6 +231,7 @@ function OrderFilterControls() {
           value={orderFilters.filters.orderSide ?? ""}
         >
           <InputSelectMenu>
+            <InputSelectItem value={""}>{"همه"}</InputSelectItem>
             <InputSelectItem value={"Buy" satisfies OrderSideFilter}>
               {"خرید"}
             </InputSelectItem>
