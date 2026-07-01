@@ -143,8 +143,7 @@ function RequestOtpButton() {
     <>
       {!countDown.isFinished && (
         <Typography variant="body3" sx={{ color: "text.onPrimary" }}>
-          {formatDuration(countDown.remainingMs)}
-        </Typography>
+          {formatDuration(countDown.remainingMs)}   </Typography>
       )}
       {countDown.isFinished && (
         <ButtonBase

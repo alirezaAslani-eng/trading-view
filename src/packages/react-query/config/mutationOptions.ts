@@ -39,6 +39,7 @@ import deposit, { DepositPayload } from "@/api/transaction/deposit";
 import addgroup from "@/api/group/addGroup";
 import { TradeFormSchemaOutputType } from "@/validations/types/trade.types";
 import assignPermissions from "@/api/permission/assignPermissions";
+import logout from "@/api/auth/logout";
 
 const requestAuthOTPConfig = () => {
   return mutationOptions({
@@ -179,9 +180,14 @@ const assignPermissionsConfig = () => {
     mutationFn: assignPermissions,
   });
 };
+const logoutConfig = () =>
+  mutationOptions({
+    mutationFn: logout,
+  });
 
 export {
   requestAuthOTPConfig,
+  logoutConfig,
   verifyAuthOTPConfig,
   kycLevel1Config,
   kycLevel2Config,

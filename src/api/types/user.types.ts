@@ -24,4 +24,5 @@ interface DashboardInfoResponse extends WithID {
   };
 }
 
+
 export type { DashboardInfoResponse };

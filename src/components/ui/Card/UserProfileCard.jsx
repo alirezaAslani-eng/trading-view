@@ -1,29 +1,37 @@
 "use client";
-import { Box, Typography, MenuItem, IconButton } from "@mui/material";
+
+import { Box, MenuItem, IconButton, Typography } from "@mui/material";
 import { lineClamp } from "@/packages/mui/theme/helpers";
 import { MenueHorizontal } from "../Icon";
-import { dashboardInfoConfig } from "@/packages/react-query";
+import { dashboardInfoConfig, logoutConfig } from "@/packages/react-query";
 import { getInitials } from "@/utils/features/user/getInitials";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Dropdown from "../Menu/Dropdown";
 import LogoutIcon from "../Icon/Logout";
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import {
   UserProfile,
-  UserProfileImage,
   UserProfileInfo,
 } from "@/components/ui/Profile/UserProfile";
 
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/constant/app/routes";
 const queryConfig = dashboardInfoConfig();
 
 function UserProfileCard({ collapsed = false }) {
+  const router = useRouter();
   const dashboard_info = useQuery(queryConfig);
   const initials = getInitials(dashboard_info.data?.fullName);
-
+  const logoutMutation = useMutation({
+    ...logoutConfig(),
+    onSuccess: () => {
+      router.replace(ROUTES.AUTH.ROOT);
+    },
+  });
   if (collapsed) {
     return (
       <UserProfile>
-       <Box
+        <Box
           sx={{
             width: 40,
             height: 40,
@@ -98,7 +106,7 @@ function UserProfileCard({ collapsed = false }) {
         )}
       >
         <MenuItem
-          onClick={() => console.log("logout")}
+          onClick={() => logoutMutation.mutate()}
           sx={{
             justifyContent: "center",
             textAlign: "center",
@@ -109,7 +117,7 @@ function UserProfileCard({ collapsed = false }) {
             variant="body2"
             sx={{ color: "text.onPrimary", textAlign: "center" }}
           >
-            خروج
+            {"خروج"}
           </Typography>
           <LogoutIcon sx={{ color: "text.primary", textAlign: "center" }} />
         </MenuItem>

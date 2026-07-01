@@ -28,6 +28,7 @@ import { KycLevel } from "@/types";
 import KYC_LEVEL_ORDER from "@/constant/features/kyc/kycLevelOreder";
 import { UseQueryResult } from "@tanstack/react-query";
 import { getInitials } from "@/utils/features/user/getInitials";
+import { JALALI_FORMAT } from "@/constant/app/date";
 
 const kycFallback = "نیاز به احراز حویت";
 
@@ -36,6 +37,9 @@ function ProfileOverviewSection() {
   const dashboard_info = useQuery(queryConfig);
   const initials = getInitials(dashboard_info.data?.fullName);
 
+
+  const lastLoginTime = convertToJalali(dashboard_info.data?.lastLoginAt??"").format("HH:MM")
+  const lastLoginDate = convertToJalali(dashboard_info.data?.lastLoginAt??"").format(JALALI_FORMAT)
   return (
     <>
       {dashboard_info.status === "success" && (
@@ -78,7 +82,7 @@ function ProfileOverviewSection() {
                 whiteSpace: "pre",
               }}
             >
-              {(dashboard_info.data.lastLoginAt)}
+              {`آخرین ورود   ${lastLoginTime}    ${lastLoginDate}`}
             </Typography>
             {/* // * ---end--- Last Login Date ------- */}
           </Box>

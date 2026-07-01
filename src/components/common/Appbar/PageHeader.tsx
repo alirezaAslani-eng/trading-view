@@ -1,11 +1,15 @@
 "use client";
 import InputText from "@/components/ui/Input/InputText";
-import { Box, BoxProps, SvgIcon, Typography } from "@mui/material";
+import { Box, BoxProps, IconButton, SvgIcon, Typography } from "@mui/material";
 import SearchIcon from "@/assets/svg/search-icon.svg";
 import NotificationIcon from "@/assets/svg/notification.svg";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import InputMarker from "@/components/ui/Marker/InputMarker";
 import LogoutIcon from "@/components/ui/Icon/Logout";
+import { useMutation } from "@tanstack/react-query";
+import { logoutConfig } from "@/packages/react-query";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/constant/app/routes";
 
 interface PageHeaderProps extends Pick<BoxProps, "sx"> {
   title: string;
@@ -13,6 +17,14 @@ interface PageHeaderProps extends Pick<BoxProps, "sx"> {
 }
 
 function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
+  const router = useRouter();
+const logoutMutation = useMutation({
+  ...logoutConfig(),
+  onSuccess: () => {
+    router.replace(ROUTES.AUTH.ROOT);
+  },
+});
+
   return (
     <Box
       component={"header"}
@@ -67,9 +79,10 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
               },
             }}
           />
-          
         </InputMarker>
-        <LogoutIcon/>
+        <IconButton size="small" onClick={() => logoutMutation.mutate()}>
+          <LogoutIcon />
+        </IconButton>
         <SvgIcon sx={{ width: "24px", height: "24px" }}>
           <NotificationIcon />
         </SvgIcon>

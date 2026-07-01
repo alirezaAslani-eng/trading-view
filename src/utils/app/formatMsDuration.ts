@@ -16,8 +16,6 @@ export default function formatDuration(ms: number): string {
   if (hours > 0) {
     return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
   }
-  if (minutes > 0) {
     return `${pad(minutes)}:${pad(seconds)}`;
-  }
-  return pad(seconds);
+  
 }
