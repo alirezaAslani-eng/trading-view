@@ -2,20 +2,19 @@
 import BrandName from "@/components/ui/Brand/BrandName";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import { Badge, Box, Stack, SvgIcon, Typography } from "@mui/material";
-import React from "react";
 import { hideScrollBar } from "@/packages/mui/theme/shared-style";
 import SwitchTheme from "../Button/SwitchTheme";
 import UserProfileCard from "@/components/ui/Card/UserProfileCard";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import sidebarNavigators from "@/constant/app/sidebarNavigators";
-import {
-  PanelSidebarDropdown,
-  PanelSidebarNestedItem,
-} from "@/components/template/Dropdown/PanelSidebarDropdown";
 import { ActiveItemProvider } from "@/context/app/ActiveItem";
 import { useSidebarContext } from "@/context/app/Sidebar";
 import NextImage from "@/components/ui/Image/NextImage";
 import SidebarToggle from "./SidebarToggle";
+import {
+  PanelSidebarDropdown,
+  PanelSidebarNestedItem,
+} from "@/components/template/Dropdown/PanelSidebarDropdown";
 
 const badge_sx = {
   right: "initial",
@@ -87,6 +86,7 @@ function SidebarPanel(props) {
             sx={{
               gap: "8px",
               pb: "20px",
+              mb:"50px",
               mt: "32px",
               borderBottom: "1px solid",
               borderColor: "border.dark",
@@ -145,7 +145,6 @@ function SidebarPanel(props) {
           {/* // * ----- user profile ------ */}
           <Box
             sx={{
-              mt: "20px",
               display: "flex",
               justifyContent: isCollapsed ? "center" : "stretch",
               position: "sticky",
