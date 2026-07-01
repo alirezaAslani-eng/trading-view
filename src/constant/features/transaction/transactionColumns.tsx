@@ -24,7 +24,9 @@ export const transactionTableColumns: DefaultColumns = {
     headerName: "زمان",
     field: "createdAt",
     renderCell(row) {
-      return convertToJalali(row.createdAt).format(JALALI_FORMAT);
+      const date = convertToJalali(row.createdAt).format(JALALI_FORMAT);
+      const time = convertToJalali(row.createdAt).format("HH:MM");
+      return `${date} | ${time}`;
     },
   },
   amount: {
