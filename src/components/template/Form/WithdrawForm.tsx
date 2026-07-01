@@ -34,6 +34,7 @@ import safeAsync from "@/utils/app/safeAsync";
 import { WithdrawSchemaType } from "@/validations/types";
 import alertMessages from "@/constant/app/alertMessages";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
+import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
 
 const walletQueryConfig = walletPortfolioConfig();
 const withdrawMutationConfig = withdrawConfig();
@@ -58,7 +59,10 @@ function WithdrawForm() {
   };
 
   const selectAllWallet = () => {
-    form.setValue("amount", walletQuery.data!.totalPortfolioValueIrt);
+    form.setValue(
+      "amount",
+      extractIRTAsset(walletQuery.data)?.availableBalance ?? 0,
+    );
   };
 
   return (
