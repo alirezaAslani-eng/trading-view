@@ -16,6 +16,7 @@ import {
   withdraw,
 } from "@/api";
 import {
+  DefaultError,
   MutationMeta,
   QueryKey,
   UseMutationOptions,
@@ -51,6 +52,7 @@ import {
   transactionsKey,
   walletProtfolioKey,
 } from "../keys/queryKeys";
+import { ResponseErrorType } from "@/types";
 
 const requestAuthOTPConfig = createMutationOptions({
   mutationKey: requestAuthOTPKey,
@@ -197,7 +199,7 @@ export {
 
 type AppMutationOptions<
   TData,
-  TError,
+  TError = DefaultError,
   TVariables = void,
   TContext = unknown,
 > = Omit<UseMutationOptions<TData, TError, TVariables, TContext>, "meta"> & {
@@ -207,7 +209,7 @@ type AppMutationOptions<
 
 function createMutationOptions<
   TData,
-  TError,
+  TError = DefaultError,
   TVariables = void,
   TContext = unknown,
 >(base: UseMutationOptions<TData, TError, TVariables, TContext>) {
