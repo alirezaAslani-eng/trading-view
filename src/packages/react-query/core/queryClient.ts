@@ -19,6 +19,7 @@ const queryClient = new QueryClient({
   mutationCache: new MutationCache({
     onSuccess(data, variables, onMutateResult, mutation, context) {
       mutationSuccessHandler(mutation);
+      invalidatesHandler(mutation);
     },
     onError(err, variables, onMutateResult, mutation, context) {
       mutationErrorHandler(err, mutation);
@@ -34,20 +35,17 @@ const queryClient = new QueryClient({
 
 export default queryClient;
 
+type MutationType = Mutation<unknown, unknown, unknown, unknown>;
+
 // * ------- queryClient helpers -------
-function mutationErrorHandler(
-  data: ResponseErrorType,
-  mutation: Mutation<unknown, unknown, unknown, unknown>,
-) {
+function mutationErrorHandler(data: ResponseErrorType, mutation: MutationType) {
   const custom_message = mutation?.meta?.errorMessage;
   const server_message = !!data.message ? data.message : "اعملیات ناموفق";
   const message = custom_message ?? server_message;
   errorAlert(message);
 }
 
-function mutationSuccessHandler(
-  mutation: Mutation<unknown, unknown, unknown, unknown>,
-) {
+function mutationSuccessHandler(mutation: MutationType) {
   const message = mutation?.meta?.successMessage ?? "عملیات با موفقیت انجام شد";
   if (!!mutation?.meta?.disableSuccessAlert) return;
   successAlert(message);
@@ -59,4 +57,16 @@ function expiredAuthErrorHandler(err: ResponseErrorType) {
   if (err?.status !== 401) return;
   authExpiredHandled = true;
   dispatch(openAuthModal());
+}
+function invalidatesHandler(mutation: MutationType) {
+  const invalidates = mutation?.meta?.invalidates;
+
+  if (!invalidates || !!invalidates.length) return;
+
+  invalidates.map((queryKey) =>
+    queryClient.invalidateQueries({
+      queryKey,
+      refetchType: "active",
+    }),
+  );
 }

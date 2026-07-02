@@ -33,19 +33,18 @@ import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
 
-const placeOrderMutationConfig = placeOrderConfig();
+const placeOrderMutationConfig = placeOrderConfig({
+  meta: {
+    successMessage: "سفارش ثبت شد",
+  },
+});
 
 function TradePanel() {
   // * -------- productCode/Symbol --------
   const [symbol] = useSymbolParams();
 
   // * --------- From API ---------
-  const placeOrderApi = useMutation({
-    ...placeOrderMutationConfig,
-    meta: {
-      successMessage: "سفارش ثبت شد",
-    },
-  });
+  const placeOrderApi = useMutation(placeOrderMutationConfig);
 
   // * ------- Form Configuration -------
   const form = useForm({

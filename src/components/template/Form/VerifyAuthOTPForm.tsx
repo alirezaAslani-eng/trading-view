@@ -27,8 +27,6 @@ import formatDuration from "@/utils/app/formatMsDuration";
 import { normalizeOtpExpIn } from "@/utils";
 import useRequestAuthOTP from "@/hooks/features/auth/useRequestAuthOTP";
 
-const mutationConfig = verifyAuthOTPConfig();
-
 function VerifyAuthOTPForm() {
   const router = useRouter();
 
@@ -40,15 +38,15 @@ function VerifyAuthOTPForm() {
       identifier: authFlow.identifier,
     },
   });
-  console.log(authFlow.identifier);
 
-  const mutation = useMutation({
-    ...mutationConfig,
-    onSuccess: () => router.replace(ROUTES.PROFILE.OVERIVIEW),
-    meta: {
-      successMessage: "خوش اومدی! 👋",
-    },
-  });
+  const mutation = useMutation(
+    verifyAuthOTPConfig({
+      onSuccess: () => router.replace(ROUTES.PROFILE.OVERIVIEW),
+      meta: {
+        successMessage: "خوش اومدی! 👋",
+      },
+    }),
+  );
 
   const submiter: SubmitHandler<VerifyAuthOTPSchemaType> = async (fields) => {
     await promiseAlert(
@@ -143,7 +141,8 @@ function RequestOtpButton() {
     <>
       {!countDown.isFinished && (
         <Typography variant="body3" sx={{ color: "text.onPrimary" }}>
-          {formatDuration(countDown.remainingMs)}   </Typography>
+          {formatDuration(countDown.remainingMs)}{" "}
+        </Typography>
       )}
       {countDown.isFinished && (
         <ButtonBase

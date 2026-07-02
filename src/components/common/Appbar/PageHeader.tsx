@@ -18,12 +18,11 @@ interface PageHeaderProps extends Pick<BoxProps, "sx"> {
 
 function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
   const router = useRouter();
-const logoutMutation = useMutation({
-  ...logoutConfig(),
-  onSuccess: () => {
-    router.replace(ROUTES.AUTH.ROOT);
-  },
-});
+  const logoutMutation = useMutation(
+    logoutConfig({
+      onSuccess: () => router.replace(ROUTES.AUTH.ROOT),
+    }),
+  );
 
   return (
     <Box

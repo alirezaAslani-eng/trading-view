@@ -1,10 +1,13 @@
-import { kycBaseKey } from "@/packages/react-query";
+import {
+  dashboardInfoKey,
+  kycBaseKey,
+  kycStatusKey,
+} from "@/packages/react-query";
 import { ResponseErrorType } from "@/types";
 import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-  useQueryClient,
 } from "@tanstack/react-query";
 
 export function useKycMutation<
@@ -15,16 +18,10 @@ export function useKycMutation<
 >(
   options: UseMutationOptions<TData, TError, TVariables, TContext>,
 ): UseMutationResult<TData, TError, TVariables, TContext> {
-  const queryClient = useQueryClient();
   return useMutation({
     ...options,
-
-    onSuccess: (data, variables, onMutateResult, context) => {
-      queryClient.invalidateQueries({
-        queryKey: kycBaseKey,
-        refetchType: "active",
-      });
-      options.onSuccess?.(data, variables, onMutateResult, context);
+    meta: {
+      invalidates: [kycStatusKey, dashboardInfoKey],
     },
   });
 }

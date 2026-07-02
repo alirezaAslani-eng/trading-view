@@ -22,12 +22,11 @@ function UserProfileCard({ collapsed = false }) {
   const router = useRouter();
   const dashboard_info = useQuery(queryConfig);
   const initials = getInitials(dashboard_info.data?.fullName);
-  const logoutMutation = useMutation({
-    ...logoutConfig(),
-    onSuccess: () => {
-      router.replace(ROUTES.AUTH.ROOT);
-    },
-  });
+  const logoutMutation = useMutation(
+    logoutConfig({
+      onSuccess: () => router.replace(ROUTES.AUTH.ROOT),
+    }),
+  );
   if (collapsed) {
     return (
       <UserProfile>

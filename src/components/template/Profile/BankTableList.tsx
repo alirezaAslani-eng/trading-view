@@ -9,7 +9,7 @@ import {
   TableRow,
   Dialog,
 } from "@mui/material";
-import { AddIcon, TrashIcon } from "@/components/ui/Icon";
+import { AddIcon } from "@/components/ui/Icon";
 import ToggleTabGroup from "@/components/ui/ButtonGroup/ToggleTabGroup";
 import Button from "@/components/ui/Button/Button";
 import Table from "@/components/ui/Table/Table";
@@ -17,8 +17,8 @@ import StatusBadge from "@/components/ui/Status/StatusBadge";
 import { useState } from "react";
 import AddCreditCardForm from "@/components/template/Form/AddCreditCardForm";
 import AddShabaForm from "@/components/template/Form/AddShabaForm";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { bankAccountsConfig, deleteBankConfig } from "@/packages/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { bankAccountsConfig } from "@/packages/react-query";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import {
   ModalLayout,
@@ -33,7 +33,6 @@ import {
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
 
-const mutationConfig = deleteBankConfig();
 const queryConfig = bankAccountsConfig();
 
 const formatCardNumber = (cardNumber: string) => {
@@ -45,7 +44,6 @@ type TabState = "banks" | "Ibans";
 
 function BankTableList() {
   const banksQuery = useQuery(queryConfig);
-  const bankMutation = useMutation(mutationConfig);
 
   const [modalState, setModalState] = useState<ModalState>();
   const [selectedTab, setSelectedTab] = useState<TabState>("banks");

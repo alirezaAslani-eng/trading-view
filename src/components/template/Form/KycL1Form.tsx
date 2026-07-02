@@ -27,7 +27,6 @@ import { useKycMutation } from "@/hooks/features/kyc/useKycMutation";
 import alertMessages from "@/constant/app/alertMessages";
 
 const kycStatusConfig_ = kycStatusConfig();
-const kycL1Config = kycLevel1Config();
 
 interface KycL1FormProps extends Pick<
   MutationOptions<void, ResponseErrorType, KycL1SchemaType>,
@@ -36,7 +35,7 @@ interface KycL1FormProps extends Pick<
 
 function KycL1Form(mutationProps: KycL1FormProps) {
   const kycStatus = useQuery(kycStatusConfig_);
-  const kycL1Mutation = useKycMutation({ ...kycL1Config, ...mutationProps });
+  const kycL1Mutation = useKycMutation(kycLevel1Config(mutationProps));
 
   const onSubmit: SubmitHandler<KycL1SchemaType> = async (fields) => {
     await promiseAlert(
