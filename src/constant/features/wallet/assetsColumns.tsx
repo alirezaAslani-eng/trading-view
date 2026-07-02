@@ -20,28 +20,28 @@ const walletAssetTableColumns: DefaultColumns = {
   },
   availableBalance: {
     field: "availableBalance",
-    headerName: `موجودی قابل برداشت (${PRICE_UNITS.IRT.displayName})`,
+    headerName:" موجودی قابل برداشت ",
     renderCell: (row) => {
       return formatFaPrice(row.availableBalance);
     },
   },
   lockedBalance: {
     field: "lockedBalance",
-    headerName: `موجودی لاک شده (${PRICE_UNITS.IRT.displayName})`,
+    headerName: "موجودی لاک شده ",
     renderCell: (row) => {
       return formatFaPrice(row.lockedBalance);
     },
   },
   livePrice: {
     field: "livePrice",
-    headerName: `قیمت لحضه ای (${PRICE_UNITS.IRT.displayName})`,
+    headerName: "قیمت لحضه ای ",
     renderCell: (row) => {
       return formatFaPrice(row.livePrice);
     },
   },
   totalValueInIrt: {
     field: "totalValueInIrt",
-    headerName: `ارزش کل (${PRICE_UNITS.IRT.displayName})`,
+    headerName:"ارزش کل ",
     renderCell: (row) => {
       return formatFaPrice(row.totalValueInIrt);
     },
