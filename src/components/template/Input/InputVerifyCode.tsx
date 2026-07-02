@@ -26,6 +26,7 @@ function InputVerifyCode({ onComplete, error, sx }: InputVerifyCodeProps) {
         sx={{ p: 0, textAlign: "center" }}
         {...register(5)}
         key={getKey(5)}
+         autoComplete="off"
       />
       <InputPhoneNumber
         error={error}
@@ -33,6 +34,7 @@ function InputVerifyCode({ onComplete, error, sx }: InputVerifyCodeProps) {
         sx={{ p: 0, textAlign: "center" }}
         {...register(4)}
         key={getKey(4)}
+         autoComplete="off"
       />
       <InputPhoneNumber
         error={error}
@@ -40,6 +42,7 @@ function InputVerifyCode({ onComplete, error, sx }: InputVerifyCodeProps) {
         sx={{ p: 0, textAlign: "center" }}
         {...register(3)}
         key={getKey(3)}
+         autoComplete="off"
       />
       <InputPhoneNumber
         error={error}
@@ -47,6 +50,7 @@ function InputVerifyCode({ onComplete, error, sx }: InputVerifyCodeProps) {
         sx={{ p: 0, textAlign: "center" }}
         {...register(2)}
         key={getKey(2)}
+         autoComplete="off"
       />
       <InputPhoneNumber
         error={error}
@@ -54,6 +58,7 @@ function InputVerifyCode({ onComplete, error, sx }: InputVerifyCodeProps) {
         sx={{ p: 0, textAlign: "center" }}
         {...register(1)}
         key={getKey(1)}
+         autoComplete="off"
       />
       <InputPhoneNumber
         error={error}
@@ -61,6 +66,7 @@ function InputVerifyCode({ onComplete, error, sx }: InputVerifyCodeProps) {
         sx={{ p: 0, textAlign: "center" }}
         {...register(0)}
         key={getKey(0)}
+         autoComplete="off"
       />
     </Box>
   );
