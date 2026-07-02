@@ -1,22 +1,9 @@
-import {
-  BankAccountsResponse,
-  DashboardInfoResponse,
-  KycStatusResponse,
-  ProductsResponse,
-  ProductCategoriesResponse,
-  WalletPortfolioResponse,
-  ProductStatus,
-  SymbolsResponse,
-  MarketTicker,
-  OrderBookResponse,
-  PermissionGroupsResponse,
-} from "@/api/types";
-import type {
-  ResponseErrorType,
-  OrderFilters,
-  TransactionFilters,
-} from "@/types";
+import serializeQueries from "@/utils/app/serializeQueries";
+import PermissionGroups from "@/api/permission/permissionGroups";
+import permissionChecklist from "@/api/permission/permissionChecklist";
 import { queryOptions } from "@tanstack/react-query";
+import { ProductStatus } from "@/api/types";
+import type { OrderFilters, TransactionFilters } from "@/types";
 import {
   banksKey,
   dashboardInfoKey,
@@ -46,17 +33,9 @@ import {
   walletPortfolio,
   transactions,
 } from "@/api";
-import serializeQueries from "@/utils/app/serializeQueries";
-import PermissionGroups from "@/api/permission/permissionGroups";
-import permissionChecklist from "@/api/permission/permissionChecklist";
 
 const kycStatusConfig = () => {
-  return queryOptions<
-    KycStatusResponse,
-    ResponseErrorType,
-    KycStatusResponse,
-    typeof kycStatusKey
-  >({
+  return queryOptions({
     queryKey: kycStatusKey,
     queryFn: async () => {
       const res = await kycStatus();
@@ -66,12 +45,7 @@ const kycStatusConfig = () => {
 };
 
 const dashboardInfoConfig = () => {
-  return queryOptions<
-    DashboardInfoResponse,
-    ResponseErrorType,
-    DashboardInfoResponse,
-    typeof dashboardInfoKey
-  >({
+  return queryOptions({
     queryKey: dashboardInfoKey,
     queryFn: async () => {
       const res = await dashboardInfo();
@@ -80,12 +54,7 @@ const dashboardInfoConfig = () => {
   });
 };
 const bankAccountsConfig = () => {
-  return queryOptions<
-    BankAccountsResponse,
-    ResponseErrorType,
-    BankAccountsResponse,
-    typeof banksKey
-  >({
+  return queryOptions({
     queryKey: banksKey,
     queryFn: async () => {
       const res = await getBankAccounts();
@@ -94,23 +63,13 @@ const bankAccountsConfig = () => {
   });
 };
 const walletPortfolioConfig = () => {
-  return queryOptions<
-    WalletPortfolioResponse,
-    ResponseErrorType,
-    WalletPortfolioResponse,
-    typeof walletProtfolioKey
-  >({
+  return queryOptions({
     queryKey: walletProtfolioKey,
     queryFn: walletPortfolio,
   });
 };
 const productCategoriesConfig = () => {
-  return queryOptions<
-    ProductCategoriesResponse,
-    ResponseErrorType,
-    ProductCategoriesResponse,
-    typeof productCategoriesKey
-  >({
+  return queryOptions({
     queryKey: productCategoriesKey,
     queryFn: async () => {
       const res = await productCategories();
@@ -120,7 +79,7 @@ const productCategoriesConfig = () => {
 };
 
 const productsConfig = () => {
-  return queryOptions<ProductsResponse, ResponseErrorType, ProductsResponse>({
+  return queryOptions({
     queryKey: productsDynamicKey("null"),
     queryFn: async (query) => {
       const productStatus = query.queryKey[2] as ProductStatus;
@@ -130,25 +89,27 @@ const productsConfig = () => {
   });
 };
 const symbolsConfig = () => {
-  return queryOptions<SymbolsResponse, ResponseErrorType, SymbolsResponse>({
+  return queryOptions({
     queryKey: symbolsKey,
     queryFn: symbols,
   });
 };
 const marketTickerInfoConfig = (tickerName: string) => {
-  return queryOptions<MarketTicker, ResponseErrorType, MarketTicker>({
+  return queryOptions({
     queryKey: marketTickerInfoDynamicKey(tickerName),
+    refetchOnMount: "always", // * Because signalr updates only the active ticker
     queryFn: () => marketTickerInfo(tickerName),
   });
 };
 const orderBookConfig = (symbol: string) => {
-  return queryOptions<OrderBookResponse, ResponseErrorType, OrderBookResponse>({
+  return queryOptions({
     queryKey: orderBookDynamicKey(symbol),
+    refetchOnMount: "always", // * Because signalr updates only the active ticker
     queryFn: () => orderBook(symbol),
   });
 };
 const permissionGroupsConfig = () => {
-  return queryOptions<PermissionGroupsResponse>({
+  return queryOptions({
     queryKey: permissionGroupsKey,
     queryFn: PermissionGroups,
   });
@@ -164,9 +125,7 @@ export const permissionChecklistConfig = (groupId: string | number) => {
 const ordersConfig = (filters: OrderFilters) => {
   return queryOptions({
     queryKey: ordersDynamicKey(filters),
-    gcTime: 30000,
-    queryFn: (query) => {
-      const filters = query.queryKey[3] as OrderFilters;
+    queryFn: () => {
       return orders({
         queries: serializeQueries(filters).toString(),
         params: {
@@ -179,9 +138,7 @@ const ordersConfig = (filters: OrderFilters) => {
 const transactionsConfig = (filters: TransactionFilters) => {
   return queryOptions({
     queryKey: transactionsDynamicKey(filters),
-    gcTime: 30000,
-    queryFn: (query) => {
-      const filters = query.queryKey[3] as TransactionFilters;
+    queryFn: () => {
       return transactions({
         queries: serializeQueries(filters).toString(),
       });
@@ -191,8 +148,7 @@ const transactionsConfig = (filters: TransactionFilters) => {
 const userPermissonsConfig = (userID: string) => {
   return queryOptions({
     queryKey: userPermissionsDynamicKey(userID),
-    gcTime: 30000,
-    queryFn: (query) => {
+    queryFn: () => {
       return transactions({
         queries: serializeQueries(userID).toString(),
       });

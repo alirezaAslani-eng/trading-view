@@ -14,6 +14,8 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: (failCount, error) => retry({ failCount, error }),
+      gcTime: 60_000 * 2,
+      staleTime: 80_000,
     },
   },
   mutationCache: new MutationCache({
