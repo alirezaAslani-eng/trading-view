@@ -5,14 +5,18 @@ import safeAsync from "@/utils/app/safeAsync";
 import kvcL1Schema from "@/validations/kyc/kycL1Schema";
 import { KycL1SchemaType } from "@/validations/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MutationOptions, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { promiseAlert } from "@/packages/react-hot-toast";
+import alertMessages from "@/constant/app/alertMessages";
+import { successKyc } from "@/redux/features/kyc";
+import { useDispatch } from "@/packages/redux";
+import InputText from "@/components/ui/Input/InputText";
 import {
   InputSelect,
   InputSelectItem,
   InputSelectMenu,
 } from "@/components/ui/Input/InputSelect";
-import InputText from "@/components/ui/Input/InputText";
 import {
   FormLayout,
   FormLayoutAlert,
@@ -21,20 +25,17 @@ import {
   FormLayoutLable,
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
-import { ResponseErrorType } from "@/types";
-import { promiseAlert } from "@/packages/react-hot-toast";
-import alertMessages from "@/constant/app/alertMessages";
 
 const kycStatusConfig_ = kycStatusConfig();
 
-interface KycL1FormProps extends Pick<
-  MutationOptions<void, ResponseErrorType, KycL1SchemaType>,
-  "onSuccess"
-> {}
-
-function KycL1Form(mutationProps: KycL1FormProps) {
+function KycL1Form() {
   const kycStatus = useQuery(kycStatusConfig_);
-  const kycL1Mutation = useMutation(kycLevel1Config(mutationProps));
+
+  const dispatch = useDispatch();
+
+  const kycL1Mutation = useMutation(
+    kycLevel1Config({ onSuccess: () => dispatch(successKyc()) }),
+  );
 
   const onSubmit: SubmitHandler<KycL1SchemaType> = async (fields) => {
     await promiseAlert(

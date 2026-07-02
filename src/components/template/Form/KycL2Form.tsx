@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import safeAsync from "@/utils/app/safeAsync";
+import { useDispatch } from "@/packages/redux";
+import { exitKycFlow } from "@/redux/features/kyc";
 import {
   FormLayout,
   FormLayoutField,
@@ -14,9 +16,13 @@ import {
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
 
-const mutationConfig = kycLevel2Config();
 function KycL2Form() {
-  const mutation = useMutation(mutationConfig);
+  const dispatch = useDispatch();
+  const mutation = useMutation(
+    kycLevel2Config({
+      onSuccess: () => dispatch(exitKycFlow()),
+    }),
+  );
 
   const form = useForm({ resolver: zodResolver(kycL2Schema) });
 

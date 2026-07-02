@@ -2,10 +2,10 @@
 import KycL1Form from "@/components/template/Form/KycL1Form";
 import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "@/packages/redux";
-import { exitKycFlow, kycModalFlow, successKyc } from "@/redux/features/kyc";
+import { exitKycFlow, kycModalFlow } from "@/redux/features/kyc";
 import ConditionaKycForm from "../kyc/ConditionaKycForm";
-import KycL2Form from "../Form/KycL2Form";
 import KycSuccessModal from "../kyc/KycSuccessModal";
+import { kycContent } from "@/content/kyc";
 import {
   ModalLayout,
   ModalLayoutBody,
@@ -20,26 +20,39 @@ function KycGlobalModals() {
 
   const closeKycModal = () => dispatch(exitKycFlow());
 
-  const successKycModal = () => dispatch(successKyc());
-
   return (
     <>
-      <Dialog open={kycModalFlowState === "upgradeKyc"}>
-        <ModalLayout>
-          <ModalLayoutHeading>
-            <ModalLayoutTitle
-              title="احراز هویت"
-              subtitle="برای تکمیل احراز هویت پایه، اطلاعات زیر را وارد کنید"
-            />
-            <ModalLayoutCloseIcon onClick={closeKycModal} />
-          </ModalLayoutHeading>
-          <ModalLayoutBody>
-            <ConditionaKycForm
-              kycL1Form={<KycL1Form onSuccess={successKycModal} />}
-              kycL2Form={<KycL2Form />}
-            />
-          </ModalLayoutBody>
-        </ModalLayout>
+      <Dialog open={kycModalFlowState === "upgradeKyc"} onClose={closeKycModal}>
+        <ConditionaKycForm
+          kycL1Form={
+            <ModalLayout>
+              <ModalLayoutHeading>
+                <ModalLayoutTitle
+                  title={kycContent.kycL1ModalFormTitle}
+                  subtitle={kycContent.kycL1ModalFormSubTitle}
+                />
+                <ModalLayoutCloseIcon onClick={closeKycModal} />
+              </ModalLayoutHeading>
+              <ModalLayoutBody>
+                <KycL1Form />
+              </ModalLayoutBody>
+            </ModalLayout>
+          }
+          kycL2Form={
+            <ModalLayout>
+              <ModalLayoutHeading>
+                <ModalLayoutTitle
+                  title={kycContent.kycL2ModalFormTitle}
+                  subtitle={kycContent.kycL2ModalFormSubTitle}
+                />
+                <ModalLayoutCloseIcon onClick={closeKycModal} />
+              </ModalLayoutHeading>
+              <ModalLayoutBody>
+                <KycL1Form />
+              </ModalLayoutBody>
+            </ModalLayout>
+          }
+        />
       </Dialog>
 
       <Dialog open={kycModalFlowState === "successKyc"} onClose={closeKycModal}>
