@@ -15,12 +15,17 @@ export async function proxy(request: NextRequest) {
   const refresh_token = request.cookies.get(REFRESH_TOKEN)?.value;
 
   // * ------ which middleware state ------
-  const isAuthMiddleware = pathname.startsWith(ROUTES.PANEL.ROOT);
+  const isPanelRoutes = pathname.startsWith(ROUTES.PANEL.ROOT);
+  const isAuthRoutes = pathname.startsWith(ROUTES.AUTH.ROOT);
 
   // * ------ Auth Protection ------
-  if (isAuthMiddleware) {
+  if (isPanelRoutes) {
     if (!!refresh_token) return NextResponse.next();
     return NextResponse.redirect(new URL(ROUTES.AUTH.ROOT, request.url));
+  }
+  if (isAuthRoutes) {
+    if (!!!refresh_token) return NextResponse.next();
+    return NextResponse.redirect(new URL(ROUTES.PANEL.ROOT, request.url));
   }
 
   return NextResponse.next();
