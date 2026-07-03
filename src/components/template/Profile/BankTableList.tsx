@@ -15,8 +15,8 @@ import Button from "@/components/ui/Button/Button";
 import Table from "@/components/ui/Table/Table";
 import StatusBadge from "@/components/ui/Status/StatusBadge";
 import { useState } from "react";
-import AddCreditCardForm from "@/components/template/Form/AddCreditCardForm";
-import AddShabaForm from "@/components/template/Form/AddShabaForm";
+import AddCreditCardModalForm from "@/components/template/Form/AddCreditCardModalForm";
+import AddShabaModalForm from "@/components/template/Form/AddShabaModalForm";
 import { useQuery } from "@tanstack/react-query";
 import { bankAccountsConfig } from "@/packages/react-query";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
@@ -67,7 +67,7 @@ function BankTableList() {
       <Stack>
         <Box>
           {/* // * ----start---- Tabs -------- */}
-          {/* <ToggleTabGroup
+          <ToggleTabGroup
             value={selectedTab}
             size="small"
             onChange={handleTabChange}
@@ -79,7 +79,7 @@ function BankTableList() {
             <ToggleButton value={"Ibans" satisfies TabState}>
               {"شماره حساب"}
             </ToggleButton>
-          </ToggleTabGroup> */}
+          </ToggleTabGroup>
           {/* // * ----end---- Tabs -------- */}
         </Box>
 
@@ -121,7 +121,7 @@ function BankTableList() {
                         <TableCell>{account.bankName}</TableCell>
                         <TableCell>
                           {!account?.[cardNumber] && "شماره کارت ثبت نشده"}
-                          
+
                           {!!account?.[cardNumber] &&
                             formatCardNumber(account[cardNumber])}
                         </TableCell>
@@ -156,27 +156,11 @@ function BankTableList() {
       </Stack>
 
       <Dialog open={modalState === "bank"} onClose={() => setModalState(null)}>
-        <ModalLayout>
-          <ModalLayoutHeading>
-            <ModalLayoutTitle title="افزودن شماره کارت" subtitle="" />
-            <ModalLayoutCloseIcon onClick={() => setModalState(null)} />
-          </ModalLayoutHeading>
-          <ModalLayoutBody>
-            <AddCreditCardForm />
-          </ModalLayoutBody>
-        </ModalLayout>
+        <AddCreditCardModalForm onClose={() => setModalState(null)} />
       </Dialog>
 
       <Dialog open={modalState === "iban"} onClose={() => setModalState(null)}>
-        <ModalLayout>
-          <ModalLayoutHeading>
-            <ModalLayoutTitle title="افزودن شبا" subtitle="" />
-            <ModalLayoutCloseIcon onClick={() => setModalState(null)} />
-          </ModalLayoutHeading>
-          <ModalLayoutBody>
-            <AddShabaForm />
-          </ModalLayoutBody>
-        </ModalLayout>
+        <AddShabaModalForm onClose={() => setModalState(null)} />
       </Dialog>
     </>
   );
