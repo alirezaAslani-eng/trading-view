@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/Typography/Price";
 import { ROUTES } from "@/constant/app/routes";
 import { walletPortfolioConfig } from "@/packages/react-query";
-import { formatFaPrice } from "@/utils";
+import { formatFaPrice, formatPrecent, getTrendColor } from "@/utils";
 import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
 import { Box, Divider, Skeleton, Stack, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
@@ -28,6 +28,14 @@ function TotalAssetCard() {
   const isSuccessQuery = portofolioQuery.isSuccess;
 
   const irtAsset = extractIRTAsset(portofolioQuery.data);
+
+  const { availableBalance } = irtAsset ?? {};
+  const {
+    totalPortfolioValueIrt = 0,
+    totalProfitLoss24hIrt = 0,
+    totalProfitLoss24hPercentage = 0,
+  } = portofolioQuery.data ?? {};
+
   return (
     <PagePaper
       sx={{
@@ -46,7 +54,7 @@ function TotalAssetCard() {
           {isSuccessQuery && (
             <Price sx={{ gap: "10px", color: "text.heading" }}>
               <PriceAmount variant="h5">
-                {formatFaPrice(portofolioQuery.data?.totalPortfolioValueIrt??"")}
+                {formatFaPrice(totalPortfolioValueIrt)}
               </PriceAmount>
               <PriceUnit variant="body1" />
             </Price>
@@ -77,9 +85,7 @@ function TotalAssetCard() {
             {!isSuccessQuery && <Skeleton variant="text" height={"27px"} />}
             {isSuccessQuery && (
               <Price>
-                <PriceAmount>
-                  {formatFaPrice(irtAsset?.availableBalance)}
-                </PriceAmount>
+                <PriceAmount>{formatFaPrice(availableBalance)}</PriceAmount>
                 <PriceUnit />
               </Price>
             )}
@@ -95,15 +101,20 @@ function TotalAssetCard() {
             <Typography variant="button2" sx={{ color: "text.caption" }}>
               {"سود/ضرر 24 ساعته"}
             </Typography>
-            <Price sx={{ color: "text.profit" }}>
-              <PriceAmount>
-                {formatFaPrice(portofolioQuery.data?.totalProfitLoss24hIrt??"")}
-              </PriceAmount>
-              <PriceUnit />
-              <Typography variant="button2">
-                {portofolioQuery.data?.totalProfitLoss24hPercentage}%
-              </Typography>
-            </Price>
+            {!isSuccessQuery && <Skeleton variant="text" height={"27px"} />}
+            {isSuccessQuery && (
+              <Price
+                sx={{ color: getTrendColor(totalProfitLoss24hPercentage) }}
+              >
+                <PriceAmount>
+                  {formatFaPrice(totalProfitLoss24hIrt)}
+                </PriceAmount>
+                <PriceUnit />
+                <Typography variant="button2">
+                  {formatPrecent(totalProfitLoss24hPercentage)}
+                </Typography>
+              </Price>
+            )}
           </Stack>
         </Box>
 

@@ -1,6 +1,6 @@
 "use client";
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
-import { formatFaPrice } from "@/utils";
+import { formatFaPrice, formatPrecent, getTrendColor } from "@/utils";
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 import InputSelectSymbol from "../Input/InputSelectSymbol";
 import { useQuery } from "@tanstack/react-query";
@@ -100,7 +100,14 @@ function PriceOverViewSection() {
   const [symbol] = useSymbolParams();
   const tickerInfoQuery = useQuery(marketTickerInfoConfig(symbol ?? ""));
   const isLoading = tickerInfoQuery.isLoading;
-  // tickerInfoQuery.data.
+
+  const {
+    change24h = 0,
+    lastPrice = 0,
+    volume24h = 0,
+    low24h = 0,
+  } = tickerInfoQuery.data ?? {};
+
   return (
     <Box
       sx={{
@@ -116,9 +123,7 @@ function PriceOverViewSection() {
         {isLoading && <Skeleton animation="wave" sx={skleton_sx} />}
         {!isLoading && (
           <Price>
-            <PriceAmount>
-              {formatFaPrice(tickerInfoQuery.data?.lastPrice ?? "")}
-            </PriceAmount>
+            <PriceAmount>{formatFaPrice(lastPrice)}</PriceAmount>
             <PriceUnit variant="caption1" />
           </Price>
         )}
@@ -129,7 +134,11 @@ function PriceOverViewSection() {
           {"درصد تغییرات"}
         </PriceOverviewCardTitle>
         {isLoading && <Skeleton sx={skleton_sx} />}
-        {!isLoading && <Precent value={tickerInfoQuery.data?.change24h ?? 0} />}
+        {!isLoading && (
+          <Typography sx={{ color: getTrendColor(change24h) }}>
+            {formatPrecent(change24h)}
+          </Typography>
+        )}
       </PriceOverviewCard>
 
       <PriceOverviewCard>
@@ -139,9 +148,7 @@ function PriceOverViewSection() {
         {isLoading && <Skeleton sx={skleton_sx} />}
         {!isLoading && (
           <Price sx={price_sx}>
-            <PriceAmount>
-              {formatFaPrice(tickerInfoQuery.data?.low24h ?? "")}
-            </PriceAmount>
+            <PriceAmount>{formatFaPrice(low24h)}</PriceAmount>
             <PriceUnit variant="caption1" />
           </Price>
         )}
@@ -153,9 +160,7 @@ function PriceOverViewSection() {
         {isLoading && <Skeleton sx={skleton_sx} />}
         {!isLoading && (
           <Price sx={price_sx}>
-            <PriceAmount>
-              {formatFaPrice(tickerInfoQuery.data?.high24h ?? "")}
-            </PriceAmount>
+            <PriceAmount>{formatFaPrice(low24h)}</PriceAmount>
             <PriceUnit variant="caption1" />
           </Price>
         )}
@@ -167,9 +172,7 @@ function PriceOverViewSection() {
         {isLoading && <Skeleton sx={skleton_sx} />}
         {!isLoading && (
           <Price sx={price_sx}>
-            <PriceAmount>
-              {formatFaPrice(tickerInfoQuery.data?.volume24h ?? "")}
-            </PriceAmount>
+            <PriceAmount>{formatFaPrice(volume24h)}</PriceAmount>
             <PriceUnit variant="caption1" />
           </Price>
         )}

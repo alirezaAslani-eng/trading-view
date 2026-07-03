@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/Fallback/TableFallback";
 import NextLink from "@/components/ui/Link/NextLink";
 import { ROUTES } from "@/constant/app/routes";
+import { formatFaPrice, formatPrecent, getTrendColor } from "@/utils";
 
 const columns: Column<ProductTableRow>[] = [
   {
@@ -37,6 +38,9 @@ const columns: Column<ProductTableRow>[] = [
     headerName: (
       <TableSortToggler fieldPath={"currentPrice"} text="قیمت زنده" />
     ),
+    renderCell(row) {
+      return formatFaPrice(row.currentPrice);
+    },
   },
   {
     field: "change24h",
@@ -45,10 +49,10 @@ const columns: Column<ProductTableRow>[] = [
       <Typography
         variant="inherit"
         sx={{
-          color: row.change24h < 0 ? "status.loss" : "text.profit",
+          color: getTrendColor(row.change24h),
         }}
       >
-        % {row.change24h}
+        {formatPrecent(row.change24h)}
       </Typography>
     ),
   },
@@ -56,18 +60,14 @@ const columns: Column<ProductTableRow>[] = [
     field: "low24h",
     headerName: <TableSortToggler fieldPath={"low24h"} text="کمترین 24h" />,
     renderCell: (row) => (
-      <Typography variant="inherit" sx={{ color: "status.loss" }}>
-        {row.low24h}
-      </Typography>
+      <Typography variant="inherit">{row.low24h}</Typography>
     ),
   },
   {
     field: "high24h",
     headerName: <TableSortToggler fieldPath={"high24h"} text="بیشترین 24h" />,
     renderCell: (row) => (
-      <Typography variant="inherit" sx={{ color: "text.profit" }}>
-        {row.high24h}
-      </Typography>
+      <Typography variant="inherit">{row.high24h}</Typography>
     ),
   },
 
