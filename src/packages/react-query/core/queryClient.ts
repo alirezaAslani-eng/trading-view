@@ -62,10 +62,9 @@ function expiredAuthErrorHandler(err: ResponseErrorType) {
 }
 function invalidatesHandler(mutation: MutationType) {
   const invalidates = mutation?.meta?.invalidates;
+  if (!invalidates || !!!invalidates.length) return;
 
-  if (!invalidates || !!invalidates.length) return;
-
-  invalidates.map((queryKey) =>
+  invalidates.forEach((queryKey) =>
     queryClient.invalidateQueries({
       queryKey,
       refetchType: "active",
