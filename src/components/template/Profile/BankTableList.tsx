@@ -46,7 +46,7 @@ function BankTableList() {
   const banksQuery = useQuery(queryConfig);
 
   const [modalState, setModalState] = useState<ModalState>();
-  const [selectedTab, setSelectedTab] = useState<TabState>("banks");
+  const [selectedTab, setSelectedTab] = useState<TabState>("Ibans");
 
   const handleTabChange = (ـ: any, newValue: string | null) => {
     if (!newValue) return;
@@ -67,7 +67,7 @@ function BankTableList() {
       <Stack>
         <Box>
           {/* // * ----start---- Tabs -------- */}
-          <ToggleTabGroup
+          {/* <ToggleTabGroup
             value={selectedTab}
             size="small"
             onChange={handleTabChange}
@@ -79,7 +79,7 @@ function BankTableList() {
             <ToggleButton value={"Ibans" satisfies TabState}>
               {"شماره حساب"}
             </ToggleButton>
-          </ToggleTabGroup>
+          </ToggleTabGroup> */}
           {/* // * ----end---- Tabs -------- */}
         </Box>
 
@@ -120,7 +120,10 @@ function BankTableList() {
                       <TableRow key={account.id}>
                         <TableCell>{account.bankName}</TableCell>
                         <TableCell>
-                          {formatCardNumber(account[cardNumber])}
+                          {!account?.[cardNumber] && "شماره کارت ثبت نشده"}
+                          
+                          {!!account?.[cardNumber] &&
+                            formatCardNumber(account[cardNumber])}
                         </TableCell>
                         <TableCell>
                           <StatusBadge
