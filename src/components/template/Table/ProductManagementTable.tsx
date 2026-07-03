@@ -7,11 +7,11 @@ import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { useQuery } from "@tanstack/react-query";
 import Button from "@/components/ui/Button/Button";
 import { useState } from "react";
-import AddProductModalForm from "../Modal/AddProductModalForm";
 import { Dialog, Divider, ToggleButton } from "@mui/material";
 import { AdminProduct, ProductStatus } from "@/api/types";
 import { buildProductColumns } from "@/constant/features/product/productTableColumns";
 import DataTable from "@/components/ui/Table/DataTable";
+import AddProductModalForm from "../Form/AddProductModalForm";
 import {
   PagePaper,
   PagePaperHeading,
