@@ -8,7 +8,6 @@ import {
   Dialog,
   Divider,
   Stack,
-  Typography,
 } from "@mui/material";
 import Accordion from "@/components/ui/Accordion/Accordion";
 import {
@@ -29,11 +28,7 @@ import {
   PagePaperTitle,
 } from "@/components/ui/Layout/PaperLayout";
 import { AddIcon, BoxOutlinedIcon } from "@/components/ui/Icon";
-import {
-  InputSelect,
-  InputSelectItem,
-  InputSelectMenu,
-} from "@/components/ui/Input/InputSelect";
+
 import {
   PageSubNavigation,
   PageSubNavigationLink,
@@ -47,9 +42,9 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { ROUTES } from "@/constant/app/routes";
 import { useEffect, useState } from "react";
-import AddGroupModal from "@/components/template/Modal/AddGroupModal";
 import { useParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
+import AddGroupModalForm from "@/components/template/Form/AddGroupModalForm";
 
 function page() {
   return (
@@ -121,9 +116,7 @@ function PermissionList() {
     <PagePaper>
       <PagePaperHeading>
         <PagePaperTitle>{"لیست دسترسی‌ها"}</PagePaperTitle>
-        <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
-    
-        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}></Box>
       </PagePaperHeading>
       <Divider sx={{ borderColor: "border.dark", mt: "12px", mb: "16px" }} />
 
@@ -227,7 +220,7 @@ function PermissionGroups() {
         maxWidth="sm"
         fullWidth
       >
-        <AddGroupModal onClose={() => setOpen(false)} />
+        <AddGroupModalForm onClose={() => setOpen(false)} />
       </Dialog>
     </PageSubNavigation>
   );
