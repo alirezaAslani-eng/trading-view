@@ -25,6 +25,14 @@ const GradientDotPanelRoot = styled(Box)({
   borderRadius: "16px",
   flexShrink: 0,
   overflow: "visible",
+  backgroundImage: `linear-gradient(
+    90deg,
+    #5B91DE 0%,
+    #8CB9FB 35%,
+    #639CF7 60%,
+    #3A86F5 80%,
+    #3176D9 100%
+  )`,
 });
 
 const GradientDotPanelBackground = styled(Box)({
@@ -40,8 +48,8 @@ const GradientDotPanelBackground = styled(Box)({
     inset: 0,
     borderRadius: "inherit",
     backgroundImage:
-      "radial-gradient(circle, rgba(255, 255, 255, 0.22) 1px, transparent 1px)",
-    backgroundSize: "12px 12px",
+      "radial-gradient(circle, rgba(255, 255, 255, 0.18) 2px, transparent 2px)",
+    backgroundSize: "20px 20px",
     maskImage:
       "linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%)",
     WebkitMaskImage:
@@ -57,7 +65,7 @@ const PromoButton = styled(Button)(({ theme }) => {
     color: palette.text.primary,
     borderRadius: "999px",
     border: "none",
-    boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.12)",
+    boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.1)",
     px: "20px",
     height: "40px",
     gap: "6px",
