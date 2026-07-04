@@ -37,18 +37,24 @@ function LayoutMainPanel({ children }) {
         </Box>
 
         {/* // * --- main content --- */}
-        <Box sx={{ flex: 1, minWidth: "0px" }}>{children}</Box>
+        <Box sx={{ flex: 1, minWidth: "0px" }}>
+          {children}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "end",
+              flexDirection: "column",
+              position: "sticky",
+              bottom: "30px",
+            }}
+          >
+            <SupportButton size="large">
+              {"پشتیبانی انلاین"}
+              <HeadPhoneIcon color="inherit" width="22px" height="22px" />
+            </SupportButton>
+          </Box>
+        </Box>
       </Box>
-
-      <SupportButton size="large"
-        sx={{
-          backdropFilter: "blur(10px)",
-          WebkitBackdropFilter: "blur(10px)",
-        }}
-      >
-        {"پشتیبانی انلاین"}
-        <HeadPhoneIcon color="inherit" width="22px" height="22px" />
-      </SupportButton>
     </>
   );
 }
