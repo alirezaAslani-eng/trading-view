@@ -34,6 +34,7 @@ import {
   transactions,
 } from "@/api";
 import buildOrderFilterQueries from "@/utils/features/order/buildOrderFilterQueries";
+import buildTransactionFilterQueries from "@/utils/features/transaction/buildTransactionFilterQueries";
 
 const kycStatusConfig = () => {
   return queryOptions({
@@ -143,7 +144,9 @@ const transactionsConfig = (filters: TransactionFilters) => {
     queryKey: transactionsDynamicKey(filters),
     queryFn: () => {
       return transactions({
-        queries: serializeQueries(filters).toString(),
+        queries: new URLSearchParams(
+          buildTransactionFilterQueries(filters),
+        ).toString(),
       });
     },
   });
