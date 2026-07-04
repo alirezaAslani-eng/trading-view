@@ -22,7 +22,6 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
-import Precent from "@/components/ui/Typography/Precent";
 const price_sx = { color: "text.onPrimary" };
 const oveview_card_title_sx = { color: "text.caption" };
 const inputSelect_sx: SxProps<Theme> = ({ typography }) => ({
