@@ -107,9 +107,12 @@ function UserProfileCard({ collapsed = false }) {
         <MenuItem
           onClick={() => logoutMutation.mutate()}
           sx={{
+
             justifyContent: "center",
             textAlign: "center",
             gap: "6px",
+            backgroundColor: "background.surfaceLevel4",
+
           }}
         >
           <Typography
@@ -120,7 +123,21 @@ function UserProfileCard({ collapsed = false }) {
           </Typography>
           <LogoutIcon sx={{ color: "text.primary", textAlign: "center" }} />
         </MenuItem>
+        <MenuItem sx={{
+          justifyContent: "center",
+          textAlign: "center",
+          gap: "6px",
+          backgroundColor: "background.surfaceLevel4",
+        }}>
+          <Typography
+            variant="body2"
+            sx={{ color: "text.onPrimary", textAlign: "center" }}
+          >
+            {"تنطیمات"}
+          </Typography>
+        </MenuItem>
       </Dropdown>
+
     </PanelPaper>
   );
 }
