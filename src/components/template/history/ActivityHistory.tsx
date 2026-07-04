@@ -145,16 +145,15 @@ function TransactionFilterControls() {
       >
         <InputSelectMenu>
           {TRANSACTION_TYPE_LIST.map(({ value, label }, index) => {
-            return (
-              <>
-                {index === 0 && !!TRANSACTION_TYPE_LIST.length && (
-                  <InputSelectItem value={SELECT_FILTER_ALL}>
-                    {"همه"}
-                  </InputSelectItem>
-                )}
-                <InputSelectItem value={value}>{label}</InputSelectItem>;
-              </>
-            );
+            return [
+              index === 0 && !!TRANSACTION_TYPE_LIST.length && (
+                <InputSelectItem value={SELECT_FILTER_ALL}>
+                  {"همه"}
+                </InputSelectItem>
+              ),
+
+              <InputSelectItem value={value}>{label}</InputSelectItem>,
+            ];
           })}
         </InputSelectMenu>
       </InputSelect>
@@ -208,19 +207,17 @@ function OrderFilterControls() {
             {symbolsQuery.isLoading && <SelectInputLoader />}
 
             {!symbolsQuery.isLoading &&
-              symbolsQuery.data?.map((symbol, index) => {
-                return (
-                  <>
-                    {index === 0 && !!symbolsQuery.data.length && (
-                      <InputSelectItem value={SELECT_FILTER_ALL}>
-                        {"همه"}
-                      </InputSelectItem>
-                    )}
-                    <InputSelectItem value={symbol.name}>
-                      {symbol.name}
+              symbolsQuery.data?.flatMap((symbol, index) => {
+                return [
+                  index === 0 && !!symbolsQuery.data.length && (
+                    <InputSelectItem value={SELECT_FILTER_ALL}>
+                      {"همه"}
                     </InputSelectItem>
-                  </>
-                );
+                  ),
+                  <InputSelectItem value={symbol.name}>
+                    {symbol.name}
+                  </InputSelectItem>,
+                ];
               })}
           </InputSelectMenu>
         </InputSelect>
