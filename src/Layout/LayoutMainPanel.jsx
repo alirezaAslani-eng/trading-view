@@ -40,7 +40,12 @@ function LayoutMainPanel({ children }) {
         <Box sx={{ flex: 1, minWidth: "0px" }}>{children}</Box>
       </Box>
 
-      <SupportButton size="large">
+      <SupportButton size="large"
+        sx={{
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+        }}
+      >
         {"پشتیبانی انلاین"}
         <HeadPhoneIcon color="inherit" width="22px" height="22px" />
       </SupportButton>
