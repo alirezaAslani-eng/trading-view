@@ -39,7 +39,7 @@ const MarketMoverCardPaper = styled(Box, {
         transparent 25%,
         ${alpha(gradientColor, 0.03)}
       ),
-      ${alpha(palette.background.paper, 0.08)}
+      ${alpha(palette.background.paper, 0.2)}
     `,
 
     "& .percentage-badge": {
