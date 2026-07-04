@@ -8,6 +8,7 @@ interface UseOrderFiltersReturn {
   setStatus: (status: OrderFilters["status"]) => void;
   setFromDate: (date: OrderFilters["fromDate"]) => void;
   setToDate: (date: OrderFilters["toDate"]) => void;
+  setPage: (page: OrderFilters["page"]) => void;
   filters: OrderFilters;
 }
 // * --end-- useOrderFilters.ts ----

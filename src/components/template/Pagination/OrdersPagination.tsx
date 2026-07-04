@@ -25,9 +25,7 @@ function OrdersPagination(
           {...props}
           page={filters.filters.page}
           count={pageCount}
-          onChange={(_, page) => {
-            filters.setFilter("page", page);
-          }}
+          onChange={(_, page) => filters.setPage(page)}
         />
       )}
     </>

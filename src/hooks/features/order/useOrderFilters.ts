@@ -42,6 +42,9 @@ function useOrderFilters(
   const setToDate = (date: OrderFilters["toDate"]) => {
     filter.setFilter("toDate", date);
   };
+  const setPage = (page: OrderFilters["page"]) => {
+    filter.setFilter("page", page);
+  };
 
   return {
     setSymbol,
@@ -50,6 +53,7 @@ function useOrderFilters(
     setSide,
     setStatus,
     setView,
+    setPage,
     ...filter,
   };
 }
