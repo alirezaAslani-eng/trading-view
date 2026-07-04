@@ -9,6 +9,8 @@ const INITIAL_FILTERS: OrderFilters = {
   view: "active",
   productCode: null,
   status: null,
+  fromDate: null,
+  toDate: null,
 };
 
 function useOrderFilters(
@@ -33,9 +35,18 @@ function useOrderFilters(
   const setStatus = (status: OrderFilters["status"]) => {
     filter.setFilter("status", status);
   };
+  const setFromDate = (date: OrderFilters["fromDate"]) => {
+    filter.setFilter("fromDate", date);
+  };
+
+  const setToDate = (date: OrderFilters["toDate"]) => {
+    filter.setFilter("toDate", date);
+  };
 
   return {
     setSymbol,
+    setFromDate,
+    setToDate,
     setSide,
     setStatus,
     setView,

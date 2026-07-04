@@ -6,6 +6,8 @@ interface UseOrderFiltersReturn {
   setSide: (side: OrderFilters["orderSide"]) => void;
   setSymbol: (productCode: OrderFilters["productCode"]) => void;
   setStatus: (status: OrderFilters["status"]) => void;
+  setFromDate: (date: OrderFilters["fromDate"]) => void;
+  setToDate: (date: OrderFilters["toDate"]) => void;
   filters: OrderFilters;
 }
 // * --end-- useOrderFilters.ts ----
