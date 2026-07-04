@@ -1,6 +1,6 @@
 import { OrderFilters } from "@/types";
-import { useState } from "react";
 import { UseOrderFiltersReturn } from "./types";
+import useFilter from "@/hooks/app/useFilter";
 
 const INITIAL_FILTERS: OrderFilters = {
   orderSide: null,
@@ -14,54 +14,32 @@ const INITIAL_FILTERS: OrderFilters = {
 function useOrderFilters(
   initialState?: Partial<OrderFilters>,
 ): UseOrderFiltersReturn {
-  /**
-   * overridable default filters.
-   */
-  const initialFilters = {
-    ...INITIAL_FILTERS,
-    ...initialState,
-  };
-  /**
-   * filter state.
-   */
-  const [filters, setFilters] = useState<OrderFilters>(initialFilters);
+  const filter = useFilter<OrderFilters>({
+    initialState: {
+      ...INITIAL_FILTERS,
+      ...initialState,
+    },
+  });
 
-  /**
-   * Update a single filter field.
-   */
-  const setFilter = <K extends keyof OrderFilters>(
-    key: K,
-    value: OrderFilters[K],
-  ) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value,
-      // * ant filter can have a pagination result so reset it
-      ...(key !== "page" && { page: 1 }),
-    }));
+  const setView = (view: OrderFilters["view"]) => {
+    filter.setFilter("view", view);
   };
-
-  /**
-   * Reset all filters to their initial state.
-   */
-  const resetFilters = () => {
-    setFilters(initialFilters);
+  const setSide = (side: OrderFilters["orderSide"]) => {
+    filter.setFilter("orderSide", side);
   };
-  /**
-   * Reset a single filter to their initial state.
-   */
-  const resetFilter = <K extends keyof OrderFilters>(key: K) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: initialFilters[key],
-    }));
+  const setSymbol = (symbol: OrderFilters["productCode"]) => {
+    filter.setFilter("productCode", symbol);
+  };
+  const setStatus = (status: OrderFilters["status"]) => {
+    filter.setFilter("status", status);
   };
 
   return {
-    filters,
-    setFilter,
-    resetFilters,
-    resetFilter,
+    setSymbol,
+    setSide,
+    setStatus,
+    setView,
+    ...filter,
   };
 }
 

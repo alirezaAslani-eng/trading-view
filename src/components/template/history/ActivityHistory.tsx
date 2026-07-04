@@ -43,6 +43,7 @@ const orderColumns = buildOrderColumns();
 const transactionColumns = buildTransactionColumns();
 
 type TabState = "orders" | "transactions";
+
 const TABS: { value: TabState; displayName: string }[] = [
   { value: "orders", displayName: "تاریخچه  سفارش ها" },
   { value: "transactions", displayName: "تاریخچه معاملات" },
@@ -165,15 +166,14 @@ function OrderFilterControls() {
 
   const symbolsQuery = useQuery(symbolsConfig());
 
-  const orderSideHandler = (side: string) => {
-    orderFilters.setFilter(
-      "orderSide",
-      selectValueToFilter(side) as OrderSideFilter,
-    );
-  };
-
   const symbolHandler = (symbol: string) => {
-    orderFilters.setFilter("productCode", selectValueToFilter(symbol));
+    orderFilters.setSymbol(selectValueToFilter(symbol));
+  };
+  const sideHandler = (side: OrderSideFilter) => {
+    orderFilters.setSide(side);
+  };
+  const viewHandler = (isActiveView: boolean) => {
+    orderFilters.setView(isActiveView ? "active" : "history");
   };
 
   return (
@@ -229,7 +229,8 @@ function OrderFilterControls() {
           variant="outlined"
           color="primary"
           sx={{ flex: 1 }}
-          onChange={orderSideHandler}
+          //@ts-ignore
+          onChange={sideHandler}
           value={filterToSelectValue(orderFilters.filters.orderSide)}
         >
           <InputSelectMenu>
@@ -242,15 +243,13 @@ function OrderFilterControls() {
             </InputSelectItem>
           </InputSelectMenu>
         </InputSelect>
-        {/* // * order status  */}
       </Box>
+      {/* // * order status  */}
       <CheckBox
         variant="outlined"
         label="فقط سفارشات باز"
         checked={orderFilters.filters.view === "active"}
-        onChange={(_, checked) => {
-          orderFilters.setFilter("view", checked ? "active" : "history");
-        }}
+        onChange={(_, checked) => viewHandler(checked)}
       />
     </Box>
   );
