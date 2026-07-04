@@ -13,13 +13,12 @@ const SupportButton = function (props) {
       {...props}
       sx={(tm) => ({
         backgroundColor: alpha(tm.palette.background.primary, 0.2),
-        position: "fixed",
-        left: "27px",
-        bottom: "29px",
         border: "1.4px solid",
         borderColor: "border.primary",
         color: "text.onPrimary",
         gap: "8px",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
         ...identifySxProp(tm, props.sx),
       })}
     />
