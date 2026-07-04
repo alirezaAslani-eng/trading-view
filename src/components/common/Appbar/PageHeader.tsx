@@ -79,13 +79,13 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
             }}
           />
         </InputMarker>
-        
+         <IconButton size="small" onClick={() => logoutMutation.mutate()}>
+          <LogoutIcon />
+        </IconButton>
         <SvgIcon sx={{ width: "24px", height: "24px" }}>
           <NotificationIcon />
         </SvgIcon>
-        <IconButton size="small" onClick={() => logoutMutation.mutate()}>
-          <LogoutIcon />
-        </IconButton>
+       
       </Box>
     </Box>
   );
