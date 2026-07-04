@@ -1,5 +1,5 @@
 import { OrderView } from "@/api/types";
-import { PaginationFilter } from "./filter.types";
+import { PaginationFilter, PaginationFilterQueries } from "./filter.types";
 
 type OrderStatusClient = "pending" | "failed" | "filled";
 type OrderStatus =
@@ -19,10 +19,15 @@ interface OrderFilters extends PaginationFilter {
   status: OrderStatus | null;
 }
 
+type OrderFilterQueryKeys = "orderSide" | "productCode" | "status";
+type OrderFilterQueries = PaginationFilterQueries &
+  Record<OrderFilterQueryKeys, string>;
+
 export type {
   OrderStatus,
   OrderSide,
   OrderType,
   OrderFilters,
   OrderStatusClient,
+  OrderFilterQueries,
 };
