@@ -116,16 +116,14 @@ function ActivityHistoryProvider({ children }: PropsWithChildren) {
   );
 }
 
+type TranactionTypeFilter = TransactionFilters["Type"];
 type OrderSideFilter = OrderFilters["orderSide"];
 
 function TransactionFilterControls() {
   const transactionFilters = useTransactionFiltersProvider()!;
 
-  const transactionTypeHandler = (type: string) => {
-    transactionFilters.setFilter(
-      "Type",
-      selectValueToFilter(type) as TransactionFilters["Type"],
-    );
+  const typeHandler = (type: TranactionTypeFilter) => {
+    transactionFilters.setType(type);
   };
 
   return (
@@ -142,7 +140,9 @@ function TransactionFilterControls() {
         size="small"
         placeholder="نوع تراکنش"
         value={filterToSelectValue(transactionFilters.filters.Type)}
-        onChange={transactionTypeHandler}
+        onChange={(type) =>
+          typeHandler(selectValueToFilter(type) as TranactionTypeFilter)
+        }
       >
         <InputSelectMenu>
           {TRANSACTION_TYPE_LIST.map(({ value, label }, index) => {
