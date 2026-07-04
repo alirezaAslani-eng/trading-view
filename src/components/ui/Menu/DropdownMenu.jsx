@@ -21,8 +21,8 @@ function DropdownMenu(props) {
             minWidth: 180,
             borderRadius: 3,
             border: "1px solid",
-            borderColor: "divider",
             boxShadow: 3,
+             backgroundColor: "background.surfaceLevel4",
           },
         },
       }}
