@@ -122,9 +122,8 @@ function WithdrawForm() {
 
         <TransactionFormLayoutSubmit
           type="submit"
-          disabled={form.formState.isSubmitting}
+         disabled={!form.formState.isValid}
         >
-          
           {"برداشت"}
         </TransactionFormLayoutSubmit>
       </TransactionFormLayout>
