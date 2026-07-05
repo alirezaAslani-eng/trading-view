@@ -64,10 +64,10 @@ function TradingActivity_() {
   const orderFilters = useOrderFiltersProvider()!;
 
   const setOrderHistory = useEffectEvent(() => {
-    orderFilters.setFilter("view", "history");
+    orderFilters.setView("history");
   });
   const setActiveOrders = useEffectEvent(() => {
-    orderFilters.setFilter("view", "active");
+    orderFilters.setView("active");
   });
   useUpdateEffect(() => {
     if (tab === "active-orders") setActiveOrders();

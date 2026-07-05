@@ -1,6 +1,6 @@
 import { OrderFilters } from "@/types";
-import { useState } from "react";
 import { UseOrderFiltersReturn } from "./types";
+import useFilter from "@/hooks/app/useFilter";
 
 const INITIAL_FILTERS: OrderFilters = {
   orderSide: null,
@@ -9,59 +9,52 @@ const INITIAL_FILTERS: OrderFilters = {
   view: "active",
   productCode: null,
   status: null,
+  fromDate: null,
+  toDate: null,
 };
 
 function useOrderFilters(
   initialState?: Partial<OrderFilters>,
 ): UseOrderFiltersReturn {
-  /**
-   * overridable default filters.
-   */
-  const initialFilters = {
-    ...INITIAL_FILTERS,
-    ...initialState,
-  };
-  /**
-   * filter state.
-   */
-  const [filters, setFilters] = useState<OrderFilters>(initialFilters);
+  const filter = useFilter<OrderFilters>({
+    initialState: {
+      ...INITIAL_FILTERS,
+      ...initialState,
+    },
+  });
 
-  /**
-   * Update a single filter field.
-   */
-  const setFilter = <K extends keyof OrderFilters>(
-    key: K,
-    value: OrderFilters[K],
-  ) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value,
-      // * ant filter can have a pagination result so reset it
-      ...(key !== "page" && { page: 1 }),
-    }));
+  const setView = (view: OrderFilters["view"]) => {
+    filter.setFilter("view", view);
+  };
+  const setSide = (side: OrderFilters["orderSide"]) => {
+    filter.setFilter("orderSide", side);
+  };
+  const setSymbol = (symbol: OrderFilters["productCode"]) => {
+    filter.setFilter("productCode", symbol);
+  };
+  const setStatus = (status: OrderFilters["status"]) => {
+    filter.setFilter("status", status);
+  };
+  const setFromDate = (date: OrderFilters["fromDate"]) => {
+    filter.setFilter("fromDate", date);
   };
 
-  /**
-   * Reset all filters to their initial state.
-   */
-  const resetFilters = () => {
-    setFilters(initialFilters);
+  const setToDate = (date: OrderFilters["toDate"]) => {
+    filter.setFilter("toDate", date);
   };
-  /**
-   * Reset a single filter to their initial state.
-   */
-  const resetFilter = <K extends keyof OrderFilters>(key: K) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: initialFilters[key],
-    }));
+  const setPage = (page: OrderFilters["page"]) => {
+    filter.setFilter("page", page);
   };
 
   return {
-    filters,
-    setFilter,
-    resetFilters,
-    resetFilter,
+    setSymbol,
+    setFromDate,
+    setToDate,
+    setSide,
+    setStatus,
+    setView,
+    setPage,
+    ...filter,
   };
 }
 

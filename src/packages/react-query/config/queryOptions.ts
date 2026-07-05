@@ -33,6 +33,8 @@ import {
   walletPortfolio,
   transactions,
 } from "@/api";
+import buildOrderFilterQueries from "@/utils/features/order/buildOrderFilterQueries";
+import buildTransactionFilterQueries from "@/utils/features/transaction/buildTransactionFilterQueries";
 
 const kycStatusConfig = () => {
   return queryOptions({
@@ -127,7 +129,9 @@ const ordersConfig = (filters: OrderFilters) => {
     queryKey: ordersDynamicKey(filters),
     queryFn: () => {
       return orders({
-        queries: serializeQueries(filters).toString(),
+        queries: new URLSearchParams(
+          buildOrderFilterQueries(filters),
+        ).toString(),
         params: {
           view: filters.view,
         },
@@ -140,11 +144,14 @@ const transactionsConfig = (filters: TransactionFilters) => {
     queryKey: transactionsDynamicKey(filters),
     queryFn: () => {
       return transactions({
-        queries: serializeQueries(filters).toString(),
+        queries: new URLSearchParams(
+          buildTransactionFilterQueries(filters),
+        ).toString(),
       });
     },
   });
 };
+// TODO Remove this wrong query option from the codebase
 const userPermissonsConfig = (userID: string) => {
   return queryOptions({
     queryKey: userPermissionsDynamicKey(userID),

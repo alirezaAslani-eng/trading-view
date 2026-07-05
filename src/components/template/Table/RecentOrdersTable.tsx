@@ -47,7 +47,7 @@ function RecentOrdersTable() {
   const ordersLenght = ordersQuery.data?.items.length;
 
   const orderSideHandler = createNonNullToggleHandler<string>((value) =>
-    orderFilters.setFilter("orderSide", value as OrderSideFilter),
+    orderFilters.setSide(value as OrderSideFilter),
   );
   return (
     <PagePaper>

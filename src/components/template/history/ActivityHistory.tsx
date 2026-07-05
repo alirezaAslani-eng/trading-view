@@ -18,6 +18,11 @@ import { TransactionsProvider } from "@/context/feature/transaction/Transactions
 import { useTransactionFiltersProvider } from "@/context/feature/transaction/Transactions/hooks";
 import TransactionsTable from "../Table/TransactionsTable";
 import buildTransactionColumns from "@/constant/features/transaction/transactionColumns";
+import { TRANSACTION_TYPE_LIST } from "@/constant/features/transaction/transactionType";
+import TransactionsPagination from "../Pagination/TransactionsPagination";
+import { useQuery } from "@tanstack/react-query";
+import { symbolsConfig } from "@/packages/react-query";
+import { SelectInputLoader } from "@/components/ui/Fallback/SelectInputLoader";
 
 import {
   PagePaper,
@@ -29,21 +34,19 @@ import {
   InputSelectMenu,
 } from "@/components/ui/Input/InputSelect";
 import {
-  TRANSACTION_TYPE,
-  TRANSACTION_TYPE_LABELS,
-} from "@/constant/features/transaction/transactionType";
-import TransactionsPagination from "../Pagination/TransactionsPagination";
-import { useQuery } from "@tanstack/react-query";
-import { symbolsConfig } from "@/packages/react-query";
-import { SelectInputLoader } from "@/components/ui/Fallback/SelectInputLoader";
+  filterToSelectValue,
+  SELECT_FILTER_ALL,
+  selectValueToFilter,
+} from "@/utils/app/filter";
 
 const orderColumns = buildOrderColumns();
 const transactionColumns = buildTransactionColumns();
 
 type TabState = "orders" | "transactions";
+
 const TABS: { value: TabState; displayName: string }[] = [
   { value: "orders", displayName: "تاریخچه  سفارش ها" },
-  { value: "transactions", displayName:"تاریخچه معاملات"  },
+  { value: "transactions", displayName: "تاریخچه معاملات" },
 ];
 
 function ActivityHistory() {
@@ -113,16 +116,14 @@ function ActivityHistoryProvider({ children }: PropsWithChildren) {
   );
 }
 
+type TranactionTypeFilter = TransactionFilters["Type"];
 type OrderSideFilter = OrderFilters["orderSide"];
 
 function TransactionFilterControls() {
   const transactionFilters = useTransactionFiltersProvider()!;
 
-  const transactionTypeHandler = (type: string) => {
-    transactionFilters.setFilter(
-      "Type",
-      type ? (type as TransactionFilters["Type"]) : null,
-    );
+  const typeHandler = (type: TranactionTypeFilter) => {
+    transactionFilters.setType(type);
   };
 
   return (
@@ -138,18 +139,22 @@ function TransactionFilterControls() {
         variant="outlined"
         size="small"
         placeholder="نوع تراکنش"
-        value={transactionFilters.filters.Type ?? ""}
-        onChange={transactionTypeHandler}
+        value={filterToSelectValue(transactionFilters.filters.Type)}
+        onChange={(type) =>
+          typeHandler(selectValueToFilter(type) as TranactionTypeFilter)
+        }
       >
         <InputSelectMenu>
-          <InputSelectItem value={""}>{"همه"}</InputSelectItem>
-          {Object.keys(TRANSACTION_TYPE).map((type) => {
-            const type_key = type as keyof typeof TRANSACTION_TYPE;
-            return (
-              <InputSelectItem value={TRANSACTION_TYPE[type_key]}>
-                {TRANSACTION_TYPE_LABELS[type_key]}
-              </InputSelectItem>
-            );
+          {TRANSACTION_TYPE_LIST.map(({ value, label }, index) => {
+            return [
+              index === 0 && !!TRANSACTION_TYPE_LIST.length && (
+                <InputSelectItem value={SELECT_FILTER_ALL}>
+                  {"همه"}
+                </InputSelectItem>
+              ),
+
+              <InputSelectItem value={value}>{label}</InputSelectItem>,
+            ];
           })}
         </InputSelectMenu>
       </InputSelect>
@@ -161,18 +166,14 @@ function OrderFilterControls() {
 
   const symbolsQuery = useQuery(symbolsConfig());
 
-  const orderSideHandler = (side: string | null) => {
-    orderFilters.setFilter(
-      "orderSide",
-      side ? (side as OrderSideFilter) : null,
-    );
+  const symbolHandler = (symbol: string) => {
+    orderFilters.setSymbol(selectValueToFilter(symbol));
   };
-
-  const symbolHandler = (symbol: string | null) => {
-    orderFilters.setFilter(
-      "productCode",
-      symbol ? (symbol as OrderSideFilter) : null,
-    );
+  const sideHandler = (side: OrderSideFilter) => {
+    orderFilters.setSide(side);
+  };
+  const viewHandler = (isActiveView: boolean) => {
+    orderFilters.setView(isActiveView ? "active" : "history");
   };
 
   return (
@@ -200,22 +201,23 @@ function OrderFilterControls() {
           placeholder="نماد"
           //@ts-ignore
           onChange={symbolHandler}
-          value={orderFilters.filters.productCode ?? ""}
+          value={filterToSelectValue(orderFilters.filters.productCode)}
         >
           <InputSelectMenu>
             {symbolsQuery.isLoading && <SelectInputLoader />}
 
-            {!symbolsQuery.isLoading && (
-              <InputSelectItem value={""}>{"همه"}</InputSelectItem>
-            )}
-
             {!symbolsQuery.isLoading &&
-              symbolsQuery.data?.map((symbol) => {
-                return (
+              symbolsQuery.data?.flatMap((symbol, index) => {
+                return [
+                  index === 0 && !!symbolsQuery.data.length && (
+                    <InputSelectItem value={SELECT_FILTER_ALL}>
+                      {"همه"}
+                    </InputSelectItem>
+                  ),
                   <InputSelectItem value={symbol.name}>
                     {symbol.name}
-                  </InputSelectItem>
-                );
+                  </InputSelectItem>,
+                ];
               })}
           </InputSelectMenu>
         </InputSelect>
@@ -227,11 +229,12 @@ function OrderFilterControls() {
           variant="outlined"
           color="primary"
           sx={{ flex: 1 }}
-          onChange={orderSideHandler}
-          value={orderFilters.filters.orderSide ?? ""}
+          //@ts-ignore
+          onChange={sideHandler}
+          value={filterToSelectValue(orderFilters.filters.orderSide)}
         >
           <InputSelectMenu>
-            <InputSelectItem value={""}>{"همه"}</InputSelectItem>
+            <InputSelectItem value={SELECT_FILTER_ALL}>{"همه"}</InputSelectItem>
             <InputSelectItem value={"Buy" satisfies OrderSideFilter}>
               {"خرید"}
             </InputSelectItem>
@@ -240,15 +243,13 @@ function OrderFilterControls() {
             </InputSelectItem>
           </InputSelectMenu>
         </InputSelect>
-        {/* // * order status  */}
       </Box>
+      {/* // * order status  */}
       <CheckBox
         variant="outlined"
         label="فقط سفارشات باز"
         checked={orderFilters.filters.view === "active"}
-        onChange={(_, checked) => {
-          orderFilters.setFilter("view", checked ? "active" : "history");
-        }}
+        onChange={(_, checked) => viewHandler(checked)}
       />
     </Box>
   );
