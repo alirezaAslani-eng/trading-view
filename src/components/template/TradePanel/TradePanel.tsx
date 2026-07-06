@@ -8,8 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import tradeFormSchema from "@/validations/trade/tradeFormSchema";
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import tradeTogglebuttonSell_sx from "@/packages/mui/theme/shared-style/features/trading/tradeTogglebuttonSell_sx";
-import { useMutation } from "@tanstack/react-query";
-import { placeOrderConfig } from "@/packages/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { placeOrderConfig, kycStatusConfig } from "@/packages/react-query";
 import safeAsync from "@/utils/app/safeAsync";
 import { promiseAlert } from "@/packages/react-hot-toast";
 import alertMessages from "@/constant/app/alertMessages";
@@ -29,6 +29,7 @@ import LimitedPriceForm from "./LimitedPriceForm";
 import MarketPriceForm from "./MarketPriceForm";
 import { TradeFormSubscriber } from "./types";
 import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
+import { useKycAccess } from "@/hooks/features/kyc/useKycAccess";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
@@ -45,6 +46,10 @@ function TradePanel() {
 
   // * --------- From API ---------
   const placeOrderApi = useMutation(placeOrderMutationConfig);
+    //  * ------------Getting the user level -------* //
+  const kycStatus = useQuery(kycStatusConfig());
+  const kycLevel = kycStatus.data?.kycLevel ?? "None";
+  const checkKycAccess = useKycAccess(kycLevel);
 
   // * ------- Form Configuration -------
   const form = useForm({
@@ -62,6 +67,8 @@ function TradePanel() {
 
   //  * ------- Submit handler ---------
   const onSubmit = async (fields: TradeFormSchemaOutputType) => {
+    if (!checkKycAccess()) return;
+
     await promiseAlert(
       safeAsync(() => placeOrderApi.mutateAsync(fields)),
       { loading: alertMessages.loading },
