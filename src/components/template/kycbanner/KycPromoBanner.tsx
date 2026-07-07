@@ -87,11 +87,10 @@ const queryConfig = kycStatusConfig();
 
 function KycPromoBanner() {
   const query = useQuery(queryConfig);
+  const dispatch = useDispatch();
 
   if (!query.isSuccess) return null;
   if (isMaximumKycLevel(query.data.kycLevel)) return null;
-
-  const dispatch = useDispatch();
 
   const openKycModal = () => {
     dispatch(upgradeKycLevel());
