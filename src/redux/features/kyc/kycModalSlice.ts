@@ -3,7 +3,6 @@ import { KycFlowState } from "./types";
 
 const initialState: KycFlowState = {
   modalFlow: null,
-  open:false
 };
 
 const kycModalSlice = createSlice({
@@ -19,16 +18,10 @@ const kycModalSlice = createSlice({
     successKyc(state) {
       state.modalFlow = "successKyc";
     },
-    openAccessModal(state){
-      state.open=true;
-    },
-    closeAccesssModal(state){
-      state.open=false
-    }
   },
 });
 
 // * ------- Actions -------
-const { exitKycFlow, successKyc, upgradeKycLevel,openAccessModal,closeAccesssModal } = kycModalSlice.actions;
+const { exitKycFlow, successKyc, upgradeKycLevel } = kycModalSlice.actions;
 
-export { kycModalSlice, exitKycFlow, successKyc, upgradeKycLevel,openAccessModal,closeAccesssModal };
+export { kycModalSlice, exitKycFlow, successKyc, upgradeKycLevel };
