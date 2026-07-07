@@ -55,8 +55,8 @@ const transactionColumns = buildTransactionColumns();
 type TabState = "orders" | "transactions";
 
 const TABS: { value: TabState; displayName: string }[] = [
-  { value: "orders", displayName: "تاریخچه  سفارش ها" },
-  { value: "transactions", displayName: "تاریخچه معاملات" },
+  { value: "orders", displayName: "تاریخچه معاملات" },
+  { value: "transactions", displayName: "تراکنش ها" },
 ];
 
 function ActivityHistory() {
