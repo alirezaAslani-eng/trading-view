@@ -31,6 +31,7 @@ import { TradeFormSubscriber } from "./types";
 import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
 import useKycGuard from "@/hooks/features/kyc/useKycGuard";
 import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
+import FeeDisplay from "./FeeDisplay";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
@@ -78,17 +79,17 @@ function TradePanel() {
   };
 
   return (
-    <PanelPaper sx={{ p: "20px 12px", height: "100%" }}>
-      <Box component={"form"} onSubmit={form.handleSubmit(onSubmit)}>
-        <Stack sx={{ width: "100%" }}>
-          {/* //* Trade side selection (Buy / Sell) */}
-          <TradeSideSelector control={form.control} />
+    <FormProvider {...form}>
+      <PanelPaper sx={{ p: "20px 12px", height: "100%" }}>
+        <Box component={"form"} onSubmit={form.handleSubmit(onSubmit)}>
+          <Stack sx={{ width: "100%" }}>
+            {/* //* Trade side selection (Buy / Sell) */}
+            <TradeSideSelector control={form.control} />
 
-          <Box sx={{ mt: "calc(32px - 14px)" }}>
-            {/* //* ---------- Order type selector ---------- */}
-            <OrderTypeSelector control={form.control} />
+            <Box sx={{ mt: "calc(32px - 14px)" }}>
+              {/* //* ---------- Order type selector ---------- */}
+              <OrderTypeSelector control={form.control} />
 
-            <FormProvider {...form}>
               {/* // * ---------- Limited Price Tab ---------- */}
               <Box hidden={!isLimitedType}>
                 <LimitedPriceForm />
@@ -97,14 +98,14 @@ function TradePanel() {
               <Box hidden={!isMarketType}>
                 <MarketPriceForm />
               </Box>
-            </FormProvider>
-
-            {/* //* Submit order */}
-            <SubmitOrderButton control={form.control} />
-          </Box>
-        </Stack>
-      </Box>
-    </PanelPaper>
+              <FeeDisplay />
+              {/* //* Submit order */}
+              <SubmitOrderButton control={form.control} />
+            </Box>
+          </Stack>
+        </Box>
+      </PanelPaper>
+    </FormProvider>
   );
 }
 
