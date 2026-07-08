@@ -1,13 +1,17 @@
 import { ResponseErrorType } from "@/types";
-
-const retryableStatus = [408, 409, 425, 429, 500, 502, 503, 504];
+import { retryableStatus } from "./config";
 
 interface RetryOption {
   failCount: number;
   error: ResponseErrorType;
   retryCount?: number;
 }
-export const retry = ({ error, failCount, retryCount = 3 }: RetryOption) => {
+
+export const shouldRetry = ({
+  error,
+  failCount,
+  retryCount = 3,
+}: RetryOption) => {
   const status = error?.status;
   if (!status) return true;
 

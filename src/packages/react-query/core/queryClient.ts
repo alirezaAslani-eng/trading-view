@@ -1,3 +1,4 @@
+import { shouldRetry } from "@/api/errors/shouldRetry";
 import { errorAlert, successAlert } from "@/packages/react-hot-toast";
 import { openAuthModal } from "@/redux/features/auth";
 import { dispatch } from "@/redux/store/store";
@@ -8,12 +9,11 @@ import {
   QueryCache,
   QueryClient,
 } from "@tanstack/react-query";
-import { retry } from "../helpers";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: (failCount, error) => retry({ failCount, error }),
+      retry: (failCount, error) => shouldRetry({ failCount, error }),
       gcTime: 60_000 * 2,
       staleTime: 80_000,
     },
