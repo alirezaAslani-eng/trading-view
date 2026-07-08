@@ -18,6 +18,7 @@ import { formatFaPrice } from "@/utils";
 import { Box, Stack, Tab, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import OrderBookIcon from "../Trade/OrderBookIcon";
 
 type OrderBookListProps = {
   rows: OrderBookType[];
@@ -78,7 +79,8 @@ export default function OrderBook() {
             ))}
           </Tabs>
           <TabsSibling>
-            <TradeOrderIcon
+            <OrderBookIcon
+              view={orderBookView}
               sx={{ cursor: "pointer" }}
               onClick={orderBookViewToggle}
             />
