@@ -22,6 +22,7 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
+import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
 const price_sx = { color: "text.onPrimary" };
 const oveview_card_title_sx = { color: "text.caption" };
 const inputSelect_sx: SxProps<Theme> = ({ typography }) => ({
@@ -172,7 +173,7 @@ function PriceOverViewSection() {
         {!isLoading && (
           <Price sx={price_sx}>
             <PriceAmount>{formatFaPrice(volume24h)}</PriceAmount>
-            <PriceUnit variant="caption1" />
+            <PriceUnit variant="caption1">{WEIGHT_UNITS.KG.lable}</PriceUnit>
           </Price>
         )}
       </PriceOverviewCard>
