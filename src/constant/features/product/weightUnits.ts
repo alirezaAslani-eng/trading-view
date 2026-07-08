@@ -5,6 +5,13 @@ interface WeightUnit {
   lable: string;
 }
 
+const WEIGHT_UNITS = {
+  KG: {
+    unit: "kg",
+    lable: "کیلو",
+  } satisfies WeightUnit,
+} as const;
+
 const WEIGHT_UNIT_LIST: WeightUnit[] = [
   {
     lable: "کیلو",
@@ -12,4 +19,4 @@ const WEIGHT_UNIT_LIST: WeightUnit[] = [
   },
 ];
 
-export { WEIGHT_UNIT_LIST };
+export { WEIGHT_UNIT_LIST, WEIGHT_UNITS };
