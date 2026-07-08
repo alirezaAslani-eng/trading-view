@@ -2,7 +2,6 @@
 import { OrderBookType } from "@/api/types";
 import BouncCircleLoader from "@/components/ui/Fallback/BounceCircleLoader";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
-import { TradeOrderIcon } from "@/components/ui/Icon";
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import ScrollContainer from "@/components/ui/ScrollContainer/ScrollContainer";
 import Tabs from "@/components/ui/Tabs/Tabs";
@@ -19,12 +18,14 @@ import { Box, Stack, Tab, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import OrderBookIcon from "../Trade/OrderBookIcon";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
 
 type OrderBookListProps = {
   rows: OrderBookType[];
   priceColor: string;
 };
 
+const priceUnit = PRICE_UNITS.IRT.displayName;
 const GRID_TEMPLATE = "1fr 1fr";
 
 const TABS = [
@@ -165,14 +166,14 @@ function OrderBookHeader() {
         variant="caption2"
         sx={{ textAlign: "right", color: "text.caption" }}
       >
-        قیمت (IRT)
+        قیمت ({priceUnit})
       </Typography>
 
       <Typography
         variant="caption2"
         sx={{ textAlign: "left", color: "text.caption" }}
       >
-        حجم (IRT)
+        حجم ({priceUnit})
       </Typography>
     </Box>
   );
