@@ -2,7 +2,10 @@
 import Button from "@/components/ui/Button/Button";
 import ToggleTabGroup from "@/components/ui/ButtonGroup/ToggleTabGroup";
 import DownloadIcon from "@/components/ui/Icon/DownloadIcon";
-import { useOrderFiltersProvider } from "@/context/feature/orders/Orders/hooks";
+import {
+  useOrders,
+  useOrderFiltersProvider,
+} from "@/context/feature/orders/Orders/hooks";
 import { OrderFiltersProvider } from "@/context/feature/orders/Orders/OrderFiltersContext";
 import { OrdersProvider } from "@/context/feature/orders/Orders/OrdersContext";
 import { Box, Divider, Stack, ToggleButton } from "@mui/material";
@@ -15,7 +18,10 @@ import OrdersPagination from "../Pagination/OrdersPagination";
 import { createNonNullToggleHandler } from "@/packages/mui/theme";
 import { TransactionFiltersProvider } from "@/context/feature/transaction/Transactions/TransactionFiltersContext";
 import { TransactionsProvider } from "@/context/feature/transaction/Transactions/TransactionsContext";
-import { useTransactionFiltersProvider } from "@/context/feature/transaction/Transactions/hooks";
+import {
+  useTransactionFiltersProvider,
+  useTransactions,
+} from "@/context/feature/transaction/Transactions/hooks";
 import TransactionsTable from "../Table/TransactionsTable";
 import buildTransactionColumns from "@/constant/features/transaction/transactionColumns";
 import { TRANSACTION_TYPE_LIST } from "@/constant/features/transaction/transactionType";
@@ -23,7 +29,7 @@ import TransactionsPagination from "../Pagination/TransactionsPagination";
 import { useQuery } from "@tanstack/react-query";
 import { symbolsConfig } from "@/packages/react-query";
 import { SelectInputLoader } from "@/components/ui/Fallback/SelectInputLoader";
-
+import exportExcel from "@/utils/app/exportExcel";
 import {
   PagePaper,
   PagePaperHeading,
@@ -38,6 +44,10 @@ import {
   SELECT_FILTER_ALL,
   selectValueToFilter,
 } from "@/utils/app/filter";
+import mapOrderToExcel from "@/utils/features/order/mapOrderToExcel";
+import mapTransactionToExcel from "@/utils/features/transaction/mapTransactionToExcel";
+import { useQueryClient } from "@tanstack/react-query";
+import { ordersConfig, transactionsConfig } from "@/packages/react-query";
 
 const orderColumns = buildOrderColumns();
 const transactionColumns = buildTransactionColumns();
@@ -52,11 +62,49 @@ const TABS: { value: TabState; displayName: string }[] = [
 function ActivityHistory() {
   const [tab, setTab] = useState<TabState>("orders");
 
+  const queryClient = useQueryClient();
+
+  const orderFilters = useOrderFiltersProvider()!;
+  const transactionFilters = useTransactionFiltersProvider()!;
+
+  const orders = useOrders()!;
+  const transactions = useTransactions()!;
+
   const tabHandler = createNonNullToggleHandler(setTab);
 
   const isOrdersTab = tab === "orders";
   const isTransactionsTab = tab === "transactions";
 
+  const isExportDisabled =
+    tab === "orders"
+      ? orders.isLoading || (orders.data?.totalCount ?? 0) === 0
+      : transactions.isLoading || (transactions.data?.totalCount ?? 0) === 0;
+
+  const handleExport = async () => {
+    if (tab === "orders") {
+      const data = await queryClient.fetchQuery(
+        ordersConfig({ ...orderFilters.filters, page: 1, pageSize: 1000 }),
+      );
+
+      exportExcel({
+        fileName: "orders",
+        rows: mapOrderToExcel(data.items),
+      });
+
+      return;
+    }
+    const data = await queryClient.fetchQuery(
+      transactionsConfig({
+        ...transactionFilters.filters,
+        page: 1,
+        pageSize: 1000,
+      }),
+    );
+    exportExcel({
+      fileName: "transactions",
+      rows: mapTransactionToExcel(data.items),
+    });
+  };
   return (
     <>
       <PagePaper>
@@ -75,9 +123,14 @@ function ActivityHistory() {
             </ToggleTabGroup>
 
             {/* // * Export Button */}
-            <Button sx={{ gap: "6px" }} variant="on-surface">
+            <Button
+              sx={{ gap: "6px" }}
+              variant="on-surface"
+              onClick={handleExport}
+              disabled={isExportDisabled}
+            >
               <DownloadIcon />
-              {"دانلود اکسل"}
+              دانلود اکسل
             </Button>
           </PagePaperHeading>
 
