@@ -13,7 +13,7 @@ function useKycGuard() {
   const currentLevel = data?.kycLevel;
 
   function checkAccess(requiredLevel: KycLevel): boolean {
-    if (isSuccess) return false;
+    if (!isSuccess) return false;
 
     const passed = isKycStepPassed(currentLevel, requiredLevel);
 
