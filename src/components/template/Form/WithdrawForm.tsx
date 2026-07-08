@@ -34,12 +34,15 @@ import { WithdrawSchemaType } from "@/validations/types";
 import alertMessages from "@/constant/app/alertMessages";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
 import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
+import useKycGuard from "@/hooks/features/kyc/useKycGuard";
+import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
 
 const walletQueryConfig = walletPortfolioConfig();
 const withdrawMutationConfig = withdrawConfig();
 function WithdrawForm() {
   const withdrawMutate = useMutation(withdrawMutationConfig);
   const walletQuery = useQuery(walletQueryConfig);
+  const { checkAccess } = useKycGuard();
 
   const form = useForm({
     resolver: zodResolver(withdrawSchema),
@@ -49,6 +52,8 @@ function WithdrawForm() {
   });
 
   const onSubmitHandler: SubmitHandler<WithdrawSchemaType> = async (fields) => {
+      const hasAccess = checkAccess(KYC_REQUIRED_LEVELS.withdraw);
+        if (!hasAccess) return;
     await promiseAlert(
       safeAsync(async () => {
         await withdrawMutate.mutateAsync(fields);
