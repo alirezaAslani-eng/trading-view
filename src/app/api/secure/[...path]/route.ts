@@ -28,6 +28,8 @@ const forwardFetch = async (url: URL | string, req: Request) => {
 };
 
 const handler: RouteHandler<string[]> = async (req, context) => {
+  console.log("/api/secure TEST LOG");
+
   const params = await context.params;
 
   // * Preserve the original query string (?page=1&pageSize=10&productCode=REBAR)
