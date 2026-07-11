@@ -9,6 +9,7 @@ import NextLink from "@/components/ui/Link/NextLink";
 import isMaximumKycLevel from "@/utils/features/kyc/isMaximumKycLevel";
 import {
   BirthDayCakeIcon,
+  PhoneCallIcon,
   UserGuardIcon,
 } from "@/components/ui/Icon";
 import {
@@ -116,7 +117,7 @@ function ProfileOverviewSection() {
 
             <UserProfileItemCard sx={{ flex: 1 }}>
               <UserProfileItemInfo
-                icon={<UserGuardIcon />}
+                icon={<PhoneCallIcon/>}
                 title="شماره موبایل"
                 subTitle={dashboard_info.data.mobile}
               />

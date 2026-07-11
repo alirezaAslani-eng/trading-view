@@ -32,6 +32,8 @@ import {
   TableFallbackData,
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
+import useKycGuard from "@/hooks/features/kyc/useKycGuard";
+import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
 
 const queryConfig = bankAccountsConfig();
 
@@ -44,7 +46,7 @@ type TabState = "banks" | "Ibans";
 
 function BankTableList() {
   const banksQuery = useQuery(queryConfig);
-
+const { checkAccess } = useKycGuard();
   const [modalState, setModalState] = useState<ModalState>();
   const [selectedTab, setSelectedTab] = useState<TabState>("Ibans");
 
@@ -54,12 +56,13 @@ function BankTableList() {
   };
 
   const cardNumber = selectedTab === "banks" ? "cardNumber" : "iban";
+const modalOpener = () => {
+  const hasAccess = checkAccess(KYC_REQUIRED_LEVELS.bankAccount);
 
-  const modalOpener =
-    selectedTab === "Ibans"
-      ? () => setModalState("iban")
-      : () => setModalState("bank");
+  if (!hasAccess) return;
 
+  setModalState(selectedTab === "Ibans" ? "iban" : "bank");
+};
   const isVisibleData =
     banksQuery.status === "success" && !!banksQuery.data.length;
   return (
