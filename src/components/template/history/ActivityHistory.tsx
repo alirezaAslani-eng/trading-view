@@ -129,7 +129,7 @@ function ActivityHistory() {
               onClick={handleExport}
               disabled={isExportDisabled}
             >
-              <DownloadIcon />
+              <DownloadIcon sx={{ color: "inherit" }} />
               دانلود اکسل
             </Button>
           </PagePaperHeading>
