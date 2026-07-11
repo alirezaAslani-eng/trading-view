@@ -20,11 +20,14 @@ import useKycGuard from "@/hooks/features/kyc/useKycGuard";
 
 const withdrawMutationConfig = depositConfig();
 function DepositForm() {
-  const depositMutate = useMutation(withdrawMutationConfig);
-  const { checkAccess } = useKycGuard();
-
   const form = useForm();
-
+  const depositMutate = useMutation({
+    ...withdrawMutationConfig,
+    onSuccess: () => {
+      form.reset();
+    },
+  });
+  const { checkAccess } = useKycGuard();
   const onSubmitHandler = async (fields: any) => {
     const hasAccess = checkAccess(KYC_REQUIRED_LEVELS.deposit);
     if (!hasAccess) return;
