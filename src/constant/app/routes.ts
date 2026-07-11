@@ -45,6 +45,9 @@ export const ROUTES = {
   ADMIN: {
     ROOT: "/admin",
   },
+  ERROR: {
+    BY_CODE: (code:number) => `/error/${code}`,
+  },
 } as const;
 
 // Optional: derive a union type of all static string routes
