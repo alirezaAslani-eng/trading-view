@@ -10,11 +10,13 @@ import { ReduxProvider } from "@/packages/redux";
 import { Toaster } from "@/packages/react-hot-toast";
 import TickerInfoSyncProvider from "@/context/feature/market/TickerInfoSyncProvider";
 import OrderBookSyncProvider from "@/context/feature/market/OrderBookSyncProvider";
+import MarketTickersSyncProvider from "@/context/feature/market/MarketTickersSyncProvider";
 export default function RootLayout({ children }: PWC) {
   return (
     <QueryClientProvider>
       <ReduxProvider>
         <TickerInfoSyncProvider />
+        <MarketTickersSyncProvider />
         <OrderBookSyncProvider />
         <AppRouterCacheProvider>
           <ThemeProvider>
