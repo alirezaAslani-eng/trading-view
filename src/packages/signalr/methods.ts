@@ -1,2 +1,3 @@
 const subscribeToMarket = "SubscribeToMarket";
-export { subscribeToMarket };
+const SubscribeToMarket = "SubscribeToMarket";
+export { subscribeToMarket, SubscribeToMarket };
