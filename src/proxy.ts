@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { ROUTES } from "./constant/app/routes";
-import { jwtDecode } from "jwt-decode";
-import safeAsync from "./utils/app/safeAsync";
-import { refrehAuthToken } from "@/api";
+import retry from "./api/errors/retry";
 // * ------------- Page Path -------------
 
 const ACCESS_TOKEN = "access_token";
@@ -13,52 +11,67 @@ export async function proxy(request: NextRequest) {
 
   // * ------ Tokens ------
   const refresh_token = request.cookies.get(REFRESH_TOKEN)?.value;
+  const access_token = request.cookies.get(ACCESS_TOKEN)?.value;
 
   // * ------ which middleware state ------
-  const isPanelRoutes = pathname.startsWith(ROUTES.PANEL.ROOT);
-  const isAuthRoutes = pathname.startsWith(ROUTES.AUTH.ROOT);
+  const isPanelRoute = pathname.startsWith(ROUTES.PANEL.ROOT);
+  const isAuthRoute = pathname.startsWith(ROUTES.AUTH.ROOT);
 
-  // * ------ Auth Protection ------
-  if (isPanelRoutes) {
-    if (!!refresh_token) return NextResponse.next();
-    return NextResponse.redirect(new URL(ROUTES.AUTH.ROOT, request.url));
+  // * ------ Panel Pages Protection ------
+  if (isPanelRoute) {
+    if (access_token) {
+      return NextResponse.next();
+    }
+
+    if (!refresh_token) {
+      return NextResponse.redirect(new URL(ROUTES.AUTH.ROOT, request.url));
+    }
+
+    //#region // * ------------ Refresh Auth Token ------------
+    try {
+      const res = await retry(() =>
+        fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/v1/auth/refresh`, {
+          method: "POST",
+          headers: {
+            cookie: request.headers.get("cookie") ?? "",
+          },
+        }),
+      );
+
+      if (!res.ok) {
+        const status = res.status;
+        console.log("Middleware : Access token couldn't be refreshed", res);
+
+        if (status >= 500) {
+          return NextResponse.redirect(
+            new URL(ROUTES.ERROR.BY_CODE(status), request.url),
+          );
+        }
+
+        if (status === 401) {
+          return NextResponse.redirect(new URL(ROUTES.AUTH.ROOT, request.url));
+        }
+
+        return NextResponse.redirect(
+          new URL(ROUTES.ERROR.BY_CODE(status), request.url),
+        );
+      }
+      const response = NextResponse.next();
+      response.headers.set("set-cookie", res.headers.get("set-cookie") ?? "");
+      return response;
+    } catch {
+      return NextResponse.redirect(
+        new URL(ROUTES.ERROR.BY_CODE(500), request.url),
+      );
+    }
+    //#endregion // * ------------ Refresh Auth Token ------------
   }
-  if (isAuthRoutes) {
+
+  // * ------ Auth Pages protection ------
+  if (isAuthRoute) {
     if (!!!refresh_token) return NextResponse.next();
     return NextResponse.redirect(new URL(ROUTES.PANEL.ROOT, request.url));
   }
 
   return NextResponse.next();
-}
-
-async function getValidAccessToken(
-  request: NextRequest,
-): Promise<string | null> {
-  const refresh_token = request.cookies.get(REFRESH_TOKEN)?.value;
-  const access_token = request.cookies.get(ACCESS_TOKEN)?.value;
-
-  if (access_token) return access_token;
-
-  if (!refresh_token) {
-    return null;
-  }
-
-  const refreshed = await safeAsync(async () => {
-    return refrehAuthToken({
-      headers: {
-        Cookie: request.headers.get("cookie") ?? "",
-      },
-    });
-  });
-
-  if (!refreshed.ok) {
-    // ! Report Log
-    console.log(
-      "Middleware couldn't refresh the access token",
-      refreshed.error,
-    );
-    return null;
-  }
-
-  return refreshed.data.token;
 }
