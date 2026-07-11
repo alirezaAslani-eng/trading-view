@@ -9,12 +9,17 @@ function buttonDisabledTheme({
 }: ButtonDisabledThemeProps): ButtonDisabledThemeReturn {
   const { palette } = theme;
 
-  
   const styles = {
     contained: {
       rootTheme: {
-        backgroundColor:palette.background.inputModal,
-        color:palette.text.linkTertiary,
+        backgroundColor: palette.background.inputModal,
+        color: palette.text.linkTertiary,
+      },
+    } satisfies ButtonDisabledThemeReturn,
+    "on-surface": {
+      rootTheme: {
+        borderColor: palette.border.default,
+        color: palette.text.linkTertiary,
       },
     } satisfies ButtonDisabledThemeReturn,
   };
