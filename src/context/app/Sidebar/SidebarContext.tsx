@@ -1,45 +1,37 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
-
-export const SIDEBAR_WIDTH_EXPANDED = 264;
-export const SIDEBAR_WIDTH_COLLAPSED = 72;
+import { createContext, useContext, useState } from "react";
 
 type SidebarContextValue = {
   isCollapsed: boolean;
-  sidebarWidth: number;
   toggleSidebar: () => void;
-  setCollapsed: (collapsed: boolean) => void;
+  closeSidebar: () => void;
+  openSidebar: () => void;
 };
 
 const SidebarContext = createContext<SidebarContextValue | null>(null);
 
 function SidebarProvider({ children }: { children: React.ReactNode }) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
-  const value = useMemo(
-    () => ({
-      isCollapsed,
-      sidebarWidth: isCollapsed
-        ? SIDEBAR_WIDTH_COLLAPSED
-        : SIDEBAR_WIDTH_EXPANDED,
-      toggleSidebar: () => setIsCollapsed((prev) => !prev),
-      setCollapsed: setIsCollapsed,
-    }),
-    [isCollapsed],
-  );
+  const value = {
+    isCollapsed,
+    toggleSidebar: () => {
+      setIsCollapsed((prev) => !prev);
+    },
+    closeSidebar: () => {
+      setIsCollapsed(true);
+    },
+    openSidebar: () => {
+      setIsCollapsed(false);
+    },
+  };
 
   return <SidebarContext value={value}>{children}</SidebarContext>;
 }
 
 function useSidebarContext() {
-  const ctx = useContext(SidebarContext);
-
-  if (!ctx) {
-    throw new Error("useSidebarContext must be used inside SidebarProvider");
-  }
-
-  return ctx;
+  return useContext(SidebarContext);
 }
 
 export { SidebarProvider, useSidebarContext };

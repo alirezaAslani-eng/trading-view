@@ -1,53 +1,39 @@
 "use client";
 import BrandName from "@/components/ui/Brand/BrandName";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
-import {
-  Badge,
-  Box,
-  Stack,
-  StackProps,
-  SvgIcon,
-  Typography,
-} from "@mui/material";
+import { Box, Stack, StackProps } from "@mui/material";
 import { hideScrollBar } from "@/packages/mui/theme/shared-style";
 import SwitchTheme from "../Button/SwitchTheme";
 import UserProfileCard from "@/components/ui/Card/UserProfileCard";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { getSidebarNavigators } from "@/constant/app/sidebarNavigators";
-import { ActiveItemProvider } from "@/context/app/ActiveItem";
-import { useSidebarContext } from "@/context/app/Sidebar";
 import NextImage from "@/components/ui/Image/NextImage";
-import SidebarToggle from "./SidebarToggle";
-import {
-  PanelSidebarDropdown,
-  PanelSidebarNestedItem,
-} from "@/components/template/Dropdown/PanelSidebarDropdown";
+import { PanelSidebarDropdown } from "@/components/template/Dropdown/PanelSidebarDropdown";
 import { useQuery } from "@tanstack/react-query";
 import { dashboardInfoConfig } from "@/packages/react-query";
+import { useSidebarContext } from "@/context/app/Sidebar";
+import SidebarToggle from "./SidebarToggle";
 
-const badge_sx = {
-  right: "initial",
-  top: "21px",
-  left: "2px",
-};
-
+const getSidebarWidth = (collapsed: boolean) => (collapsed ? "80px" : "264px");
 function SidebarPanel(props: StackProps) {
-  const { isCollapsed } = useSidebarContext();
+  const { isCollapsed } = useSidebarContext()!;
   const dashboardQuery = useQuery(dashboardInfoConfig());
 
   return (
     <Box
+      component={"aside"}
       sx={{
         position: "relative",
-        width: "100%",
+        width: getSidebarWidth(isCollapsed),
         height: "100%",
         overflow: "visible",
+        transition: "width 0.25s ease",
+        flexShrink: 0,
       }}
     >
       <SidebarToggle />
 
       <Stack
-        component={"aside"}
         {...props}
         sx={(tm) => ({
           ...hideScrollBar,
@@ -98,45 +84,21 @@ function SidebarPanel(props: StackProps) {
               borderColor: "border.dark",
             }}
           >
-            <ActiveItemProvider>
-              {getSidebarNavigators({
-                permissionGroups: dashboardQuery.data?.userPermissionGroups,
-              }).map((nav) => {
-                return (
-                  <Badge
-                    key={nav.id}
-                    color="error"
-                    sx={{ display: "block", width: "100%" }}
-                    slotProps={{ badge: { sx: badge_sx } }}
-                  >
-                    <PanelSidebarDropdown
-                      icon={<SvgIcon>{nav.icon}</SvgIcon>}
-                      text={nav.text}
-                      href={nav.link}
-                      id={nav.id}
-                      collapsed={isCollapsed}
-                    >
-                      {!!nav.submenus.length &&
-                        nav.submenus.map((subNav) => {
-                          return (
-                            <PanelSidebarNestedItem
-                              key={subNav.id}
-                              href={subNav.link}
-                            >
-                              <Typography
-                                variant="button3"
-                                sx={{ color: "text.heading" }}
-                              >
-                                {subNav.text}
-                              </Typography>
-                            </PanelSidebarNestedItem>
-                          );
-                        })}
-                    </PanelSidebarDropdown>
-                  </Badge>
-                );
-              })}
-            </ActiveItemProvider>
+            {getSidebarNavigators({
+              permissionGroups: dashboardQuery.data?.userPermissionGroups,
+            }).map((nav) => {
+              return (
+                <PanelSidebarDropdown
+                  key={nav.id}
+                  icon={nav.icon}
+                  href={nav.link}
+                  submenus={nav.submenus}
+                  isCollapsed={isCollapsed}
+                >
+                  {nav.text}
+                </PanelSidebarDropdown>
+              );
+            })}
 
             {/* // * -------- Dark/Light Button -------- */}
             <Box

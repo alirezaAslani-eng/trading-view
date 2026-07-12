@@ -1,121 +1,135 @@
 "use client";
-import React, { type ReactNode } from "react";
-import { Box } from "@mui/system";
-import { ButtonBase, SvgIcon, Typography } from "@mui/material";
-import { identifySxProp } from "@/packages/mui/theme/helpers";
+import React, { PropsWithChildren, type ReactNode } from "react";
+import { Box, Stack } from "@mui/system";
+import { Divider, styled, SvgIcon, Theme, Typography } from "@mui/material";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
-import ArrowDownIcon from "@/assets/svg/arrow-down.svg";
 import useIsActiveLink from "@/hooks/app/useIsActiveLink";
-import { useActiveItemContext } from "@/context/app/ActiveItem";
-
-const svg_sx = { width: "14px", height: "14px", cursor: "pointer" };
+import { KeyDownIcon, KeyUpIcon } from "@/components/ui/Icon";
+import { SidebarSubMenuItem } from "@/constant/app/sidebarNavigators";
+import { ROUTES } from "@/constant/app/routes";
+import { useSidebarContext } from "@/context/app/Sidebar";
 
 type NextLinkProps = React.ComponentProps<typeof NextLink>;
 
 interface PanelSidebarDropdownProps {
   icon?: ReactNode;
-  text: string;
   href: NextLinkProps["href"];
-  children?: ReactNode;
-  id: string;
-  startWith?: string;
-  collapsed?: boolean;
+  submenus?: SidebarSubMenuItem[];
+  isCollapsed?: boolean;
 }
+
+const sharedNavStyle = (tm: Theme) => {
+  const { palette } = tm;
+  return {
+    transition: "background-color 350ms cubic-bezier(0.22, 1, 0.36, 1)",
+    "&.Mui-active": {
+      backgroundColor: palette.background.sidebarActive,
+    },
+    ":hover": {
+      backgroundColor: palette.background.sidebarActive,
+    },
+  };
+};
+
+const Nav = styled(NextLink, {
+  shouldForwardProp: (prop) => prop !== "collapsed",
+})<{ collapsed?: boolean }>(({ theme, collapsed }) => {
+  return {
+    ...sharedNavStyle(theme),
+    padding: "0px 16px",
+    height: "42px",
+    borderRadius: "12px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    overflowX: "hidden",
+    px: "10px",
+
+    ...(collapsed && {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: "0px",
+    }),
+  };
+});
+
+const SubNav = styled(NextLink)(({ theme }) => {
+  return {
+    ...sharedNavStyle(theme),
+    height: "36px",
+    borderRadius: "12px",
+    display: "flex",
+    alignItems: "center",
+    padding: "0px 10px",
+  };
+});
 
 function PanelSidebarDropdown({
   icon,
-  text,
   href,
+  submenus,
   children,
-  id,
-  startWith,
-  collapsed = false,
-}: PanelSidebarDropdownProps) {
-  const isActiveLink = useIsActiveLink({ href, startWith });
-  const { activeId, toggleId } = useActiveItemContext()!;
+  isCollapsed,
+}: PropsWithChildren<PanelSidebarDropdownProps>) {
+  const exact = ([ROUTES.PANEL.ROOT] as string[]).includes(href);
+  const isActiveLink = useIsActiveLink({
+    href,
+    exact,
+  });
 
-  const isOpenNestedMenu = !collapsed && activeId === id;
-  const LiOrUl = !!children && !collapsed ? "ul" : "li";
+  const hasNested = !isCollapsed && !!submenus?.length;
+  const isOpenNested = isActiveLink && hasNested;
+
+  const LiOrUl = hasNested ? "ul" : "li";
 
   return (
     <LiOrUl>
-      <Box
-        sx={{
-          p: collapsed ? "0px" : "0px 16px 0px 0px",
-          height: "42px",
-          borderRadius: "12px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: collapsed ? "center" : "flex-start",
-          overflowX: "hidden",
-          ...(isActiveLink && {
-            backgroundColor: "background.sidebarActive",
-          }),
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: collapsed ? "center" : "space-between",
-            flex: collapsed ? "initial" : 1,
-            width: collapsed ? "100%" : "auto",
-            height: "100%",
-          }}
-        >
-          {/* // * ---------- Link ---------- */}
-          <NextLink
-            href={href}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: collapsed ? "center" : "flex-start",
-              gap: collapsed ? 0 : "10px",
-              width: collapsed ? "100%" : "auto",
-            }}
-          >
-            {icon}
-            {!collapsed && (
-              <Typography variant="button3" sx={{ color: "text.heading" }}>
-                {text}
-              </Typography>
-            )}
-          </NextLink>
+      {/* // * ---start--- Parent Link ------ */}
 
-          {/* // * ---------- Arrow Icon ---------- */}
-          {!collapsed && !!children && (
-            <ButtonBase
-              onClick={() => toggleId(id)}
-              sx={{ px: "15px", color: "text.onPrimary", borderRadius: "16px" }}
+      <Nav href={href} exact={exact} collapsed={isCollapsed}>
+        {/* {isCollapsed && <SvgIcon>{icon}</SvgIcon>} */}
+
+        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <SvgIcon>{icon}</SvgIcon>
+          {!isCollapsed && (
+            <Typography
+              variant="button3"
+              className="nav-text"
+              sx={{ color: "text.heading" }}
             >
-              {!isOpenNestedMenu ? (
-                <SvgIcon sx={svg_sx}>
-                  <ArrowDownIcon />
-                </SvgIcon>
-              ) : (
-                <SvgIcon sx={{ ...svg_sx, transform: "rotate(180deg)" }}>
-                  <ArrowDownIcon />
-                </SvgIcon>
-              )}
-            </ButtonBase>
+              {children}
+            </Typography>
           )}
         </Box>
-      </Box>
 
-      {/* // * ------ nested items ------ */}
-      {isOpenNestedMenu && !!children && (
-        <Box component="ul" sx={{ pr: "20px", mt: "18px", mb: "8px" }}>
-          <Box
-            sx={{
-              borderRight: "1px solid",
-              pr: "10px",
-              borderColor: notDefinedColors["#2F3035"],
-            }}
-          >
-            {children}
-          </Box>
+        {!isActiveLink && hasNested && <KeyDownIcon fontSize="small" />}
+        {isActiveLink && hasNested && <KeyUpIcon fontSize="small" />}
+      </Nav>
+      {/* // * ---end--- Parent nav ------ */}
+
+      {/* // * ---start--- Sub navs ----------  */}
+      {isOpenNested && (
+        <Box component="ul" sx={{ mt: "18px", mb: "8px", display: "flex" }}>
+          <Divider
+            flexItem
+            orientation="vertical"
+            sx={{ borderColor: notDefinedColors["#2F3035"], mx: "15px" }}
+          />
+
+          <Stack sx={{ gap: "10px", flex: 1 }}>
+            {submenus?.map((sub) => {
+              return (
+                <PanelSidebarNestedItem key={sub.id} href={sub.link}>
+                  {sub.text}
+                </PanelSidebarNestedItem>
+              );
+            })}
+          </Stack>
         </Box>
       )}
+      {/* // * ---end--- Sub navs ----------  */}
     </LiOrUl>
   );
 }
@@ -123,24 +137,11 @@ function PanelSidebarDropdown({
 function PanelSidebarNestedItem(props: NextLinkProps) {
   return (
     <Box component="li">
-      <NextLink
-        {...props}
-        sx={(tm) => ({
-          height: "36px",
-          borderRadius: "12px",
-          display: "flex",
-          alignItems: "center",
-          px: "10px",
-          ...identifySxProp(tm, props.sx),
-          "&.Mui-active": {
-            backgroundColor: "background.sidebarActive",
-            //@ts-ignore
-            ...identifySxProp(tm, props.sx)?.["&.Mui-active"],
-          },
-        })}
-      >
-        {props.children}
-      </NextLink>
+      <SubNav {...props}>
+        <Typography variant="button3" sx={{ color: "text.heading" }}>
+          {props.children}
+        </Typography>
+      </SubNav>
     </Box>
   );
 }
