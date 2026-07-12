@@ -25,6 +25,7 @@ export const ROUTES = {
   },
 
   PROFILE: {
+    ROOT: "/panel/profile",
     OVERIVIEW: "/panel/profile/overview",
     BANKS: "/panel/profile/banks",
   },
@@ -46,7 +47,7 @@ export const ROUTES = {
     ROOT: "/admin",
   },
   ERROR: {
-    BY_CODE: (code:number) => `/error/${code}`,
+    BY_CODE: (code: number) => `/error/${code}`,
   },
 } as const;
 

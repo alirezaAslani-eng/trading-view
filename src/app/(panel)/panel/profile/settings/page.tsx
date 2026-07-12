@@ -32,7 +32,7 @@ function page() {
         <Section>
           <SectionContent sx={{ gap: "32px" }}>
             <PageSubNavigation>
-              <PageSubNavigationLink href={ROUTES.PROFILE.OVERIVIEW}>
+              <PageSubNavigationLink href={ROUTES.PROFILE.ROOT}>
                 <UserIcon />
                 {"مشخصات کاربری"}
               </PageSubNavigationLink>

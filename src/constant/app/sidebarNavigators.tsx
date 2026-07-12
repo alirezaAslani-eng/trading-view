@@ -29,37 +29,74 @@ interface SidebarNavItem {
   submenus: SidebarSubMenuItem[];
 }
 
-const createSubMenu = (text: string, link: string): SidebarSubMenuItem => ({
-  id: crypto.randomUUID(),
-  text,
-  link,
-});
-
-const createNavItem = (
-  text: string,
-  link: string,
-  icon: ReactNode,
-  submenus: SidebarSubMenuItem[] = [],
-): SidebarNavItem => ({
-  id: crypto.randomUUID(),
-  text,
-  link,
-  icon,
-  submenus,
-});
-
 const sidebarNavigators: SidebarNavItem[] = [
-  createNavItem("داشبورد", ROUTES.PANEL.ROOT, <DashboardIcon />),
-  createNavItem("بازار ها", ROUTES.MARKET.ROOT, <MarketIcon />),
-  createNavItem("دارایی‌ها", ROUTES.ASSETS.ROOT, <WalletIcon />, [
-    createSubMenu("برداشت", ROUTES.ASSETS.WITHDRAW),
-    createSubMenu("واریز", ROUTES.ASSETS.DEPOSIT),
-  ]),
-  createNavItem("تاریخچه", ROUTES.HISTORY.ROOT, <HistoryIcon />),
-  createNavItem("معامله", ROUTES.TRADE.BY_SYMBOL("REBAR"), <ArrowUpDownIcon />),
-  createNavItem("مدریت محصول", ROUTES.PRODUCTS.ROOT, <BoxOutlinedIcon />),
-  createNavItem("سطوح دسترسی", ROUTES.PERMISSIONS.ROOT, <LockIcon />),
-  createNavItem("پروفایل", ROUTES.PROFILE.OVERIVIEW, <UserIcon />),
+  {
+    id: "dashboard",
+    text: "داشبورد",
+    icon: <DashboardIcon />,
+    link: ROUTES.PANEL.ROOT,
+    submenus: [],
+  },
+  {
+    id: "market",
+    text: "بازار ها",
+    icon: <MarketIcon />,
+    link: ROUTES.MARKET.ROOT,
+    submenus: [],
+  },
+  {
+    id: "assets",
+    text: "دارایی‌ها",
+    icon: <WalletIcon />,
+    link: ROUTES.ASSETS.ROOT,
+    submenus: [
+      {
+        id: "assets-withdraw",
+        text: "برداشت",
+        link: ROUTES.ASSETS.WITHDRAW,
+      },
+      {
+        id: "assets-deposit",
+        text: "واریز",
+        link: ROUTES.ASSETS.DEPOSIT,
+      },
+    ],
+  },
+  {
+    id: "history",
+    text: "تاریخچه",
+    icon: <HistoryIcon />,
+    link: ROUTES.HISTORY.ROOT,
+    submenus: [],
+  },
+  {
+    id: "trade",
+    text: "معامله",
+    icon: <ArrowUpDownIcon />,
+    link: ROUTES.TRADE.BY_SYMBOL("REBAR"),
+    submenus: [],
+  },
+  {
+    id: "products",
+    text: "مدریت محصول",
+    icon: <BoxOutlinedIcon />,
+    link: ROUTES.PRODUCTS.ROOT,
+    submenus: [],
+  },
+  {
+    id: "permissions",
+    text: "سطوح دسترسی",
+    icon: <LockIcon />,
+    link: ROUTES.PERMISSIONS.ROOT,
+    submenus: [],
+  },
+  {
+    id: "profile",
+    text: "پروفایل",
+    icon: <UserIcon />,
+    link: ROUTES.PROFILE.ROOT,
+    submenus: [],
+  },
 ];
 
 interface getSidebarNavigatorsConfig {
