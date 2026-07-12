@@ -32,6 +32,8 @@ import {
   ModalLayoutHeading,
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
+import { LockIcon } from "@/components/ui/Icon";
+import InputMarker from "@/components/ui/Marker/InputMarker";
 
 const kycStatusConfig_ = kycStatusConfig();
 
@@ -91,11 +93,16 @@ function KycL1ModalForm() {
               <FormLayoutLable>
                 {kycContent.kycL1PhoneNumberLabel}
               </FormLayoutLable>
-              <InputText
-                placeholder="شماره موبایل خود را وارد کنید"
-                disabled
-                value={kycStatus?.data?.phoneNumber ?? ""}
-              />
+              <InputMarker
+                icon={<LockIcon fontSize="small" />}
+                left="12px" // یا right="12px" بسته به محل نمایش
+              >
+                <InputText
+                  placeholder="شماره موبایل خود را وارد کنید"
+                  disabled
+                  value={kycStatus?.data?.phoneNumber ?? ""}
+                />
+              </InputMarker>
             </FormLayoutField>
           </FormLayoutFieldGroup>
 
