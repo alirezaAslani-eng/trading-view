@@ -68,6 +68,14 @@ const theme = {
         },
       },
     },
+    MuiMenu: {
+      styleOverrides: {
+        list: {
+          paddingTop: "0px",
+          paddingBottom: "0px",
+        },
+      },
+    },
   },
 };
 
