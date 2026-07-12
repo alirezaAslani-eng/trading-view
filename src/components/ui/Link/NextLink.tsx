@@ -16,11 +16,8 @@ interface NextLinkProps extends Omit<
   ComponentProps<typeof StyledNextLink>,
   "href"
 > {}
-function NextLink({
-  startWith,
-  ...props
-}: NextLinkProps & UseIsActiveLinkOptions) {
-  const isActive = useIsActiveLink({ href: props.href, startWith });
+function NextLink({ exact, ...props }: NextLinkProps & UseIsActiveLinkOptions) {
+  const isActive = useIsActiveLink({ href: props.href, exact });
 
   return (
     <StyledNextLink

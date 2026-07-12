@@ -1,6 +1,6 @@
 interface UseIsActiveLinkOptions {
   href: string;
-  startWith?: string;
+  exact?: boolean;
 }
 
 export type { UseIsActiveLinkOptions };
