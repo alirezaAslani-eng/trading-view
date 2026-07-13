@@ -61,13 +61,16 @@ function inputTheme({
         rootTheme: {
           backgroundColor: palette.background.surfaceLevel5,
           color: palette.text.onPrimary,
-          border: "1px solid",  
+          border: "1px solid",
           borderColor: palette.border.dark,
         },
         placeholderTheme: {
           color: palette.text.placeHolder,
         },
-        errorTheme: {},
+        errorTheme: {
+          borderColor: `${theme.palette.border.error}`,
+          boxShadow: `0px 0px 0px 2px ${alpha(theme.palette.border.error, 0.16)}`,
+        },
         focusTheme: {},
       } satisfies InputThemeReturn,
     },
