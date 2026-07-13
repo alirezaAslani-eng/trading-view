@@ -2,9 +2,8 @@ import { Box } from "@mui/material";
 import SidebarPanel from "@/components/template/Sidebar/SidebarPanel";
 import SupportButton from "@/components/template/Button/SupportButton";
 import { HeadPhoneIcon } from "@/components/ui/Icon";
-
+import NextImage from "@/components/ui/Image/NextImage";
 function LayoutMainPanel({ children }) {
-
   return (
     <>
       <Box
@@ -29,7 +28,8 @@ function LayoutMainPanel({ children }) {
         </Box>
 
         {/* // * --- main content --- */}
-        <Box sx={{ flex: 1, minWidth: "0px" }}>
+        <Box sx={{ flex: 1, minWidth: "0px", position: "relative" }}>
+          <MountainBackground />
           {children}
           <Box
             sx={{
@@ -52,3 +52,31 @@ function LayoutMainPanel({ children }) {
 }
 
 export default LayoutMainPanel;
+
+function MountainBackground() {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "end",
+        position: "absolute",
+        inset: 0,
+        top: "0px",
+        zIndex: -1,
+        backgroundColor: "background.surface",
+      }}
+    >
+      <NextImage
+        src={"/images/mountain-pattern.png"}
+        width={900}
+        height={500}
+        alt=""
+        sx={{
+          mixBlendMode: "screen",
+          backgroundColor: "background.surface",
+          opacity: "0.2",
+        }}
+      />
+    </Box>
+  );
+}
