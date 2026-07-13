@@ -19,6 +19,7 @@ import {
   transactionsDynamicKey,
   permissionChecklistDynamicKey,
   userPermissionsDynamicKey,
+  recentTradesDynamicKey,
 } from "@/packages/react-query";
 import {
   orders,
@@ -35,6 +36,8 @@ import {
 } from "@/api";
 import buildOrderFilterQueries from "@/utils/features/order/buildOrderFilterQueries";
 import buildTransactionFilterQueries from "@/utils/features/transaction/buildTransactionFilterQueries";
+import recentTrade from "@/api/trading/recentTrade";
+import recentTrades from "@/api/trading/recentTrade";
 
 const kycStatusConfig = () => {
   return queryOptions({
@@ -163,8 +166,14 @@ const userPermissonsConfig = (userID: string) => {
   });
 };
 
+const recentTradesConfig = (symbol: string) => ({
+  queryKey: recentTradesDynamicKey(symbol),
+  queryFn: () => recentTrades(symbol),
+});
+
 export {
   kycStatusConfig,
+  recentTradesConfig,
   dashboardInfoConfig,
   bankAccountsConfig,
   walletPortfolioConfig,
