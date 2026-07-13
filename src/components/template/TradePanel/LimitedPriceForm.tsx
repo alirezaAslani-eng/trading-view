@@ -56,6 +56,7 @@ function LimitedPriceInput({ control }: TradeFormSubscriber) {
 
   return (
     <InputTrade
+      inputStep={100000}
       label={`قیمت (${PRICE_UNITS.IRT.displayName})`}
       onValueChange={field.onChange}
       value={field.value as string}

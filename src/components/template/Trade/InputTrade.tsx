@@ -13,12 +13,12 @@ interface InputTradeProps extends Omit<
   value?: number | string;
   onValueChange?: (value: string) => void;
   label?: string;
+  inputStep?: number;
 }
 
 // ! The component is for MVP version, it will be refined
 
-const step = 10;
-function InputTrade({ label, ...props }: InputTradeProps) {
+function InputTrade({ label, inputStep = 10, ...props }: InputTradeProps) {
   const [isRisedLabel, setIsRisedLabel] = useState(false);
   const isShowLable = !isNaN(Number(props.value)) || isRisedLabel;
 
@@ -42,11 +42,11 @@ function InputTrade({ label, ...props }: InputTradeProps) {
 
   const pluse = () => {
     const value = Number(props.value) || 0;
-    forwardOnChange(String(value + step));
+    forwardOnChange(String(value + inputStep));
   };
   const minus = () => {
     const value = Number(props.value) || 0;
-    const minused = String(Math.max(value - step, 0));
+    const minused = String(Math.max(value - inputStep, 0));
     forwardOnChange(minused === "0" ? "" : minused);
   };
 
