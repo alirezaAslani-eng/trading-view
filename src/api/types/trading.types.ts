@@ -16,6 +16,15 @@ type CandlestickHistoryQueryKeys = "symbol" | "resolution" | "from" | "to";
 type CandlestickHistoryQueries = Record<CandlestickHistoryQueryKeys, string>;
 
 type CandlestickHistoryResponse = CandleDataType;
+
+type RecentTrade = {
+  price: number;
+  source: "Trade" | "Robot";
+  createdAt: string;
+  isOrganic: boolean;
+};
+
+type RecentTradeResponse = RecentTrade[];
 // * --end-- candlestickHistory.ts -----------
 
 // * --start-- tradingViewConfig.ts -----------
@@ -48,6 +57,8 @@ export type {
   SymbolDetailsResponse,
   SymbolsResponse,
   SearchSymbolsResponse,
+  RecentTradeResponse,
+  RecentTrade,
 };
 
 type Symbol = Pick<
