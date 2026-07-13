@@ -15,6 +15,7 @@ export const ROUTES = {
   },
 
   TRADE: {
+    ROOT: "/panel/trade",
     BY_SYMBOL: (symbol: string) => `/panel/trade/${symbol}`,
   },
 
