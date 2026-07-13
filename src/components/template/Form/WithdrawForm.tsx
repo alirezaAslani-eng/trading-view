@@ -36,6 +36,8 @@ import { PRICE_UNITS } from "@/constant/features/priceConfig";
 import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
 import useKycGuard from "@/hooks/features/kyc/useKycGuard";
 import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
+import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
+import BankSelectInputFallback from "@/components/ui/Feedback/BankSelectInputFallback";
 
 const walletQueryConfig = walletPortfolioConfig();
 const withdrawMutationConfig = withdrawConfig();
@@ -52,8 +54,8 @@ function WithdrawForm() {
   });
 
   const onSubmitHandler: SubmitHandler<WithdrawSchemaType> = async (fields) => {
-      const hasAccess = checkAccess(KYC_REQUIRED_LEVELS.withdraw);
-        if (!hasAccess) return;
+    const hasAccess = checkAccess(KYC_REQUIRED_LEVELS.withdraw);
+    if (!hasAccess) return;
     await promiseAlert(
       safeAsync(async () => {
         await withdrawMutate.mutateAsync(fields);
@@ -83,7 +85,7 @@ function WithdrawForm() {
                   disabled={formState.isSubmitting}
                   error={!!fieldState.error?.message}
                   onChange={field.onChange}
-                  value={field.value}
+                  value={field.value as number}
                 />
               );
             }}
@@ -127,7 +129,7 @@ function WithdrawForm() {
 
         <TransactionFormLayoutSubmit
           type="submit"
-         disabled={!form.formState.isValid}
+          disabled={!form.formState.isValid}
         >
           {"برداشت"}
         </TransactionFormLayoutSubmit>
@@ -141,29 +143,37 @@ export default WithdrawForm;
 const banksConfig = bankAccountsConfig();
 function InputSelectBank(props: ComponentProps<typeof InputSelect>) {
   const query = useQuery(banksConfig);
-  const isLoading = query.status !== "success";
   return (
-    <InputSelect
-      sx={{ flex: 1 }}
-      size="medium"
-      placeholder="لطفا شماره شبای خود را انتخاب کنید"
-      {...props}
-    >
-      <InputSelectMenu>
-        {isLoading ? (
-          <SelectInputLoader>
-            <SelectInputLoaderText />
-          </SelectInputLoader>
-        ) : (
-          query.data.map((bank) => {
+    <>
+      <InputSelect
+        sx={{ flex: 1 }}
+        size="medium"
+        placeholder="لطفا شماره شبای خود را انتخاب کنید"
+        {...props}
+      >
+        <InputSelectMenu>
+          <FallbackHandler
+            isLoading={query.isLoading}
+            isError={query.isError}
+            dataLength={query.data?.length}
+            fallbacks={{
+              noData: <BankSelectInputFallback />,
+              loader: (
+                <SelectInputLoader>
+                  <SelectInputLoaderText />
+                </SelectInputLoader>
+              ),
+            }}
+          />
+          {query.data?.map((bank) => {
             return (
-              <InputSelectItem value={bank.id}>
+              <InputSelectItem key={bank.id} value={bank.id}>
                 {bank.cardNumber}
               </InputSelectItem>
             );
-          })
-        )}
-      </InputSelectMenu>
-    </InputSelect>
+          })}
+        </InputSelectMenu>
+      </InputSelect>
+    </>
   );
 }
