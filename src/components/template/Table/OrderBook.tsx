@@ -19,6 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import OrderBookIcon from "../Trade/OrderBookIcon";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
+import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
 
 type OrderBookListProps = {
   rows: OrderBookType[];
@@ -26,6 +27,7 @@ type OrderBookListProps = {
 };
 
 const priceUnit = PRICE_UNITS.IRT.displayName;
+const weightUnit = WEIGHT_UNITS.KG.lable;
 const GRID_TEMPLATE = "1fr 1fr";
 
 const TABS = [
@@ -173,7 +175,7 @@ function OrderBookHeader() {
         variant="caption2"
         sx={{ textAlign: "left", color: "text.caption" }}
       >
-        حجم ({priceUnit})
+        حجم ({weightUnit})
       </Typography>
     </Box>
   );
