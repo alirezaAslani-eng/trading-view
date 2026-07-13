@@ -15,7 +15,10 @@ type SidebarContextValue = {
 const SidebarContext = createContext<SidebarContextValue | null>(null);
 
 function SidebarProvider({ children }: { children: React.ReactNode }) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const pathname = usePathname();
+
+  const isInTradePage = pathname.startsWith(ROUTES.TRADE.ROOT);
+  const [isCollapsed, setIsCollapsed] = useState(isInTradePage);
 
   const value = {
     isCollapsed,
@@ -30,12 +33,10 @@ function SidebarProvider({ children }: { children: React.ReactNode }) {
     },
   };
 
-  const pathname = usePathname();
-
   useUpdateEffect(() => {
-    if (!pathname.startsWith(ROUTES.TRADE.ROOT)) return;
+    if (!isInTradePage) return;
     setIsCollapsed(true);
-  }, [pathname]);
+  }, [isInTradePage]);
 
   return <SidebarContext value={value}>{children}</SidebarContext>;
 }
