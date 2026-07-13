@@ -1,5 +1,6 @@
 import { ProductStatus } from "@/api/types";
 import { OrderFilters, TransactionFilters } from "@/types";
+import { symbol } from "zod";
 
 const cacheDomain = {
   auth: "auth",
@@ -60,6 +61,8 @@ const userPermissionsDynamicKey = (userID: string) => [
   ...userPermissionsKey,
   userID,
 ];
+const recentTradesKey = ["recent-trades"];
+const recentTradesDynamicKey = (symbol: string) => [...recentTradesKey, symbol];
 
 export {
   kycStatusKey,
@@ -83,6 +86,8 @@ export {
   transactionsKey,
   transactionsDynamicKey,
   userPermissionsDynamicKey,
+  recentTradesDynamicKey,
+  recentTradesKey
 };
 
 // * prefix keys
