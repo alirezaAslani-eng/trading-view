@@ -16,6 +16,17 @@ interface InputTradeProps extends Omit<
   inputStep?: number;
 }
 
+const triggerButton_sx = {
+  borderRadius: "16px",
+  height: "100%",
+  color: "text.onPrimary",
+  position: "absolute",
+  px: "14px",
+  top: "0px",
+  "&.Mui-disabled": {
+    opacity: 0.5,
+  },
+};
 // ! The component is for MVP version, it will be refined
 
 function InputTrade({ label, inputStep = 10, ...props }: InputTradeProps) {
@@ -80,15 +91,8 @@ function InputTrade({ label, inputStep = 10, ...props }: InputTradeProps) {
         </Typography>
         <ButtonBase
           onClick={pluse}
-          sx={{
-            borderRadius: "16px",
-            height: "100%",
-            color: "text.onPrimary",
-            position: "absolute",
-            px: "14px",
-            top: "0px",
-            right: "0px",
-          }}
+          disabled={props.disabled}
+          sx={{ ...triggerButton_sx, right: "0px" }}
         >
           <PluseIcon />
         </ButtonBase>
@@ -110,15 +114,8 @@ function InputTrade({ label, inputStep = 10, ...props }: InputTradeProps) {
         />
         <ButtonBase
           onClick={minus}
-          sx={{
-            borderRadius: "16px",
-            height: "100%",
-            px: "14px",
-            color: "text.onPrimary",
-            position: "absolute",
-            top: "0px",
-            left: "0px",
-          }}
+          disabled={props.disabled}
+          sx={{ ...triggerButton_sx, left: "0px" }}
         >
           <MinusIcon />
         </ButtonBase>
