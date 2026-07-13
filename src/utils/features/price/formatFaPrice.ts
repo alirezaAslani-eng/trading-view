@@ -1,9 +1,9 @@
 const defaultOptions: Intl.NumberFormatOptions = {
   style: "decimal",
-  maximumFractionDigits: 2,
-  notation: "compact",
-  minimumFractionDigits: 0,
-  useGrouping: true,
+  // maximumFractionDigits: 2,
+  // notation: "compact",
+  // minimumFractionDigits: 0,
+  // useGrouping: true,
 };
 
 function formatFaPrice(
