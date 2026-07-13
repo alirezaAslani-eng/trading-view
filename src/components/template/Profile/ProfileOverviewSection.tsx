@@ -38,9 +38,12 @@ function ProfileOverviewSection() {
   const dashboard_info = useQuery(queryConfig);
   const initials = getInitials(dashboard_info.data?.fullName);
 
-
-  const lastLoginTime = convertToJalali(dashboard_info.data?.lastLoginAt??"").format("HH:MM")
-  const lastLoginDate = convertToJalali(dashboard_info.data?.lastLoginAt??"").format(JALALI_FORMAT)
+  const lastLoginTime = convertToJalali(
+    dashboard_info.data?.lastLoginAt ?? "",
+  ).format("HH:MM");
+  const lastLoginDate = convertToJalali(
+    dashboard_info.data?.lastLoginAt ?? "",
+  ).format(JALALI_FORMAT);
   return (
     <>
       {dashboard_info.status === "success" && (
@@ -75,16 +78,18 @@ function ProfileOverviewSection() {
             {/* // * ----end---- User Profile -------- */}
 
             {/* // * ---start--- Last Login Date ------- */}
-            <Typography
-              variant="caption1"
-              sx={{
-                color: "text.tertiary",
-                mt: "6px",
-                whiteSpace: "pre",
-              }}
-            >
-              {`آخرین ورود   ${lastLoginTime}    ${lastLoginDate}`}
-            </Typography>
+            {!!dashboard_info.data?.lastLoginAt && (
+              <Typography
+                variant="caption1"
+                sx={{
+                  color: "text.tertiary",
+                  mt: "6px",
+                  whiteSpace: "pre",
+                }}
+              >
+                {`آخرین ورود   ${lastLoginTime}    ${lastLoginDate}`}
+              </Typography>
+            )}
             {/* // * ---end--- Last Login Date ------- */}
           </Box>
 
@@ -117,11 +122,10 @@ function ProfileOverviewSection() {
 
             <UserProfileItemCard sx={{ flex: 1 }}>
               <UserProfileItemInfo
-                icon={<PhoneCallIcon/>}
+                icon={<PhoneCallIcon />}
                 title="شماره موبایل"
                 subTitle={dashboard_info.data.mobile}
               />
-             
             </UserProfileItemCard>
           </Box>
           {/* // * ---end--- User Profile Items -------- */}
