@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import {
   getConnection,
   start,
-  SubscribeToMarket,
+  subscribeToMarket,
 } from "@/packages/signalr";
 
 function useInvokeMarketSubscriptions(symbols: string[]) {
@@ -15,7 +15,7 @@ function useInvokeMarketSubscriptions(symbols: string[]) {
 
       symbols.forEach((symbol) => {
         con.invoke(
-          SubscribeToMarket,
+          subscribeToMarket,
           symbol,
         );
       });

@@ -19,7 +19,7 @@ function useSubscribeMarket() {
         await start(con);
 
         data.forEach((item) => {
-          con.invoke(subscribeToMarket, item.ticker).catch(console.error);
+          con.invoke(subscribeToMarket, item.ticker);
         });
       } catch (error) {
         console.error(error);
