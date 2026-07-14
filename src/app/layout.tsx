@@ -13,14 +13,16 @@ import OrderBookSyncProvider from "@/context/feature/market/OrderBookSyncProvide
 import MarketTickersSyncProvider from "@/context/feature/market/MarketTickersSyncProvider";
 import RecentTradeSyncProvider from "@/context/feature/trade/RecentTradeSyncProvider";
 import MarketSubscribeProvider from "@/context/feature/market/MarketSubscribeProvider";
+import WalletPortfolioSyncProvider from "@/context/feature/Portfolio/WalletPortfolioSyncProvider";
 export default function RootLayout({ children }: PWC) {
   return (
     <QueryClientProvider>
       <ReduxProvider>
         <TickerInfoSyncProvider />
         <MarketTickersSyncProvider />
-        <MarketSubscribeProvider/>
-        <RecentTradeSyncProvider/>
+        <MarketSubscribeProvider />
+        <WalletPortfolioSyncProvider />
+        <RecentTradeSyncProvider />
         <OrderBookSyncProvider />
         <AppRouterCacheProvider>
           <ThemeProvider>
