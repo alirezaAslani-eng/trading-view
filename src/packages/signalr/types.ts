@@ -28,10 +28,15 @@ type OnPriceUpdateInfo = {
   newPrice: number;
   price24h: number;
 }; 
+type OnMarketPriceChangedInfo = {
+  symbol: string;
+  price: number;
+};
 export type {
   OnTradeExecutedInfo,
   OrderBookUpdatedInfo,
   OnMarketTickersUpdatedInfo,
   OnPriceUpdateInfo,
-  OnPortfolioUpdateInfo
+  OnPortfolioUpdateInfo,
+ OnMarketPriceChangedInfo
 };
