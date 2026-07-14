@@ -74,7 +74,7 @@ function MountainBackground() {
         sx={{
           mixBlendMode: "screen",
           backgroundColor: "background.surface",
-          opacity: "0.2",
+          opacity: "0.5",
         }}
       />
     </Box>
