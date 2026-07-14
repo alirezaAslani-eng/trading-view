@@ -1,3 +1,4 @@
+import { WalletPortfolioResponse } from "@/api/types";
 import { MarketTicker } from "@/api/types/market.types";
 
 // * ========== Listener calback types ===========
@@ -21,9 +22,16 @@ type OrderBookUpdatedInfo = {
   b: [];
 };
 type OnMarketTickersUpdatedInfo = OnTradeExecutedInfo;
-
+type OnPortfolioUpdateInfo = WalletPortfolioResponse;
+type OnPriceUpdateInfo = {
+  symbol: string;
+  newPrice: number;
+  price24h: number;
+}; 
 export type {
   OnTradeExecutedInfo,
   OrderBookUpdatedInfo,
   OnMarketTickersUpdatedInfo,
+  OnPriceUpdateInfo,
+  OnPortfolioUpdateInfo
 };
