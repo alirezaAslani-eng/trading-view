@@ -10,16 +10,16 @@ import {
 
 function page() {
   return (
-    <AuthPageLayout>
+    <>
       <AuthPageLayoutFormContainer>
         <AuthPageLayoutBrand />
         <AuthFlowRenderer
           enterInfoStep={<RequestAuthOTPForm />}
           verifyInfoStep={<VerifyAuthOTPForm />}
         />
+        <AuthPageLayoutHelperLinks />
       </AuthPageLayoutFormContainer>
-      <AuthPageLayoutHelperLinks />
-    </AuthPageLayout>
+    </>
   );
 }
 

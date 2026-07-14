@@ -27,23 +27,13 @@ const footerDividerProps: DividerProps = {
 function AuthPageLayout(props: ReplaceSxWithSxOnlyObject<StackProps>) {
   return (
     <>
-      <Box
-        sx={{
-          height: "40px",
-          display: { xs: "flex", sm: "none" },
-          justifyContent: "end",
-          alignItems: "center",
-        }}
-      >
-        <AuthPageBackButton />
-      </Box>
       <Stack
         {...props}
         sx={{
           alignItems: "center",
           justifyContent: { xs: "space-between", sm: "center" },
           minHeight: "calc(100svh - 40px)",
-          pb: { xs: "32px", sm: "16px" },
+          py: "52px",
           ...props.sx,
         }}
       />
@@ -59,6 +49,10 @@ function AuthPageLayoutFormContainer(
       {...props}
       sx={{
         alignItems: "center",
+        justifyContent: "space-between",
+        minHeight: "100svh",
+        gap: "24px",
+        py: "52px",
         ...props.sx,
       }}
     />
@@ -67,7 +61,7 @@ function AuthPageLayoutFormContainer(
 
 function AuthPageLayoutBrand() {
   return (
-    <Stack sx={{ alignItems: "center", mb: { xs: "34px", sm: "67px" } }}>
+    <Stack sx={{ alignItems: "center" }}>
       <BrandIcon sx={{ height: "70px", width: { xs: "65px", sm: "108px" } }} />
       <BrandName sx={{ mt: "8px" }} />
     </Stack>
@@ -76,7 +70,7 @@ function AuthPageLayoutBrand() {
 
 function AuthPageLayoutHelperLinks() {
   return (
-    <Box sx={{ display: "flex", alignItems: "center", mt: "112px" }}>
+    <Box sx={{ display: "flex", alignItems: "center" }}>
       <NextLink href={""}>
         <Typography {...footerTypographyProps}>{"راهنما"}</Typography>
       </NextLink>
