@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/Layout/PaperLayout";
 
 const orderColumns = buildOrderColumns({
-  include: ["productCode", "weight", "price", "status"],
+  include: ["productCode", "totalWeight", "price", "status"],
   extra: [
     {
       headerName: "عملیات",

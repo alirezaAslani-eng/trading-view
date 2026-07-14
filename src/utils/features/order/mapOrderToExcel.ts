@@ -3,6 +3,7 @@ import { convertToJalali } from "@/packages/dayjs";
 import { JALALI_FORMAT } from "@/constant/app/date";
 import { formatFaPrice } from "@/utils";
 import normalizeOrderStatus from "@/utils/features/order/normalizeOrderStatus";
+import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
 
 function mapOrderToExcel(rows: Order[]) {
   return rows.map((row) => {
@@ -19,7 +20,7 @@ function mapOrderToExcel(rows: Order[]) {
 
       "قیمت": formatFaPrice(row.price),
 
-      "مقدار": `${row.weight} کیلو`,
+      "مقدار": `${row.totalWeight} ${WEIGHT_UNITS.KG.lable}`,
 
       "وضعیت":
         isPending
