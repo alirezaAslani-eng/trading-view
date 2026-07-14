@@ -1,49 +1,64 @@
 "use client";
+
 import { useEffect } from "react";
-import { MarketTickerInfoResponse } from "@/api/types";
+
+import type { MarketTickerInfoResponse } from "@/api/types";
+
 import { marketTickerInfoKey, queryClient } from "@/packages/react-query";
+
 import {
   getConnection,
+  OnMarketPriceChanged,
   onTradeExecuted,
-  OnTradeExecutedInfo,
+  type OnMarketPriceChangedInfo,
+  type OnTradeExecutedInfo,
 } from "@/packages/signalr";
 
-function updateTckerInfoCache(trade: OnTradeExecutedInfo) {
+function updateByMarketPrice(data: OnMarketPriceChangedInfo) {
   queryClient.setQueriesData(
     { queryKey: marketTickerInfoKey },
-    (
-      tickerInfo: MarketTickerInfoResponse | undefined,
-    ): MarketTickerInfoResponse | undefined => {
+    (tickerInfo: MarketTickerInfoResponse | undefined) => {
       if (!tickerInfo) return tickerInfo;
 
-      if (tickerInfo.symbol !== trade.productCode) return tickerInfo;
-      console.log({
-        ...tickerInfo,
-        lastPrice: trade.price,
-      });
+      if (tickerInfo.symbol !== data.symbol) return tickerInfo;
 
       return {
         ...tickerInfo,
-        lastPrice: trade.price,
+        lastPrice: data.price,
       };
     },
   );
 }
 
-function useSyncTickerInfoQueries() {
-  useEffect(() => {
-    const con = getConnection()!;
+function updateByTrade(data: OnTradeExecutedInfo) {
+  queryClient.setQueriesData(
+    { queryKey: marketTickerInfoKey },
+    (tickerInfo: MarketTickerInfoResponse | undefined) => {
+      if (!tickerInfo) return tickerInfo;
 
-    con.on(onTradeExecuted, updateTckerInfoCache);
+      if (tickerInfo.symbol !== data.productCode) return tickerInfo;
 
-    return () => {
-      con.off(onTradeExecuted, updateTckerInfoCache);
-    };
-  }, []);
+      return {
+        ...tickerInfo,
+        volum: data.volum,
+      };
+    },
+  );
 }
 
 function TickerInfoSyncProvider() {
-  useSyncTickerInfoQueries();
+  useEffect(() => {
+    const con = getConnection()!;
+
+    con.on(OnMarketPriceChanged, updateByMarketPrice);
+    con.on(onTradeExecuted, updateByTrade);
+
+    return () => {
+      con.off(OnMarketPriceChanged, updateByMarketPrice);
+      con.off(onTradeExecuted, updateByTrade);
+    };
+  }, []);
+
   return null;
 }
 
