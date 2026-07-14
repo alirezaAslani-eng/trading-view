@@ -29,7 +29,7 @@ import TransactionsPagination from "../Pagination/TransactionsPagination";
 import { useQuery } from "@tanstack/react-query";
 import { symbolsConfig } from "@/packages/react-query";
 import { SelectInputLoader } from "@/components/ui/Fallback/SelectInputLoader";
-import exportExcel from "@/utils/app/exportExcel";
+import { exportExcel } from "@/utils/app/exportExcel";
 import {
   PagePaper,
   PagePaperHeading,
