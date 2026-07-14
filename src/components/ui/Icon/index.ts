@@ -35,3 +35,5 @@ export { default as EyeIcon } from "./EyeIcon";
 export { default as EyeOffIcon } from "./EyeOffIcon";
 export { default as KeyDownIcon } from "./KeyDownIcon";
 export { default as KeyUpIcon } from "./KeyUpIcon";
+export { default as ArrowLeftIcon } from "./ArrowLeftIcon";
+export { default as ArrowRightIcon } from "./ArrowRightIcon";
