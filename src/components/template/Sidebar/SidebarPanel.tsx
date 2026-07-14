@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { dashboardInfoConfig } from "@/packages/react-query";
 import { useSidebarContext } from "@/context/app/Sidebar";
 import SidebarToggle from "./SidebarToggle";
+import { BrandIcon } from "@/components/ui/Icon";
 
 const getSidebarWidth = (collapsed: boolean) => (collapsed ? "80px" : "264px");
 function SidebarPanel(props: StackProps) {
@@ -62,12 +63,11 @@ function SidebarPanel(props: StackProps) {
           }}
         >
           {!isCollapsed && <BrandName />}
-          <NextImage
-            src={"/images/brand-logo.png"}
-            alt="brand logo"
-            width={isCollapsed ? 32 : 51}
-            height={isCollapsed ? 24 : 38}
-            sx={{ objectFit: "cover" }}
+          <BrandIcon
+            sx={{
+              width: isCollapsed ? 32 : 51,
+              height: isCollapsed ? 24 : 38,
+            }}
           />
         </Box>
         <Stack
