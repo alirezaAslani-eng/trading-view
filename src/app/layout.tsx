@@ -14,6 +14,7 @@ import MarketTickersSyncProvider from "@/context/feature/market/MarketTickersSyn
 import RecentTradeSyncProvider from "@/context/feature/trade/RecentTradeSyncProvider";
 import MarketSubscribeProvider from "@/context/feature/market/MarketSubscribeProvider";
 import WalletPortfolioSyncProvider from "@/context/feature/Portfolio/WalletPortfolioSyncProvider";
+import { LocalizationProvider } from "@/packages/mui";
 export default function RootLayout({ children }: PWC) {
   return (
     <QueryClientProvider>
@@ -25,19 +26,21 @@ export default function RootLayout({ children }: PWC) {
         <RecentTradeSyncProvider />
         <OrderBookSyncProvider />
         <AppRouterCacheProvider>
-          <ThemeProvider>
-            <CssBaseline />
-            <html lang="fa" dir="rtl">
-              <Box
-                component={"body"}
-                sx={{ minHeight: "100svh" }}
-                className={`${IranYekanMedium.variable} ${IranYekanDemibold.variable} ${IranYekanRegular.variable}`}
-              >
-                {children}
-                <Toaster />
-              </Box>
-            </html>
-          </ThemeProvider>
+          <LocalizationProvider>
+            <ThemeProvider>
+              <CssBaseline />
+              <html lang="fa" dir="rtl">
+                <Box
+                  component={"body"}
+                  sx={{ minHeight: "100svh" }}
+                  className={`${IranYekanMedium.variable} ${IranYekanDemibold.variable} ${IranYekanRegular.variable}`}
+                >
+                  {children}
+                  <Toaster />
+                </Box>
+              </html>
+            </ThemeProvider>
+          </LocalizationProvider>
         </AppRouterCacheProvider>
       </ReduxProvider>
     </QueryClientProvider>
