@@ -7,8 +7,11 @@ interface Order {
   orderSide: OrderSide;
   orderType: OrderType;
   price: number;
-  weight: number;
   status: OrderStatus;
+  totalWeight: 30;
+  filledWeight: 0;
+  remainingWeight: 30;
+  progress: 0;
 }
 
 // * --start-- orders.ts ----

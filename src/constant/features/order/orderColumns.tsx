@@ -2,7 +2,7 @@ import { Column } from "@/components/ui/Table/DataTable";
 import { Order } from "@/api/types";
 import { convertToJalali } from "@/packages/dayjs";
 import { JALALI_FORMAT } from "@/constant/app/date";
-import { formatFaPrice } from "@/utils";
+import { formatFaPrice, formatPrecent } from "@/utils";
 import normalizeOrderStatus from "@/utils/features/order/normalizeOrderStatus";
 import { Typography } from "@mui/material";
 import {
@@ -10,9 +10,10 @@ import {
   BuildColumnsOptions,
   DefColumns,
 } from "@/utils/app/buildColumns";
+import { WEIGHT_UNITS } from "../product/weightUnits";
 
 type DefaultColumns = DefColumns<Order>;
-
+const weightUnit = WEIGHT_UNITS.KG.lable;
 export const orderTableColumns: DefaultColumns = {
   date: {
     headerName: "تاریخ",
@@ -47,10 +48,28 @@ export const orderTableColumns: DefaultColumns = {
       return formatFaPrice(row.price);
     },
   },
-  weight: {
-    headerName: "مقدار",
+  totalWeight: {
+    headerName: "وزن کل",
     renderCell(row) {
-      return `${row.weight} کیلو`;
+      return `${row.totalWeight} ${weightUnit}`;
+    },
+  },
+  filledWeight: {
+    headerName: "وزن پر شده",
+    renderCell(row) {
+      return `${row.filledWeight} ${weightUnit}`;
+    },
+  },
+  remainingWeight: {
+    headerName: "وزن باقی مانده",
+    renderCell(row) {
+      return `${row.remainingWeight} ${weightUnit}`;
+    },
+  },
+  progress: {
+    headerName: "درصد باقی مانده",
+    renderCell(row) {
+      return formatPrecent(row.progress);
     },
   },
   status: {

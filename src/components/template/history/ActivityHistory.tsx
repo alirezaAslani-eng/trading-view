@@ -48,8 +48,8 @@ import mapOrderToExcel from "@/utils/features/order/mapOrderToExcel";
 import mapTransactionToExcel from "@/utils/features/transaction/mapTransactionToExcel";
 import { useQueryClient } from "@tanstack/react-query";
 import { ordersConfig, transactionsConfig } from "@/packages/react-query";
+import { orderHistoryColumns } from "@/constant/features/order/orderHistoryColumns";
 
-const orderColumns = buildOrderColumns();
 const transactionColumns = buildTransactionColumns();
 
 type TabState = "orders" | "transactions";
@@ -140,7 +140,7 @@ function ActivityHistory() {
 
           {/* // * Tables  */}
           <Box sx={{ mt: "40px" }}>
-            {isOrdersTab && <OrdersTable columns={orderColumns} />}
+            {isOrdersTab && <OrdersTable columns={orderHistoryColumns} />}
             {isTransactionsTab && (
               <TransactionsTable columns={transactionColumns} />
             )}

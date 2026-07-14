@@ -20,11 +20,11 @@ import NextLink from "@/components/ui/Link/NextLink";
 import { ROUTES } from "@/constant/app/routes";
 import { useOrderFiltersProvider } from "@/context/feature/orders/Orders/hooks";
 import useUpdateEffect from "@/hooks/app/useUpdateEffect";
+import { orderHistoryColumns } from "@/constant/features/order/orderHistoryColumns";
 
 type TabType = "active-orders" | "assets" | "order-history";
 
 // * -------------- Table Columns --------------
-const orderHystoryColumns = buildOrderColumns({});
 const assetColumns = buildAssetColumns({
   extra: [
     {
@@ -102,7 +102,7 @@ function TradingActivity_() {
             columns={
               orderFilters.filters.view === "active"
                 ? activeOrderColumns
-                : orderHystoryColumns
+                : orderHistoryColumns
             }
           />
         )}
