@@ -34,6 +34,7 @@ function bulletListTheme({
         rootTheme: {
           backgroundColor: alpha(palette.status.warning, 0.06),
           borderRadius: "16px",
+          backdropFilter:"blur(10px)"
         },
       } satisfies BulletListThemeReturn,
     },
