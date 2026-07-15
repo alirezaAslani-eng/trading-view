@@ -1,69 +1,146 @@
 "use client";
-import { DateCalendarProps } from "@mui/x-date-pickers/DateCalendar";
 import { SelectDisplayProps } from "../types";
-import { Menu, MenuProps } from "@mui/material";
+import { Box, IconButton, Menu, MenuProps } from "@mui/material";
 import SelectDisplay from "../DropdownButton/SelectDisplay";
 import { identifySxProp } from "@/packages/mui/theme";
-import DateCalendar from "./DateCalendar";
-import { useState } from "react";
+import { JALALI_FORMAT } from "@/constant/app/date";
+import { createContext, useContext } from "react";
+import { Dayjs } from "dayjs";
+import useMuiMenuState from "@/hooks/app/useMuiMenuState";
+import { CloseIcon } from "../Icon";
 
-function DateCalanderDropdown({
-  displayProps,
-  menuProps,
-  ...props
-}: DateCalendarProps & {
-  displayProps?: SelectDisplayProps;
-  menuProps?: Omit<MenuProps, "open" | "onClose" | "anchorEl">;
-}) {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const open = Boolean(anchorEl);
+//#region // * ------------ DateCalanderProvider ------------
+type DateCalendarDropdownContextValue = {
+  anchorEl: HTMLElement | null;
+  isOpen: boolean;
+  open: (event: React.MouseEvent<HTMLElement>) => void;
+  close: () => void;
+};
 
-  const selectedDateDisplay = props.value?.format("YYYY/MM/DD");
+export const DateCalendarDropdownContext =
+  createContext<DateCalendarDropdownContextValue | null>(null);
 
-  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleChange: DateCalendarProps["onChange"] = (...args) => {
-    props?.onChange?.(...args);
-    handleClose();
-  };
-
+export function useDateCalendarDropdownContext() {
+  const ctx = useContext(DateCalendarDropdownContext);
+  return ctx;
+}
+function DateCalanderProvider({ children }: { children: React.ReactNode }) {
+  const { anchoreEl, closeMenu, openMenu, isOpenMenu } = useMuiMenuState();
   return (
-    <>
-      <SelectDisplay
-        component={"button"}
-        variant="outlined"
-        size="medium"
-        onClick={handleOpen}
-        focused={open}
-        isSelected={!!selectedDateDisplay}
-        sx={(tm) => ({
-          width: "200px",
-          textAlign: "unset",
-          ...identifySxProp(tm, displayProps),
-        })}
-      >
-        {selectedDateDisplay ?? "از تاریخ"}
-      </SelectDisplay>
-
-      <Menu
-        {...menuProps}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        slotProps={{
-          paper: { sx: { backgroundColor: "transparent", boxShadow: "none" } },
-        }}
-      >
-        <DateCalendar {...props} onChange={handleChange} />
-      </Menu>
-    </>
+    <DateCalendarDropdownContext
+      value={{
+        anchorEl: anchoreEl,
+        isOpen: isOpenMenu,
+        open: openMenu,
+        close: closeMenu,
+      }}
+    >
+      {children}
+    </DateCalendarDropdownContext>
   );
 }
 
-export default DateCalanderDropdown;
+//#endregion // * ------------ Context ------------
+
+//#region // * ------------ DateValueDisplay ------------
+type DateValueDisplayProps = {
+  value: Dayjs | null | undefined;
+  placeholder?: string;
+  onClear?: () => void;
+};
+
+function DateValueDisplay({
+  value,
+  placeholder,
+  onClear,
+}: DateValueDisplayProps) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: " 2px" }}>
+      {!!value && (
+        <IconButton
+          onClick={(e) => {
+            e.stopPropagation();
+            onClear?.();
+          }}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      )}
+      {value ? value.format(JALALI_FORMAT) : (placeholder ?? "")}
+    </Box>
+  );
+}
+//#endregion // * ------------ DateDsplayValue ------------
+
+//#region // * ------------ DateCalanderTrigger ------------
+interface DateCalanderTriggerProps extends Omit<
+  SelectDisplayProps,
+  "onClick" | "focused" | "isSelected"
+> {
+  value: Dayjs | null | undefined;
+  onClear?: () => void;
+}
+
+function DateCalanderTrigger({
+  value,
+  onClear,
+  ...props
+}: DateCalanderTriggerProps) {
+  const { isOpen, open } = useDateCalendarDropdownContext()!;
+
+  return (
+    <SelectDisplay
+      component={"button"}
+      variant="outlined"
+      size="small"
+      {...props}
+      //#region // * ---- not overrideable ----
+      onClick={!props.disabled ? open : undefined}
+      focused={isOpen}
+      isSelected={!!value}
+      //#endregion // * ---- not overrideable ----
+      sx={(tm) => ({
+        width: "100%",
+        textAlign: "unset",
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        ...identifySxProp(tm, props.sx),
+      })}
+    />
+  );
+}
+//#endregion // * ------------ Trigger Component ------------
+
+//#region // * ------------ DateCalanderMenu ------------
+type DateCalanderMenuProps = Omit<
+  MenuProps,
+  "open" | "onClose" | "anchorEl"
+> & {};
+
+function DateCalanderMenu(props: DateCalanderMenuProps) {
+  const { anchorEl, isOpen, close } = useDateCalendarDropdownContext()!;
+
+  return (
+    <Menu
+      sx={(tm) => ({ mt: "18px", ...identifySxProp(tm, props.sx) })}
+      {...props}
+      anchorEl={anchorEl}
+      open={isOpen}
+      onClose={close}
+      slotProps={{
+        paper: { sx: { backgroundColor: "transparent", boxShadow: "none" } },
+        ...props.slotProps,
+      }}
+    />
+  );
+}
+
+//#endregion // * ------------ DateCalanderMenu ------------
+
+export {
+  DateCalanderProvider,
+  DateCalanderMenu,
+  DateCalanderTrigger,
+  DateValueDisplay,
+};
