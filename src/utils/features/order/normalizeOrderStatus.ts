@@ -15,6 +15,9 @@ function normalizeOrderStatus(status: OrderStatus) {
     isPending: orderStatusMap[status] === "pending",
     isFaild: orderStatusMap[status] === "failed",
     isFilled: orderStatusMap[status] === "filled",
+    isDone:
+      orderStatusMap[status] === "failed" ||
+      orderStatusMap[status] === "filled",
   };
 }
 
