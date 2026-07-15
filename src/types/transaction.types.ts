@@ -1,10 +1,15 @@
 import { OrderView } from "@/api/types";
-import { PaginationFilter, PaginationFilterQueries } from "./filter.types";
+import {
+  DateFilter,
+  PaginationFilter,
+  PaginationFilterQueries,
+} from "./filter.types";
 import { TransactionType } from "@/constant/features/transaction/transactionType";
 
-interface TransactionFilters extends PaginationFilter {
-  Type: null | TransactionType;
-}
+type TransactionFilters = PaginationFilter &
+  DateFilter & {
+    Type: null | TransactionType;
+  };
 type TransactionFilterQueryKeys = "Type";
 
 type TransactionFilterQueries = PaginationFilterQueries &

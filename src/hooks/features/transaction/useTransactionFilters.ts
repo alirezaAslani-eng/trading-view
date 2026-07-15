@@ -6,6 +6,8 @@ const INITIAL_FILTERS: TransactionFilters = {
   page: 1,
   pageSize: 10,
   Type: null,
+  fromDate: null,
+  toDate: null,
 };
 
 function useTransactionFilters(
@@ -20,7 +22,19 @@ function useTransactionFilters(
 
   const setType = (type: TransactionFilters["Type"]) => {
     filter.setFilter("Type", type);
+    filter.resetFilter("page");
   };
+
+  const setFromDate = (fromDate: TransactionFilters["fromDate"]) => {
+    filter.setFilter("fromDate", fromDate);
+    filter.resetFilter("page");
+  };
+
+  const setToDate = (toDate: TransactionFilters["toDate"]) => {
+    filter.setFilter("toDate", toDate);
+    filter.resetFilter("page");
+  };
+
   const setPage = (page: TransactionFilters["page"]) => {
     filter.setFilter("page", page);
   };
@@ -28,6 +42,8 @@ function useTransactionFilters(
   return {
     setType,
     setPage,
+    setFromDate,
+    setToDate,
     ...filter,
   };
 }
