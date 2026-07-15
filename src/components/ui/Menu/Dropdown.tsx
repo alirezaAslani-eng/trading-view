@@ -25,6 +25,14 @@ function Dropdown({ trigger, fullWidth, ...props }: DropdownProps) {
 
       <Menu
         {...props}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
         sx={{
           ...(fullWidth && { width: anchoreWidth ?? undefined }),
           ...props.sx,
