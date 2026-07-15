@@ -30,8 +30,10 @@ import KYC_LEVEL_ORDER from "@/constant/features/kyc/kycLevelOreder";
 import { UseQueryResult } from "@tanstack/react-query";
 import { getInitials } from "@/utils/features/user/getInitials";
 import { JALALI_FORMAT } from "@/constant/app/date";
+import SensitiveText from "@/components/common/Appbar/SensitiveText";
 
 const kycFallback = "نیاز به احراز حویت";
+
 
 const queryConfig = dashboardInfoConfig();
 function ProfileOverviewSection() {
@@ -106,7 +108,13 @@ function ProfileOverviewSection() {
               <UserProfileItemInfo
                 icon={<UserGuardIcon />}
                 title="کد ملی"
-                subTitle={dashboard_info.data.nationalId ?? kycFallback}
+                subTitle={
+                  <SensitiveText
+                    value={dashboard_info.data.nationalId}
+                    fallback={kycFallback}
+                    mask="**********"
+                  />
+                }
               />
             </UserProfileItemCard>
 
@@ -115,7 +123,11 @@ function ProfileOverviewSection() {
                 icon={<BirthDayCakeIcon />}
                 title="تاریخ تولد"
                 subTitle={
-                  formatBirthdate(dashboard_info.data?.birthDate) ?? kycFallback
+                  <SensitiveText
+                    value={formatBirthdate(dashboard_info.data.birthDate)}
+                    fallback={kycFallback}
+                    mask="****/**/**"
+                  />
                 }
               />
             </UserProfileItemCard>
@@ -124,7 +136,12 @@ function ProfileOverviewSection() {
               <UserProfileItemInfo
                 icon={<PhoneCallIcon />}
                 title="شماره موبایل"
-                subTitle={dashboard_info.data.mobile}
+                subTitle={
+                  <SensitiveText
+                    value={dashboard_info.data.mobile}
+                    mask="***********"
+                  />
+                }
               />
             </UserProfileItemCard>
           </Box>
