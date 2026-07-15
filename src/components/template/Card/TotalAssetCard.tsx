@@ -67,6 +67,8 @@ function TotalAssetCard() {
           display: "flex",
           gap: "61px",
           alignItems: "center",
+          justifyContent: "space-between",
+          flex: 1,
           px: "10px",
           py: "6px",
         }}
@@ -123,10 +125,13 @@ function TotalAssetCard() {
             display: "flex",
             gap: "16px",
             alignItems: "center",
-            flex: 1,
+            // flex: 1,
           }}
         >
-          <NextLink href={ROUTES.ASSETS.DEPOSIT} sx={{ flex: 1 }}>
+          <NextLink
+            href={ROUTES.ASSETS.DEPOSIT}
+            sx={{ flex: 1, width: "120px" }}
+          >
             <Button
               color="primary"
               variant="contained"
