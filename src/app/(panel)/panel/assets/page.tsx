@@ -22,13 +22,14 @@ function page() {
       </Header>
       <Main>
         <Section>
-          <SectionContent>
-            <Box sx={{ width: "63.4%", minHeight: "242px" }}>
+           <Box >
               <TotalAssetCard />
             </Box>
-            <Box sx={{ width: "34.36%", minHeight: "242px" }}>
+          <SectionContent>
+           
+            {/* <Box sx={{ width: "34.36%", minHeight: "242px" }}>
               <ExchangeAssetForm />
-            </Box>
+            </Box> */}
           </SectionContent>
         </Section>
 
