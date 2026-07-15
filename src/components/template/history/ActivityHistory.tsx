@@ -12,7 +12,6 @@ import { Box, Divider, Stack, ToggleButton } from "@mui/material";
 import { OrderFilters, TransactionFilters } from "@/types";
 import CheckBox from "@/components/ui/Checkbox/CheckBox";
 import OrdersTable from "../Table/OrdersTable";
-import buildOrderColumns from "@/constant/features/order/orderColumns";
 import { PropsWithChildren, useState } from "react";
 import OrdersPagination from "../Pagination/OrdersPagination";
 import { createNonNullToggleHandler } from "@/packages/mui/theme";
@@ -49,7 +48,13 @@ import mapTransactionToExcel from "@/utils/features/transaction/mapTransactionTo
 import { useQueryClient } from "@tanstack/react-query";
 import { ordersConfig, transactionsConfig } from "@/packages/react-query";
 import { orderHistoryColumns } from "@/constant/features/order/orderHistoryColumns";
-
+import {
+  DateCalanderMenu,
+  DateCalanderProvider,
+  DateCalanderTrigger,
+  DateCalendarDropdown,
+  DateValueDisplay,
+} from "@/components/ui/DateCalendar/DateCalanderDropdown";
 const transactionColumns = buildTransactionColumns();
 
 type TabState = "orders" | "transactions";
@@ -184,11 +189,12 @@ function TransactionFilterControls() {
       sx={{
         display: "flex",
         alignItems: "center",
-        gap: "32px",
+        gap: "18px",
+        width: "450px",
       }}
     >
       <InputSelect
-        sx={{ width: "200px" }}
+        sx={{ flex: 1 }}
         variant="outlined"
         size="small"
         placeholder="نوع تراکنش"
@@ -211,6 +217,49 @@ function TransactionFilterControls() {
           })}
         </InputSelectMenu>
       </InputSelect>
+      {/* From Date */}
+      <DateCalanderProvider>
+        <DateCalanderTrigger
+          value={transactionFilters.filters.fromDate}
+          onClear={() => transactionFilters.setFromDate(null)}
+          sx={{ flex: 1 }}
+        >
+          <DateValueDisplay
+            value={transactionFilters.filters.fromDate}
+            placeholder="از تاریخ"
+            onClear={() => transactionFilters.setFromDate(null)}
+          />
+        </DateCalanderTrigger>
+
+        <DateCalanderMenu>
+          <DateCalendarDropdown
+            value={transactionFilters.filters.fromDate}
+            onChange={(date) => transactionFilters.setFromDate(date)}
+          />
+        </DateCalanderMenu>
+      </DateCalanderProvider>
+
+      {/* To Date */}
+      <DateCalanderProvider>
+        <DateCalanderTrigger
+          value={transactionFilters.filters.toDate}
+          onClear={() => transactionFilters.setToDate(null)}
+          sx={{ flex: 1 }}
+        >
+          <DateValueDisplay
+            value={transactionFilters.filters.toDate}
+            placeholder="تا تاریخ"
+            onClear={() => transactionFilters.setToDate(null)}
+          />
+        </DateCalanderTrigger>
+
+        <DateCalanderMenu>
+          <DateCalendarDropdown
+            value={transactionFilters.filters.toDate}
+            onChange={(date) => transactionFilters.setToDate(date)}
+          />
+        </DateCalanderMenu>
+      </DateCalanderProvider>
     </Box>
   );
 }
@@ -234,7 +283,7 @@ function OrderFilterControls() {
       sx={{
         display: "flex",
         alignItems: "center",
-        gap: "32px",
+        gap: "18px",
       }}
     >
       <Box
@@ -242,10 +291,10 @@ function OrderFilterControls() {
           display: "flex",
           alignItems: "center",
           gap: "18px",
-          width: "314px",
+          width: "700px",
         }}
       >
-        {/* // * Symbol  */}
+        {/*  Symbol  */}
         <InputSelect
           size="small"
           variant="outlined"
@@ -275,7 +324,7 @@ function OrderFilterControls() {
           </InputSelectMenu>
         </InputSelect>
 
-        {/* // * Order side  */}
+        {/* Order side  */}
         <InputSelect
           placeholder="سمت"
           size="small"
@@ -296,14 +345,59 @@ function OrderFilterControls() {
             </InputSelectItem>
           </InputSelectMenu>
         </InputSelect>
+
+        {/* From Date */}
+        <DateCalanderProvider>
+          <DateCalanderTrigger
+            value={orderFilters.filters.fromDate}
+            onClear={() => orderFilters.setFromDate(null)}
+            sx={{ flex: 1 }}
+          >
+            <DateValueDisplay
+              value={orderFilters.filters.fromDate}
+              placeholder="از تاریخ"
+              onClear={() => orderFilters.setFromDate(null)}
+            />
+          </DateCalanderTrigger>
+
+          <DateCalanderMenu>
+            <DateCalendarDropdown
+              value={orderFilters.filters.fromDate}
+              onChange={(date) => orderFilters.setFromDate(date)}
+            />
+          </DateCalanderMenu>
+        </DateCalanderProvider>
+
+        {/* To Date */}
+        <DateCalanderProvider>
+          <DateCalanderTrigger
+            value={orderFilters.filters.toDate}
+            onClear={() => orderFilters.setToDate(null)}
+            sx={{ flex: 1 }}
+          >
+            <DateValueDisplay
+              value={orderFilters.filters.toDate}
+              placeholder="تا تاریخ"
+              onClear={() => orderFilters.setToDate(null)}
+            />
+          </DateCalanderTrigger>
+
+          <DateCalanderMenu>
+            <DateCalendarDropdown
+              value={orderFilters.filters.toDate}
+              onChange={(date) => orderFilters.setToDate(date)}
+            />
+          </DateCalanderMenu>
+        </DateCalanderProvider>
+
+        {/* order status  */}
+        <CheckBox
+          variant="outlined"
+          label="سفارشات باز"
+          checked={orderFilters.filters.view === "active"}
+          onChange={(_, checked) => viewHandler(checked)}
+        />
       </Box>
-      {/* // * order status  */}
-      <CheckBox
-        variant="outlined"
-        label="فقط سفارشات باز"
-        checked={orderFilters.filters.view === "active"}
-        onChange={(_, checked) => viewHandler(checked)}
-      />
     </Box>
   );
 }
