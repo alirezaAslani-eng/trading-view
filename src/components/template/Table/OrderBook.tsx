@@ -347,14 +347,14 @@ function RecentTradesList({ rows }: { rows: RecentTradeResponse }) {
     <ScrollContainer
       sx={{
         scrollbarGutter: "stable",
-        pl: "8px",
-        maxHeight: "300px",
+        height: "100%",
+        pl: !!rows.length ? "8px" : undefined,
       }}
     >
-      {!rows.length ? (
+      {!!!rows.length ? (
         <Stack
           sx={{
-            height: "180px",
+            height: "100%",
             alignItems: "center",
             justifyContent: "center",
           }}
