@@ -4,19 +4,13 @@ import { OrdersResponse, OrdersApiConfig } from "@/api/types";
 import { BaseApiResponse } from "@/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 
-const URL = ({
-  params,
-  queries,
-}: Pick<OrdersApiConfig, "params" | "queries">) => {
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/${params.view}?${queries}`;
+const URL = ({ queries }: Pick<OrdersApiConfig, "queries">) => {
+  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/all?${queries}`;
 };
 
-async function orders({
-  queries,
-  params,
-}: OrdersApiConfig): Promise<OrdersResponse> {
+async function orders({ queries }: OrdersApiConfig): Promise<OrdersResponse> {
   const res = (await fetchHandler(async () => {
-    const response = await fetch(URL({ params, queries }), {
+    const response = await fetch(URL({ queries }), {
       ...sharedRequestInit,
       method: "GET",
     });

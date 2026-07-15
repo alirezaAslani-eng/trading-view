@@ -16,7 +16,7 @@ interface Order {
 
 // * --start-- orders.ts ----
 type OrderView = "active" | "history";
-type OrdersApiConfig = { params: { view: OrderView }; queries?: string };
+type OrdersApiConfig = { queries?: string };
 
 type OrdersResponse = PaginationResponse<Order[]>;
 // * --end-- orders.ts ----

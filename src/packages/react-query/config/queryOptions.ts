@@ -135,9 +135,6 @@ const ordersConfig = (filters: OrderFilters) => {
         queries: new URLSearchParams(
           buildOrderFilterQueries(filters),
         ).toString(),
-        params: {
-          view: filters.view,
-        },
       });
     },
   });

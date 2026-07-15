@@ -24,7 +24,7 @@ type OrderFilters = PaginationFilter &
     status: OrderStatus | null;
   };
 
-type OrderFilterQueryKeys = "orderSide" | "productCode" | "status";
+type OrderFilterQueryKeys = "orderSide" | "productCode" | "status" | "viewType";
 type OrderFilterQueries = PaginationFilterQueries &
   Record<OrderFilterQueryKeys, string>;
 

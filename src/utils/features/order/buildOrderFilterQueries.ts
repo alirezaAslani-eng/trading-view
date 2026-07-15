@@ -1,10 +1,16 @@
 import { OrderFilterQueries, OrderFilters } from "@/types";
 
-function buildOrderFilterQueries(
-  filterState: Omit<OrderFilters, "view">,
-): Partial<OrderFilterQueries> {
-  const { orderSide, page, pageSize, productCode, status, fromDate, toDate } =
-    filterState;
+function buildOrderFilterQueries(filterState: OrderFilters) {
+  const {
+    orderSide,
+    page,
+    pageSize,
+    productCode,
+    status,
+    fromDate,
+    toDate,
+    view,
+  } = filterState;
 
   const serialized = {
     ...(!!orderSide && { orderSide: String(orderSide) }),
@@ -14,7 +20,8 @@ function buildOrderFilterQueries(
     ...(!!status && { status: String(status) }),
     ...(!!fromDate && { fromDate: fromDate.toISOString() }),
     ...(!!toDate && { toDate: toDate.toISOString() }),
-  };
+    ...(!!view && { viewType: view }),
+  } satisfies Partial<OrderFilterQueries>;
 
   return serialized;
 }
