@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import isKycStepPassed from "@/utils/features/kyc/isKycStepPassed";
 import { KycLevel } from "@/types";
 import { kycStatusConfig } from "@/packages/react-query";
-import { upgradeKycLevel } from "@/redux/features/kyc";
+import { needKyc } from "@/redux/features/kyc";
 
 function useKycGuard() {
   const dispatch = useDispatch();
@@ -18,7 +18,8 @@ function useKycGuard() {
     const passed = isKycStepPassed(currentLevel, requiredLevel);
 
     if (!passed) {
-      dispatch(upgradeKycLevel());
+
+     dispatch(needKyc());
     }
 
     return passed;
