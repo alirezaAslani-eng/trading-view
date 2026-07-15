@@ -9,6 +9,9 @@ const kycModalSlice = createSlice({
   name: "kycModal",
   initialState,
   reducers: {
+      needKyc(state) {
+    state.modalFlow = "needKyc";
+  },
     upgradeKycLevel(state) {
       state.modalFlow = "upgradeKyc";
     },
@@ -22,6 +25,6 @@ const kycModalSlice = createSlice({
 });
 
 // * ------- Actions -------
-const { exitKycFlow, successKyc, upgradeKycLevel } = kycModalSlice.actions;
+const { exitKycFlow, successKyc, upgradeKycLevel,needKyc } = kycModalSlice.actions;
 
-export { kycModalSlice, exitKycFlow, successKyc, upgradeKycLevel };
+export { kycModalSlice, exitKycFlow, successKyc, upgradeKycLevel,needKyc };
