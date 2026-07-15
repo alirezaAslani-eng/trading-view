@@ -67,7 +67,7 @@ export const orderTableColumns: DefaultColumns = {
     },
   },
   progress: {
-    headerName: "درصد باقی مانده",
+    headerName: "درصد پر شده",
     renderCell(row) {
       return formatPrecent(row.progress);
     },
