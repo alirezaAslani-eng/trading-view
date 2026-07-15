@@ -1,7 +1,8 @@
 import { OrderFilters } from "@/types";
 import { UseOrderFiltersReturn } from "./types";
 import useFilter from "@/hooks/app/useFilter";
-
+import { dayjs } from "@/packages/dayjs";
+import { useCallback } from "react";
 const INITIAL_FILTERS: OrderFilters = {
   orderSide: null,
   page: 1,
@@ -55,6 +56,13 @@ function useOrderFilters(
     filter.setFilter("page", page);
   };
 
+  const onlyToday = useCallback(() => {
+    filter.setFilter("fromDate", dayjs().startOf("day"));
+    filter.setFilter("toDate", dayjs().endOf("day"));
+    filter.setFilter("view", null);
+    resetPagination();
+  }, []);
+
   return {
     setSymbol,
     setFromDate,
@@ -63,6 +71,7 @@ function useOrderFilters(
     setStatus,
     setView,
     setPage,
+    onlyToday,
     ...filter,
   };
 }

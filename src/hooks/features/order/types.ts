@@ -9,6 +9,7 @@ interface UseOrderFiltersReturn {
   setFromDate: (date: OrderFilters["fromDate"]) => void;
   setToDate: (date: OrderFilters["toDate"]) => void;
   setPage: (page: OrderFilters["page"]) => void;
+  onlyToday: () => void;
   filters: OrderFilters;
 }
 // * --end-- useOrderFilters.ts ----

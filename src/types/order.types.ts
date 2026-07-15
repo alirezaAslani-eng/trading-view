@@ -1,4 +1,3 @@
-import { OrderView } from "@/api/types";
 import {
   DateFilter,
   PaginationFilter,
@@ -18,7 +17,7 @@ type OrderType = "Market" | "Limit";
 type OrderSide = "Buy" | "Sell";
 type OrderFilters = PaginationFilter &
   DateFilter & {
-    view: OrderView;
+    view: "active" | "history" | null;
     orderSide: null | OrderSide;
     productCode: string | null;
     status: OrderStatus | null;
