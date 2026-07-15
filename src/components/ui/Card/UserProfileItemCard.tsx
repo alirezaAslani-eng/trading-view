@@ -22,7 +22,7 @@ function UserProfileItemCard(boxProps: ReplaceSxWithSxOnlyObject<BoxProps>) {
 
 interface UserProfileItemInfoProps {
   title?: string;
-  subTitle?: string;
+   subTitle?: ReactNode;
   icon?: ReactNode;
 }
 function UserProfileItemInfo({
