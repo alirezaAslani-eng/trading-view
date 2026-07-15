@@ -1,10 +1,12 @@
+import { Dayjs } from "dayjs";
+
 type PaginationFilter<T = unknown> = T & {
   page: number;
   pageSize: number;
 };
 type DateFilter<T = unknown> = T & {
-  fromDate: Date | null;
-  toDate: Date | null;
+  fromDate: Dayjs | null;
+  toDate: Dayjs | null;
 };
 type PaginationFilterQueries<T extends Record<string, string> = {}> = T &
   Record<"page" | "pageSize", string>;
