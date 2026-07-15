@@ -1,5 +1,5 @@
 "use client";
-import { OrderBookType } from "@/api/types";
+import { OrderBookType, RecentTradeResponse } from "@/api/types";
 import BouncCircleLoader from "@/components/ui/Fallback/BounceCircleLoader";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
@@ -12,6 +12,7 @@ import { notDefinedColors } from "@/packages/mui/theme/shades";
 import {
   marketTickerInfoConfig,
   orderBookConfig,
+  recentTradesConfig,
 } from "@/packages/react-query";
 import { formatFaPrice } from "@/utils";
 import { Box, Stack, Tab, Typography } from "@mui/material";
@@ -43,6 +44,8 @@ const orderBookViewOrder: Record<OrderBookViewType, OrderBookViewType> = {
 };
 export default function OrderBook() {
   const [symbol] = useSymbolParams();
+  const [tab, setTab] = useState<"open-orders" | "last-trades">("open-orders");
+  const recentTradesQuery = useQuery(recentTradesConfig(symbol));
 
   const [orderBookView, setOrderBookView] = useState<OrderBookViewType>("all");
 
@@ -65,15 +68,14 @@ export default function OrderBook() {
         height: "100%",
       }}
     >
-      {/* Tabs (fixed height) */}
-      <TabsProvider defaultState="open-orders">
+      <TabsProvider value={tab} onChange={setTab}>
         <Box sx={{ display: "flex" }}>
           <Tabs size="small" sx={{ width: "100%" }}>
-            {TABS.map((tab) => (
+            {TABS.map((item) => (
               <Tab
-                key={tab.value}
-                value={tab.value}
-                label={tab.label}
+                key={item.value}
+                value={item.value}
+                label={item.label}
                 sx={({ typography }) => ({
                   fontSize: `${typography.button3.fontSize} !important`,
                   fontFamily: `${typography.button3.fontFamily} !important`,
@@ -81,16 +83,20 @@ export default function OrderBook() {
               />
             ))}
           </Tabs>
+
           <TabsSibling>
-            <OrderBookIcon
-              view={orderBookView}
-              sx={{ cursor: "pointer" }}
-              onClick={orderBookViewToggle}
-            />
+            {tab === "open-orders" && (
+              <OrderBookIcon
+                view={orderBookView}
+                sx={{ cursor: "pointer" }}
+                onClick={orderBookViewToggle}
+              />
+            )}
           </TabsSibling>
         </Box>
       </TabsProvider>
-      <OrderBookHeader />
+
+      {tab === "open-orders" ? <OrderBookHeader /> : <RecentTradesHeader />}
 
       <Box
         sx={{
@@ -101,49 +107,73 @@ export default function OrderBook() {
           mt: "12px",
         }}
       >
-        {/* // * --------- Data fallback --------- */}
-        <FallbackHandler
-          isLoading={orderBookQuery.isLoading}
-          isError={orderBookQuery.isError}
-          fallbacks={{
-            loader: (
-              <BouncCircleLoader
-                sx={{ mx: "auto", my: "auto" }}
-                bounceSx={{ width: "8px" }}
-              />
-            ),
-          }}
-        />
-
-        {orderBookQuery.status === "success" && (
+        {/* ---------------- سفارشات بازار ---------------- */}
+        {tab === "open-orders" && (
           <>
-            {/* // * ----------- Asks ----------- */}
-            {(orderBookView === "all" || orderBookView === "asks") && (
-              <OrderBookList
-                rows={orderBookQuery.data.asks}
-                priceColor={notDefinedColors["#f26672"]}
-              />
-            )}
+            <FallbackHandler
+              isLoading={orderBookQuery.isLoading}
+              isError={orderBookQuery.isError}
+              fallbacks={{
+                loader: (
+                  <BouncCircleLoader
+                    sx={{ mx: "auto", my: "auto" }}
+                    bounceSx={{ width: "8px" }}
+                  />
+                ),
+              }}
+            />
 
-            {orderBookView === "all" && (
-              <Typography
-                variant="button3"
-                sx={{
-                  py: "12px",
-                  textAlign: "center",
-                  color: "text.secondary",
-                }}
-              >
-                {formatFaPrice(tickerInfoQuery.data?.lastPrice ?? "")}
-              </Typography>
-            )}
+            {orderBookQuery.status === "success" && (
+              <>
+                {(orderBookView === "all" || orderBookView === "asks") && (
+                  <OrderBookList
+                    rows={orderBookQuery.data.asks}
+                    priceColor={notDefinedColors["#f26672"]}
+                  />
+                )}
 
-            {/* // * ----------- Bids ----------- */}
-            {(orderBookView === "all" || orderBookView === "bids") && (
-              <OrderBookList
-                rows={orderBookQuery.data.bids}
-                priceColor="text.profit"
-              />
+                {orderBookView === "all" && (
+                  <Typography
+                    variant="button3"
+                    sx={{
+                      py: "12px",
+                      textAlign: "center",
+                      color: "text.secondary",
+                    }}
+                  >
+                    {formatFaPrice(tickerInfoQuery.data?.lastPrice ?? "")}
+                  </Typography>
+                )}
+
+                {(orderBookView === "all" || orderBookView === "bids") && (
+                  <OrderBookList
+                    rows={orderBookQuery.data.bids}
+                    priceColor="text.profit"
+                  />
+                )}
+              </>
+            )}
+          </>
+        )}
+
+        {/* ---------------- آخرین معاملات ---------------- */}
+        {tab === "last-trades" && (
+          <>
+            <FallbackHandler
+              isLoading={recentTradesQuery.isLoading}
+              isError={recentTradesQuery.isError}
+              fallbacks={{
+                loader: (
+                  <BouncCircleLoader
+                    sx={{ mx: "auto", my: "auto" }}
+                    bounceSx={{ width: "8px" }}
+                  />
+                ),
+              }}
+            />
+
+            {recentTradesQuery.status === "success" && (
+              <RecentTradesList rows={recentTradesQuery.data} />
             )}
           </>
         )}
@@ -180,7 +210,34 @@ function OrderBookHeader() {
     </Box>
   );
 }
+function RecentTradesHeader() {
+  return (
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: GRID_TEMPLATE,
+        py: "10px",
+        mt: "12px",
+        borderBottom: "1px solid",
+        borderColor: "border.dark",
+      }}
+    >
+      <Typography
+        variant="caption2"
+        sx={{ textAlign: "right", color: "text.caption" }}
+      >
+        قیمت ({priceUnit})
+      </Typography>
 
+      <Typography
+        variant="caption2"
+        sx={{ textAlign: "left", color: "text.caption" }}
+      >
+        زمان
+      </Typography>
+    </Box>
+  );
+}
 function OrderBookRowItem({
   priceColor,
   price,
@@ -244,6 +301,75 @@ function OrderBookList({ rows, priceColor }: OrderBookListProps) {
               price={row[0]}
               volumn={row[1]}
               priceColor={priceColor}
+            />
+          ))}
+        </Stack>
+      )}
+    </ScrollContainer>
+  );
+}
+function RecentTradeRow({
+  price,
+  createdAt,
+}: {
+  price: number;
+  createdAt: string;
+}) {
+  return (
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: GRID_TEMPLATE,
+      }}
+    >
+      <Typography
+        variant="caption2"
+        sx={{ textAlign: "right", color: "text.secondary" }}
+      >
+        {formatFaPrice(price)}
+      </Typography>
+
+      <Typography
+        variant="caption2"
+        sx={{ textAlign: "left", color: "text.secondary" }}
+      >
+        {new Date(createdAt).toLocaleTimeString("fa-IR", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })}
+      </Typography>
+    </Box>
+  );
+}
+function RecentTradesList({ rows }: { rows: RecentTradeResponse }) {
+  return (
+    <ScrollContainer
+      sx={{
+        scrollbarGutter: "stable",
+        pl: "8px",
+        maxHeight: "300px",
+      }}
+    >
+      {!rows.length ? (
+        <Stack
+          sx={{
+            height: "180px",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography variant="body3" sx={{ color: "text.disabled" }}>
+            معامله‌ای وجود ندارد
+          </Typography>
+        </Stack>
+      ) : (
+        <Stack spacing={2}>
+          {rows.map((trade, index) => (
+            <RecentTradeRow
+              key={index}
+              price={trade.price}
+              createdAt={trade.createdAt}
             />
           ))}
         </Stack>
