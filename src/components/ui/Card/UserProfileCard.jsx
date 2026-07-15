@@ -13,39 +13,81 @@ import {
   UserProfile,
   UserProfileInfo,
 } from "@/components/ui/Profile/UserProfile";
-
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/constant/app/routes";
+
 const queryConfig = dashboardInfoConfig();
 
 function UserProfileCard({ collapsed = false }) {
   const router = useRouter();
+
   const dashboard_info = useQuery(queryConfig);
+
   const initials = getInitials(dashboard_info.data?.fullName);
+
   const logoutMutation = useMutation(
     logoutConfig({
       onSuccess: () => router.replace(ROUTES.AUTH.ROOT),
     }),
   );
+// logout setting
+  const profileMenu = (
+    <>
+      <MenuItem
+        onClick={() => logoutMutation.mutate()}
+        sx={{
+          justifyContent: "center",
+          gap: "6px",
+          backgroundColor: "background.surfaceLevel4",
+        }}
+      >
+        <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
+          خروج
+        </Typography>
+
+        <LogoutIcon sx={{ color: "text.primary" }} />
+      </MenuItem>
+
+      <MenuItem
+        sx={{
+          justifyContent: "center",
+          gap: "6px",
+          backgroundColor: "background.surfaceLevel4",
+        }}
+      >
+        <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
+          تنظیمات
+        </Typography>
+      </MenuItem>
+    </>
+  );
+// fullName profilemenu
   if (collapsed) {
     return (
-      <UserProfile>
-        <Box
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: "50%",
-            backgroundColor: "background.primary",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
-            {initials}
-          </Typography>
-        </Box>
-      </UserProfile>
+      <Dropdown
+        trigger={() => (
+          <UserProfile>
+            <Box
+              sx={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                backgroundColor: "background.primary",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+            >
+              <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
+                {initials}
+              </Typography>
+            </Box>
+          </UserProfile>
+        )}
+      >
+        {profileMenu}
+      </Dropdown>
     );
   }
 
@@ -80,6 +122,7 @@ function UserProfileCard({ collapsed = false }) {
             {initials}
           </Typography>
         </Box>
+
         <UserProfileInfo sx={{ width: "110px" }}>
           <Typography
             variant="body3"
@@ -104,40 +147,8 @@ function UserProfileCard({ collapsed = false }) {
           </IconButton>
         )}
       >
-        <MenuItem
-          onClick={() => logoutMutation.mutate()}
-          sx={{
-
-            justifyContent: "center",
-            textAlign: "center",
-            gap: "6px",
-            backgroundColor: "background.surfaceLevel4",
-
-          }}
-        >
-          <Typography
-            variant="body2"
-            sx={{ color: "text.onPrimary", textAlign: "center" }}
-          >
-            {"خروج"}
-          </Typography>
-          <LogoutIcon sx={{ color: "text.primary", textAlign: "center" }} />
-        </MenuItem>
-        <MenuItem sx={{
-          justifyContent: "center",
-          textAlign: "center",
-          gap: "6px",
-          backgroundColor: "background.surfaceLevel4",
-        }}>
-          <Typography
-            variant="body2"
-            sx={{ color: "text.onPrimary", textAlign: "center" }}
-          >
-            {"تنطیمات"}
-          </Typography>
-        </MenuItem>
+        {profileMenu}
       </Dropdown>
-
     </PanelPaper>
   );
 }
