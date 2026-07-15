@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { UseMuiMenuStateReturn } from "./types";
 
 function useMuiMenuState<
-  TAnchoreEl extends HTMLElement = HTMLDivElement,
+  TAnchoreEl extends HTMLElement = HTMLElement,
 >(): UseMuiMenuStateReturn<TAnchoreEl> {
   const [anchoreEl, setAnchoreEl] = useState<TAnchoreEl | null>(null);
 

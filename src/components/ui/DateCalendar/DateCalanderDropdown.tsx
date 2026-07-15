@@ -8,6 +8,8 @@ import { createContext, useContext } from "react";
 import { Dayjs } from "dayjs";
 import useMuiMenuState from "@/hooks/app/useMuiMenuState";
 import { CloseIcon } from "../Icon";
+import {  DateCalendarProps } from "@mui/x-date-pickers/DateCalendar";
+import DateCalendar from "./DateCalendar";
 
 //#region // * ------------ DateCalanderProvider ------------
 type DateCalendarDropdownContextValue = {
@@ -135,12 +137,34 @@ function DateCalanderMenu(props: DateCalanderMenuProps) {
     />
   );
 }
-
 //#endregion // * ------------ DateCalanderMenu ------------
+
+//#region // * ------------ Calander ------------
+function DateCalendarDropdown(props: DateCalendarProps) {
+  const { close } = useDateCalendarDropdownContext()!;
+
+  const handleChange: DateCalendarProps["onChange"] = (
+    value,
+    selectionState,
+    selector,
+  ) => {
+    if (selectionState !== "finish") {
+      return;
+    }
+     
+    props.onChange?.(value, selectionState, selector);
+    close();
+  };
+
+  return <DateCalendar {...props} onChange={handleChange} />;
+}
+
+//#endregion // * ------------ Calander ------------
 
 export {
   DateCalanderProvider,
   DateCalanderMenu,
   DateCalanderTrigger,
   DateValueDisplay,
+  DateCalendarDropdown,
 };
