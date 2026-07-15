@@ -70,6 +70,7 @@ function MountainBackground() {
         src={"/images/mountain-pattern.png"}
         width={900}
         height={500}
+        priority
         alt=""
         sx={{
           mixBlendMode: "screen",
