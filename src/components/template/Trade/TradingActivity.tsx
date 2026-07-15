@@ -4,7 +4,7 @@ import { OrderFiltersProvider } from "@/context/feature/orders/Orders/OrderFilte
 import { OrdersProvider } from "@/context/feature/orders/Orders/OrdersContext";
 import { createNonNullToggleHandler } from "@/packages/mui/theme";
 import { Box, Divider, ToggleButton } from "@mui/material";
-import { PropsWithChildren, useEffectEvent, useState } from "react";
+import { useEffectEvent, useState } from "react";
 import OrdersTable from "../Table/OrdersTable";
 import { buildAssetColumns } from "@/constant/features/wallet/assetsColumns";
 import CancleOrderTableAction from "../Button/CancleOrderTableAction";
@@ -21,8 +21,7 @@ import { ROUTES } from "@/constant/app/routes";
 import { useOrderFiltersProvider } from "@/context/feature/orders/Orders/hooks";
 import useUpdateEffect from "@/hooks/app/useUpdateEffect";
 import { orderHistoryColumns } from "@/constant/features/order/orderHistoryColumns";
-
-type TabType = "active-orders" | "assets" | "order-history";
+import normalizeOrderStatus from "@/utils/features/order/normalizeOrderStatus";
 
 // * -------------- Table Columns --------------
 const assetColumns = buildAssetColumns({
@@ -40,22 +39,35 @@ const assetColumns = buildAssetColumns({
   ],
 });
 
-const activeOrderColumns = buildOrderColumns({
+type TabType = "active-orders" | "assets" | "order-history" | "today-orders";
+
+const orderColumns = buildOrderColumns({
   extra: [
     {
       headerName: "عملیات",
       renderCell(row) {
+        if (normalizeOrderStatus(row.status).isDone) return null;
         return <CancleOrderTableAction orderId={row.orderId} />;
       },
     },
   ],
 });
 
+const TABS: { value: TabType; label: string }[] = [
+  { value: "active-orders", label: "سفارش‌های باز" },
+  { value: "today-orders", label: "سفارش های امروز" },
+  { value: "order-history", label: "تاریخچه معاملات" },
+  { value: "assets", label: "دارایی" },
+];
+
 function TradingActivity_() {
   // * ----------- Tab State Management -----------
   const [tab, setTab] = useState<TabType>("active-orders");
 
-  const isOrdersTab = tab === "active-orders" || tab === "order-history";
+  const isOrdersTab =
+    tab === "active-orders" ||
+    tab === "order-history" ||
+    tab === "today-orders";
   const isAssetsTab = tab === "assets";
 
   const tabHandler = createNonNullToggleHandler(setTab);
@@ -69,9 +81,11 @@ function TradingActivity_() {
   const setActiveOrders = useEffectEvent(() => {
     orderFilters.setView("active");
   });
+
   useUpdateEffect(() => {
     if (tab === "active-orders") setActiveOrders();
     if (tab === "order-history") setOrderHistory();
+    if (tab === "today-orders") orderFilters.onlyToday();
   }, [tab]);
 
   return (
@@ -80,32 +94,23 @@ function TradingActivity_() {
         <PagePaperHeading sx={{ mb: "32px" }}>
           {/* // * Tabs Switcher */}
           <ToggleTabGroup value={tab} onChange={tabHandler}>
-            <ToggleButton value={"active-orders" satisfies TabType}>
-              {"سفارش‌های باز"}
-            </ToggleButton>
-
-            <Divider flexItem orientation="vertical" />
-
-            <ToggleButton value={"order-history" satisfies TabType}>
-              {"تاریخچه معاملات"}
-            </ToggleButton>
-            <Divider flexItem orientation="vertical" />
-            <ToggleButton value={"assets" satisfies TabType}>
-              {"دارایی"}
-            </ToggleButton>
+            {TABS.flatMap((tab, index) => [
+              <ToggleButton key={tab.value} value={tab.value}>
+                {tab.label}
+              </ToggleButton>,
+              index !== TABS.length - 1 && (
+                <Divider
+                  key={"divider-" + tab.value}
+                  flexItem
+                  orientation="vertical"
+                />
+              ),
+            ])}
           </ToggleTabGroup>
         </PagePaperHeading>
 
         {/* // * Orders Table */}
-        {isOrdersTab && (
-          <OrdersTable
-            columns={
-              orderFilters.filters.view === "active"
-                ? activeOrderColumns
-                : orderHistoryColumns
-            }
-          />
-        )}
+        {isOrdersTab && <OrdersTable columns={orderColumns} />}
 
         {/* // * Assets Table */}
         {isAssetsTab && <AssetsTable columns={assetColumns} />}
