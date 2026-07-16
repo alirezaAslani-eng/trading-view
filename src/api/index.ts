@@ -28,3 +28,4 @@ export { default as transactions } from "./transaction/transactions";
 export { default as deleteProduct } from "./product/deleteProduct";
 export { default as refrehAuthToken } from "./auth/refrehAuthToken";
 export { default as userPermissions } from "./permission/userPermissions";
+export { default as enableDemo } from "./trading/enableDemo";
