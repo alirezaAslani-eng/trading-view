@@ -28,7 +28,7 @@ function page() {
         <KycPromoBanner />
         <Section>
           <SectionContent>
-           
+            <TotalAssetCard />
             {/* <Box sx={{ width: "34.36%", minHeight: "242px" }}>
               <ExchangeAssetForm />
             </Box> */}

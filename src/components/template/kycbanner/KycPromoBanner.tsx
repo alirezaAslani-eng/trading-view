@@ -1,4 +1,5 @@
 "use client";
+
 import NextImage from "@/components/ui/Image/NextImage";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { DownMinimalIcon } from "@/components/ui/Icon";
@@ -6,7 +7,6 @@ import {
   Box,
   BoxProps,
   Button,
-  Fade,
   Stack,
   styled,
   Typography,
@@ -59,6 +59,7 @@ const GradientDotPanelBackground = styled(Box)({
 
 const PromoButton = styled(Button)(({ theme }) => {
   const { palette } = theme;
+
   return {
     alignSelf: "flex-start",
     backgroundColor: palette.common.white,
@@ -74,11 +75,11 @@ const PromoButton = styled(Button)(({ theme }) => {
 
 function GradientDotPanel({ sx, children, ...props }: BoxProps) {
   return (
-    <GradientDotPanelRoot sx={(tm) => identifySxProp(tm, sx)} {...props}>
+    <GradientDotPanelRoot sx={(theme) => identifySxProp(theme, sx)} {...props}>
       <GradientDotPanelBackground />
-      {children ? (
+      {children && (
         <Box sx={{ position: "relative", zIndex: 1 }}>{children}</Box>
-      ) : null}
+      )}
     </GradientDotPanelRoot>
   );
 }
@@ -90,97 +91,114 @@ function KycPromoBanner() {
   const dispatch = useDispatch();
 
   if (!query.isSuccess) return null;
-  if (isMaximumKycLevel(query.data.kycLevel)) return null;
+
+  const isMaxKyc = isMaximumKycLevel(query.data.kycLevel)
+
+  const bannerContent = isMaxKyc
+    ? {
+      title: "احراز هویت شما تکمیل شده است 🎉",
+      description:
+        "اکنون می‌توانید بدون محدودیت از تمامی امکانات پلتفرم استفاده کنید.",
+      showButton: false,
+    }
+    : {
+      title: "یک قدم تا شروع معامله!",
+      description:
+        "برای ادامه فعالیت و انجام معاملات، لطفاً احراز هویت خود را تکمیل کنید.",
+      showButton: true,
+    };
 
   const openKycModal = () => {
     dispatch(upgradeKycLevel());
   };
+
   return (
-    <>
-      <Section>
-        <GradientDotPanel sx={{ mt: "-4px", overflow: "visible" }}>
+    <Section>
+      <GradientDotPanel sx={{ mt: "-4px", overflow: "visible" }}>
+        <Box
+          sx={{
+            position: "relative",
+            minHeight: "168px",
+            px: "40px",
+            pb: "32px",
+            pt: "32px",
+            overflow: "visible",
+          }}
+        >
           <Box
             sx={{
-              position: "relative",
-              minHeight: "168px",
-              px: "40px",
-              pb: "32px",
-              pt: "32px",
-              overflow: "visible",
+              position: "absolute",
+              left: "145px",
+              bottom: "-20px",
+              width: "224.06px",
+              height: "229.44px",
+              zIndex: 2,
+              pointerEvents: "none",
             }}
           >
-            <Box
+            <NextImage
+              src="/images/banner.png"
+              alt=""
+              width={224.06}
+              height={229.44}
               sx={{
-                position: "absolute",
-                left: "145px",
-                bottom: "-20px",
                 width: "224.06px",
                 height: "229.44px",
-                zIndex: 2,
-                pointerEvents: "none",
+                objectFit: "contain",
+                objectPosition: "bottom center",
               }}
-            >
-              <NextImage
-                src="/images/banner.png"
-                alt=""
-                width={224.06}
-                height={229.44}
-                sx={{
-                  width: "224.06px",
-                  height: "229.44px",
-                  objectFit: "contain",
-                  objectPosition: "bottom center",
-                }}
-              />
-            </Box>
+            />
+          </Box>
 
-            <Stack
-              spacing={0}
+          <Stack
+            spacing={0}
+            sx={{
+              position: "absolute",
+              right: "40px",
+              top: "32px",
+              bottom: "32px",
+              justifyContent: "center",
+              maxWidth: "52%",
+              alignItems: "flex-start",
+              textAlign: "right",
+            }}
+          >
+            <Typography
+              variant="h5"
               sx={{
-                position: "absolute",
-                right: "40px",
-                top: "32px",
-                bottom: "32px",
-                justifyContent: "center",
-                maxWidth: "52%",
-                alignItems: "flex-start",
-                textAlign: "right",
+                color: "#FFFFFF",
+                fontFamily: "var(--iranyekan-demibold)",
               }}
             >
-              <Typography
-                variant="h5"
-                sx={{
-                  color: "#FFFFFF",
-                  fontFamily: "var(--iranyekan-demibold)",
-                  mb: 0,
-                }}
-              >
-                {"یک قدم تا شروع معامله!"}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: "#FFFFFF",
-                  lineHeight: 1.7,
-                  opacity: 0.95,
-                  mt: 0,
-                }}
-              >
-                {
-                  "برای ادامه فعالیت و انجام معاملات، لطفاً احراز هویت خود را تکمیل کنید"
-                }
-              </Typography>
+              {bannerContent.title}
+            </Typography>
+
+            <Typography
+              variant="body2"
+              sx={{
+                color: "#FFFFFF",
+                lineHeight: 1.7,
+                opacity: 0.95,
+              }}
+            >
+              {bannerContent.description}
+            </Typography>
+
+            {bannerContent.showButton && (
               <PromoButton sx={{ mt: "24px" }} onClick={openKycModal}>
-                {"شروع احراز هویت"}
+                شروع احراز هویت
                 <DownMinimalIcon
-                  sx={{ color: "inherit", transform: "rotate(90deg)" }}
+                  sx={{
+                    color: "inherit",
+                    transform: "rotate(90deg)",
+                  }}
                 />
               </PromoButton>
-            </Stack>
-          </Box>
-        </GradientDotPanel>
-      </Section>
-    </>
+            )}
+          </Stack>
+        </Box>
+      </GradientDotPanel>
+    </Section>
   );
 }
 
