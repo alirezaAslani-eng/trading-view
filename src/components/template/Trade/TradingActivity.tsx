@@ -82,10 +82,19 @@ function TradingActivity_() {
     orderFilters.setView("active");
   });
 
+
   useUpdateEffect(() => {
-    if (tab === "active-orders") setActiveOrders();
-    if (tab === "order-history") setOrderHistory();
-    if (tab === "today-orders") orderFilters.onlyToday();
+    if (tab === "active-orders") {
+      setActiveOrders();
+      orderFilters.setFromDate(null)
+      orderFilters.setToDate(null)
+    }
+    if (tab === "order-history") {
+      setOrderHistory();
+      orderFilters.setFromDate(null)
+      orderFilters.setToDate(null)
+    }
+    if (tab === "today-orders") { orderFilters.onlyToday(); }
   }, [tab]);
 
   return (

@@ -5,7 +5,7 @@ import { BaseApiResponse } from "@/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 
 const URL = ({ queries }: Pick<OrdersApiConfig, "queries">) => {
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/all?${queries}`;
+  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/list?${queries}`;
 };
 
 async function orders({ queries }: OrdersApiConfig): Promise<OrdersResponse> {
