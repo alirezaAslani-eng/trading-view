@@ -70,7 +70,9 @@ const bankAccountsConfig = () => {
 const walletPortfolioConfig = () => {
   return queryOptions({
     queryKey: walletProtfolioKey,
-    queryFn: walletPortfolio,
+    queryFn: ({ signal }) => {
+      return walletPortfolio({ signal });
+    },
   });
 };
 const productCategoriesConfig = () => {
@@ -130,8 +132,9 @@ export const permissionChecklistConfig = (groupId: string | number) => {
 const ordersConfig = (filters: OrderFilters) => {
   return queryOptions({
     queryKey: ordersDynamicKey(filters),
-    queryFn: () => {
+    queryFn: ({ signal }) => {
       return orders({
+        signal,
         queries: new URLSearchParams(
           buildOrderFilterQueries(filters),
         ).toString(),
@@ -142,8 +145,9 @@ const ordersConfig = (filters: OrderFilters) => {
 const transactionsConfig = (filters: TransactionFilters) => {
   return queryOptions({
     queryKey: transactionsDynamicKey(filters),
-    queryFn: () => {
+    queryFn: ({ signal }) => {
       return transactions({
+        signal,
         queries: new URLSearchParams(
           buildTransactionFilterQueries(filters),
         ).toString(),
