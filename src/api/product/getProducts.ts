@@ -2,7 +2,7 @@ import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { GetProductsQueries, ProductsResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
-import { ApiOptions, BaseApiResponse } from "@/types";
+import { LegacyApiOptions, BaseApiResponse } from "@/types";
 
 const getUrlQueries = (queries?: GetProductsQueries) => {
   const searchParams = new URLSearchParams({ ...queries });
@@ -12,7 +12,7 @@ const getUrlQueries = (queries?: GetProductsQueries) => {
 
 async function getProducts({
   queries,
-}: ApiOptions<{}, GetProductsQueries>): Promise<ProductsResponse> {
+}: LegacyApiOptions<{}, GetProductsQueries>): Promise<ProductsResponse> {
   const res = (await fetchHandler(async () => {
     const response = await fetch(getUrlQueries(queries), {
       ...sharedRequestInit,

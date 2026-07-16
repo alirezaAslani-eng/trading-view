@@ -1,7 +1,7 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { sharedRequestInit } from "../sharedRequestInit";
-import { ApiOptions, BaseApiResponse } from "@/types";
+import { LegacyApiOptions, BaseApiResponse } from "@/types";
 import {
   CandlestickHistoryQueries,
   CandlestickHistoryResponse,
@@ -13,7 +13,7 @@ const URL = (queries: CandlestickHistoryQueries) => {
 };
 
 interface CandlestickHistoryConfig extends Required<
-  Pick<ApiOptions<{}, CandlestickHistoryQueries>, "queries">
+  Pick<LegacyApiOptions<{}, CandlestickHistoryQueries>, "queries">
 > {}
 async function candlestickHistory({
   queries,

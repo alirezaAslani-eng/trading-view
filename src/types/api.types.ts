@@ -13,13 +13,26 @@ interface ResponseErrorType {
   readonly details?: unknown;
 }
 
-interface ApiOptions<
+interface LegacyApiOptions<
   TParams extends Record<string, any> = Record<string, unknown>,
   TQueries extends Record<string, any> = Record<string, unknown>,
 > {
   params?: TParams;
   queries?: TQueries;
 }
+
+//#region // * ------------ General API Options ------------
+interface ApiExtraOptions {
+  queries?: string;
+  params?: Record<string, any>;
+}
+
+type ApiOptions<TExtra extends ApiExtraOptions = {}> = Pick<
+  RequestInit,
+  "signal"
+> &
+  TExtra;
+//#endregion // * ------------ General API Options ------------
 
 type PaginationQueries = Partial<Record<"page" | "pageSize", string>>;
 type PaginationResponse<TData extends any[] = []> = {
@@ -32,6 +45,7 @@ type PaginationResponse<TData extends any[] = []> = {
 export type {
   BaseApiResponse,
   ResponseErrorType,
+  LegacyApiOptions,
   ApiOptions,
   PaginationQueries,
   PaginationResponse,
