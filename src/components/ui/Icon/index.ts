@@ -37,3 +37,5 @@ export { default as KeyDownIcon } from "./KeyDownIcon";
 export { default as KeyUpIcon } from "./KeyUpIcon";
 export { default as ArrowLeftIcon } from "./ArrowLeftIcon";
 export { default as ArrowRightIcon } from "./ArrowRightIcon";
+export { default as FlaskIcon } from "./FlaskIcon";
+export { default as ScanFaceIcon } from "./ScanFaceIcon";
