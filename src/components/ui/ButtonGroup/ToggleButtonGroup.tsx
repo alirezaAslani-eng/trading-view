@@ -32,6 +32,8 @@ const ToggleButtonGroup = styled(MuiToggleButtonGroup, {
     ...toggleButtonGroup_theme.rootTheme,
     ["& button"]: {
       ...toggleButtonGroup_size.toggleButtons,
+      whiteSpace: "nowrap",
+
     },
     "& button:not(.Mui-selected)": {
       ...toggleButtonGroup_theme.notSelected,
