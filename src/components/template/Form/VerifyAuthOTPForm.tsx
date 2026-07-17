@@ -42,9 +42,6 @@ function VerifyAuthOTPForm() {
   const mutation = useMutation(
     verifyAuthOTPConfig({
       onSuccess: () => router.replace(ROUTES.PANEL.ROOT),
-      meta: {
-        successMessage: "خوش اومدی! 👋",
-      },
     }),
   );
 
