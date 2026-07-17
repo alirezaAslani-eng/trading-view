@@ -1,6 +1,15 @@
 "use client";
 import InputText from "@/components/ui/Input/InputText";
-import { Box, BoxProps, IconButton, SvgIcon, Typography } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  IconButton,
+  SvgIcon,
+  SxProps,
+  Theme,
+  ToggleButton,
+  Typography,
+} from "@mui/material";
 import SearchIcon from "@/assets/svg/search-icon.svg";
 import NotificationIcon from "@/assets/svg/notification.svg";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
@@ -10,6 +19,9 @@ import { useMutation } from "@tanstack/react-query";
 import { logoutConfig } from "@/packages/react-query";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/constant/app/routes";
+import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
+import { FlaskIcon, ScanFaceIcon } from "@/components/ui/Icon";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
 interface PageHeaderProps extends Pick<BoxProps, "sx"> {
   title: string;
@@ -53,6 +65,10 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
           height: "fit-content",
         }}
       >
+        {/* // * Demo switcher button */}
+        <DemoSwitcher />
+        {/* // * Demo switcher button */}
+
         <InputMarker
           right={"16.2px"}
           icon={
@@ -92,3 +108,42 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
 }
 
 export default PageHeader;
+
+const demoSwitcher_sx: SxProps<Theme> = ({ palette }) => {
+  return {
+    backgroundColor: "background.surfaceTertiary",
+    borderRadius: "999px",
+    "& button": {
+      padding: "0px 12px",
+      borderRadius: "999px !important",
+      gap: "6px",
+    },
+    "& .Mui-selected:last-of-type": {
+      backgroundColor: `${palette.status.warning} !important`,
+    },
+  };
+};
+
+function DemoSwitcher() {
+  const tradeMode = useTradeMode()!;
+
+  return (
+    <>
+      <ToggleButtonGroup
+        onChange={tradeMode.toggle}
+        value={tradeMode.isDemo ? "demo" : "real"}
+        size="medium"
+        sx={demoSwitcher_sx}
+      >
+        <ToggleButton value={"real"}>
+          <ScanFaceIcon />
+          {"حالت واقعی"}
+        </ToggleButton>
+        <ToggleButton value={"demo"}>
+          <FlaskIcon />
+          {"حالت آزمایشی"}
+        </ToggleButton>
+      </ToggleButtonGroup>
+    </>
+  );
+}
