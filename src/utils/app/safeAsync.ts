@@ -1,6 +1,7 @@
+import { ResponseErrorType } from "@/types";
 import { SafeAsyncReturn } from "./types";
 
-async function safeAsync<TData = unknown, TError = unknown>(
+async function safeAsync<TData = unknown, TError = ResponseErrorType>(
   fn: () => Promise<TData>,
 ): Promise<SafeAsyncReturn<TData, TError>> {
   try {
