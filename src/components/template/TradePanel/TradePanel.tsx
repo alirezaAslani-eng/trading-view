@@ -2,14 +2,26 @@
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import Tabs from "@/components/ui/Tabs/Tabs";
 import { TabsProvider } from "@/context/app/TabsContext";
-import { Box, Stack, Tab, ToggleButton } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  Divider,
+  Stack,
+  Tab,
+  ToggleButton,
+  Typography,
+  TypographyProps,
+} from "@mui/material";
 import Button from "@/components/ui/Button/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import tradeFormSchema from "@/validations/trade/tradeFormSchema";
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import tradeTogglebuttonSell_sx from "@/packages/mui/theme/shared-style/features/trading/tradeTogglebuttonSell_sx";
-import { useMutation } from "@tanstack/react-query";
-import { placeOrderConfig } from "@/packages/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  placeOrderConfig,
+  walletPortfolioConfig,
+} from "@/packages/react-query";
 import safeAsync from "@/utils/app/safeAsync";
 import { promiseAlert } from "@/packages/react-hot-toast";
 import alertMessages from "@/constant/app/alertMessages";
@@ -18,6 +30,7 @@ import {
   FormProvider,
   useController,
   useForm,
+  useFormContext,
   useFormState,
   useWatch,
 } from "react-hook-form";
@@ -31,7 +44,13 @@ import { TradeFormSubscriber } from "./types";
 import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
 import useKycGuard from "@/hooks/features/kyc/useKycGuard";
 import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
-import FeeDisplay from "./FeeDisplay";
+import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
+import { formatFaPrice } from "@/utils";
+import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
+import { useMemo } from "react";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
+import { useLimitedTotalPrice, useMarketTotalPrice } from "./hooks";
+import { getTradeFee } from "@/constant/features/trading/fee";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
@@ -42,13 +61,14 @@ const placeOrderMutationConfig = placeOrderConfig({
   },
 });
 
+const priceUnitLabel = PRICE_UNITS.IRT.displayName;
+
 function TradePanel() {
   // * -------- productCode/Symbol --------
   const [symbol] = useSymbolParams();
 
   // * --------- From API ---------
   const placeOrderApi = useMutation(placeOrderMutationConfig);
-
 
   // * --------- KYC Guard ---------
   const { checkAccess } = useKycGuard();
@@ -98,7 +118,8 @@ function TradePanel() {
               <Box hidden={!isMarketType}>
                 <MarketPriceForm />
               </Box>
-              <FeeDisplay />
+
+              <TradeSummary />
               {/* //* Submit order */}
               <SubmitOrderButton control={form.control} />
             </Box>
@@ -106,6 +127,106 @@ function TradePanel() {
         </Box>
       </PanelPaper>
     </FormProvider>
+  );
+}
+
+function TradeSummary() {
+  const [symbol] = useSymbolParams();
+
+  //#region // * ------------ Trade panel State ------------
+  const form = useFormContext<TradeFormSchemaInputType>();
+
+  const orderType = useWatch({ control: form.control, name: "orderType" });
+  const orderSide = useWatch({ control: form.control, name: "orderSide" });
+
+  const limitedTotalPrice = useLimitedTotalPrice();
+  const marketTotalPrice = useMarketTotalPrice();
+
+  const totalPrice =
+    orderType === "limit" ? limitedTotalPrice : marketTotalPrice;
+
+  const fee = getTradeFee(
+    orderType === "limit" ? limitedTotalPrice : marketTotalPrice,
+  );
+  //#endregion // * ------------ Trade panel State ------------
+
+  //#region // * ------------ Wallet Info ------------
+  const walletQuery = useQuery(walletPortfolioConfig());
+
+  const { assets } = walletQuery.data ?? {};
+
+  const irtAsset = extractIRTAsset(walletQuery.data);
+
+  const metalAsset = useMemo(() => {
+    return assets?.find((asset) => {
+      return asset.assetSymbol === symbol;
+    });
+  }, [symbol, assets]);
+  //#endregion // * ------------ Wallet Info ------------
+
+  return (
+    <Stack spacing={2.5} sx={{ mt: "8px" }}>
+      <Summary>
+        <SummaryLable>{"کیف پول:"}</SummaryLable>
+        <SummaryAmount>
+          {`${formatFaPrice(irtAsset?.availableBalance ?? 0)} ${priceUnitLabel}`}
+        </SummaryAmount>
+      </Summary>
+
+      <Summary>
+        <SummaryLable>{`موجودی ${symbol}:`}</SummaryLable>
+        <SummaryAmount sx={{ color: "text.secondary" }}>
+          {formatFaPrice(metalAsset?.availableBalance ?? 0, {
+            style: "unit",
+            unit: "kilogram",
+          })}
+        </SummaryAmount>
+      </Summary>
+      <Divider sx={{ borderColor: "border.dark" }} />
+
+      <Summary>
+        <SummaryLable>{"کارمزد معامله:"}</SummaryLable>
+        <SummaryAmount>{`${formatFaPrice(fee)} ${priceUnitLabel}`}</SummaryAmount>
+      </Summary>
+      <Summary>
+        <SummaryLable>{"جمع کل:"}</SummaryLable>
+        <SummaryAmount>{`${formatFaPrice(orderSide === "buy" ? totalPrice + fee : totalPrice - fee)} ${priceUnitLabel}`}</SummaryAmount>
+      </Summary>
+    </Stack>
+  );
+}
+
+function Summary(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
+  return (
+    <Box
+      {...props}
+      sx={({ typography }) => ({
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        ...typography.caption2,
+        ...props.sx,
+      })}
+    />
+  );
+}
+
+function SummaryLable(props: ReplaceSxWithSxOnlyObject<TypographyProps>) {
+  return (
+    <Typography
+      variant="inherit"
+      {...props}
+      sx={{ color: "text.linkSecondary", ...props.sx }}
+    />
+  );
+}
+function SummaryAmount(props: ReplaceSxWithSxOnlyObject<TypographyProps>) {
+  return (
+    <Typography
+      variant="inherit"
+      {...props}
+      sx={{ color: "text.placeHolder", ...props.sx }}
+    />
   );
 }
 
@@ -157,8 +278,8 @@ function SubmitOrderButton({ control }: TradeFormSubscriber) {
       fullWidth
       color={isBuy ? "success" : "error"}
       variant="contained"
-      sx={{ mt: "74px" }}
       type="submit"
+      sx={{ mt: "24px" }}
       disabled={isLoading}
     >
       {isLoading ? (
