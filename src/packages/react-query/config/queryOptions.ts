@@ -38,6 +38,7 @@ import buildOrderFilterQueries from "@/utils/features/order/buildOrderFilterQuer
 import buildTransactionFilterQueries from "@/utils/features/transaction/buildTransactionFilterQueries";
 import recentTrade from "@/api/trading/recentTrade";
 import recentTrades from "@/api/trading/recentTrade";
+import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
 
 const kycStatusConfig = () => {
   return queryOptions({
@@ -67,14 +68,7 @@ const bankAccountsConfig = () => {
     },
   });
 };
-const walletPortfolioConfig = () => {
-  return queryOptions({
-    queryKey: walletProtfolioKey,
-    queryFn: ({ signal }) => {
-      return walletPortfolio({ signal });
-    },
-  });
-};
+
 const productCategoriesConfig = () => {
   return queryOptions({
     queryKey: productCategoriesKey,
@@ -129,15 +123,29 @@ export const permissionChecklistConfig = (groupId: string | number) => {
   });
 };
 
+//#region // * ------------ Apis that depends on isDemo query ------------
+const walletPortfolioConfig = () => {
+  return queryOptions({
+    queryKey: walletProtfolioKey,
+    queryFn: ({ signal }) => {
+      return walletPortfolio({
+        signal,
+        queries: new URLSearchParams(buildTradeModeQueries()).toString(),
+      });
+    },
+  });
+};
+
 const ordersConfig = (filters: OrderFilters) => {
   return queryOptions({
     queryKey: ordersDynamicKey(filters),
     queryFn: ({ signal }) => {
       return orders({
         signal,
-        queries: new URLSearchParams(
-          buildOrderFilterQueries(filters),
-        ).toString(),
+        queries: new URLSearchParams({
+          ...buildOrderFilterQueries(filters),
+          ...buildTradeModeQueries(),
+        }).toString(),
       });
     },
   });
@@ -148,13 +156,16 @@ const transactionsConfig = (filters: TransactionFilters) => {
     queryFn: ({ signal }) => {
       return transactions({
         signal,
-        queries: new URLSearchParams(
-          buildTransactionFilterQueries(filters),
-        ).toString(),
+        queries: new URLSearchParams({
+          ...buildTransactionFilterQueries(filters),
+          ...buildTradeModeQueries(),
+        }).toString(),
       });
     },
   });
 };
+//#endregion // * ------------ Apis that depends on isDemo query ------------
+
 // TODO Remove this wrong query option from the codebase
 const userPermissonsConfig = (userID: string) => {
   return queryOptions({
@@ -188,3 +199,10 @@ export {
   permissionGroupsConfig,
   userPermissonsConfig,
 };
+
+function buildTradeModeQueries() {
+  const isDemo = TradeModeStore.getTradeModeConfig().isDemo;
+  return {
+    ...(isDemo && { isDemo: "true" }),
+  };
+}
