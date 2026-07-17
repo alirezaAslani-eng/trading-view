@@ -3,7 +3,7 @@ const IS_DEMO_KEY = "is_demo";
 const DEMO_EXP_IN_KEY = "demo_exp_in";
 
 interface DemoConfig {
-  isDemo: boolean | null;
+  isDemo: boolean;
   expIn: number | null;
 }
 
