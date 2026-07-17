@@ -15,11 +15,13 @@ import RecentTradeSyncProvider from "@/context/feature/trade/RecentTradeSyncProv
 import MarketSubscribeProvider from "@/context/feature/market/MarketSubscribeProvider";
 import WalletPortfolioSyncProvider from "@/context/feature/Portfolio/WalletPortfolioSyncProvider";
 import { LocalizationProvider } from "@/packages/mui";
+import { TradeModeProvider } from "@/context/feature/trade/TradeMode";
 import { ServerCookieProvider } from "@/context/app/Cookies";
 export default function RootLayout({ children }: PWC) {
   return (
     <QueryClientProvider>
       <ServerCookieProvider>
+        <TradeModeProvider>
           <ReduxProvider>
             <TickerInfoSyncProvider />
             <MarketTickersSyncProvider />
@@ -45,6 +47,7 @@ export default function RootLayout({ children }: PWC) {
               </LocalizationProvider>
             </AppRouterCacheProvider>
           </ReduxProvider>
+        </TradeModeProvider>
       </ServerCookieProvider>
     </QueryClientProvider>
   );
