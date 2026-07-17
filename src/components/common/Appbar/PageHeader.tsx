@@ -38,7 +38,6 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
 
   return (
     <Box
-      component={"header"}
       sx={(tm) => ({
         display: "flex",
         justifyContent: "space-between",

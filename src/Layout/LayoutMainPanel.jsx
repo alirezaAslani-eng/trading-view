@@ -58,24 +58,23 @@ function MountainBackground() {
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "end",
         position: "absolute",
-        inset: 0,
         top: "0px",
+        left: "0px",
         zIndex: -1,
         backgroundColor: "background.surface",
+        height: "fit-content",
+        width: "fit-content",
       }}
     >
       <NextImage
         src={"/images/mountain-pattern.png"}
-        width={900}
+        alt="mountain background"
+        width={950}
         height={500}
         priority
-        alt=""
         sx={{
           mixBlendMode: "screen",
-          backgroundColor: "background.surface",
           opacity: "0.5",
         }}
       />

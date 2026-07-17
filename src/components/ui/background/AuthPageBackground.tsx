@@ -6,11 +6,12 @@ function AuthPageBackground() {
   return (
     <>
       <NextImage
-        src={"/images/light-mountain.png"}
+        src={"/images/auth-mountain.webp"}
         alt="hero image"
-        fill
+        width={}
         sizes="100vh"
         priority
+        quality={100}
         sx={{ zIndex: -2, objectFit: "cover" }}
       />
       {/* // * ------- gradient effect ------- */}
