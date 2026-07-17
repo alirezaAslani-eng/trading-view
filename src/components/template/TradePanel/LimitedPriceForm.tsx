@@ -74,7 +74,7 @@ function LimitTotalPrice({ control }: TradeFormSubscriber) {
   );
   return (
     <AmountDisplay
-      label={`کل (${PRICE_UNITS.IRT.displayName})`}
+      label={`مبلغ سر به سر (${PRICE_UNITS.IRT.displayName})`}
       value={!!totalPrice ? formatFaPrice(totalPrice) : "0"}
     />
   );

@@ -63,7 +63,7 @@ function MarketTotalPrice({ control }: TradeFormSubscriber) {
   const sum = calculateTotalTradePrice(Number(weight), Number(marketPrice));
   return (
     <AmountDisplay
-      label={`کل (${PRICE_UNITS.IRT.displayName})`}
+      label={`مبلغ سر به سر (${PRICE_UNITS.IRT.displayName})`}
       value={sum ? formatFaPrice(sum) : "0"}
     />
   );
