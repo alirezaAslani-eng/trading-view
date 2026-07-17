@@ -38,9 +38,10 @@ function LayoutMainPanel({ children }) {
               flexDirection: "column",
               position: "sticky",
               bottom: "30px",
+              pointerEvents: "none",
             }}
           >
-            <SupportButton size="large">
+            <SupportButton size="large" sx={{ pointerEvents: "auto" }}>
               {"پشتیبانی انلاین"}
               <HeadPhoneIcon color="inherit" width="22px" height="22px" />
             </SupportButton>
