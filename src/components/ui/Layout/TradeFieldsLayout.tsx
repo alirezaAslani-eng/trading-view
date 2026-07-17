@@ -22,7 +22,7 @@ function TradeFieldsLayoutPrecentage(
 function TradeFieldsLayoutTotalPrice(
   props: ReplaceSxWithSxOnlyObject<BoxProps>,
 ) {
-  return <Box sx={{ mt: "24px", ...props.sx }} {...props} />;
+  return <Box sx={{ mt: "14px", ...props.sx }} {...props} />;
 }
 
 export {
