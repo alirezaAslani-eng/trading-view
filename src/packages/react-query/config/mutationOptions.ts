@@ -63,8 +63,10 @@ const requestAuthOTPConfig = createMutationOptions({
 const verifyAuthOTPConfig = createMutationOptions({
   mutationKey: verifyAuthOTPKey,
   mutationFn: verifyAuthOTP,
+  onSuccess: () => TradeModeStore.clearStore(),
   meta: {
     invalidates: [authBaseKey],
+    disableSuccessAlert: true,
   },
 });
 
@@ -178,6 +180,9 @@ const logoutConfig = createMutationOptions({
   mutationKey: logoutKey,
   mutationFn: logout,
   onSuccess: () => TradeModeStore.clearStore(),
+  meta: {
+    disableSuccessAlert: true,
+  },
 });
 
 const enableDemoConfig = createMutationOptions({
@@ -210,7 +215,7 @@ type AppMutationOptions<
   TVariables = void,
   TContext = unknown,
 > = Omit<UseMutationOptions<TData, TError, TVariables, TContext>, "meta"> & {
-  meta?: Omit<MutationMeta, "invalidates">;
+  meta?: MutationMeta;
   extraInvalidates?: QueryKey[];
 };
 
