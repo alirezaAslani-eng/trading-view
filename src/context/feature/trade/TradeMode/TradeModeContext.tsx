@@ -37,8 +37,8 @@ export const TradeModeProvider = ({ children }: PropsWithChildren) => {
 
   //#region // * ------------ Sync isDemo with localStorage & queries ------------
   useUpdateEffect(() => {
-    updateQueries();
     TradeModeStore.storeIsDemo(isDemo);
+    updateQueries();
   }, [isDemo]);
   //#endregion // * ------------ Sync isDemo with localStorage & queries ------------
 
