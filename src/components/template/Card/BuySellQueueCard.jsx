@@ -35,7 +35,7 @@ function BuySellQueueCard() {
       }}
     >
       <Stack spacing={1}>
-        <Typography variant="button2" sx={{ color: "text.placeholder" }}>
+        <Typography variant="button2" sx={{ color: "text.placeHolder" }}>
           {"نقدینگی در صف خرید:"}
         </Typography>
         <Price>
@@ -44,7 +44,7 @@ function BuySellQueueCard() {
         </Price>
       </Stack>
       <Stack spacing={1}>
-        <Typography variant="button2" sx={{ color: "text.placeholder" }}>
+        <Typography variant="button2" sx={{ color: "text.placeHolder" }}>
           {" ارزش کالای در صف فروش:"}
         </Typography>
         <Price>

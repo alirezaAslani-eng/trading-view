@@ -11,7 +11,7 @@ function listItemShapeTheme({
   const styles = {
     disabled: {
       rootTheme: {
-        backgroundColor: theme.palette.text.placeholder,
+        backgroundColor: theme.palette.text.placeHolder,
         outlineColor: alpha(theme.palette.text.placeHolder!, 0.14),
       },
     } satisfies ListItemShapeThemeReturn,
