@@ -1,4 +1,4 @@
-import { kycL1, addShaba } from "@/api";
+import { kycL1, addShaba, enableDemo } from "@/api";
 import addCard from "@/api/bank/addcard";
 import { deposit } from "@/api";
 import addgroup from "@/api/group/addGroup";
@@ -31,6 +31,7 @@ import {
   deleteBankKey,
   deleteProductKey,
   depositKey,
+  enableDemoKey,
   kycLevel1Key,
   kycLevel2Key,
   logoutKey,
@@ -52,7 +53,7 @@ import {
   transactionsKey,
   walletProtfolioKey,
 } from "../keys/queryKeys";
-import { ResponseErrorType } from "@/types";
+import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
 
 const requestAuthOTPConfig = createMutationOptions({
   mutationKey: requestAuthOTPKey,
@@ -176,8 +177,13 @@ const assignPermissionsConfig = createMutationOptions({
 const logoutConfig = createMutationOptions({
   mutationKey: logoutKey,
   mutationFn: logout,
+  onSuccess: () => TradeModeStore.clearStore(),
 });
 
+const enableDemoConfig = createMutationOptions({
+  mutationKey: enableDemoKey,
+  mutationFn: enableDemo,
+});
 export {
   requestAuthOTPConfig,
   logoutConfig,
@@ -195,6 +201,7 @@ export {
   cancleOrderConfig,
   deletProductConfig,
   assignPermissionsConfig,
+  enableDemoConfig,
 };
 
 type AppMutationOptions<

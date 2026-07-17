@@ -14,6 +14,7 @@ const cancleOrderKey = ["cancle-order" as const];
 const deleteProductKey = ["delete-product" as const];
 const assignPermissionsKey = ["assign-permissions" as const];
 const logoutKey = ["logout" as const];
+const enableDemoKey = ["enable-demo" as const];
 
 export {
   requestAuthOTPKey,
@@ -32,4 +33,5 @@ export {
   deleteProductKey,
   assignPermissionsKey,
   logoutKey,
+  enableDemoKey,
 };
