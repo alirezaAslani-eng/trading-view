@@ -31,6 +31,7 @@ class TradeModeStore {
     Cookies.remove(IS_DEMO_KEY);
   }
   static isExpiredDemo(): boolean {
+    if (!isFinite(this.getTradeModeConfig().expIn as number)) return true;
     return Date.now() >= (this.getTradeModeConfig().expIn ?? 0);
   }
 }
