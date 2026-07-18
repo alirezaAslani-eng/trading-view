@@ -188,6 +188,9 @@ const logoutConfig = createMutationOptions({
 const enableDemoConfig = createMutationOptions({
   mutationKey: enableDemoKey,
   mutationFn: enableDemo,
+  meta: {
+    successMessage: "حساب دمو فعلا شد",
+  },
 });
 export {
   requestAuthOTPConfig,
