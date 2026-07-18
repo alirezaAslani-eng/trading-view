@@ -25,6 +25,8 @@ import { ROUTES } from "@/constant/app/routes";
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import { FlaskIcon, ScanFaceIcon } from "@/components/ui/Icon";
 import { useTradeMode } from "@/context/feature/trade/TradeMode";
+import useKycGuard from "@/hooks/features/kyc/useKycGuard";
+import { KYC_LEVELS } from "@/constant/features/kyc/kycLevelOreder";
 
 interface PageHeaderProps extends Pick<BoxProps, "sx"> {
   title: string;
@@ -128,11 +130,17 @@ const demoSwitcher_sx: SxProps<Theme> = ({ palette }) => {
 
 function DemoSwitcher() {
   const tradeMode = useTradeMode()!;
+  const kycGuard = useKycGuard();
+
+  const tradeModeHandler = () => {
+    const hasAccess = kycGuard.checkAccess(KYC_LEVELS.LEVEL_1);
+    if (hasAccess) tradeMode.toggle();
+  };
 
   return (
     <>
       <ToggleButtonGroup
-        onChange={createNonNullToggleHandler(tradeMode.toggle)}
+        onChange={tradeModeHandler}
         value={tradeMode.isDemo ? "demo" : "real"}
         size="medium"
         sx={demoSwitcher_sx}
