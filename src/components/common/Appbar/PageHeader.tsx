@@ -12,7 +12,10 @@ import {
 } from "@mui/material";
 import SearchIcon from "@/assets/svg/search-icon.svg";
 import NotificationIcon from "@/assets/svg/notification.svg";
-import { identifySxProp } from "@/packages/mui/theme/helpers";
+import {
+  createNonNullToggleHandler,
+  identifySxProp,
+} from "@/packages/mui/theme/helpers";
 import InputMarker from "@/components/ui/Marker/InputMarker";
 import LogoutIcon from "@/components/ui/Icon/Logout";
 import { useMutation } from "@tanstack/react-query";
@@ -33,7 +36,7 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
   const logoutMutation = useMutation(
     logoutConfig({
       onSuccess: () => router.replace(ROUTES.AUTH.ROOT),
-    }),
+    })
   );
 
   return (
@@ -129,7 +132,7 @@ function DemoSwitcher() {
   return (
     <>
       <ToggleButtonGroup
-        onChange={tradeMode.toggle}
+        onChange={createNonNullToggleHandler(tradeMode.toggle)}
         value={tradeMode.isDemo ? "demo" : "real"}
         size="medium"
         sx={demoSwitcher_sx}
