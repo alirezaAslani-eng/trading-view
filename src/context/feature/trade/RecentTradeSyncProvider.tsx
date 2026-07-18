@@ -3,16 +3,12 @@
 import { useEffect } from "react";
 
 import {
-  getConnection,
+  marketHub,
   onTradeExecuted,
   type OnTradeExecutedInfo,
 } from "@/packages/signalr";
 
-import {
-  queryClient,
-  recentTradesDynamicKey,
-  recentTradesKey,
-} from "@/packages/react-query";
+import { queryClient, recentTradesDynamicKey } from "@/packages/react-query";
 
 import type { RecentTrade, RecentTradeResponse } from "@/api/types";
 
@@ -37,9 +33,7 @@ function updateRecentTrade(data: OnTradeExecutedInfo) {
 
 function RecentTradeSyncProvider() {
   useEffect(() => {
-    const con = getConnection();
-
-    if (!con) return;
+    const con = marketHub.build();
 
     con.on(onTradeExecuted, updateRecentTrade);
 

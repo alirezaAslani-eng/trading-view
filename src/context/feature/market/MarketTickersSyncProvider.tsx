@@ -4,11 +4,10 @@ import { useEffect } from "react";
 import { marketTickersKey, queryClient } from "@/packages/react-query";
 import type { MarketTickersResponse } from "@/api/types";
 import {
-  getConnection,
   OnMarketTickersUpdatedInfo,
   OnMarketPriceChanged,
+  marketHub,
 } from "@/packages/signalr";
-
 
 function updateMarketTickersQuery(data: OnMarketTickersUpdatedInfo) {
   queryClient.setQueryData(
@@ -32,7 +31,7 @@ function updateMarketTickersQuery(data: OnMarketTickersUpdatedInfo) {
 
 function MarketTickersSyncProvider() {
   useEffect(() => {
-    const con = getConnection()!;
+    const con = marketHub.build();
     con.on(OnMarketPriceChanged, updateMarketTickersQuery);
 
     return () => {
