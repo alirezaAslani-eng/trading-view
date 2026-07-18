@@ -15,12 +15,10 @@ async function enableDemo(): Promise<EnableDemoResponse> {
     });
   })) as Response;
 
-  const data = (await handleApiResponse(res)) as BaseApiResponse<{
-    message: string;
-  }>;
+  const data = (await handleApiResponse(res)) as BaseApiResponse<EnableDemoResponse>;
 
   return {
-    expirationDate: data.data.message,
+    expirationDate: data.data.expirationDate,
   };
 }
 
