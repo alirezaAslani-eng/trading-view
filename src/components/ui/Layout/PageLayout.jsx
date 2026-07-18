@@ -1,5 +1,7 @@
 "use client";
 import { Box, styled, Typography } from "@mui/material";
+import Alert from "../Alert/Alert";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
 // * Container
 const Page = styled(Box)({ padding: "0px 28px", minHeight: "100svh" });
@@ -8,18 +10,42 @@ const Page = styled(Box)({ padding: "0px 28px", minHeight: "100svh" });
 /**
  * @param {import("@mui/material").BoxProps<"header">} props
  */
-const _Header = (props) => <Box component={"header"} {...props} />;
+const _Header = (props) => {
+  return <Box component={"header"} {...props} />;
+};
+
 const Header = styled(_Header)({
   paddingTop: "48px",
+  paddingBottom: "42px",
 });
 
 // * Container -> Main
 /**
  * @param {import("@mui/material").BoxProps<"main">} props
  */
-const _Main = (props) => <Box component={"main"} {...props} />;
+const _Main = (props) => {
+  const { isDemo } = useTradeMode();
+  return (
+    <Box component={"main"} {...props}>
+      {/* // * TradeMode Warning section  */}
+      {isDemo && (
+        <Alert
+          color="warning"
+          variant="standard"
+          sx={{ height: "40px", width: "100%", mb: "32px" }}
+        >
+          {
+            "حالت آزمایشی — معاملات شما واقعی نیستند و سود یا زیانی ثبت نمی‌شود."
+          }
+        </Alert>
+      )}
+      {/* // * TradeMode Warning section  */}
+      {props.children}
+    </Box>
+  );
+};
 const Main = styled(_Main)({
-  padding:"42px 0px"
+  paddingBottom: "42px",
 });
 
 // * Container -> Main -> Section
