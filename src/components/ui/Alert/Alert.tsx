@@ -9,28 +9,30 @@ import {
 import { ComponentProps } from "react";
 
 interface StyledAlertProps {
-  size: AlertSizeProps["size"];
-  color: AlertThemeProps["color"];
-  variant: AlertThemeProps["variant"];
+  size?: AlertSizeProps["size"];
+  color?: AlertThemeProps["color"];
+  variant?: AlertThemeProps["variant"];
 }
 
 const StyledAlert = styled(MuiAlerts, {
   shouldForwardProp: (prop) => {
     return prop !== "size";
   },
-})<StyledAlertProps>(({ theme, color, variant, size }) => {
-  const alert_theme = alertTheme({ color, theme, variant });
-  const alert_size = alertSize({ theme, size });
+})<StyledAlertProps>(
+  ({ theme, color = "warning", variant = "standard", size = "small" }) => {
+    const alert_theme = alertTheme({ color, theme, variant });
+    const alert_size = alertSize({ theme, size });
 
-  return {
-    ...alert_theme?.rootTheme,
-    ...alert_size?.rootSize,
-    "& .MuiSvgIcon-root": {
-      ...alert_size?.iconSize,
-      ...alert_theme?.iconTheme,
-    },
-  };
-});
+    return {
+      ...alert_theme?.rootTheme,
+      ...alert_size?.rootSize,
+      "& .MuiSvgIcon-root": {
+        ...alert_size?.iconSize,
+        ...alert_theme?.iconTheme,
+      },
+    };
+  }
+);
 
 function Alert(props: ComponentProps<typeof StyledAlert>) {
   const icon = <WarningIcon />;
