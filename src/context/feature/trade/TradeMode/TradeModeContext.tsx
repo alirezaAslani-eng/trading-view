@@ -22,13 +22,14 @@ type TradeModeContextValue = {
 };
 
 const updateQueries = () => {
-  [ordersKey, transactionsKey, walletProtfolioKey].forEach((key) => {
+  [ordersKey, transactionsKey, walletProtfolioKey].forEach(async (key) => {
+    await queryClient.cancelQueries({ queryKey: key });
     queryClient.invalidateQueries({ queryKey: key });
   });
 };
 
 export const TradeModeContext = createContext<TradeModeContextValue | null>(
-  null,
+  null
 );
 
 export const TradeModeProvider = ({ children }: PropsWithChildren) => {
