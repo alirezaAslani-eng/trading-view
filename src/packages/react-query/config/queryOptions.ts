@@ -39,6 +39,7 @@ import buildTransactionFilterQueries from "@/utils/features/transaction/buildTra
 import recentTrade from "@/api/trading/recentTrade";
 import recentTrades from "@/api/trading/recentTrade";
 import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
+import { buildTradeModeQueries } from "./helpers";
 
 const kycStatusConfig = () => {
   return queryOptions({
@@ -199,10 +200,3 @@ export {
   permissionGroupsConfig,
   userPermissonsConfig,
 };
-
-function buildTradeModeQueries() {
-  const isDemo = TradeModeStore.getTradeModeConfig().isDemo;
-  return {
-    ...(isDemo && { isDemo: "true" }),
-  };
-}

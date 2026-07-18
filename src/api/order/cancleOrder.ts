@@ -3,9 +3,12 @@ import handleApiResponse from "@/utils/app/handleApiResponse";
 import { sharedRequestInit } from "../sharedRequestInit";
 import { CancleOrderParam } from "../types";
 import { SharedHeaders } from "../sharedHeaders";
+import { buildTradeModeQueries } from "@/packages/react-query/config/helpers";
 
 const URL = (orderID: CancleOrderParam) => {
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/${orderID}/cancel`;
+  const queries = new URLSearchParams(buildTradeModeQueries()).toString();
+
+  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/${orderID}/cancel?${queries}`;
 };
 
 async function cancleOrder(orderID: CancleOrderParam): Promise<void> {
