@@ -8,7 +8,7 @@ function AuthPageBackground() {
       <NextImage
         src={"/images/auth-mountain.webp"}
         alt="hero image"
-        width={}
+        fill
         sizes="100vh"
         priority
         quality={100}
