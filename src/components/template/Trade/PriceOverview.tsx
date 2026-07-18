@@ -5,7 +5,6 @@ import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 import InputSelectSymbol from "../Input/InputSelectSymbol";
 import { useQuery } from "@tanstack/react-query";
 import { marketTickerInfoConfig } from "@/packages/react-query";
-import useInvokeTickerInfo from "@/hooks/features/market/useInvokeTickerInfo";
 import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
 import {
   Price,
@@ -39,8 +38,6 @@ const inputSelect_sx: SxProps<Theme> = ({ typography }) => ({
 });
 
 function PriceOverview() {
-  const [symbol] = useSymbolParams();
-  useInvokeTickerInfo(symbol);
   return (
     <PanelPaper
       sx={{
