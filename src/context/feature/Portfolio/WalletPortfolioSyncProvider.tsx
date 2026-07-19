@@ -3,15 +3,12 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import type {
-  WalletAsset,
-  WalletPortfolioResponse,
-} from "@/api/types";
+import type { WalletAsset, WalletPortfolioResponse } from "@/api/types";
 
 import {
-  getConnection,
   onPortfolioUpdate,
   onPriceUpdate,
+  walletHub,
   type OnPortfolioUpdateInfo,
   type OnPriceUpdateInfo,
 } from "@/packages/signalr";
@@ -23,10 +20,7 @@ import {
 } from "@/packages/react-query";
 
 function updatePortfolio(data: OnPortfolioUpdateInfo) {
-  queryClient.setQueryData<WalletPortfolioResponse>(
-    walletProtfolioKey,
-    data,
-  );
+  queryClient.setQueryData<WalletPortfolioResponse>(walletProtfolioKey, data);
 }
 
 function updatePrice(data: OnPriceUpdateInfo) {
@@ -40,10 +34,9 @@ function updatePrice(data: OnPriceUpdateInfo) {
           return asset;
         }
 
-        const totalQty =
-          asset.availableBalance + asset.lockedBalance;
+        const totalBalance = asset.availableBalance + asset.lockedBalance;
 
-        const totalValueInIrt = totalQty * data.newPrice;
+        const totalValueInIrt = totalBalance * data.newPrice;
 
         return {
           ...asset,
@@ -72,7 +65,7 @@ function WalletSyncProvider() {
   useEffect(() => {
     if (!isSuccess) return;
 
-    const con = getConnection()!;
+    const con = walletHub.build();
 
     con.on(onPortfolioUpdate, updatePortfolio);
     con.on(onPriceUpdate, updatePrice);

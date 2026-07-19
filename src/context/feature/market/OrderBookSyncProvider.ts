@@ -2,11 +2,8 @@
 import { useEffect } from "react";
 import { OrderBookResponse } from "@/api/types";
 import { orderBookKey, queryClient } from "@/packages/react-query";
-import {
-  getConnection,
-  orderBookUpdated,
-  OrderBookUpdatedInfo,
-} from "@/packages/signalr";
+import { orderBookUpdated, OrderBookUpdatedInfo } from "@/packages/signalr";
+import { orderHub } from "@/packages/signalr/hubs";
 
 function updateOrderBookCache(order: OrderBookUpdatedInfo) {
   queryClient.setQueriesData(
@@ -25,9 +22,9 @@ function updateOrderBookCache(order: OrderBookUpdatedInfo) {
   );
 }
 
-function useSyncOrderBookQueries() {
+function OrderBookSyncProvider() {
   useEffect(() => {
-    const con = getConnection()!;
+    const con = orderHub.build();
 
     con.on(orderBookUpdated, updateOrderBookCache);
 
@@ -35,10 +32,6 @@ function useSyncOrderBookQueries() {
       con.off(orderBookUpdated, updateOrderBookCache);
     };
   }, []);
-}
-
-function OrderBookSyncProvider() {
-  useSyncOrderBookQueries();
   return null;
 }
 

@@ -7,7 +7,7 @@ import type { MarketTickerInfoResponse } from "@/api/types";
 import { marketTickerInfoKey, queryClient } from "@/packages/react-query";
 
 import {
-  getConnection,
+  marketHub,
   OnMarketPriceChanged,
   onTradeExecuted,
   type OnMarketPriceChangedInfo,
@@ -48,7 +48,7 @@ function updateByTrade(data: OnTradeExecutedInfo) {
 
 function TickerInfoSyncProvider() {
   useEffect(() => {
-    const con = getConnection()!;
+    const con = marketHub.build();
 
     con.on(OnMarketPriceChanged, updateByMarketPrice);
     con.on(onTradeExecuted, updateByTrade);

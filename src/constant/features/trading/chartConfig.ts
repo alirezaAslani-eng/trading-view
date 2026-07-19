@@ -4,7 +4,7 @@ import symbolDetails from "@/api/trading/symbolDetails";
 import { Bar, ResolutionString, WidgetOptions } from "@/packages/tradingview";
 import safeAsync from "@/utils/app/safeAsync";
 import {
-  getConnection,
+  marketHub,
   onTradeExecuted,
   OnTradeExecutedInfo,
   start,
@@ -83,9 +83,9 @@ const datafeed: WidgetOptions["datafeed"] = {
   },
 
   subscribeBars: (symbolInfo, _, onTick) => {
-    const con = getConnection()!;
+    const con = marketHub.build();
     const startConection = async () => {
-      await start(con);
+      await marketHub.start(con);
       con.invoke(subscribeToMarket, symbolInfo.name);
     };
     startConection();

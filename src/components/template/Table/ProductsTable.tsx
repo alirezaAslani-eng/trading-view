@@ -3,48 +3,39 @@ import ButtonTableAction from "@/components/ui/Button/ButtonTableAction";
 import DataTable, { Column } from "@/components/ui/Table/DataTable";
 import { Typography } from "@mui/material";
 import TableSortToggler from "./TableSortToggler";
-import {
-  SortFilterProvider,
-  useSortFilter,
-} from "@/context/app/SortFilter/SortFilterContext";
+import NextLink from "@/components/ui/Link/NextLink";
+import { ROUTES } from "@/constant/app/routes";
+import { formatFaPrice, formatPrecent, getTrendColor } from "@/utils";
+import { useQuery } from "@tanstack/react-query";
+import { marketTickersKey } from "@/packages/react-query";
+import { getMarketTickers } from "@/api";
+import { MarketTicker } from "@/api/types";
+import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import {
   PagePaper,
   PagePaperHeading,
   PagePaperTitle,
 } from "@/components/ui/Layout/PaperLayout";
-import TableControls from "./TableControls";
-import {
-  ProductsTableProvider,
-  useProductsTable,
-  type ProductTableRow,
-} from "./ProductsTableProvider";
-import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import {
   TableFallback,
   TableFallbackData,
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
-import NextLink from "@/components/ui/Link/NextLink";
-import { ROUTES } from "@/constant/app/routes";
-import { formatFaPrice, formatPrecent, getTrendColor } from "@/utils";
 
-const columns: Column<ProductTableRow>[] = [
+const columns: Column<MarketTicker>[] = [
   {
     field: "symbol",
-    headerName: <TableSortToggler fieldPath={"symbol"} text="نماد" />,
+    headerName: "نماد",
   },
   {
-    field: "currentPrice",
-    headerName: (
-      <TableSortToggler fieldPath={"currentPrice"} text="قیمت زنده" />
-    ),
+    headerName: "قیمت لحظه ای",
     renderCell(row) {
-      return formatFaPrice(row.currentPrice);
+      return formatFaPrice(row.lastPrice);
     },
   },
   {
     field: "change24h",
-    headerName: <TableSortToggler fieldPath={"change24h"} text="تغییرات 24h" />,
+    headerName: "تغییرات 24h",
     renderCell: (row) => (
       <Typography
         variant="inherit"
@@ -58,14 +49,14 @@ const columns: Column<ProductTableRow>[] = [
   },
   {
     field: "low24h",
-    headerName: <TableSortToggler fieldPath={"low24h"} text="کمترین 24h" />,
+    headerName: "کمترین 24h",
     renderCell: (row) => (
       <Typography variant="inherit">{row.low24h}</Typography>
     ),
   },
   {
     field: "high24h",
-    headerName: <TableSortToggler fieldPath={"high24h"} text="بیشترین 24h" />,
+    headerName: "بیشترین 24h",
     renderCell: (row) => (
       <Typography variant="inherit">{row.high24h}</Typography>
     ),
@@ -81,52 +72,38 @@ const columns: Column<ProductTableRow>[] = [
   },
 ];
 
-function ProductsTable_() {
-  const { sorter, searcher, searchQuery, setSearch } = useSortFilter();
-  const { rows, isLoading, isError } = useProductsTable();
+function ProductsTable() {
+  const tickersQuery = useQuery({
+    queryKey: marketTickersKey,
+    queryFn: getMarketTickers,
+  });
+  const tickers = tickersQuery.data;
 
   return (
     <PagePaper>
       <PagePaperHeading sx={{ mb: "32px" }}>
         <PagePaperTitle>{"لیست محصولات"}</PagePaperTitle>
-        <TableControls value={searchQuery} onChange={setSearch} />
       </PagePaperHeading>
 
       <FallbackHandler
-        isLoading={isLoading}
-        isError={isError}
-        dataLength={rows.length}
+        isLoading={tickersQuery.isLoading}
+        isError={tickersQuery.isError}
+        dataLength={tickers?.length}
         fallbacks={{
           noData: (
             <TableFallback>
               <TableFallbackData />
             </TableFallback>
           ),
-          loader: (
-            <TableFallback>
-              <TableFallbackLoader />
-            </TableFallback>
-          ),
+          loader: <TableFallbackLoader columns={columns} />,
         }}
       />
 
-      {!isLoading && !!rows.length && (
-        <DataTable
-          rows={sorter(searcher(rows, ["symbol"]))}
-          columns={columns}
-        />
+      {!tickersQuery.isLoading && !!tickers?.length && (
+        <DataTable rows={tickers} columns={columns} />
       )}
     </PagePaper>
   );
 }
 
-function ProductsTable() {
-  return (
-    <ProductsTableProvider>
-      <SortFilterProvider defaultFieldPath="symbol">
-        <ProductsTable_ />
-      </SortFilterProvider>
-    </ProductsTableProvider>
-  );
-}
 export default ProductsTable;

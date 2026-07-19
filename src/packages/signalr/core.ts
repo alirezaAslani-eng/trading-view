@@ -1,4 +1,3 @@
-// createHub.ts
 import { HubConnection } from "@microsoft/signalr";
 
 export function createHub(factory: () => HubConnection): () => HubConnection {
@@ -14,17 +13,20 @@ export function createHub(factory: () => HubConnection): () => HubConnection {
   };
 }
 
-let started: boolean;
 
-export async function start(conn: HubConnection) {
-  if (started) return;
-  started = true;
+export function createStarter() {
+  let started: boolean;
+  return async function start(conn: HubConnection) {
+    if (started) return;
+    started = true;
 
-  try {
-    await conn.start();
-    console.log("signalr connected");
-  } catch (err) {
-    started = false;
-    console.log("signalr failed", err);
-  }
+    try {
+      await conn.start();
+      console.log("signalr connected");
+    } catch (err) {
+      started = false;
+      console.log("signalr failed", err);
+      throw err;
+    }
+  };
 }
