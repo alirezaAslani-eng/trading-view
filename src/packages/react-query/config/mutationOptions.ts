@@ -45,13 +45,11 @@ import {
   banksKey,
   dashboardInfoKey,
   kycStatusKey,
-  ordersKey,
   permissionGroupsKey,
   permissionListKey,
   productsKey,
   symbolsKey,
   transactionsKey,
-  walletProtfolioKey,
 } from "../keys/queryKeys";
 import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
 
@@ -114,7 +112,7 @@ const withdrawConfig = createMutationOptions({
   mutationKey: withdrawKey,
   mutationFn: withdraw,
   meta: {
-    invalidates: [walletProtfolioKey, transactionsKey],
+    invalidates: [transactionsKey],
   },
 });
 
@@ -122,7 +120,7 @@ const depositConfig = createMutationOptions({
   mutationKey: depositKey,
   mutationFn: deposit,
   meta: {
-    invalidates: [walletProtfolioKey, transactionsKey],
+    invalidates: [transactionsKey],
   },
 });
 
@@ -146,7 +144,7 @@ const placeOrderConfig = createMutationOptions({
   mutationKey: placeOrderKey,
   mutationFn: placeOrder,
   meta: {
-    invalidates: [ordersKey, walletProtfolioKey, transactionsKey],
+    invalidates: [transactionsKey],
   },
 });
 
@@ -154,7 +152,7 @@ const cancleOrderConfig = createMutationOptions({
   mutationKey: cancleOrderKey,
   mutationFn: cancleOrder,
   meta: {
-    invalidates: [ordersKey, walletProtfolioKey, transactionsKey],
+    invalidates: [transactionsKey],
     successMessage: "سفارش باموفقیت لغو شد",
   },
 });
@@ -216,7 +214,7 @@ type AppMutationOptions<
   TData,
   TError = DefaultError,
   TVariables = void,
-  TContext = unknown,
+  TContext = unknown
 > = Omit<UseMutationOptions<TData, TError, TVariables, TContext>, "meta"> & {
   meta?: MutationMeta;
   extraInvalidates?: QueryKey[];
@@ -226,10 +224,10 @@ function createMutationOptions<
   TData,
   TError = DefaultError,
   TVariables = void,
-  TContext = unknown,
+  TContext = unknown
 >(base: UseMutationOptions<TData, TError, TVariables, TContext>) {
   const overridableMutation = (
-    overrides: AppMutationOptions<TData, TError, TVariables, TContext> = {},
+    overrides: AppMutationOptions<TData, TError, TVariables, TContext> = {}
   ): UseMutationOptions<TData, TError, TVariables, TContext> => {
     return {
       ...base,
