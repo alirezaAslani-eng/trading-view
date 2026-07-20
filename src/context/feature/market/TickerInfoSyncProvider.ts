@@ -15,6 +15,8 @@ import {
 } from "@/packages/signalr";
 
 function updateByMarketPrice(data: OnMarketPriceChangedInfo) {
+  console.log("SIGNALR -> ticked one product", data);
+
   queryClient.setQueriesData(
     { queryKey: marketTickerInfoKey },
     (tickerInfo: MarketTickerInfoResponse | undefined) => {
@@ -26,11 +28,12 @@ function updateByMarketPrice(data: OnMarketPriceChangedInfo) {
         ...tickerInfo,
         lastPrice: data.price,
       };
-    },
+    }
   );
 }
 
 function updateByTrade(data: OnTradeExecutedInfo) {
+  console.log("SIGNALR -> ticked one product", data);
   queryClient.setQueriesData(
     { queryKey: marketTickerInfoKey },
     (tickerInfo: MarketTickerInfoResponse | undefined) => {
@@ -42,7 +45,7 @@ function updateByTrade(data: OnTradeExecutedInfo) {
         ...tickerInfo,
         volum: data.volum,
       };
-    },
+    }
   );
 }
 

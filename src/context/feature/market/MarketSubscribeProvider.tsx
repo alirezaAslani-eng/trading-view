@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { symbolsConfig } from "@/packages/react-query";
-import { marketHub, start, subscribeToMarket } from "@/packages/signalr";
+import { marketHub, subscribeToMarket } from "@/packages/signalr";
 
 function useSubscribeMarket() {
   const { data, isSuccess } = useQuery(symbolsConfig());

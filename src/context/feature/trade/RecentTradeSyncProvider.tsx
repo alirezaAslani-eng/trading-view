@@ -13,6 +13,7 @@ import { queryClient, recentTradesDynamicKey } from "@/packages/react-query";
 import type { RecentTrade, RecentTradeResponse } from "@/api/types";
 
 function updateRecentTrade(data: OnTradeExecutedInfo) {
+  console.log("SIGNALR -> ticked recent trades", data);
   if (!data.isOrganic) return;
 
   queryClient.setQueryData<RecentTradeResponse>(
@@ -27,7 +28,7 @@ function updateRecentTrade(data: OnTradeExecutedInfo) {
       };
 
       return [newTrade, ...oldData].slice(0, 50);
-    },
+    }
   );
 }
 

@@ -10,6 +10,8 @@ import {
 } from "@/packages/signalr";
 
 function updateMarketTickersQuery(data: OnMarketTickersUpdatedInfo) {
+  console.log("SIGNALR -> Ticked Products", data);
+
   queryClient.setQueryData(
     marketTickersKey,
     (tickers: MarketTickersResponse | undefined) => {
@@ -25,7 +27,7 @@ function updateMarketTickersQuery(data: OnMarketTickersUpdatedInfo) {
           lastPrice: data.price,
         };
       });
-    },
+    }
   );
 }
 

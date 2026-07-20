@@ -3,13 +3,15 @@ import { useEffect } from "react";
 import { OrderBookResponse } from "@/api/types";
 import { orderBookKey, queryClient } from "@/packages/react-query";
 import { orderBookUpdated, OrderBookUpdatedInfo } from "@/packages/signalr";
-import { orderHub } from "@/packages/signalr/hubs";
+import { marketHub } from "@/packages/signalr/hubs";
 
 function updateOrderBookCache(order: OrderBookUpdatedInfo) {
+  console.log("SIGNALR => ticked Orderbook", order);
+
   queryClient.setQueriesData(
     { queryKey: orderBookKey },
     (
-      cachedOrder: OrderBookResponse | undefined,
+      cachedOrder: OrderBookResponse | undefined
     ): OrderBookResponse | undefined => {
       if (!cachedOrder) return cachedOrder;
       if (cachedOrder.symbol !== order.s) return cachedOrder;
@@ -18,13 +20,13 @@ function updateOrderBookCache(order: OrderBookUpdatedInfo) {
         asks: order.a,
         symbol: order.s,
       };
-    },
+    }
   );
 }
 
 function OrderBookSyncProvider() {
   useEffect(() => {
-    const con = orderHub.build();
+    const con = marketHub.build();
 
     con.on(orderBookUpdated, updateOrderBookCache);
 

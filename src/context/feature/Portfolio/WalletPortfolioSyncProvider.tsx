@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 
 import type { WalletAsset, WalletPortfolioResponse } from "@/api/types";
 
@@ -13,17 +12,16 @@ import {
   type OnPriceUpdateInfo,
 } from "@/packages/signalr";
 
-import {
-  queryClient,
-  walletPortfolioConfig,
-  walletProtfolioKey,
-} from "@/packages/react-query";
+import { queryClient, walletProtfolioKey } from "@/packages/react-query";
 
 function updatePortfolio(data: OnPortfolioUpdateInfo) {
+  console.log("SIGNALR -> ticked wallet", data);
+
   queryClient.setQueryData<WalletPortfolioResponse>(walletProtfolioKey, data);
 }
 
 function updatePrice(data: OnPriceUpdateInfo) {
+  console.log("SIGNALR -> ticked wallet", data);
   queryClient.setQueryData<WalletPortfolioResponse>(
     walletProtfolioKey,
     (oldData) => {
@@ -47,7 +45,7 @@ function updatePrice(data: OnPriceUpdateInfo) {
 
       const totalPortfolioValueIrt = assets.reduce(
         (sum, asset) => sum + asset.totalValueInIrt,
-        0,
+        0
       );
 
       return {
@@ -55,18 +53,15 @@ function updatePrice(data: OnPriceUpdateInfo) {
         assets,
         totalPortfolioValueIrt,
       };
-    },
+    }
   );
 }
 
 function WalletSyncProvider() {
-  const { isSuccess } = useQuery(walletPortfolioConfig());
-
   useEffect(() => {
-    if (!isSuccess) return;
-
     const con = walletHub.build();
 
+    walletHub.start(con);
     con.on(onPortfolioUpdate, updatePortfolio);
     con.on(onPriceUpdate, updatePrice);
 
@@ -74,7 +69,7 @@ function WalletSyncProvider() {
       con.off(onPortfolioUpdate, updatePortfolio);
       con.off(onPriceUpdate, updatePrice);
     };
-  }, [isSuccess]);
+  }, []);
 
   return null;
 }
