@@ -24,7 +24,7 @@ function DepositForm() {
   const depositMutate = useMutation({
     ...withdrawMutationConfig,
     onSuccess: () => {
-      form.reset();
+      form.setValue("amount", "");
     },
   });
   const { checkAccess } = useKycGuard();
@@ -38,7 +38,7 @@ function DepositForm() {
           amount: fields.amount,
         });
       }),
-      { loading: alertMessages.loading },
+      { loading: alertMessages.loading }
     );
   };
 
