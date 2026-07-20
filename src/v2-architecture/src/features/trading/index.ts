@@ -1,0 +1,1 @@
+export { DemoSetting } from "./components";
