@@ -1,6 +1,6 @@
 "use client";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
-import { Button, styled  } from "@mui/material";
+import { legacyColors } from "@/packages/mui/theme/shades";
+import { Button, styled } from "@mui/material";
 
 const ButtonTableAction = styled(Button)(({ theme }) => {
   return {
@@ -9,7 +9,7 @@ const ButtonTableAction = styled(Button)(({ theme }) => {
     height: "28px",
     padding: "0px 14px",
     border: "1px solid",
-    borderColor: notDefinedColors["#363636"],
+    borderColor: legacyColors["#363636"],
     "&.Mui-disabled": {
       opacity: 0.5,
       color: theme.palette.text.onPrimary,

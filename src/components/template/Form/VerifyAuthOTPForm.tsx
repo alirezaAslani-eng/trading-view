@@ -1,6 +1,6 @@
 "use client";
 import { Box, ButtonBase, SxProps, Theme, Typography } from "@mui/material";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { legacyColors } from "@/packages/mui/theme/shades";
 import InputVerifyCode from "@/components/template/Input/InputVerifyCode";
 import { RestartRightIcon } from "@/components/ui/Icon";
 import { useMutation } from "@tanstack/react-query";
@@ -42,7 +42,7 @@ function VerifyAuthOTPForm() {
   const mutation = useMutation(
     verifyAuthOTPConfig({
       onSuccess: () => router.replace(ROUTES.PANEL.ROOT),
-    }),
+    })
   );
 
   const submiter: SubmitHandler<VerifyAuthOTPSchemaType> = async (fields) => {
@@ -50,7 +50,7 @@ function VerifyAuthOTPForm() {
       safeAsync(async () => {
         await mutation.mutateAsync(fields);
       }),
-      { loading: alertMessages.loading },
+      { loading: alertMessages.loading }
     );
   };
 
@@ -98,7 +98,7 @@ function VerifyAuthOTPForm() {
               component={"button"}
               onClick={authFlow.goBackToEnterInfo}
               variant="body3"
-              sx={{ color: notDefinedColors["#C6C6C6"], cursor: "pointer" }}
+              sx={{ color: legacyColors["#C6C6C6"], cursor: "pointer" }}
             >
               ویرایش {authFlow.identifier}
             </Typography>
@@ -127,7 +127,7 @@ function RequestOtpButton() {
   const mutation = useRequestAuthOTP(authFlow.identifier);
 
   const countDown = useCountdown(
-    normalizeOtpExpIn(mutation.data, mutation.error),
+    normalizeOtpExpIn(mutation.data, mutation.error)
   );
 
   const requestOtp = async () => {

@@ -2,7 +2,7 @@
 import React, { PropsWithChildren, type ReactNode } from "react";
 import { Box, Stack } from "@mui/system";
 import { Divider, styled, SvgIcon, Theme, Typography } from "@mui/material";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { legacyColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
 import useIsActiveLink from "@/hooks/app/useIsActiveLink";
 import { KeyDownIcon, KeyUpIcon } from "@/components/ui/Icon";
@@ -115,7 +115,7 @@ function PanelSidebarDropdown({
           <Divider
             flexItem
             orientation="vertical"
-            sx={{ borderColor: notDefinedColors["#2F3035"], mx: "15px" }}
+            sx={{ borderColor: legacyColors["#2F3035"], mx: "15px" }}
           />
 
           <Stack sx={{ gap: "10px", flex: 1 }}>

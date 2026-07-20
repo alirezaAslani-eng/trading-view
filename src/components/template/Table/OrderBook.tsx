@@ -8,7 +8,7 @@ import Tabs from "@/components/ui/Tabs/Tabs";
 import TabsSibling from "@/components/ui/Tabs/TabsSibling";
 import { TabsProvider } from "@/context/app/TabsContext";
 import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { legacyColors } from "@/packages/mui/theme/shades";
 import {
   marketTickerInfoConfig,
   orderBookConfig,
@@ -128,7 +128,7 @@ export default function OrderBook() {
                 {(orderBookView === "all" || orderBookView === "asks") && (
                   <OrderBookList
                     rows={orderBookQuery.data.asks}
-                    priceColor={notDefinedColors["#f26672"]}
+                    priceColor={legacyColors["#f26672"]}
                   />
                 )}
 

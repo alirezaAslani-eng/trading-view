@@ -1,4 +1,3 @@
-import serializeQueries from "@/utils/app/serializeQueries";
 import PermissionGroups from "@/api/permission/permissionGroups";
 import permissionChecklist from "@/api/permission/permissionChecklist";
 import { queryOptions } from "@tanstack/react-query";
@@ -167,18 +166,6 @@ const transactionsConfig = (filters: TransactionFilters) => {
 };
 //#endregion // * ------------ Apis that depends on isDemo query ------------
 
-// TODO Remove this wrong query option from the codebase
-const userPermissonsConfig = (userID: string) => {
-  return queryOptions({
-    queryKey: userPermissionsDynamicKey(userID),
-    queryFn: () => {
-      return transactions({
-        queries: serializeQueries(userID).toString(),
-      });
-    },
-  });
-};
-
 const recentTradesConfig = (symbol: string) => ({
   queryKey: recentTradesDynamicKey(symbol),
   queryFn: () => recentTrades(symbol),
@@ -198,5 +185,4 @@ export {
   ordersConfig,
   transactionsConfig,
   permissionGroupsConfig,
-  userPermissonsConfig,
 };

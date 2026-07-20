@@ -1,6 +1,6 @@
 "use client";
 import BrandName from "@/components/ui/Brand/BrandName";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { legacyColors } from "@/packages/mui/theme/shades";
 import { Box, Stack, StackProps } from "@mui/material";
 import { hideScrollBar } from "@/packages/mui/theme/shared-style";
 import SwitchTheme from "../Button/SwitchTheme";
@@ -39,7 +39,7 @@ function SidebarPanel(props: StackProps) {
         sx={(tm) => ({
           ...hideScrollBar,
           borderRadius: "16px",
-          backgroundColor: notDefinedColors["#1B1C20"],
+          backgroundColor: legacyColors["#1B1C20"],
           maxHeight: "100%",
           height: "100%",
           overflowY: "auto",

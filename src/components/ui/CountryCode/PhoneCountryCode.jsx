@@ -1,4 +1,4 @@
-import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { legacyColors } from "@/packages/mui/theme/shades";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
@@ -14,14 +14,12 @@ function PhoneCountryCode() {
     >
       <Box
         sx={{
-          backgroundColor: notDefinedColors["#434343"],
+          backgroundColor: legacyColors["#434343"],
           height: "26px",
           width: "2px",
         }}
       />
-      <Typography sx={{ color: notDefinedColors["#B7B7B7"] }}>
-        {"98+"}
-      </Typography>
+      <Typography sx={{ color: legacyColors["#B7B7B7"] }}>{"98+"}</Typography>
     </Box>
   );
 }
