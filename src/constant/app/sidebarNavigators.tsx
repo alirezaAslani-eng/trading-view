@@ -91,6 +91,13 @@ const sidebarNavigators: SidebarNavItem[] = [
     submenus: [],
   },
   {
+    id: "demoSetting",
+    text: "تنزیمات دمو",
+    icon: <LockIcon />,
+    link: ROUTES.ADMIN.DEMO_SETTING,
+    submenus: [],
+  },
+  {
     id: "profile",
     text: "پروفایل",
     icon: <UserIcon />,

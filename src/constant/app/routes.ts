@@ -46,6 +46,7 @@ export const ROUTES = {
 
   ADMIN: {
     ROOT: "/admin",
+    DEMO_SETTING: "/admin/demo-setting",
   },
   ERROR: {
     BY_CODE: (code: number) => `/error/${code}`,
@@ -56,7 +57,7 @@ export const ROUTES = {
 type ExtractStrings<T> = T extends string
   ? T
   : T extends (...args: any[]) => string
-    ? never
-    : { [K in keyof T]: ExtractStrings<T[K]> }[keyof T];
+  ? never
+  : { [K in keyof T]: ExtractStrings<T[K]> }[keyof T];
 
 export type RoutePath = ExtractStrings<typeof ROUTES>;
