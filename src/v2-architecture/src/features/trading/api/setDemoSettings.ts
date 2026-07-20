@@ -1,10 +1,7 @@
 import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
+import { SetDemoSettingSchemaOutput } from "../validations";
 
-export interface SetDemoSettingVariables {
-  initialIrtAmount: number;
-  initialAssetAmount: number;
-  validityDays: number;
-}
+export interface SetDemoSettingVariables extends SetDemoSettingSchemaOutput {}
 
 type Config = ApiConfig<{ body: SetDemoSettingVariables }>;
 
