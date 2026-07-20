@@ -1,6 +1,6 @@
 import { alpha, Box } from "@mui/material";
 import NextImage from "../Image/NextImage";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { legacyColors } from "@/packages/mui/theme/shades";
 
 function AuthPageBackground() {
   return (
@@ -25,7 +25,7 @@ function AuthPageBackground() {
           opacity: { xs: 1, sm: 0.48 },
           backdropFilter: { xs: "blur(60px)", sm: "blur(0)" },
           background: {
-            xs: alpha(notDefinedColors["#121212"], 0.02),
+            xs: alpha(legacyColors["#121212"], 0.02),
             sm: "linear-gradient(to bottom, #252525, #1B1B1B)",
           },
         }}

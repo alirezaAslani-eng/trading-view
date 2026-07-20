@@ -1,7 +1,6 @@
 "use client";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { CheckBoxProps } from "@/components/ui/types";
-import useRndomID from "@/hooks/app/useRndomID";
 import {
   Box,
   Checkbox as MuiCheckbox,
@@ -13,6 +12,7 @@ import {
   checkboxTheme,
   defaultCheckboxVariants,
 } from "@/packages/mui/theme/variants";
+import { useId } from "react";
 
 const StyledCheckBox = styled(MuiCheckbox, {
   shouldForwardProp: (prop) => {
@@ -43,7 +43,7 @@ const StyledCheckBox = styled(MuiCheckbox, {
 });
 
 function CheckBox({ label, ...props }: CheckBoxProps) {
-  const randomLabelID = useRndomID();
+  const randomLabelID = useId();
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <StyledCheckBox

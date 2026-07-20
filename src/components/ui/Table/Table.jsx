@@ -1,6 +1,6 @@
 "use client";
 import { columnSpacing } from "@/packages/mui/theme/helpers";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { legacyColors } from "@/packages/mui/theme/shades";
 import { styled, Table as Table_ } from "@mui/material";
 
 const rowSpace = "12px";
@@ -27,7 +27,7 @@ const Table = styled(Table_)(({ theme }) => ({
   "& tr th": {
     paddingBottom: rowSpace,
     borderBottom: "1px solid",
-    borderColor: notDefinedColors["#2A2B2F"],
+    borderColor: legacyColors["#2A2B2F"],
     whiteSpace: "nowrap",
     color: theme.palette.text.caption,
   },

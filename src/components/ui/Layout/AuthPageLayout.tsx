@@ -2,7 +2,7 @@ import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 import { BrandIcon, KeyLeftIcon } from "../Icon";
 import BrandName from "../Brand/BrandName";
 import NextLink from "../Link/NextLink";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { legacyColors } from "@/packages/mui/theme/shades";
 import {
   Box,
   Divider,
@@ -16,12 +16,12 @@ import AuthPageBackButton from "@/components/template/Button/AuthPageBackButton"
 
 const footerTypographyProps: TypographyProps = {
   variant: "button3",
-  sx: { color: notDefinedColors["#CBCBCB"] },
+  sx: { color: legacyColors["#CBCBCB"] },
 };
 const footerDividerProps: DividerProps = {
   orientation: "vertical",
   flexItem: true,
-  sx: { mx: "12px", borderColor: notDefinedColors["#676767"] },
+  sx: { mx: "12px", borderColor: legacyColors["#676767"] },
 };
 
 function AuthPageLayout(props: ReplaceSxWithSxOnlyObject<StackProps>) {
@@ -42,7 +42,7 @@ function AuthPageLayout(props: ReplaceSxWithSxOnlyObject<StackProps>) {
 }
 
 function AuthPageLayoutFormContainer(
-  props: ReplaceSxWithSxOnlyObject<StackProps>,
+  props: ReplaceSxWithSxOnlyObject<StackProps>
 ) {
   return (
     <Stack

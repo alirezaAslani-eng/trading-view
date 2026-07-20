@@ -1,5 +1,5 @@
 "use client";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { legacyColors } from "@/packages/mui/theme/shades";
 import { Box, styled } from "@mui/material";
 
 const StyledDropdownButton = styled(Box, {
@@ -24,7 +24,7 @@ const StyledDropdownButton = styled(Box, {
     alignItems: "center",
     ...dropdownButtonTheme({ active, color, theme, variant }),
     ...dropdownButtonSizes(theme, size),
-  }),
+  })
 );
 
 function dropdownButtonTheme({ theme, variant, color, active }) {
@@ -34,7 +34,7 @@ function dropdownButtonTheme({ theme, variant, color, active }) {
       // * --- active state ----
       if (active) {
         return {
-          backgroundColor: notDefinedColors["#2F2F31"],
+          backgroundColor: legacyColors["#2F2F31"],
           color: theme.palette.text.heading,
         };
       }

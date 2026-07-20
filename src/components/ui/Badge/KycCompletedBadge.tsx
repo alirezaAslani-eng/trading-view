@@ -7,7 +7,7 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
+import { legacyColors } from "@/packages/mui/theme/shades";
 import { CheckedIcon } from "../Icon";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { ComponentProps } from "react";
@@ -34,7 +34,7 @@ function KycCompletedBadge({ active, ...boxProps }: KycCompletedBadgeProps) {
           width: "32px",
           backgroundColor: alpha(
             tm.palette.text.primary2!,
-            active ? 0.12 : 0.06,
+            active ? 0.12 : 0.06
           ),
         })}
       >
@@ -43,20 +43,18 @@ function KycCompletedBadge({ active, ...boxProps }: KycCompletedBadgeProps) {
             width: "24px",
             backgroundColor: active
               ? "background.primary"
-              : alpha(notDefinedColors["#002247"], 0.44),
+              : alpha(legacyColors["#002247"], 0.44),
 
             outline: "1.5px solid",
             outlineOffset: "-2px",
-            outlineColor: active
-              ? "text.primary2"
-              : notDefinedColors["#004FA3"],
+            outlineColor: active ? "text.primary2" : legacyColors["#004FA3"],
           }}
         >
           <CheckedIcon
             sx={{
               width: "10px",
               height: "10px",
-              color: active ? "text.onPrimary" : notDefinedColors["#004FA3"],
+              color: active ? "text.onPrimary" : legacyColors["#004FA3"],
             }}
           />
         </CircleBox>

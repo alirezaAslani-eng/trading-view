@@ -1,4 +1,4 @@
-import { notDefinedColors } from "../../shades";
+import { legacyColors } from "../../shades";
 import { defaultCheckboxVariants } from "@/packages/mui/theme/variants";
 import { CheckboxThemeProps, CheckboxThemeReturn } from "../types";
 
@@ -20,8 +20,8 @@ function checkboxTheme({
         },
         notCheckedTheme: {
           color: theme.palette.text.onPrimary,
-          backgroundColor: `${notDefinedColors["#282828"]} !important`,
-          borderColor: notDefinedColors["#474747"],
+          backgroundColor: `${legacyColors["#282828"]} !important`,
+          borderColor: legacyColors["#474747"],
         },
       } satisfies CheckboxThemeReturn,
       outlined: {
@@ -36,7 +36,7 @@ function checkboxTheme({
         notCheckedTheme: {
           color: theme.palette.text.onPrimary,
           backgroundColor: `transparent !important`,
-          borderColor: notDefinedColors["#474747"],
+          borderColor: legacyColors["#474747"],
         },
       } satisfies CheckboxThemeReturn,
     },

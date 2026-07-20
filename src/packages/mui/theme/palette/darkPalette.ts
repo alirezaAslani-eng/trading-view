@@ -3,7 +3,7 @@ import {
   blue,
   gray,
   green,
-  notDefinedColors,
+  legacyColors,
   nuetral,
   orange,
   red,
@@ -27,7 +27,7 @@ const darkPalette: PaletteOptions = {
     error: red[600],
     placeholder: nuetral[800],
     inputText: white.white,
-    tertiary:nuetral["400"]
+    tertiary: nuetral["400"],
   },
   background: {
     primary: blue[500],
@@ -43,7 +43,7 @@ const darkPalette: PaletteOptions = {
     surfaceLevel4: gray[270],
     surfaceLevel5: gray[500],
     default: gray[600],
-    paper: notDefinedColors["#595B5F"],
+    paper: legacyColors["#595B5F"],
   },
   border: {
     default: gray[200],
