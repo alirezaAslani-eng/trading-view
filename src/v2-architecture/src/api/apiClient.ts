@@ -5,15 +5,20 @@ type RequestConfig = RequestInit;
 class ApiClient {
   //#region // ! ------------ Private ------------
   private request(url: string, config?: RequestConfig): Promise<Response> {
+    const headers: HeadersInit = {};
+
+    if (!(config?.body instanceof FormData)) {
+      headers["Content-Type"] = "application/json";
+    }
     return apiError.requestHandler(() =>
       fetch(url, {
         credentials: "include",
         ...config,
         headers: {
-          ...(!!config?.body && { "Content-Type": "application/json" }),
+          ...headers,
           ...config?.headers,
         },
-      }),
+      })
     ) as Promise<Response>;
   }
 
@@ -57,5 +62,3 @@ class ApiClient {
 }
 
 export const apiClient = new ApiClient();
-
-
