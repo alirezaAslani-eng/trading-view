@@ -1,5 +1,5 @@
 import { Address, KycLevel } from "@/types";
-import { KycL1SchemaType } from "@/validations/types";
+import { KycL1SchemaOutput, KycL1SchemaType } from "@/validations/types";
 
 // * --start-- kycStatus.ts ----
 interface KycStatusResponse {
@@ -12,12 +12,7 @@ interface KycStatusResponse {
 // * --end-- kycStatus.ts ----
 
 // * --start-- kycL1.ts ----
-interface KycL1RequestBody extends Omit<
-  KycL1SchemaType,
-  "birthDay" | "birthYear" | "birthMonth"
-> {
-  birthDateShamsi: string;
-}
+type KycL1RequestBody = KycL1SchemaOutput;
 // * --end-- kycL1.ts ----
 
 // * --start-- kycL2.ts ----

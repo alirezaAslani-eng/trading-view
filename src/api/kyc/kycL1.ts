@@ -1,24 +1,20 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { KycL1RequestBody } from "@/api/types";
-import { KycL1SchemaType } from "@/validations/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 import mutationFetch from "@/utils/app/mutationFetch";
-const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/kyc/level1`;
+const URL = (isCompany: boolean) => {
+  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/kyc/level1${
+    isCompany ? "/company" : ""
+  }`;
+};
 
-async function kycL1(body: KycL1SchemaType): Promise<void> {
+async function kycL1(body: KycL1RequestBody): Promise<void> {
   const res = (await fetchHandler(async () => {
-    const res = await mutationFetch(URL, {
+    const res = await mutationFetch(URL(body.isCompany), {
       ...sharedRequestInit,
       method: "POST",
-      body: JSON.stringify({
-        nationalId: body.nationalId,
-        birthDateShamsi: formatShamsiDate(
-          body.birthYear,
-          body.birthMonth,
-          body.birthDay,
-        ),
-      } satisfies KycL1RequestBody),
+      body: JSON.stringify(transformBody(body)),
       headers: {
         "Content-Type": "application/json",
       },
@@ -31,10 +27,27 @@ async function kycL1(body: KycL1SchemaType): Promise<void> {
 
 export default kycL1;
 
+function transformBody(body: KycL1RequestBody) {
+  return {
+    ...(body.isCompany
+      ? {
+          companyNationalId: body.nationalId,
+        }
+      : {
+          nationalId: body.nationalId,
+          birthDateShamsi: formatShamsiDate(
+            body.birthDay,
+            body.birthMonth,
+            body.birthDay
+          ),
+        }),
+  };
+}
+
 function formatShamsiDate(
   year: number | string,
   month: number | string,
-  day: number | string,
+  day: number | string
 ): string {
   function pad2(value: number | string): string {
     return String(value).padStart(2, "0");
