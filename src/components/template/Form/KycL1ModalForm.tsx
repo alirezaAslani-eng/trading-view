@@ -3,7 +3,7 @@ import { DAYS, MONTHS, YEARS } from "@/constant/app/date";
 import { kycLevel1Config, kycStatusConfig } from "@/packages/react-query";
 import safeAsync from "@/utils/app/safeAsync";
 import kvcL1Schema from "@/validations/kyc/kycL1Schema";
-import { KycL1SchemaType } from "@/validations/types";
+import { KycL1SchemaInput, KycL1SchemaOutput } from "@/validations/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -12,6 +12,10 @@ import { exitKycFlow, successKyc } from "@/redux/features/kyc";
 import { useDispatch } from "@/packages/redux";
 import InputText from "@/components/ui/Input/InputText";
 import { kycContent } from "@/content/kyc";
+import { LockIcon } from "@/components/ui/Icon";
+import InputMarker from "@/components/ui/Marker/InputMarker";
+import CheckBox from "@/components/ui/Checkbox/CheckBox";
+import { FormControl } from "@mui/material";
 import {
   InputSelect,
   InputSelectItem,
@@ -20,6 +24,7 @@ import {
 import {
   FormLayout,
   FormLayoutAlert,
+  FormLayoutCheckboxGroup,
   FormLayoutField,
   FormLayoutFieldGroup,
   FormLayoutLable,
@@ -32,10 +37,13 @@ import {
   ModalLayoutHeading,
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
-import { LockIcon } from "@/components/ui/Icon";
-import InputMarker from "@/components/ui/Marker/InputMarker";
 
 const kycStatusConfig_ = kycStatusConfig();
+
+const defaultValues = {
+  nationalId: "",
+  isCompany: false,
+};
 
 function KycL1ModalForm() {
   const kycStatus = useQuery(kycStatusConfig_);
@@ -43,26 +51,24 @@ function KycL1ModalForm() {
   const dispatch = useDispatch();
 
   const kycL1Mutation = useMutation(
-    kycLevel1Config({ onSuccess: () => dispatch(successKyc()) }),
+    kycLevel1Config({ onSuccess: () => dispatch(successKyc()) })
   );
 
-  const onSubmit: SubmitHandler<KycL1SchemaType> = async (fields) => {
+  const onSubmit: SubmitHandler<KycL1SchemaOutput> = async (fields) => {
     await promiseAlert(
       safeAsync(async () => {
         await kycL1Mutation.mutateAsync(fields);
       }),
-      { loading: kycContent.kycL1LoadingAlert },
+      { loading: kycContent.kycL1LoadingAlert }
     );
   };
 
-  const form = useForm({
+  const form = useForm<KycL1SchemaInput>({
     resolver: zodResolver(kvcL1Schema),
-    defaultValues: {
-      birthDay: "",
-      birthMonth: "",
-      birthYear: "",
-    },
+    defaultValues,
   });
+
+  const isCompany = form.watch("isCompany");
 
   return (
     <ModalLayout>
@@ -73,127 +79,177 @@ function KycL1ModalForm() {
         />
         <ModalLayoutCloseIcon onClick={() => dispatch(exitKycFlow())} />
       </ModalLayoutHeading>
+
       <ModalLayoutBody>
-        <FormLayout onSubmit={form.handleSubmit(onSubmit)}>
-          <FormLayoutAlert>{kycContent.kycL1FormAlert}</FormLayoutAlert>
-          <FormLayoutFieldGroup>
-            {/* // * ----------- National Id ----------- */}
-            <FormLayoutField>
-              <FormLayoutLable>
-                {kycContent.kycL1NationalIdLabel}
-              </FormLayoutLable>
-              <InputText
-                placeholder={kycContent.kycL1NationalIdPlaceholder}
-                error={!!form.formState.errors?.nationalId?.message}
-                {...form.register("nationalId")}
-              />
-            </FormLayoutField>
-            {/* // * ----------- Phone number ----------- */}
-            <FormLayoutField>
-              <FormLayoutLable>
-                {kycContent.kycL1PhoneNumberLabel}
-              </FormLayoutLable>
-              <InputMarker
-                icon={<LockIcon fontSize="small" />}
-                left="12px" // یا right="12px" بسته به محل نمایش
-              >
-                <InputText
-                  placeholder="شماره موبایل خود را وارد کنید"
-                  disabled
-                  value={kycStatus?.data?.phoneNumber ?? ""}
-                />
-              </InputMarker>
-            </FormLayoutField>
-          </FormLayoutFieldGroup>
-
-          {/* // * ----------- Birth Date ----------- */}
-          <FormLayoutField>
-            <FormLayoutLable>{kycContent.kycL1BirthDateLabel}</FormLayoutLable>
+        <FormControl disabled={form.formState.isSubmitting}>
+          <FormLayout onSubmit={form.handleSubmit(onSubmit)}>
+            <FormLayoutAlert>
+              {isCompany
+                ? kycContent.kycL1CompanyTypeFormAlert
+                : kycContent.kycL1UserTypeFormAlert}
+            </FormLayoutAlert>
             <FormLayoutFieldGroup>
+              {/* // * ----------- National Id ----------- */}
+
               <FormLayoutField>
-                <Controller
-                  control={form.control}
-                  name="birthYear"
-                  render={({ field, fieldState }) => {
-                    return (
-                      <InputSelect
-                        error={!!fieldState.error?.message}
-                        placeholder={kycContent.kycL1BirthYearPlaceholder}
-                        {...field}
-                      >
-                        <InputSelectMenu>
-                          {YEARS.map(({ label, value }) => {
-                            return (
-                              <InputSelectItem value={value}>
-                                {label}
-                              </InputSelectItem>
-                            );
-                          })}
-                        </InputSelectMenu>
-                      </InputSelect>
-                    );
-                  }}
+                <FormLayoutLable>
+                  {isCompany
+                    ? kycContent.kycL1CompanyIdLabel
+                    : kycContent.kycL1NationalIdLabel}
+                </FormLayoutLable>
+                <InputText
+                  error={!!form.formState.errors?.nationalId?.message}
+                  {...form.register("nationalId")}
+                  placeholder={
+                    isCompany
+                      ? kycContent.kycL1CompanyIdPlaceholder
+                      : kycContent.kycL1NationalIdPlaceholder
+                  }
                 />
               </FormLayoutField>
 
+              {/* // * ----------- Phone number ----------- */}
               <FormLayoutField>
-                <Controller
-                  control={form.control}
-                  name="birthMonth"
-                  render={({ field, fieldState }) => {
-                    return (
-                      <InputSelect
-                        error={!!fieldState.error?.message}
-                        placeholder={kycContent.kycL1BirthMonthPlaceholder}
-                        {...field}
-                      >
-                        <InputSelectMenu>
-                          {MONTHS.map(({ label, value }) => {
-                            return (
-                              <InputSelectItem value={value}>
-                                {label}
-                              </InputSelectItem>
-                            );
-                          })}
-                        </InputSelectMenu>
-                      </InputSelect>
-                    );
-                  }}
-                />
-              </FormLayoutField>
-
-              <FormLayoutField>
-                <Controller
-                  control={form.control}
-                  name="birthDay"
-                  render={({ field, fieldState }) => {
-                    return (
-                      <InputSelect
-                        error={!!fieldState.error?.message}
-                        placeholder={kycContent.kycL1BirthDayPlaceholder}
-                        {...field}
-                      >
-                        <InputSelectMenu>
-                          {DAYS.map(({ label, value }) => {
-                            return (
-                              <InputSelectItem value={value}>
-                                {label}
-                              </InputSelectItem>
-                            );
-                          })}
-                        </InputSelectMenu>
-                      </InputSelect>
-                    );
-                  }}
-                />
+                <FormLayoutLable>
+                  {kycContent.kycL1PhoneNumberLabel}
+                </FormLayoutLable>
+                <InputMarker
+                  icon={<LockIcon fontSize="small" />}
+                  left="12px" // یا right="12px" بسته به محل نمایش
+                >
+                  <InputText
+                    placeholder="شماره موبایل خود را وارد کنید"
+                    disabled
+                    value={kycStatus?.data?.phoneNumber ?? ""}
+                  />
+                </InputMarker>
               </FormLayoutField>
             </FormLayoutFieldGroup>
-          </FormLayoutField>
 
-          <FormLayoutSubmit disabled={form.formState.isSubmitting}>
-            {kycContent.upgradeKycSubmitButton}
-          </FormLayoutSubmit>
-        </FormLayout>
+            {/* // * ----------- Birth Date ----------- */}
+            <FormLayoutField>
+              <FormLayoutLable>
+                {kycContent.kycL1BirthDateLabel}
+              </FormLayoutLable>
+              <FormLayoutFieldGroup>
+                <FormLayoutField>
+                  <Controller
+                    control={form.control}
+                    name="birthYear"
+                    render={({ field, fieldState }) => {
+                      return (
+                        <InputSelect
+                          error={!!fieldState.error?.message}
+                          placeholder={kycContent.kycL1BirthYearPlaceholder}
+                          disabled={isCompany}
+                          {...field}
+                        >
+                          <InputSelectMenu>
+                            {YEARS.map(({ label, value }) => {
+                              return (
+                                <InputSelectItem value={value}>
+                                  {label}
+                                </InputSelectItem>
+                              );
+                            })}
+                          </InputSelectMenu>
+                        </InputSelect>
+                      );
+                    }}
+                  />
+                </FormLayoutField>
+
+                <FormLayoutField>
+                  <Controller
+                    control={form.control}
+                    name="birthMonth"
+                    render={({ field, fieldState }) => {
+                      return (
+                        <InputSelect
+                          error={!!fieldState.error?.message}
+                          placeholder={kycContent.kycL1BirthMonthPlaceholder}
+                          disabled={isCompany}
+                          {...field}
+                        >
+                          <InputSelectMenu>
+                            {MONTHS.map(({ label, value }) => {
+                              return (
+                                <InputSelectItem value={value}>
+                                  {label}
+                                </InputSelectItem>
+                              );
+                            })}
+                          </InputSelectMenu>
+                        </InputSelect>
+                      );
+                    }}
+                  />
+                </FormLayoutField>
+
+                <FormLayoutField>
+                  <Controller
+                    control={form.control}
+                    name="birthDay"
+                    render={({ field, fieldState }) => {
+                      return (
+                        <InputSelect
+                          error={!!fieldState.error?.message}
+                          placeholder={kycContent.kycL1BirthDayPlaceholder}
+                          disabled={isCompany}
+                          {...field}
+                        >
+                          <InputSelectMenu>
+                            {DAYS.map(({ label, value }) => {
+                              return (
+                                <InputSelectItem value={value}>
+                                  {label}
+                                </InputSelectItem>
+                              );
+                            })}
+                          </InputSelectMenu>
+                        </InputSelect>
+                      );
+                    }}
+                  />
+                </FormLayoutField>
+              </FormLayoutFieldGroup>
+            </FormLayoutField>
+
+            {/* // * ------------- Checkbox ------------- */}
+            <FormLayoutCheckboxGroup>
+              <Controller
+                control={form.control}
+                name="isCompany"
+                render={({ field, formState }) => {
+                  return (
+                    <>
+                      <CheckBox
+                        checked={field.value}
+                        label="حقوقی"
+                        disabled={formState.isSubmitting}
+                        onChange={({ target: { checked } }) => {
+                          if (checked) field.onChange(true);
+                        }}
+                      />
+                      <CheckBox
+                        checked={!field.value}
+                        label="حقیقی"
+                        disabled={formState.isSubmitting}
+                        onChange={({ target: { checked } }) => {
+                          if (checked) field.onChange(false);
+                        }}
+                      />
+                    </>
+                  );
+                }}
+              />
+            </FormLayoutCheckboxGroup>
+
+            <FormLayoutSubmit>
+              {kycContent.upgradeKycSubmitButton}
+            </FormLayoutSubmit>
+          </FormLayout>
+        </FormControl>
       </ModalLayoutBody>
     </ModalLayout>
   );
