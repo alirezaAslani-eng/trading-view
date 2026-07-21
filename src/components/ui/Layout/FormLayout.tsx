@@ -8,8 +8,10 @@ import {
   styled,
   Typography,
   TypographyProps,
+  useFormControl,
 } from "@mui/material";
 import Button from "../Button/Button";
+import { SubmitButton } from "@/v2-architecture/src/shared/ui";
 
 const formLayoutGap = "24px";
 
@@ -46,18 +48,6 @@ function FormLayoutLable(props: TypographyProps<"label">) {
   );
 }
 
-// * FormLayout -> Submit
-function SubmitButton(props: ButtonProps) {
-  return (
-    <Button
-      variant="contained"
-      color="primary"
-      size="large"
-      type="submit"
-      {...props}
-    />
-  );
-}
 const FormLayoutSubmit = styled(SubmitButton)({
   marginTop: `calc(32px - ${formLayoutGap})`,
 });

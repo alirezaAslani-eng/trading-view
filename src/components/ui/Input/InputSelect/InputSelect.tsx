@@ -1,12 +1,11 @@
 "use client";
-import { ComponentProps } from "react";
 import SelectDisplay from "@/components/ui/DropdownButton/SelectDisplay";
 import { renderValueOnDisplay } from "@/utils/app/selectInput";
 import {
   InputSelectController,
   useInputSelectController,
 } from "@/context/app/InputSelectController";
-import { Typography } from "@mui/material";
+import { Typography, useFormControl } from "@mui/material";
 import { lineClamp } from "@/packages/mui/theme/helpers";
 import { InputSelectProps } from "@/components/ui/types";
 
@@ -16,6 +15,8 @@ function InputSelect_({
   ...selectDisplayProps
 }: Omit<InputSelectProps, "onChange" | "value">) {
   const { selectedValue, isOpenMenu, openMenu } = useInputSelectController();
+  const formState = useFormControl();
+  const disabled = selectDisplayProps?.disabled || formState?.disabled;
 
   const displayedItem = renderValueOnDisplay({ children, selectedValue });
 
@@ -25,9 +26,10 @@ function InputSelect_({
     <>
       <SelectDisplay
         {...selectDisplayProps}
+        disabled={disabled}
+        onClick={disabled ? undefined : openMenu}
         isSelected={!isPlaceholder}
         focused={isOpenMenu}
-        onClick={selectDisplayProps.disabled ? undefined : openMenu}
       >
         <Typography
           sx={{
