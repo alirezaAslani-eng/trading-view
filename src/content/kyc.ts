@@ -17,7 +17,7 @@ const kycContent = {
   kycL1BirthDayPlaceholder: "روز",
   upgradeKycSubmitButton: "ثبت اطلاعات",
   kycL1LoadingAlert: "در حال ارتقا به سطح ۲",
-  kycL2PostalCodeLabel: "کد پستی",
+  kycL2PostalCodeLabel: "عکس کامل کارت ملی",
   kycL2PostalCodePlaceholder: "کد پستی را وارد کنید",
 };
 
