@@ -3,6 +3,7 @@ import mutationFetch from "@/utils/app/mutationFetch";
 import { sharedRequestInit } from "../sharedRequestInit";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { buildTradeModeQueries } from "@/packages/react-query/config/helpers";
+import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
 
 type DepositPayload = {
   amount: number;
@@ -10,10 +11,7 @@ type DepositPayload = {
 };
 
 const URL = () => {
-  const queries: string = new URLSearchParams(
-    buildTradeModeQueries()
-  ).toString();
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/wallet/deposit?${queries}`;
+  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/wallet/deposit`;
 };
 
 async function deposit(body: DepositPayload): Promise<void> {
@@ -24,7 +22,10 @@ async function deposit(body: DepositPayload): Promise<void> {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body satisfies DepositPayload),
+      body: JSON.stringify({
+        ...body,
+        isdemo: TradeModeStore.getTradeModeConfig().isDemo,
+      }),
     });
 
     return res;
