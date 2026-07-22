@@ -28,42 +28,42 @@ export async function proxy(request: NextRequest) {
     }
 
     //#region // * ------------ Refresh Auth Token ------------
-    try {
-      const res = await retry(() =>
-        fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/v1/auth/refresh`, {
-          method: "POST",
-          headers: {
-            cookie: request.headers.get("cookie") ?? "",
-          },
-        }),
-      );
+    // try {
+    //   const res = await retry(() =>
+    //     fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/v1/auth/refresh`, {
+    //       method: "POST",
+    //       headers: {
+    //         cookie: request.headers.get("cookie") ?? "",
+    //       },
+    //     }),
+    //   );
 
-      if (!res.ok) {
-        const status = res.status;
-        console.log("Middleware : Access token couldn't be refreshed", res);
+    //   if (!res.ok) {
+    //     const status = res.status;
+    //     console.log("Middleware : Access token couldn't be refreshed", res);
 
-        if (status >= 500) {
-          return NextResponse.redirect(
-            new URL(ROUTES.ERROR.BY_CODE(status), request.url),
-          );
-        }
+    //     if (status >= 500) {
+    //       return NextResponse.redirect(
+    //         new URL(ROUTES.ERROR.BY_CODE(status), request.url),
+    //       );
+    //     }
 
-        if (status === 401) {
-          return NextResponse.redirect(new URL(ROUTES.AUTH.ROOT, request.url));
-        }
+    //     if (status === 401) {
+    //       return NextResponse.redirect(new URL(ROUTES.AUTH.ROOT, request.url));
+    //     }
 
-        return NextResponse.redirect(
-          new URL(ROUTES.ERROR.BY_CODE(status), request.url),
-        );
-      }
-      const response = NextResponse.next();
-      response.headers.set("set-cookie", res.headers.get("set-cookie") ?? "");
-      return response;
-    } catch {
-      return NextResponse.redirect(
-        new URL(ROUTES.ERROR.BY_CODE(500), request.url),
-      );
-    }
+    //     return NextResponse.redirect(
+    //       new URL(ROUTES.ERROR.BY_CODE(status), request.url),
+    //     );
+    //   }
+    //   const response = NextResponse.next();
+    //   response.headers.set("set-cookie", res.headers.get("set-cookie") ?? "");
+    //   return response;
+    // } catch {
+    //   return NextResponse.redirect(
+    //     new URL(ROUTES.ERROR.BY_CODE(500), request.url),
+    //   );
+    // }
     //#endregion // * ------------ Refresh Auth Token ------------
   }
 
