@@ -1,11 +1,12 @@
 import { WalletPortfolioResponse } from "@/api/types";
-import { MarketTicker } from "@/api/types/market.types";
+import { OrderSide } from "@/types";
 
 // * ========== Listener calback types ===========
 type OnTradeExecutedInfo = Record<"price" | "volum" | "time", number> & {
   productCode: string;
   source: "Trade" | "Robot";
   isOrganic: boolean;
+  side: OrderSide;
 };
 type OrderBookUpdatedInfo = {
   /**
@@ -27,7 +28,7 @@ type OnPriceUpdateInfo = {
   symbol: string;
   newPrice: number;
   price24h: number;
-}; 
+};
 type OnMarketPriceChangedInfo = {
   symbol: string;
   price: number;
@@ -38,5 +39,5 @@ export type {
   OnMarketTickersUpdatedInfo,
   OnPriceUpdateInfo,
   OnPortfolioUpdateInfo,
- OnMarketPriceChangedInfo
+  OnMarketPriceChangedInfo,
 };

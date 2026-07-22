@@ -1,4 +1,5 @@
 import { LibrarySymbolInfo } from "@/packages/tradingview";
+import { OrderSide } from "@/types";
 
 // * --start-- candlestickHistory.ts ----------
 type CandleDataType = Partial<{
@@ -22,6 +23,7 @@ type RecentTrade = {
   source: "Trade" | "Robot";
   createdAt: string;
   isOrganic: boolean;
+  side: OrderSide;
 };
 
 type RecentTradeResponse = RecentTrade[];

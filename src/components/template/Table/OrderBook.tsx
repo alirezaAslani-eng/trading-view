@@ -21,6 +21,8 @@ import { useState } from "react";
 import OrderBookIcon from "../Trade/OrderBookIcon";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
 import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
+import { OrderSide } from "@/types";
+import { ORDER_SIDE } from "@/constant/features/order/orderSide";
 
 type OrderBookListProps = {
   rows: OrderBookType[];
@@ -311,10 +313,13 @@ function OrderBookList({ rows, priceColor }: OrderBookListProps) {
 function RecentTradeRow({
   price,
   createdAt,
+  side,
 }: {
   price: number;
   createdAt: string;
+  side: OrderSide;
 }) {
+  const isSell = side === ORDER_SIDE.sell;
   return (
     <Box
       sx={{
@@ -324,7 +329,10 @@ function RecentTradeRow({
     >
       <Typography
         variant="caption2"
-        sx={{ textAlign: "right", color: "text.secondary" }}
+        sx={{
+          textAlign: "right",
+          color: isSell ? "status.loss" : "text.profit",
+        }}
       >
         {formatFaPrice(price)}
       </Typography>
@@ -370,6 +378,7 @@ function RecentTradesList({ rows }: { rows: RecentTradeResponse }) {
               key={index}
               price={trade.price}
               createdAt={trade.createdAt}
+              side={trade.side}
             />
           ))}
         </Stack>

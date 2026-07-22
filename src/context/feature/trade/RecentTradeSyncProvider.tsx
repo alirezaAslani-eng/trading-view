@@ -12,19 +12,20 @@ import { queryClient, recentTradesDynamicKey } from "@/packages/react-query";
 
 import type { RecentTrade, RecentTradeResponse } from "@/api/types";
 
-function updateRecentTrade(data: OnTradeExecutedInfo) {
+function updateRecentTrade(payload: OnTradeExecutedInfo) {
   marketHub.onTickLog({ source: "Recent Trades", event: onTradeExecuted });
-  if (!data.isOrganic) return;
+  if (!payload.isOrganic) return;
 
   queryClient.setQueryData<RecentTradeResponse>(
-    recentTradesDynamicKey(data.productCode),
+    recentTradesDynamicKey(payload.productCode),
     (oldData) => {
       if (!oldData) return oldData;
       const newTrade: RecentTrade = {
-        price: data.price,
-        source: data.source,
-        createdAt: new Date(data.time * 1000).toISOString(),
-        isOrganic: data.isOrganic,
+        price: payload.price,
+        source: payload.source,
+        createdAt: new Date(payload.time * 1000).toISOString(),
+        isOrganic: payload.isOrganic,
+        side: payload.side,
       };
 
       return [newTrade, ...oldData].slice(0, 50);
