@@ -1,21 +1,17 @@
 import fetchHandler from "@/utils/app/fetchHandler";
 import handleApiResponse from "@/utils/app/handleApiResponse";
 import { KycL2SchemaType } from "@/validations/types";
-import { sharedRequestInit } from "../sharedRequestInit";
 import { KycL2Response } from "@/api/types";
 import { BaseApiResponse } from "@/types";
 import mutationFetch from "@/utils/app/mutationFetch";
-const URL = `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/kyc/address`;
+
+const URL = `${process.env.NEXT_PUBLIC_BASEURL}/api/v1/kyc/advanced/documents/upload`;
 
 async function kycL2(body: KycL2SchemaType): Promise<KycL2Response> {
   const res = (await fetchHandler(async () => {
     const res = await mutationFetch(URL, {
-      ...sharedRequestInit,
       method: "POST",
-      body: JSON.stringify(body satisfies KycL2SchemaType),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      body: getBody(body),
     });
     return res;
   })) as Response;
@@ -26,3 +22,14 @@ async function kycL2(body: KycL2SchemaType): Promise<KycL2Response> {
 }
 
 export default kycL2;
+// * Helpers
+function getBody(body: KycL2SchemaType): FormData {
+  const formData = new FormData();
+
+  body.file.forEach((file) => {
+    formData.append("file", file);
+  });
+  formData.append("type", "NationalCard");
+
+  return formData;
+}
