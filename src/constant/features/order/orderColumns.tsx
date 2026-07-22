@@ -32,7 +32,14 @@ export const orderTableColumns: DefaultColumns = {
     headerName: "سمت",
     renderCell(row) {
       const isSeller = row.orderSide === "Sell";
-      return isSeller ? "فروشنده" : "خریدار";
+      return (
+        <Typography
+          variant="inherit"
+          sx={{ color: isSeller ? "status.loss" : "text.profit" }}
+        >
+          {isSeller ? "فروشنده" : "خریدار"}
+        </Typography>
+      );
     },
   },
   orderType: {
@@ -79,8 +86,8 @@ export const orderTableColumns: DefaultColumns = {
       const color = isFaild
         ? "status.loss"
         : isPending
-          ? "status.warning"
-          : "text.profit";
+        ? "status.warning"
+        : "text.profit";
 
       return (
         <Typography variant="caption1" sx={{ color }}>
@@ -94,7 +101,7 @@ export const orderTableColumns: DefaultColumns = {
 };
 
 const buildOrderColumns = (
-  options?: BuildColumnsOptions<Order, DefaultColumns>,
+  options?: BuildColumnsOptions<Order, DefaultColumns>
 ): Column<Order>[] => {
   return buildColumns<Order>(orderTableColumns, options);
 };
