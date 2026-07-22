@@ -10,12 +10,13 @@ function LayoutMainPanel({ children }) {
         sx={{
           display: "flex",
           minHeight: "100svh",
-          maxWidth: "1440px",
+          maxWidth: "1880px",
+          padding: "0px 28px",
           mx: "auto",
         }}
       >
         {/* // * --- sidebar --- */}
-        <Box sx={{ display: "flex", pr: "20px", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             sx={{
               position: "sticky",
