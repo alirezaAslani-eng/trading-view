@@ -13,7 +13,7 @@ import { queryClient, recentTradesDynamicKey } from "@/packages/react-query";
 import type { RecentTrade, RecentTradeResponse } from "@/api/types";
 
 function updateRecentTrade(data: OnTradeExecutedInfo) {
-  console.log("SIGNALR -> ticked recent trades", data);
+  marketHub.onTickLog({ source: "Recent Trades", event: onTradeExecuted });
   if (!data.isOrganic) return;
 
   queryClient.setQueryData<RecentTradeResponse>(

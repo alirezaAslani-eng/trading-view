@@ -5,7 +5,7 @@ import { onOrderUpdate } from "@/packages/signalr";
 import { ordersKey, queryClient } from "@/packages/react-query";
 
 async function updateOrderBookCache() {
-  console.log("SIGNALR -> ticked orders");
+  orderHub.onTickLog({ event: onOrderUpdate, source: "Orders" });
   await queryClient.cancelQueries({ queryKey: ordersKey });
   queryClient.invalidateQueries({ queryKey: ordersKey });
 }

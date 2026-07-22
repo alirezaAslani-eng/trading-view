@@ -15,13 +15,16 @@ import {
 import { queryClient, walletProtfolioKey } from "@/packages/react-query";
 
 function updatePortfolio(data: OnPortfolioUpdateInfo) {
-  console.log("SIGNALR -> ticked wallet", data);
+  walletHub.onTickLog({
+    source: "Wallet Portofolio",
+    event: onPortfolioUpdate,
+  });
 
   queryClient.setQueryData<WalletPortfolioResponse>(walletProtfolioKey, data);
 }
 
 function updatePrice(data: OnPriceUpdateInfo) {
-  console.log("SIGNALR -> ticked wallet", data);
+  walletHub.onTickLog({ source: "Wallet Assets", event: onPriceUpdate });
   queryClient.setQueryData<WalletPortfolioResponse>(
     walletProtfolioKey,
     (oldData) => {

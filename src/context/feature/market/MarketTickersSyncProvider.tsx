@@ -10,7 +10,7 @@ import {
 } from "@/packages/signalr";
 
 function updateMarketTickersQuery(data: OnMarketTickersUpdatedInfo) {
-  console.log("SIGNALR -> Ticked Products", data);
+  marketHub.onTickLog({ event: OnMarketPriceChanged, source: "All Products" });
 
   queryClient.setQueryData(
     marketTickersKey,

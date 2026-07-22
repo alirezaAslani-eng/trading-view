@@ -6,7 +6,7 @@ import { orderBookUpdated, OrderBookUpdatedInfo } from "@/packages/signalr";
 import { marketHub } from "@/packages/signalr/hubs";
 
 function updateOrderBookCache(order: OrderBookUpdatedInfo) {
-  console.log("SIGNALR => ticked Orderbook", order);
+  // marketHub.onTickLog({ source: "Order Book", event: orderBookUpdated });
 
   queryClient.setQueriesData(
     { queryKey: orderBookKey },

@@ -15,7 +15,7 @@ import {
 } from "@/packages/signalr";
 
 function updateByMarketPrice(data: OnMarketPriceChangedInfo) {
-  console.log("SIGNALR -> ticked one product", data);
+  marketHub.onTickLog({ source: "Ticker Info", event: OnMarketPriceChanged });
 
   queryClient.setQueriesData(
     { queryKey: marketTickerInfoKey },
@@ -33,7 +33,7 @@ function updateByMarketPrice(data: OnMarketPriceChangedInfo) {
 }
 
 function updateByTrade(data: OnTradeExecutedInfo) {
-  console.log("SIGNALR -> ticked one product", data);
+  marketHub.onTickLog({ source: "Ticker Info", event: onTradeExecuted });
   queryClient.setQueriesData(
     { queryKey: marketTickerInfoKey },
     (tickerInfo: MarketTickerInfoResponse | undefined) => {
