@@ -47,12 +47,11 @@ function RecentOrdersTable() {
   const ordersLenght = ordersQuery.data?.items.length;
 
   const orderSideHandler = createNonNullToggleHandler<string>((value) =>
-    orderFilters.setSide(value as OrderSideFilter),
+    orderFilters.setSide(value as OrderSideFilter)
   );
   return (
     <PagePaper>
       <PagePaperHeading sx={{ mb: "14px" }}>
-        <PagePaperTitle>{"سفارشات اخیر"}</PagePaperTitle>
         <ToggleButtonGroup
           color="success"
           value={orderFilters.filters.orderSide}
