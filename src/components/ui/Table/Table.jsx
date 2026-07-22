@@ -10,7 +10,10 @@ const asideSpace = "12px";
 const Table = styled(Table_)(({ theme }) => ({
   // * TableCell Styles
   "& td, & th": {
-    textAlign: "right",
+    textAlign: "center",
+    "& *": {
+      margin: "0px auto",
+    },
     padding: "0px",
     border: "none",
     margin: "0px",

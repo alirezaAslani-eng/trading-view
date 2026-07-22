@@ -46,7 +46,7 @@ type TabState = "banks" | "Ibans";
 
 function BankTableList() {
   const banksQuery = useQuery(queryConfig);
-const { checkAccess } = useKycGuard();
+  const { checkAccess } = useKycGuard();
   const [modalState, setModalState] = useState<ModalState>();
   const [selectedTab, setSelectedTab] = useState<TabState>("Ibans");
 
@@ -56,13 +56,13 @@ const { checkAccess } = useKycGuard();
   };
 
   const cardNumber = selectedTab === "banks" ? "cardNumber" : "iban";
-const modalOpener = () => {
-  const hasAccess = checkAccess(KYC_REQUIRED_LEVELS.bankAccount);
+  const modalOpener = () => {
+    const hasAccess = checkAccess(KYC_REQUIRED_LEVELS.bankAccount);
 
-  if (!hasAccess) return;
+    if (!hasAccess) return;
 
-  setModalState(selectedTab === "Ibans" ? "iban" : "bank");
-};
+    setModalState(selectedTab === "Ibans" ? "iban" : "bank");
+  };
   const isVisibleData =
     banksQuery.status === "success" && !!banksQuery.data.length;
   return (
@@ -114,7 +114,7 @@ const modalOpener = () => {
                     <TableRow>
                       <TableCell>{"بانک"}</TableCell>
                       <TableCell>{"شماره کارت"}</TableCell>
-                      <TableCell>{"وضعیت"}</TableCell>{" "}
+                      <TableCell>{"وضعیت"}</TableCell>
                     </TableRow>
                   </TableHead>
 
