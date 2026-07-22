@@ -5,10 +5,10 @@ import kycL2Schema from "@/validations/kyc/kycL2Schema";
 import { KycL2SchemaType } from "@/validations/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import safeAsync from "@/utils/app/safeAsync";
 import { useDispatch } from "@/packages/redux";
-import { exitKycFlow } from "@/redux/features/kyc";
+import { exitKycFlow, successKyc } from "@/redux/features/kyc";
 import {
   FormLayout,
   FormLayoutField,
@@ -23,6 +23,8 @@ import {
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
 import { kycContent } from "@/content/kyc";
+import InputFile from "@/components/ui/Input/InputFile";
+import { Typography } from "@mui/material";
 
 function KycL2Form() {
   const dispatch = useDispatch();
@@ -32,7 +34,10 @@ function KycL2Form() {
   const mutation = useMutation(
     kycLevel2Config({
       onSuccess: closeKycModal,
-    }),
+      meta: {
+        successMessage: "احراز سطح 2 ثبت شد",
+      },
+    })
   );
 
   const form = useForm({ resolver: zodResolver(kycL2Schema) });
@@ -56,10 +61,32 @@ function KycL2Form() {
         <FormLayout onSubmit={form.handleSubmit(submitHandler)}>
           <FormLayoutField>
             <FormLayoutLable>{kycContent.kycL2PostalCodeLabel}</FormLayoutLable>
-            <InputText
-              placeholder={kycContent.kycL2PostalCodePlaceholder}
-              error={!!form.formState.errors?.postalCode}
-              {...form.register("postalCode")}
+            <Controller
+              name="file"
+              control={form.control}
+              render={({
+                field: { onChange, value, ...field },
+                fieldState,
+                formState,
+              }) => (
+                <>
+                  <InputFile
+                    {...field}
+                    multiple
+                    error={!!fieldState.error?.message}
+                    disabled={formState.isSubmitting}
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files ?? []);
+                      onChange(files);
+                    }}
+                  />
+                  {!!fieldState.error?.message && (
+                    <Typography variant="body3" sx={{ color: "text.error" }}>
+                      {fieldState.error?.message}
+                    </Typography>
+                  )}
+                </>
+              )}
             />
           </FormLayoutField>
 
