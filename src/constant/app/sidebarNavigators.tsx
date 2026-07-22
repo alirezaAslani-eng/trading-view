@@ -92,7 +92,7 @@ const sidebarNavigators: SidebarNavItem[] = [
   },
   {
     id: "demoSetting",
-    text: "تنزیمات دمو",
+    text: "تنظیمات دمو",
     icon: <LockIcon />,
     link: ROUTES.ADMIN.DEMO_SETTING,
     submenus: [],
@@ -128,6 +128,6 @@ export type { SidebarNavItem, SidebarSubMenuItem };
 
 function StandardUserNavs(): SidebarNavItem[] {
   return sidebarNavigators.filter(
-    (nav) => !nav.link.startsWith(ROUTES.ADMIN.ROOT),
+    (nav) => !nav.link.startsWith(ROUTES.ADMIN.ROOT)
   );
 }

@@ -7,7 +7,7 @@ function page() {
     <Page>
       <Header>
         <PageHeader
-          title="تنزیمات دمو"
+          title="تنظیمات دمو"
           subtitle="مرور سریع بازار، قیمت‌ها و معاملات"
         />
       </Header>
