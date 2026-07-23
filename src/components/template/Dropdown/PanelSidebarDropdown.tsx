@@ -25,14 +25,14 @@ const sharedNavStyle = (tm: Theme) => {
     transition: "background 350ms cubic-bezier(0.22, 1, 0.36, 1)",
     "&.Mui-active": {
       background:
-        "linear-gradient(to left, rgba(2, 27, 67, 0.8), rgba(1, 12, 32, 0.8))",
+        "linear-gradient(to right, rgba(2, 27, 67, 0.8), rgba(1, 12, 32, 0.8))",
     },
     "&.Mui-active svg": {
       color: notDefinedColors["#4AACFA"],
     },
     ":hover": {
       background:
-        "linear-gradient(to left, rgba(2, 27, 67, 0.8), rgba(1, 12, 32, 0.8))",
+        "linear-gradient(to right, rgba(2, 27, 67, 0.8), rgba(1, 12, 32, 0.8))",
     },
   };
 };
