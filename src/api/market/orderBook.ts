@@ -3,9 +3,14 @@ import handleApiResponse from "@/utils/app/handleApiResponse";
 import { OrderBookResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 import { BaseApiResponse } from "@/types";
+import { buildTradeModeQueries } from "@/packages/react-query/config/helpers";
 
 const URL = (symbol: string) =>
-  `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/market/depth/${symbol}`;
+  `${
+    process.env.NEXT_PUBLIC_AUTH_BASEURL
+  }/api/v1/market/depth/${symbol}?${new URLSearchParams(
+    buildTradeModeQueries()
+  ).toString()}`;
 
 async function orderBook(symbol: string): Promise<OrderBookResponse> {
   const res = (await fetchHandler(async () => {
@@ -16,7 +21,7 @@ async function orderBook(symbol: string): Promise<OrderBookResponse> {
   })) as Response;
 
   const data = (await handleApiResponse(
-    res,
+    res
   )) as BaseApiResponse<OrderBookResponse>;
 
   return { ...data.data, symbol: symbol };

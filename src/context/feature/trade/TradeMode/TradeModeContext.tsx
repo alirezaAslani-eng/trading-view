@@ -3,6 +3,7 @@ import { useCookie } from "@/context/app/Cookies";
 import useUpdateEffect from "@/hooks/app/useUpdateEffect";
 import { TradeModeStore, IS_DEMO_KEY } from "./helpers";
 import {
+  orderBookKey,
   ordersKey,
   queryClient,
   transactionsKey,
@@ -22,10 +23,12 @@ type TradeModeContextValue = {
 };
 
 const updateQueries = () => {
-  [ordersKey, transactionsKey, walletProtfolioKey].forEach(async (key) => {
-    await queryClient.cancelQueries({ queryKey: key });
-    queryClient.invalidateQueries({ queryKey: key });
-  });
+  [ordersKey, transactionsKey, walletProtfolioKey, orderBookKey].forEach(
+    async (key) => {
+      await queryClient.cancelQueries({ queryKey: key });
+      queryClient.invalidateQueries({ queryKey: key });
+    }
+  );
 };
 
 export const TradeModeContext = createContext<TradeModeContextValue | null>(
