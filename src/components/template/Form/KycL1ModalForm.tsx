@@ -43,6 +43,9 @@ const kycStatusConfig_ = kycStatusConfig();
 const defaultValues = {
   nationalId: "",
   isCompany: false,
+  birthDay: "",
+  birthMonth: "",
+  birthYear: "",
 };
 
 function KycL1ModalForm() {
@@ -69,7 +72,6 @@ function KycL1ModalForm() {
   });
 
   const isCompany = form.watch("isCompany");
-
   return (
     <ModalLayout>
       <ModalLayoutHeading>
@@ -90,7 +92,6 @@ function KycL1ModalForm() {
             </FormLayoutAlert>
             <FormLayoutFieldGroup>
               {/* // * ----------- National Id ----------- */}
-
               <FormLayoutField>
                 <FormLayoutLable>
                   {isCompany
