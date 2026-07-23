@@ -36,7 +36,7 @@ function transformBody(body: KycL1RequestBody) {
       : {
           nationalId: body.nationalId,
           birthDateShamsi: formatShamsiDate(
-            body.birthDay,
+            body.birthYear,
             body.birthMonth,
             body.birthDay
           ),
