@@ -2,7 +2,7 @@
 import { CheckedIcon } from "@/v2-architecture/src/shared/ui";
 import { alpha, Box } from "@mui/material";
 
-function StatusBadge() {
+function SuccessKycBadge() {
   return (
     <Box
       sx={({ palette }) => ({
@@ -37,4 +37,4 @@ function StatusBadge() {
   );
 }
 
-export default StatusBadge;
+export default SuccessKycBadge;

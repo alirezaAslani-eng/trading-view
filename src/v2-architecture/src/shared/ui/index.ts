@@ -65,6 +65,10 @@ export * from "./Icon";
 // #endregion
 
 // #region Icon
+export * from "./SteperBadge";
+// #endregion
+
+// #region Icon
 export * from "./Layout";
 // #endregion
 

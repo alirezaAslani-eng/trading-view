@@ -1,1 +1,2 @@
-export { default as KycStatusBadge } from "./KycStatusBadge";
+export { default as SuccessKycBadge } from "./SuccessKycBadge";
+export { default as UpgradeKycAction } from "./UpgradeKycAction";
