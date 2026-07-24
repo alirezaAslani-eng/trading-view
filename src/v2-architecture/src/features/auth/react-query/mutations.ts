@@ -1,23 +1,33 @@
-typescript;
-const requestAuthOTPConfig = createMutationOptions({
+import { createMutationOptions } from "@/v2-architecture/src/shared/lib/react-query";
+import { logout, requestAuthOTP, verifyAuthOTP } from "../api";
+import {
+  authBaseKey,
+  logoutKey,
+  requestAuthOTPKey,
+  verifyAuthOTPKey,
+} from "./keys";
+
+export const requestAuthOTPConfig = createMutationOptions({
   mutationKey: requestAuthOTPKey,
   mutationFn: requestAuthOTP,
 });
 
-const verifyAuthOTPConfig = createMutationOptions({
+export const verifyAuthOTPConfig = createMutationOptions({
   mutationKey: verifyAuthOTPKey,
   mutationFn: verifyAuthOTP,
-  onSuccess: () => TradeModeStore.clearStore(),
+  // ! FTD
+  // onSuccess: () => TradeModeStore.clearStore(),
   meta: {
     invalidates: [authBaseKey],
     disableSuccessAlert: true,
   },
 });
 
-const logoutConfig = createMutationOptions({
+export const logoutConfig = createMutationOptions({
   mutationKey: logoutKey,
   mutationFn: logout,
-  onSuccess: () => TradeModeStore.clearStore(),
+  // ! FTD
+  // onSuccess: () => TradeModeStore.clearStore(),
   meta: {
     disableSuccessAlert: true,
   },

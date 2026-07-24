@@ -9,7 +9,7 @@ import {
 
 interface InputPhoneNumberProps extends Omit<InputTextProps, "sx"> {
   countryCode?: boolean;
-  sx: SxPropOnlyObject;
+  sx?: SxPropOnlyObject;
 }
 
 function InputPhoneNumber({

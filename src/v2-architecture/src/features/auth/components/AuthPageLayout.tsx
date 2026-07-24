@@ -1,8 +1,3 @@
-import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
-import { BrandIcon, KeyLeftIcon } from "../Icon";
-import BrandName from "../Brand/BrandName";
-import NextLink from "../Link/NextLink";
-import { legacyColors } from "@/packages/mui/theme/shades";
 import {
   Box,
   Divider,
@@ -12,6 +7,15 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
+import {
+  BrandIcon,
+  BrandName,
+  NextLink,
+} from "@/v2-architecture/src/shared/ui";
+import {
+  legacyColors,
+  ReplaceSxWithSxOnlyObject,
+} from "@/v2-architecture/src/design-system";
 
 const footerTypographyProps: TypographyProps = {
   variant: "button3",

@@ -1,4 +1,4 @@
-export { requestAuthOTP } from "./requestAuthOTP";
+export * from "./requestAuthOTP";
 export { refrehAuthToken } from "./refrehAuthToken";
 export { logout } from "./logout";
 export {

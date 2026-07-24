@@ -1,1 +1,5 @@
-export { requestAuthOTP } from "./requestAuthOTP";
+export {
+  requestAuthOTP,
+  type RequestAuthOTPData,
+  type RequestAuthOTPVariables,
+} from "./requestAuthOTP";

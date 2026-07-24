@@ -13,7 +13,6 @@ export function createHub(factory: () => HubConnection): () => HubConnection {
   };
 }
 
-
 export function createStarter() {
   let started: boolean;
   return async function start(conn: HubConnection) {
@@ -30,3 +29,7 @@ export function createStarter() {
     }
   };
 }
+
+export const hubBaseURL = () => {
+  return process.env.NEXT_PUBLIC_HUB_BASEURL;
+};

@@ -1,1 +1,1 @@
-export { createHub, createStarter } from "./core";
+export { createHub, createStarter, hubBaseURL } from "./core";

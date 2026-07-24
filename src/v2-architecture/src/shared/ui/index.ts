@@ -82,6 +82,10 @@ export { InputSelect, InputSelectMenu, InputSelectItem } from "./InputSelect";
 export type { InputSelectProps } from "./InputSelect";
 // #endregion
 
+// #region InputSelect
+export { InputVerifyCode } from "./VerifyCodeInput";
+// #endregion
+
 // #region Layout
 export {} from "./Layout/index";
 // #endregion
