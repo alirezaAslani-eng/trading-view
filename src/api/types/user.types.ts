@@ -16,13 +16,13 @@ interface DashboardInfoResponse extends WithID {
   bankAccountsCount: number;
   addressesCount: number;
   monthlyTransactionVolume: number;
-  lastLoginAt:string,
+  lastLoginAt: string;
+  avatarUrl: string | null;
   limits: {
     maxTx: string;
     daily: string;
     comm: string;
   };
 }
-
 
 export type { DashboardInfoResponse };
