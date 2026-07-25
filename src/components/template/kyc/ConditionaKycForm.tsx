@@ -1,5 +1,6 @@
 "use client";
 import BouncCircleLoader from "@/components/ui/Fallback/BounceCircleLoader";
+import { KYC_LEVELS } from "@/constant/features/kyc/kycLevelOreder";
 import { kycStatusConfig } from "@/packages/react-query";
 import { Box } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
@@ -10,8 +11,13 @@ const queryConfig = kycStatusConfig();
 interface ConditionalFormKycProps {
   kycL1Form: ReactElement;
   kycL2Form: ReactElement;
+  kycL3Form: ReactElement;
 }
-function ConditionaKycForm({ kycL1Form, kycL2Form }: ConditionalFormKycProps) {
+function ConditionaKycForm({
+  kycL1Form,
+  kycL2Form,
+  kycL3Form,
+}: ConditionalFormKycProps) {
   const kycStatus = useQuery(queryConfig);
   const isSuccessQuey = kycStatus.status === "success";
   return (
@@ -22,8 +28,9 @@ function ConditionaKycForm({ kycL1Form, kycL2Form }: ConditionalFormKycProps) {
         </Box>
       ) : (
         <>
-          {kycStatus.data.kycLevel === "None" && kycL1Form}
-          {kycStatus.data.kycLevel === "Level1_Basic" && kycL2Form}
+          {kycStatus.data.kycLevel === KYC_LEVELS.LEVEL_1 && kycL1Form}
+          {kycStatus.data.kycLevel === KYC_LEVELS.LEVEL_2 && kycL2Form}
+          {kycStatus.data.kycLevel === KYC_LEVELS.LEVEL_3 && kycL3Form}
         </>
       )}
     </>
