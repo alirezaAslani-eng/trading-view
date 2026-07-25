@@ -6,12 +6,14 @@ import {
   PagePaperHeading,
   PagePaperTitle,
 } from "@/components/ui/Layout/PaperLayout";
+import { AvatarUploader } from "@/v2-architecture/src/features/user";
 
 function page() {
   return (
     <PagePaper>
       <PagePaperHeading>
         <PagePaperTitle>{"مشخصات کاربری"}</PagePaperTitle>
+        <AvatarUploader />
       </PagePaperHeading>
       <Divider sx={{ mt: "12px", mb: "32px", borderColor: "border.dark" }} />
       <ProfileOverviewSection />
