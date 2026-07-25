@@ -28,9 +28,9 @@ function ConditionaKycForm({
         </Box>
       ) : (
         <>
-          {kycStatus.data.kycLevel === KYC_LEVELS.LEVEL_1 && kycL1Form}
-          {kycStatus.data.kycLevel === KYC_LEVELS.LEVEL_2 && kycL2Form}
-          {kycStatus.data.kycLevel === KYC_LEVELS.LEVEL_3 && kycL3Form}
+          {kycStatus.data.kycLevel === KYC_LEVELS.None && kycL1Form}
+          {kycStatus.data.kycLevel === KYC_LEVELS.LEVEL_1 && kycL2Form}
+          {kycStatus.data.kycLevel === KYC_LEVELS.LEVEL_2 && kycL3Form}
         </>
       )}
     </>
