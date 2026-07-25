@@ -1,4 +1,3 @@
-import { Dayjs } from "dayjs";
 import { z } from "zod";
 import { type infer as Infer, input, output, object, custom, file } from "zod";
 
@@ -27,10 +26,9 @@ const videoValidation = z
   );
 
 export const kycL3Schema = object({
-  birthDateShamsi: custom<Dayjs>((value) => value instanceof Dayjs),
   video: videoValidation,
 });
 
-export type kycL3Schema = Infer<typeof kycL3Schema>;
-export type kycL3SchemaInput = input<typeof kycL3Schema>;
-export type kycL3SchemaOutput = output<typeof kycL3Schema>;
+export type KycL3Schema = Infer<typeof kycL3Schema>;
+export type KycL3SchemaInput = input<typeof kycL3Schema>;
+export type KycL3SchemaOutput = output<typeof kycL3Schema>;

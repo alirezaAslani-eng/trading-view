@@ -1,8 +1,7 @@
 import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
-import { kycL3SchemaOutput } from "../validations";
-import { JALALI_FORMAT } from "@/constant/app/date";
+import { KycL3SchemaOutput } from "../validations";
 
-export type KycL3Variables = kycL3SchemaOutput;
+export type KycL3Variables = KycL3SchemaOutput;
 
 type Config = ApiConfig<{ body: KycL3Variables }>;
 
@@ -20,10 +19,6 @@ export const kycL3 = async ({ signal, body }: Config): Promise<void> => {
 function getBody(body: KycL3Variables): FormData {
   const formData = new FormData();
   type AppendKeys = keyof KycL3Variables;
-  formData.append(
-    "birthDateShamsi" satisfies AppendKeys,
-    body.birthDateShamsi.format(JALALI_FORMAT)
-  );
   formData.append("video" satisfies AppendKeys, body.video);
 
   return formData;
