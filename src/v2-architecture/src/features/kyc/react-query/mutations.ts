@@ -4,7 +4,7 @@ import { kycL3, KycL3Variables } from "../api";
 
 export const kycL3Config = createMutationOptions({
   mutationKey: kycL3Key,
-  meta: { successMessage: "با موفقیت به سطح 3 ارتقا پیدا کردید" },
+  meta: { successMessage: "احراز سطح 3 شما ثبت شد" },
   mutationFn: (vars: KycL3Variables) => {
     return kycL3({ body: vars });
   },
