@@ -1,7 +1,9 @@
-import { Box, BoxProps, Stack, StackProps } from "@mui/material";
+import { Box, BoxProps, Stack, StackProps, Typography } from "@mui/material";
 import NextImage from "../Image/NextImage";
-import { ComponentProps } from "react";
+import { useState } from "react";
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
+import { useQuery } from "@tanstack/react-query";
+import { dashboardInfoConfig } from "@/packages/react-query";
 
 function UserProfile(boxProps: ReplaceSxWithSxOnlyObject<BoxProps>) {
   return (
@@ -16,19 +18,36 @@ function UserProfile(boxProps: ReplaceSxWithSxOnlyObject<BoxProps>) {
     />
   );
 }
-function UserProfileImage(
-  imageProps: Partial<
-    ReplaceSxWithSxOnlyObject<ComponentProps<typeof NextImage>>
-  >,
-) {
+function UserProfileImage(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
+  const query = useQuery(dashboardInfoConfig());
+  const [isError, setIsError] = useState(false);
+  const { avatarUrl, fullName } = query.data || {};
+
   return (
-    // @ts-ignore
-    <NextImage
-      width={32}
-      height={32}
-      {...imageProps}
-      sx={{ objectFit: "cover",borderRadius:"999px", ...imageProps.sx }}
-    />
+    <Box
+      {...props}
+      sx={{ width: "32px", height: "32px", position: "relative", ...props.sx }}
+    >
+      {/* // --- Profile --- */}
+      {!!avatarUrl && !isError && (
+        <NextImage
+          fill
+          sizes="100px"
+          quality={100}
+          src={avatarUrl}
+          alt="User profile"
+          sx={{ objectFit: "cover", borderRadius: "999px" }}
+          onError={() => setIsError(true)}
+        />
+      )}
+      {/* // --- Profile --- */}
+
+      {/* // --- Fallback --- */}
+      {(!!!avatarUrl || isError) && (
+        <AvatarFallback fullName={fullName ?? ""} />
+      )}
+      {/* // --- Fallback --- */}
+    </Box>
   );
 }
 
@@ -37,3 +56,39 @@ function UserProfileInfo(boxProps: ReplaceSxWithSxOnlyObject<StackProps>) {
 }
 
 export { UserProfile, UserProfileImage, UserProfileInfo };
+
+function AvatarFallback({ fullName }: { fullName: string }) {
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        borderRadius: "999px",
+        backgroundColor: "background.primary",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Typography
+        variant="body2"
+        sx={{ color: "text.onPrimary", userSelect: "none" }}
+      >
+        {getInitials(fullName)}
+      </Typography>
+    </Box>
+  );
+}
+
+export function getInitials(fullName?: string): string {
+  if (!fullName) return "";
+
+  return fullName
+    .trim()
+    .split(" ")
+    .filter(Boolean)
+    .map((item: string) => item.charAt(0))
+    .slice(0, 1)
+    .join(" ")
+    .toUpperCase();
+}

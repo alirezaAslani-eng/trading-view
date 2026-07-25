@@ -5,7 +5,6 @@ import BulletItem from "@/components/ui/BulletItem/BulletItem";
 import BulletItemShape from "@/components/ui/BulletItem/BulletItemShape";
 import BulletText from "@/components/ui/BulletItem/BulletText";
 import kycFeatures from "@/constant/features/kyc/kycFeatures";
-import NextLink from "@/components/ui/Link/NextLink";
 import isMaximumKycLevel from "@/utils/features/kyc/isMaximumKycLevel";
 import {
   BirthDayCakeIcon,
@@ -27,25 +26,19 @@ import { dashboardInfoConfig } from "@/packages/react-query";
 import { convertToJalali } from "@/packages/dayjs";
 import { KycLevel } from "@/types";
 import KYC_LEVEL_ORDER from "@/constant/features/kyc/kycLevelOreder";
-import { UseQueryResult } from "@tanstack/react-query";
-import { getInitials } from "@/utils/features/user/getInitials";
 import { JALALI_FORMAT } from "@/constant/app/date";
 import SensitiveText from "@/components/common/Appbar/SensitiveText";
-
+import { Dayjs } from "dayjs";
+import { dayjs } from "@/packages/dayjs";
+import Image from "next/image";
 const kycFallback = "نیاز به احراز حویت";
-
 
 const queryConfig = dashboardInfoConfig();
 function ProfileOverviewSection() {
   const dashboard_info = useQuery(queryConfig);
-  const initials = getInitials(dashboard_info.data?.fullName);
 
-  const lastLoginTime = convertToJalali(
-    dashboard_info.data?.lastLoginAt ?? "",
-  ).format("HH:MM");
-  const lastLoginDate = convertToJalali(
-    dashboard_info.data?.lastLoginAt ?? "",
-  ).format(JALALI_FORMAT);
+  const lastLoginAt = getLastLoginDate(dashboard_info.data?.lastLoginAt);
+
   return (
     <>
       {dashboard_info.status === "success" && (
@@ -53,21 +46,7 @@ function ProfileOverviewSection() {
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             {/* // * ----start---- User Profile -------- */}
             <UserProfile sx={{ gap: "16px" }}>
-              <Box
-                sx={{
-                  width: 70,
-                  height: 70,
-                  borderRadius: "50%",
-                  backgroundColor: "background.primary",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
-                  {initials}
-                </Typography>
-              </Box>
+              <UserProfileImage sx={{ width: "110px", height: "110px" }} />
               <UserProfileInfo sx={{ gap: "4px" }}>
                 <Typography variant="body1" sx={{ color: "text.onPrimary" }}>
                   {dashboard_info.data.fullName}
@@ -80,7 +59,7 @@ function ProfileOverviewSection() {
             {/* // * ----end---- User Profile -------- */}
 
             {/* // * ---start--- Last Login Date ------- */}
-            {!!dashboard_info.data?.lastLoginAt && (
+            {!!lastLoginAt && (
               <Typography
                 variant="caption1"
                 sx={{
@@ -89,7 +68,7 @@ function ProfileOverviewSection() {
                   whiteSpace: "pre",
                 }}
               >
-                {`آخرین ورود   ${lastLoginTime}    ${lastLoginDate}`}
+                {`آخرین ورود   ${lastLoginAt.time}    ${lastLoginAt.date}`}
               </Typography>
             )}
             {/* // * ---end--- Last Login Date ------- */}
@@ -208,4 +187,18 @@ function formatKycLevel(kycLevel: KycLevel) {
   const kycOrder = KYC_LEVEL_ORDER[kycLevel];
   if (kycOrder === 0) return kycFallback;
   return `سطح ${KYC_LEVEL_ORDER[kycLevel]}`;
+}
+
+function getLastLoginDate(lastLogin: Dayjs | string | null | undefined) {
+  const inputDate = dayjs(lastLogin);
+  if (!inputDate?.isValid()) {
+    return null;
+  }
+
+  const jalaliDate = convertToJalali(inputDate);
+
+  return {
+    time: jalaliDate.format("HH:mm"),
+    date: jalaliDate.format(JALALI_FORMAT),
+  };
 }

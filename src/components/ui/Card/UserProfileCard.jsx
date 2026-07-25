@@ -11,6 +11,7 @@ import LogoutIcon from "../Icon/Logout";
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 import {
   UserProfile,
+  UserProfileImage,
   UserProfileInfo,
 } from "@/components/ui/Profile/UserProfile";
 import { useRouter } from "next/navigation";
@@ -28,9 +29,9 @@ function UserProfileCard({ collapsed = false }) {
   const logoutMutation = useMutation(
     logoutConfig({
       onSuccess: () => router.replace(ROUTES.AUTH.ROOT),
-    }),
+    })
   );
-// logout setting
+  // logout setting
   const profileMenu = (
     <>
       <MenuItem
@@ -61,28 +62,13 @@ function UserProfileCard({ collapsed = false }) {
       </MenuItem>
     </>
   );
-// fullName profilemenu
+
   if (collapsed) {
     return (
       <Dropdown
         trigger={() => (
-          <UserProfile>
-            <Box
-              sx={{
-                width: 40,
-                height: 40,
-                borderRadius: "50%",
-                backgroundColor: "background.primary",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-            >
-              <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
-                {initials}
-              </Typography>
-            </Box>
+          <UserProfile sx={{ cursor: "pointer" }}>
+            <UserProfileImage />
           </UserProfile>
         )}
       >
@@ -107,21 +93,7 @@ function UserProfileCard({ collapsed = false }) {
       }}
     >
       <UserProfile>
-        <Box
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: "50%",
-            backgroundColor: "background.primary",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
-            {initials}
-          </Typography>
-        </Box>
+        <UserProfileImage />
 
         <UserProfileInfo sx={{ width: "110px" }}>
           <Typography
