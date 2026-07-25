@@ -32,7 +32,7 @@ function AvatarUploader() {
   return (
     <Box component={"button"} onClick={handleTriggerClick}>
       <Typography variant="body3" sx={typography_sx}>
-        {"اپلود عکس پروفایل"}
+        {"آپلود عکس پروفایل"}
         <ScanFaceIcon fontSize="medium" sx={{ color: "inherit" }} />
       </Typography>
       <input
