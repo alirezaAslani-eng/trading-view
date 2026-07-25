@@ -7,6 +7,7 @@ import ConditionaKycForm from "../kyc/ConditionaKycForm";
 import KycSuccessModal from "../kyc/KycSuccessModal";
 import KycL2ModalForm from "../Form/KycL2ModalForm";
 import NeedKycModal from "./NeedKycModal";
+import KycL3ModalForm from "@/v2-architecture/src/features/kyc/components/KycL3ModalForm";
 
 function KycGlobalModals() {
   const kycModalFlowState = useSelector(kycModalFlow);
@@ -23,6 +24,7 @@ function KycGlobalModals() {
         <ConditionaKycForm
           kycL1Form={<KycL1ModalForm />}
           kycL2Form={<KycL2ModalForm />}
+          kycL3Form={<KycL3ModalForm />}
         />
       </Dialog>
 
