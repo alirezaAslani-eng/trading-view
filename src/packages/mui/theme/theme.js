@@ -44,6 +44,13 @@ const theme = {
     MuiAccordionSummary,
     MuiAccordionDetails,
     MuiSwitch,
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          width: "100%",
+        },
+      },
+    },
     MuiTypography: {
       defaultProps: {
         component: "p",
