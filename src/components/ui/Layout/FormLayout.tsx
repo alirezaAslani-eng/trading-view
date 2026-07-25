@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import Button from "../Button/Button";
 import { SubmitButton } from "@/v2-architecture/src/shared/ui";
+import { PropsWithChildren } from "react";
 
 const formLayoutGap = "24px";
 
@@ -28,6 +29,18 @@ const FormLayoutField = styled(Stack)({
   gap: "8px",
   width: "100%",
 });
+
+function FormLayoutFieldError(props: { isError: boolean; message?: string }) {
+  return (
+    <>
+      {props.isError && (
+        <Typography variant="caption1" sx={{ color: "status.loss", mt: "4px" }}>
+          {props.message}
+        </Typography>
+      )}
+    </>
+  );
+}
 
 // * FormLayout -> GroupField
 const FormLayoutFieldGroup = styled(Stack)({
@@ -82,4 +95,5 @@ export {
   FormLayoutCheckboxGroup,
   FormLayoutAlert,
   FormLayoutLable,
+  FormLayoutFieldError,
 };
