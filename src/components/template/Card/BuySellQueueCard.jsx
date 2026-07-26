@@ -12,13 +12,17 @@ import { walletPortfolioConfig } from "@/packages/react-query";
 import transformTosellQueuePrice from "@/utils/features/wallet/transformTosellQueuePrice";
 import { formatFaPrice } from "@/utils";
 import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
+import { PRICE_UNITS } from "@/constant/features/priceConfig";
+import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
+import getTotalAmountInQueue from "@/utils/features/wallet/getTotalAmountInQueue";
 
 const walletConfig = walletPortfolioConfig();
-
+const priceUnitDisplay = PRICE_UNITS.IRT.displayName;
 function BuySellQueueCard() {
   const walletQuery = useQuery(walletConfig);
 
-  const totalInSellQueue = transformTosellQueuePrice(walletQuery.data);
+  const totalPriceInSellQueue = transformTosellQueuePrice(walletQuery.data);
+  const totalAmountInSellQueue = getTotalAmountInQueue(walletQuery.data);
   const totalInBuyQueue = extractIRTAsset(walletQuery.data)?.lockedBalance ?? 0;
 
   return (
@@ -34,32 +38,25 @@ function BuySellQueueCard() {
         flexDirection: "column",
       }}
     >
-      <Stack spacing={1}>
-        <Typography variant="button2" sx={{ color: "text.placeHolder" }}>
-          {"نقدینگی در صف خرید:"}
-        </Typography>
-        <Price>
-          <PriceAmount>{formatFaPrice(totalInBuyQueue)}</PriceAmount>
-          <PriceUnit />
-        </Price>
-      </Stack>
-      <Stack spacing={1}>
-        <Typography variant="button2" sx={{ color: "text.placeHolder" }}>
-          {" ارزش کالای در صف فروش:"}
-        </Typography>
-        <Price>
-          <PriceAmount>{formatFaPrice(totalInSellQueue)}</PriceAmount>
-          <PriceUnit />
-        </Price>
-      </Stack>
+      <QueueStatItem title="نقدینگی در صف خرید:" amount={totalInBuyQueue} />
 
-      {/* // * ------- Decorative Component ------- */}
+      <QueueStatItem
+        title="حجم کالای در صف فروش:"
+        amount={totalAmountInSellQueue}
+        unit={WEIGHT_UNITS.KG.lable}
+      />
+      <QueueStatItem
+        title="ارزش کالای در صف فروش:"
+        amount={totalPriceInSellQueue}
+        unit={priceUnitDisplay}
+      />
+
       <CirclePulse
         first
         sx={{ width: "400px", transform: "translate(20%,50%)" }}
       >
         <CirclePulse sx={{ width: "300px" }}>
-          <CirclePulse sx={{ width: "200px" }}></CirclePulse>
+          <CirclePulse sx={{ width: "200px" }} />
         </CirclePulse>
       </CirclePulse>
     </PanelPaper>
@@ -67,3 +64,18 @@ function BuySellQueueCard() {
 }
 
 export default BuySellQueueCard;
+
+function QueueStatItem({ title, amount = 0, unit = priceUnitDisplay }) {
+  return (
+    <Stack spacing={1}>
+      <Typography variant="button3" sx={{ color: "text.placeHolder" }}>
+        {title}
+      </Typography>
+
+      <Price>
+        <PriceAmount variant="caption1">{formatFaPrice(amount)}</PriceAmount>
+        <PriceUnit variant="caption2">{unit}</PriceUnit>
+      </Price>
+    </Stack>
+  );
+}
