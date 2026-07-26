@@ -1,53 +1,84 @@
 "use client";
-import { KycCompletedBadge } from "@/components/ui/Badge/KycCompletedBadge";
-import { DashedLine } from "@/components/ui/Icon";
-import { KYC_LEVELS } from "@/constant/features/kyc/kycLevelOreder";
-import { notDefinedColors } from "@/packages/mui/theme/shades";
-import { dashboardInfoConfig } from "@/packages/react-query";
-import { isKycStepPassed } from "@/utils";
-import { Box } from "@mui/material";
+import StepLabel, { StepLabelProps } from "@/components/ui/Steper/StepLabel";
+import { KYC_STEP_STATUS, KycStepStatus } from "@/constant/features/kyc/entity";
+import { KycProgressData } from "@/v2-architecture/src/features/kyc/api";
+import { kycProgressConfig } from "@/v2-architecture/src/features/kyc/react-query";
+import { Step, Stepper } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-
-const queryConfig = dashboardInfoConfig();
+const queryConfig = kycProgressConfig();
 function KycPassedSteps() {
   const query = useQuery(queryConfig);
 
   // TODO Ui loading fallback
   if (query.status === "pending" || query.status === "error") return "loading";
 
-  const dashboardInfo = query.data;
-  const isPassedL1 = isKycStepPassed(
-    dashboardInfo.kycLevel,
-    KYC_LEVELS.LEVEL_1
-  );
-  const isPassedL2 = isKycStepPassed(
-    dashboardInfo.kycLevel,
-    KYC_LEVELS.LEVEL_2
-  );
-  const isPassedL3 = isKycStepPassed(
-    dashboardInfo.kycLevel,
-    KYC_LEVELS.LEVEL_3
-  );
+  const steps = resolveKycSteps(query.data);
 
   return (
-    // TODO This Progress component must be reusable and generic not feature specific
-    <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-      <KycCompletedBadge active>{"سطح پایه"}</KycCompletedBadge>
-
-      <DashedLine sx={{ flex: 1, color: lineColor(isPassedL1) }} />
-      <KycCompletedBadge active={isPassedL1}>{"سطح یک"}</KycCompletedBadge>
-
-      <DashedLine sx={{ flex: 1, color: lineColor(isPassedL2) }} />
-      <KycCompletedBadge active={isPassedL2}>{"سطح دو"}</KycCompletedBadge>
-
-      <DashedLine sx={{ flex: 1, color: lineColor(isPassedL3) }} />
-      <KycCompletedBadge active={isPassedL3}>{"سطح سه"}</KycCompletedBadge>
-    </Box>
+    <Stepper>
+      <Step>
+        <StepLabel status="done">{"سطح پایه"}</StepLabel>
+      </Step>
+      {steps.map(({ lable, status }) => {
+        return (
+          <Step
+            key={lable}
+            completed={
+              status === KYC_STEP_STATUS.approved ||
+              status === KYC_STEP_STATUS.pending
+            }
+          >
+            <StepLabel status={statusResolver(status)}>{lable}</StepLabel>
+          </Step>
+        );
+      })}
+    </Stepper>
   );
 }
 
 export default KycPassedSteps;
 
-function lineColor(isPassedLevel: boolean) {
-  return isPassedLevel ? "text.primary" : notDefinedColors["#003975"];
+function resolveKycSteps(
+  data: KycProgressData | undefined
+): { status: KycStepStatus; lable: string }[] {
+  if (!data) return [];
+
+  function resolveLevel2Status(
+    address: KycStepStatus,
+    document: KycStepStatus
+  ): KycStepStatus {
+    if (
+      address === KYC_STEP_STATUS.approved &&
+      document === KYC_STEP_STATUS.approved
+    ) {
+      return KYC_STEP_STATUS.approved;
+    }
+
+    if (
+      address === KYC_STEP_STATUS.notStarted &&
+      document === KYC_STEP_STATUS.notStarted
+    ) {
+      return KYC_STEP_STATUS.notStarted;
+    }
+
+    return KYC_STEP_STATUS.pending;
+  }
+
+  return [
+    { lable: "سطح یک", status: data.level1Identity.status },
+    {
+      lable: "سطح دو",
+      status: resolveLevel2Status(
+        data.level2Address.status,
+        data.level2Document.status
+      ),
+    },
+    { lable: "سطح سه", status: data.level3Liveness.status },
+  ];
+}
+
+function statusResolver(status: KycStepStatus): StepLabelProps["status"] {
+  if (status === KYC_STEP_STATUS.approved) return "done";
+  if (status === KYC_STEP_STATUS.notStarted) return "notStarted";
+  return "pending";
 }
