@@ -114,8 +114,12 @@ const buildOrderColumns = (
       {
         headerName: "عملیات",
         renderCell(row) {
-          // if (normalizeOrderStatus(row.status).isDone) return null;
-          return <CancleOrderTableAction orderId={row.orderId} />;
+          return (
+            <CancleOrderTableAction
+              orderId={row.orderId}
+              disabled={normalizeOrderStatus(row.status).isDone}
+            />
+          );
         },
       },
       ...(options?.extra ?? []),
