@@ -20,7 +20,6 @@ import NextLink from "@/components/ui/Link/NextLink";
 import { ROUTES } from "@/constant/app/routes";
 import { useOrderFiltersProvider } from "@/context/feature/orders/Orders/hooks";
 import useUpdateEffect from "@/hooks/app/useUpdateEffect";
-import { orderHistoryColumns } from "@/constant/features/order/orderHistoryColumns";
 import normalizeOrderStatus from "@/utils/features/order/normalizeOrderStatus";
 
 // * -------------- Table Columns --------------
@@ -28,17 +27,7 @@ const assetColumns = buildAssetColumns();
 
 type TabType = "active-orders" | "assets" | "order-history" | "today-orders";
 
-const orderColumns = buildOrderColumns({
-  extra: [
-    {
-      headerName: "عملیات",
-      renderCell(row) {
-        if (normalizeOrderStatus(row.status).isDone) return null;
-        return <CancleOrderTableAction orderId={row.orderId} />;
-      },
-    },
-  ],
-});
+const orderColumns = buildOrderColumns();
 
 const TABS: { value: TabType; label: string }[] = [
   { value: "active-orders", label: "سفارش‌های باز" },

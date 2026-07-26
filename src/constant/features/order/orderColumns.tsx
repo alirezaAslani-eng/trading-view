@@ -5,12 +5,17 @@ import { JALALI_FORMAT } from "@/constant/app/date";
 import { formatFaPrice, formatPrecent } from "@/utils";
 import normalizeOrderStatus from "@/utils/features/order/normalizeOrderStatus";
 import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import { WEIGHT_UNITS } from "../product/weightUnits";
+import CircularProgress, {
+  CircularProgressProps,
+} from "@mui/material/CircularProgress";
 import {
   buildColumns,
   BuildColumnsOptions,
   DefColumns,
 } from "@/utils/app/buildColumns";
-import { WEIGHT_UNITS } from "../product/weightUnits";
+import CancleOrderTableAction from "@/components/template/Button/CancleOrderTableAction";
 
 type DefaultColumns = DefColumns<Order>;
 const weightUnit = WEIGHT_UNITS.KG.lable;
@@ -76,7 +81,7 @@ export const orderTableColumns: DefaultColumns = {
   progress: {
     headerName: "درصد پر شده",
     renderCell(row) {
-      return formatPrecent(row.progress);
+      return <Progress value={row.progress} />;
     },
   },
   status: {
@@ -103,7 +108,59 @@ export const orderTableColumns: DefaultColumns = {
 const buildOrderColumns = (
   options?: BuildColumnsOptions<Order, DefaultColumns>
 ): Column<Order>[] => {
-  return buildColumns<Order>(orderTableColumns, options);
+  return buildColumns<Order>(orderTableColumns, {
+    ...options,
+    extra: [
+      {
+        headerName: "عملیات",
+        renderCell(row) {
+          // if (normalizeOrderStatus(row.status).isDone) return null;
+          return <CancleOrderTableAction orderId={row.orderId} />;
+        },
+      },
+      ...(options?.extra ?? []),
+    ],
+  });
 };
 
 export default buildOrderColumns;
+
+type ProgressProps = CircularProgressProps & {
+  value: number;
+};
+
+function Progress({ value, ...props }: ProgressProps) {
+  return (
+    <Box sx={{ position: "relative", display: "inline-flex" }}>
+      <CircularProgress
+        variant="determinate"
+        value={value}
+        {...props}
+        sx={{ color: progressColor(value) }}
+      />
+
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          display: "grid",
+          placeItems: "center",
+        }}
+      >
+        <Typography
+          variant="caption"
+          sx={{ lineHeight: 1, color: "text.onPrimary" }}
+        >
+          {Math.round(value)}%
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+function progressColor(progress: number) {
+  if (progress <= 10) return "status.loss";
+  if (progress <= 30) return "status.warning";
+  if (progress <= 50) return "text.primary2";
+  return "status.profit";
+}

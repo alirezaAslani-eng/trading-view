@@ -47,7 +47,6 @@ import mapOrderToExcel from "@/utils/features/order/mapOrderToExcel";
 import mapTransactionToExcel from "@/utils/features/transaction/mapTransactionToExcel";
 import { useQueryClient } from "@tanstack/react-query";
 import { ordersConfig, transactionsConfig } from "@/packages/react-query";
-import { orderHistoryColumns } from "@/constant/features/order/orderHistoryColumns";
 import {
   DateCalanderMenu,
   DateCalanderProvider,
@@ -55,7 +54,9 @@ import {
   DateCalendarDropdown,
   DateValueDisplay,
 } from "@/components/ui/DateCalendar/DateCalanderDropdown";
+import buildOrderColumns from "@/constant/features/order/orderColumns";
 const transactionColumns = buildTransactionColumns();
+const orderColumns = buildOrderColumns();
 
 type TabState = "orders" | "transactions";
 
@@ -88,7 +89,7 @@ function ActivityHistory() {
   const handleExport = async () => {
     if (tab === "orders") {
       const data = await queryClient.fetchQuery(
-        ordersConfig({ ...orderFilters.filters, page: 1, pageSize: 1000 }),
+        ordersConfig({ ...orderFilters.filters, page: 1, pageSize: 1000 })
       );
 
       exportExcel({
@@ -103,7 +104,7 @@ function ActivityHistory() {
         ...transactionFilters.filters,
         page: 1,
         pageSize: 1000,
-      }),
+      })
     );
     exportExcel({
       fileName: "transactions",
@@ -145,7 +146,7 @@ function ActivityHistory() {
 
           {/* // * Tables  */}
           <Box sx={{ mt: "40px" }}>
-            {isOrdersTab && <OrdersTable columns={orderHistoryColumns} />}
+            {isOrdersTab && <OrdersTable columns={orderColumns} />}
             {isTransactionsTab && (
               <TransactionsTable columns={transactionColumns} />
             )}
