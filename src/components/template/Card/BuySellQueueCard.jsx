@@ -46,7 +46,7 @@ function BuySellQueueCard() {
         unit={WEIGHT_UNITS.KG.lable}
       />
       <QueueStatItem
-        title="ارزش کالای در صف فروش:"
+        title="ارزش تقریبی کالای در صف فروش:"
         amount={totalPriceInSellQueue}
         unit={priceUnitDisplay}
       />
