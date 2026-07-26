@@ -6,10 +6,16 @@ import {
   BuildColumnsOptions,
   DefColumns,
 } from "@/utils/app/buildColumns";
-import { PRICE_UNITS } from "@/constant/features/priceConfig";
+import NextLink from "@/components/ui/Link/NextLink";
+import ButtonTableAction from "@/components/ui/Button/ButtonTableAction";
+import { ROUTES } from "@/constant/app/routes";
+import { WEIGHT_UNITS } from "../product/weightUnits";
+import { PRICE_UNITS } from "../priceConfig";
 
 type DefaultColumns = DefColumns<WalletAsset>;
 
+const weightUnitDisplay = WEIGHT_UNITS.KG.lable;
+const priceUnitDisplay = PRICE_UNITS.IRT.displayName;
 const walletAssetTableColumns: DefaultColumns = {
   assetSymbol: {
     field: "assetSymbol",
@@ -20,38 +26,53 @@ const walletAssetTableColumns: DefaultColumns = {
   },
   availableBalance: {
     field: "availableBalance",
-    headerName:" موجودی قابل برداشت ",
+    headerName: "موجودی قابل برداشت ",
     renderCell: (row) => {
-      return formatFaPrice(row.availableBalance);
+      return `${formatFaPrice(row.availableBalance)} ${weightUnitDisplay}`;
     },
   },
   lockedBalance: {
     field: "lockedBalance",
-    headerName: "موجودی لاک شده ",
+    headerName: "حجم کالای در صف فروش",
     renderCell: (row) => {
-      return formatFaPrice(row.lockedBalance);
+      return `${formatFaPrice(row.lockedBalance)} ${weightUnitDisplay}`;
     },
   },
   livePrice: {
     field: "livePrice",
     headerName: "قیمت لحضه ای ",
     renderCell: (row) => {
-      return formatFaPrice(row.livePrice);
+      return `${formatFaPrice(row.livePrice)} ${priceUnitDisplay}`;
     },
   },
   totalValueInIrt: {
     field: "totalValueInIrt",
-    headerName:"ارزش کل ",
+    headerName: "ارزش کل ",
     renderCell: (row) => {
-      return formatFaPrice(row.totalValueInIrt);
+      return `${formatFaPrice(row.totalValueInIrt)} ${priceUnitDisplay}`;
     },
   },
 };
 
 const buildAssetColumns = (
-  options?: BuildColumnsOptions<WalletAsset, DefaultColumns>,
+  options?: BuildColumnsOptions<WalletAsset, DefaultColumns>
 ): Column<WalletAsset>[] => {
-  return buildColumns<WalletAsset>(walletAssetTableColumns, options);
+  return buildColumns<WalletAsset>(walletAssetTableColumns, {
+    ...options,
+    extra: [
+      {
+        headerName: "عملیات",
+        renderCell(row) {
+          return (
+            <NextLink href={ROUTES.TRADE.BY_SYMBOL(row.assetSymbol)}>
+              <ButtonTableAction>{"معامله"}</ButtonTableAction>
+            </NextLink>
+          );
+        },
+      },
+      ...(options?.extra ?? []),
+    ],
+  });
 };
 
 export { buildAssetColumns };

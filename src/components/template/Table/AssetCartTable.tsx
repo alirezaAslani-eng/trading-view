@@ -1,9 +1,5 @@
 "use client";
-import DataTable, { Column } from "@/components/ui/Table/DataTable";
-import { WalletAsset } from "@/api/types";
-import { Box, debounce } from "@mui/material";
-import ButtonTableAction from "@/components/ui/Button/ButtonTableAction";
-import NextLink from "@/components/ui/Link/NextLink";
+import DataTable from "@/components/ui/Table/DataTable";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { ChangeEvent } from "react";
 import useAssetsQuery from "@/hooks/features/wallet/useAssetsQuery";
@@ -17,53 +13,13 @@ import {
   TableFallbackData,
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
-import { formatFaPrice } from "@/utils";
 import InputText from "@/components/ui/Input/InputText";
 import useSearch from "@/hooks/app/useSearch";
 import InputMarker from "@/components/ui/Marker/InputMarker";
 import { SearchIcon } from "@/components/ui/Icon";
-import { ROUTES } from "@/constant/app/routes";
-import { PRICE_UNITS } from "@/constant/features/priceConfig";
+import { buildAssetColumns } from "@/constant/features/wallet/assetsColumns";
 
-const columns: Column<WalletAsset>[] = [
-  { field: "assetSymbol", headerName: "نماد" },
-  {
-    headerName: "مقدار در دسترس",
-    renderCell(row) {
-      return `${formatFaPrice(row.availableBalance ?? "")} کیلو`;
-    },
-  },
-  {
-    headerName: "مقدار قفل شده",
-    renderCell(row) {
-      return `${formatFaPrice(row.lockedBalance ?? "")} ${PRICE_UNITS.IRT.displayName} `;
-    },
-  },
-  {
-    headerName: "ارزش کل به ریال",
-    renderCell(row) {
-      return formatFaPrice(row.totalValueInIrt ?? "");
-    },
-  },
-  {
-    headerName: "قیمت زنده",
-    renderCell(row) {
-      return `${formatFaPrice(row.livePrice ?? "")} ${PRICE_UNITS.IRT.displayName} `;
-    },
-  },
-  {
-    headerName: "عملیات",
-    renderCell(row) {
-      return (
-        <Box sx={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <NextLink href={ROUTES.TRADE.BY_SYMBOL(row.assetSymbol)}>
-            <ButtonTableAction>{"معامله"}</ButtonTableAction>
-          </NextLink>
-        </Box>
-      );
-    },
-  },
-];
+const columns = buildAssetColumns();
 
 function AssetCartTable() {
   const assetsQuery = useAssetsQuery();
@@ -71,7 +27,7 @@ function AssetCartTable() {
   const { search, searchQuery, setSearchQuery } = useSearch();
 
   const searchHandler = (
-    e: ChangeEvent<HTMLInputElement, HTMLInputElement>,
+    e: ChangeEvent<HTMLInputElement, HTMLInputElement>
   ) => {
     setSearchQuery(e.target.value);
   };

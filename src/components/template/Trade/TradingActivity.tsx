@@ -24,20 +24,7 @@ import { orderHistoryColumns } from "@/constant/features/order/orderHistoryColum
 import normalizeOrderStatus from "@/utils/features/order/normalizeOrderStatus";
 
 // * -------------- Table Columns --------------
-const assetColumns = buildAssetColumns({
-  extra: [
-    {
-      headerName: "عملیات",
-      renderCell(row) {
-        return (
-          <NextLink href={ROUTES.TRADE.BY_SYMBOL(row.assetSymbol)}>
-            <ButtonTableAction>{"معامله"}</ButtonTableAction>
-          </NextLink>
-        );
-      },
-    },
-  ],
-});
+const assetColumns = buildAssetColumns();
 
 type TabType = "active-orders" | "assets" | "order-history" | "today-orders";
 
@@ -82,19 +69,20 @@ function TradingActivity_() {
     orderFilters.setView("active");
   });
 
-
   useUpdateEffect(() => {
     if (tab === "active-orders") {
       setActiveOrders();
-      orderFilters.setFromDate(null)
-      orderFilters.setToDate(null)
+      orderFilters.setFromDate(null);
+      orderFilters.setToDate(null);
     }
     if (tab === "order-history") {
       setOrderHistory();
-      orderFilters.setFromDate(null)
-      orderFilters.setToDate(null)
+      orderFilters.setFromDate(null);
+      orderFilters.setToDate(null);
     }
-    if (tab === "today-orders") { orderFilters.onlyToday(); }
+    if (tab === "today-orders") {
+      orderFilters.onlyToday();
+    }
   }, [tab]);
 
   return (
