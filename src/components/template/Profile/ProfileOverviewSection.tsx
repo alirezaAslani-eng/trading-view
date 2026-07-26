@@ -5,7 +5,20 @@ import BulletItem from "@/components/ui/BulletItem/BulletItem";
 import BulletItemShape from "@/components/ui/BulletItem/BulletItemShape";
 import BulletText from "@/components/ui/BulletItem/BulletText";
 import kycFeatures from "@/constant/features/kyc/kycFeatures";
-import isMaximumKycLevel from "@/utils/features/kyc/isMaximumKycLevel";
+import { useQuery } from "@tanstack/react-query";
+import { dashboardInfoConfig } from "@/packages/react-query";
+import { convertToJalali } from "@/packages/dayjs";
+import { KycLevel } from "@/types";
+import KYC_LEVEL_ORDER from "@/constant/features/kyc/kycLevelOreder";
+import { JALALI_FORMAT } from "@/constant/app/date";
+import SensitiveText from "@/components/common/Appbar/SensitiveText";
+import { Dayjs } from "dayjs";
+import { dayjs } from "@/packages/dayjs";
+import { useDispatch } from "@/packages/redux";
+import { upgradeKycLevel } from "@/redux/features/kyc";
+import { kycProgressConfig } from "@/v2-architecture/src/features/kyc/react-query";
+import { getKycStepStatus } from "@/v2-architecture/src/features/kyc/helpers";
+import Button from "@/components/ui/Button/Button";
 import {
   BirthDayCakeIcon,
   PhoneCallIcon,
@@ -20,24 +33,24 @@ import {
   UserProfileItemCard,
   UserProfileItemInfo,
 } from "@/components/ui/Card/UserProfileItemCard";
-import UpgradeKycAction from "@/components/template/Button/UpgradeKycAction";
-import { useQuery } from "@tanstack/react-query";
-import { dashboardInfoConfig } from "@/packages/react-query";
-import { convertToJalali } from "@/packages/dayjs";
-import { KycLevel } from "@/types";
-import KYC_LEVEL_ORDER from "@/constant/features/kyc/kycLevelOreder";
-import { JALALI_FORMAT } from "@/constant/app/date";
-import SensitiveText from "@/components/common/Appbar/SensitiveText";
-import { Dayjs } from "dayjs";
-import { dayjs } from "@/packages/dayjs";
-import Image from "next/image";
 const kycFallback = "نیاز به احراز حویت";
 
 const queryConfig = dashboardInfoConfig();
 function ProfileOverviewSection() {
+  //#region // * ------------ Dashboard_Info ------------
   const dashboard_info = useQuery(queryConfig);
-
   const lastLoginAt = getLastLoginDate(dashboard_info.data?.lastLoginAt);
+  //#endregion // * ------------ Dashboard_Info Data ------------
+
+  //#region // * ------------ Kyc_Progress Data ------------
+  const kycProgress = useQuery(kycProgressConfig());
+  const kycStepStatus = getKycStepStatus(kycProgress.data);
+  //#endregion // * ------------ Kyc_Progress Data ------------
+
+  //#region // * ------------ Kyc Modal Redux ------------
+  const dispatch = useDispatch();
+  const kycModalHandler = () => dispatch(upgradeKycLevel());
+  //#endregion // * ------------ Kyc Modal Redux ------------
 
   return (
     <>
@@ -144,7 +157,7 @@ function ProfileOverviewSection() {
             </Stack>
             {/* // * ---end--- Current KYC Features ------- */}
           </Box>
-          {!isMaximumKycLevel(dashboard_info.data.kycLevel) && (
+          {kycProgress.isSuccess && !kycStepStatus!.reachedMax && (
             <>
               <Divider
                 sx={{ borderColor: "border.dark", mt: "32px", mb: "20px" }}
@@ -161,9 +174,16 @@ function ProfileOverviewSection() {
                   {"سقف برداشت و واریز روزانه بیشتری نیاز دارید؟"}
                 </Typography>
 
-                <UpgradeKycAction variant="on-surface" size="medium">
-                  {"ارتقا سطح کاربری"}
-                </UpgradeKycAction>
+                <Button
+                  variant="on-surface"
+                  size="medium"
+                  disabled={kycStepStatus!.hasPendingStep}
+                  onClick={kycModalHandler}
+                >
+                  {kycStepStatus!.hasPendingStep
+                    ? "در انتضار تایید سطح بعدی"
+                    : "ارتقا سطح کاربری"}
+                </Button>
               </Box>
             </>
           )}
