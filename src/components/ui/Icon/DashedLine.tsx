@@ -10,6 +10,7 @@ function DashedLine(props: SvgIconProps) {
       {...props}
       sx={(tm) => ({
         height: "2px",
+        flex: "1",
         display: "block",
         ...identifySxProp(tm, props.sx),
       })}

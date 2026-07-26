@@ -1,6 +1,8 @@
-import { ThemeOptions } from "@mui/material";
+import { StepConnector, ThemeOptions } from "@mui/material";
 import typography from "./typography";
 import darkPalette from "./palette/darkPalette";
+import { DashedLine } from "@/components/ui/Icon";
+
 import {
   MuiAccordion,
   MuiAccordionDetails,
@@ -18,11 +20,10 @@ import {
   MuiToggleButtonGroup,
   MuiSwitch,
 } from "./overriders";
+import { notDefinedColors } from "./shades";
 // import breakpoints from "./breakpoints";
-/**
- * @type {ThemeOptions}
- */
-const theme = {
+
+const theme: ThemeOptions = {
   typography,
   palette: darkPalette, // * darkPalette as defult theme
   // breakpoints,
@@ -80,6 +81,54 @@ const theme = {
         list: {
           paddingTop: "0px",
           paddingBottom: "0px",
+        },
+      },
+    },
+    MuiStepper: {
+      styleOverrides: {
+        root: ({ theme }) => {
+          const { palette } = theme;
+          return {
+            gap: "8px",
+            "& .MuiStepConnector-root .MuiStepConnector-line": {
+              borderColor: notDefinedColors["#003975"],
+            },
+            "& .MuiStepConnector-root.Mui-completed  .MuiStepConnector-line": {
+              borderColor: palette.text.primary2,
+            },
+            "& .MuiStepConnector-line": {
+              borderTopStyle: "dashed",
+              borderTopWidth: "2px",
+              color: palette.text.onPrimary,
+            },
+          };
+        },
+      },
+    },
+    MuiStepLabel: {
+      styleOverrides: {
+        root: {
+          paddingRight: "0px",
+          paddingLeft: "0px",
+          gap: "4px",
+          "& .MuiStepLabel-iconContainer": {
+            paddingRight: "0px",
+            widht: "fit-content",
+          },
+        },
+      },
+    },
+    MuiStep: {
+      styleOverrides: {
+        root: ({ theme }) => {
+          const { palette } = theme;
+          return {
+            paddingRight: "0px",
+            paddingLeft: "0px",
+            "& .MuiStepLabel-label": {
+              color: `${palette.text.onPrimary} !important`,
+            },
+          };
         },
       },
     },
