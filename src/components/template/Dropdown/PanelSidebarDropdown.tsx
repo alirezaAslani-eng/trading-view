@@ -1,14 +1,20 @@
 "use client";
 import React, { PropsWithChildren, type ReactNode } from "react";
 import { Box, Stack } from "@mui/system";
-import { Divider, styled, SvgIcon, Theme, Typography } from "@mui/material";
+import {
+  Divider,
+  styled,
+  SvgIcon,
+  Theme,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import NextLink from "@/components/ui/Link/NextLink";
 import useIsActiveLink from "@/hooks/app/useIsActiveLink";
 import { KeyDownIcon, KeyUpIcon } from "@/components/ui/Icon";
 import { SidebarSubMenuItem } from "@/constant/app/sidebarNavigators";
 import { ROUTES } from "@/constant/app/routes";
-import { useSidebarContext } from "@/context/app/Sidebar";
 
 type NextLinkProps = React.ComponentProps<typeof NextLink>;
 
@@ -17,6 +23,7 @@ interface PanelSidebarDropdownProps {
   href: NextLinkProps["href"];
   submenus?: SidebarSubMenuItem[];
   isCollapsed?: boolean;
+  text: string;
 }
 
 const sharedNavStyle = (tm: Theme) => {
@@ -75,9 +82,9 @@ function PanelSidebarDropdown({
   icon,
   href,
   submenus,
-  children,
   isCollapsed,
-}: PropsWithChildren<PanelSidebarDropdownProps>) {
+  text,
+}: PanelSidebarDropdownProps) {
   const exact = ([ROUTES.PANEL.ROOT] as string[]).includes(href);
   const isActiveLink = useIsActiveLink({
     href,
@@ -92,26 +99,27 @@ function PanelSidebarDropdown({
   return (
     <LiOrUl>
       {/* // * ---start--- Parent Link ------ */}
+      <Tooltip title={isCollapsed ? text : ""} placement="left">
+        <Nav href={href} exact={exact} collapsed={isCollapsed}>
+          {/* {isCollapsed && <SvgIcon>{icon}</SvgIcon>} */}
 
-      <Nav href={href} exact={exact} collapsed={isCollapsed}>
-        {/* {isCollapsed && <SvgIcon>{icon}</SvgIcon>} */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <SvgIcon>{icon}</SvgIcon>
+            {!isCollapsed && (
+              <Typography
+                variant="button3"
+                className="nav-text"
+                sx={{ color: "text.heading" }}
+              >
+                {text}
+              </Typography>
+            )}
+          </Box>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <SvgIcon>{icon}</SvgIcon>
-          {!isCollapsed && (
-            <Typography
-              variant="button3"
-              className="nav-text"
-              sx={{ color: "text.heading" }}
-            >
-              {children}
-            </Typography>
-          )}
-        </Box>
-
-        {!isActiveLink && hasNested && <KeyDownIcon fontSize="small" />}
-        {isActiveLink && hasNested && <KeyUpIcon fontSize="small" />}
-      </Nav>
+          {!isActiveLink && hasNested && <KeyDownIcon fontSize="small" />}
+          {isActiveLink && hasNested && <KeyUpIcon fontSize="small" />}
+        </Nav>
+      </Tooltip>
       {/* // * ---end--- Parent nav ------ */}
 
       {/* // * ---start--- Sub navs ----------  */}

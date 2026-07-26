@@ -95,9 +95,8 @@ function SidebarPanel(props: StackProps) {
                   href={nav.link}
                   submenus={nav.submenus}
                   isCollapsed={isCollapsed}
-                >
-                  {nav.text}
-                </PanelSidebarDropdown>
+                  text={nav.text}
+                />
               );
             })}
 
