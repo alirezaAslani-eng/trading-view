@@ -1,5 +1,8 @@
 "use client";
-import { StepLabel as MuiStepLabel, StepLabelProps } from "@mui/material";
+import {
+  StepLabel as MuiStepLabel,
+  StepLabelProps as MuiStepLabelProps,
+} from "@mui/material";
 import CircleBox from "../Box/CircleBox";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import { CheckedIcon, CircleIcon } from "../Icon";
@@ -68,10 +71,10 @@ function StepIcon({ status, ...boxProps }: StepIconProps) {
   );
 }
 
-export default function StepLabel({
-  status,
-  ...props
-}: StepLabelProps & { status: StepIconStatus }) {
+export interface StepLabelProps extends MuiStepLabelProps {
+  status: StepIconStatus;
+}
+export default function StepLabel({ status, ...props }: StepLabelProps) {
   return (
     <MuiStepLabel
       {...props}
