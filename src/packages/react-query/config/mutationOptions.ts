@@ -52,6 +52,7 @@ import {
   transactionsKey,
 } from "../keys/queryKeys";
 import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
+import { kycProgressKey } from "@/v2-architecture/src/features/kyc/react-query/keys";
 
 const requestAuthOTPConfig = createMutationOptions({
   mutationKey: requestAuthOTPKey,
@@ -72,7 +73,7 @@ const kycLevel1Config = createMutationOptions({
   mutationKey: kycLevel1Key,
   mutationFn: kycL1,
   meta: {
-    invalidates: [kycStatusKey, dashboardInfoKey],
+    invalidates: [kycStatusKey, dashboardInfoKey, kycProgressKey],
   },
 });
 
@@ -80,7 +81,7 @@ const kycLevel2Config = createMutationOptions({
   mutationKey: kycLevel2Key,
   mutationFn: kycL2,
   meta: {
-    invalidates: [kycStatusKey, dashboardInfoKey],
+    invalidates: [kycStatusKey, dashboardInfoKey, kycProgressKey],
   },
 });
 
