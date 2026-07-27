@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/Layout/PageLayout";
 import ProductsTable from "@/components/template/Table/ProductsTable";
 import KycPromoBanner from "@/components/template/kycbanner/KycPromoBanner";
+import ProductTrendChart from "@/components/template/product/ProductTrendChart";
 function page() {
   return (
     <Page>
@@ -35,6 +36,14 @@ function page() {
           </SectionContent>
         </Section>
 
+        <Section>
+          <SectionHeading>
+            <SectionTitle>{"وضعیت بازار"}</SectionTitle>
+          </SectionHeading>
+          <SectionContent>
+            <ProductTrendChart />
+          </SectionContent>
+        </Section>
         <Section>
           <SectionHeading>
             <SectionTitle>{"قیمت‌های لحظه‌ای بازار"}</SectionTitle>
