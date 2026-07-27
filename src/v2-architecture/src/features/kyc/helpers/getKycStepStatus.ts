@@ -23,10 +23,10 @@ export function getKycStepStatus(
   if (!kycProgress) return null;
 
   const steps = [
-    kycProgress.level1Identity,
-    kycProgress.level2Address,
-    kycProgress.level2Document,
-    kycProgress.level3Liveness,
+    kycProgress.level1.identity,
+    kycProgress.level2.address,
+    kycProgress.level2.document,
+    kycProgress.level3.liveness,
   ];
 
   const hasPendingStep = steps.some(

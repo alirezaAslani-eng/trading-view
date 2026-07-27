@@ -65,20 +65,21 @@ function resolveKycSteps(
   }
 
   return [
-    { lable: "سطح یک", status: data.level1Identity.status },
+    { lable: "سطح یک", status: data.level1.identity.status },
     {
       lable: "سطح دو",
       status: resolveLevel2Status(
-        data.level2Address.status,
-        data.level2Document.status
+        data.level2.address.status,
+        data.level2.document.status
       ),
     },
-    { lable: "سطح سه", status: data.level3Liveness.status },
+    { lable: "سطح سه", status: data.level3.liveness.status },
   ];
 }
 
 function statusResolver(status: KycStepStatus): StepLabelProps["status"] {
   if (status === KYC_STEP_STATUS.approved) return "done";
   if (status === KYC_STEP_STATUS.notStarted) return "notStarted";
+  if (status === KYC_STEP_STATUS.locked) return "notStarted";
   return "pending";
 }

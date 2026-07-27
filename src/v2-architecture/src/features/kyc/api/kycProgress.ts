@@ -13,19 +13,24 @@ type StepKey =
   | "Level2_Document"
   | "Level3_Liveness";
 
-type CreateStep<TStepKey extends StepKey> = {
+interface KycStep<TStepKey extends StepKey> {
   stepKey: TStepKey;
   status: KycStepStatus;
   comment: string | null;
-};
-// * entity
+}
 
 export interface KycProgressData {
   currentLevel: KycLevel;
-  level1Identity: CreateStep<"Level1_Identity">;
-  level2Address: CreateStep<"Level2_Address">;
-  level2Document: CreateStep<"Level2_Document">;
-  level3Liveness: CreateStep<"Level3_Liveness">;
+  level1: {
+    identity: KycStep<"Level1_Identity">;
+  };
+  level2: {
+    address: KycStep<"Level2_Address">;
+    document: KycStep<"Level2_Document">;
+  };
+  level3: {
+    liveness: KycStep<"Level3_Liveness">;
+  };
 }
 
 const URL = apiClient.authBaseURL("/api/v1/kyc/progress");
