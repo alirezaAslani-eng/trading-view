@@ -63,7 +63,7 @@ export type {
   RecentTrade,
 };
 
-type Symbol = Pick<
+export type Symbol = Pick<
   LibrarySymbolInfo,
   | "name"
   | "ticker"
