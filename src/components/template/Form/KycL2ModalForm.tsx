@@ -1,4 +1,5 @@
 "use client";
+
 import InputText from "@/components/ui/Input/InputText";
 import { kycLevel2Config } from "@/packages/react-query";
 import kycL2Schema from "@/validations/kyc/kycL2Schema";
@@ -8,10 +9,11 @@ import { useMutation } from "@tanstack/react-query";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import safeAsync from "@/utils/app/safeAsync";
 import { useDispatch } from "@/packages/redux";
-import { exitKycFlow, successKyc } from "@/redux/features/kyc";
+import { exitKycFlow } from "@/redux/features/kyc";
 import {
   FormLayout,
   FormLayoutField,
+  FormLayoutFieldGroup,
   FormLayoutLable,
   FormLayoutSubmit,
 } from "@/components/ui/Layout/FormLayout";
@@ -25,6 +27,19 @@ import {
 import { kycContent } from "@/content/kyc";
 import InputFile from "@/components/ui/Input/InputFile";
 import { Typography } from "@mui/material";
+import {
+  InputSelect,
+  InputSelectItem,
+  InputSelectMenu,
+} from "@/components/ui/Input/InputSelect";
+
+const activityFields = [
+  { value: "software", label: "فناوری اطلاعات" },
+  { value: "finance", label: "مالی و حسابداری" },
+  { value: "health", label: "پزشکی و سلامت" },
+  { value: "education", label: "آموزش" },
+  { value: "other", label: "سایر" },
+];
 
 function KycL2Form() {
   const dispatch = useDispatch();
@@ -37,7 +52,7 @@ function KycL2Form() {
       meta: {
         successMessage: "احراز سطح 2 ثبت شد",
       },
-    })
+    }),
   );
 
   const form = useForm({ resolver: zodResolver(kycL2Schema) });
@@ -57,10 +72,47 @@ function KycL2Form() {
         />
         <ModalLayoutCloseIcon onClick={closeKycModal} />
       </ModalLayoutHeading>
+
       <ModalLayoutBody>
         <FormLayout onSubmit={form.handleSubmit(submitHandler)}>
+          <FormLayoutFieldGroup>
+            <FormLayoutField>
+              <FormLayoutLable>{"حوزه فعالیت"}</FormLayoutLable>
+
+              <InputSelect placeholder="حوزه فعالیت را انتخاب کنید">
+                <InputSelectMenu>
+                  {activityFields.map((item) => (
+                    <InputSelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </InputSelectItem>
+                  ))}
+                </InputSelectMenu>
+              </InputSelect>
+            </FormLayoutField>
+
+            <FormLayoutField>
+              <FormLayoutLable>{"شغل"}</FormLayoutLable>
+              <InputText placeholder="شغل خود را وارد کنید" />
+            </FormLayoutField>
+          </FormLayoutFieldGroup>
+
+          <FormLayoutField>
+            <FormLayoutLable>{"کد پستی"}</FormLayoutLable>
+            <InputText placeholder="کد پستی خود را وارد کنید" />
+          </FormLayoutField>
+
+          <FormLayoutField>
+            <FormLayoutLable>{"آدرس"}</FormLayoutLable>
+            <InputText
+              placeholder="آدرس محل سکونت را وارد کنید"
+              //@ts-ignore
+              textarea
+            />
+          </FormLayoutField>
+
           <FormLayoutField>
             <FormLayoutLable>{kycContent.kycL2PostalCodeLabel}</FormLayoutLable>
+
             <Controller
               name="file"
               control={form.control}
@@ -80,6 +132,7 @@ function KycL2Form() {
                       onChange(files);
                     }}
                   />
+
                   {!!fieldState.error?.message && (
                     <Typography variant="body3" sx={{ color: "text.error" }}>
                       {fieldState.error?.message}

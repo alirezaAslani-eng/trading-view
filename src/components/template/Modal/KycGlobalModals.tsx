@@ -20,12 +20,16 @@ function KycGlobalModals() {
       <Dialog open={kycModalFlowState === "needKyc"} onClose={closeKycModal}>
         <NeedKycModal />
       </Dialog>
-      <Dialog open={kycModalFlowState === "upgradeKyc"} onClose={closeKycModal}>
-        <ConditionaKycForm
+      <Dialog
+        open={kycModalFlowState === "upgradeKyc" || true}
+        onClose={closeKycModal}
+      >
+        {/* <ConditionaKycForm
           kycL1Form={<KycL1ModalForm />}
           kycL2Form={<KycL2ModalForm />}
           kycL3Form={<KycL3ModalForm />}
-        />
+        /> */}
+        <KycL2ModalForm />
       </Dialog>
 
       <Dialog open={kycModalFlowState === "successKyc"} onClose={closeKycModal}>
