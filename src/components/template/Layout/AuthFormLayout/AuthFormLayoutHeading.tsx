@@ -1,7 +1,9 @@
 "use client";
+import Button from "@/components/ui/Button/Button";
+import { ArrowLeftIcon } from "@/components/ui/Icon";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { PWC } from "@/types/utils";
-import { Stack, StackProps, Typography } from "@mui/material";
+import { Box, IconButton, Stack, StackProps, Typography } from "@mui/material";
 
 function AuthFormLayoutHeading({
   sx,
@@ -9,20 +11,32 @@ function AuthFormLayoutHeading({
   title,
 }: Pick<StackProps, "sx"> & { subTitle?: string; title: string }) {
   return (
-    <Stack
+    <Box
       sx={(tm) => ({
-        textAlign: "center",
         mb: "64px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "start",
         color: tm.palette.text.onPrimary,
-        gap: "8px",
         ...identifySxProp(tm, sx),
       })}
     >
-      {/* // * ---- Title ---- */}
-      <Typography variant="h5">{title}</Typography>
-      {/* // * ------ subtitle ------ */}
-      <Typography variant="body1">{subTitle}</Typography>
-    </Stack>
+      <Stack spacing={1}>
+        {/* // * ---- Title ---- */}
+        <Typography variant="h5">{title}</Typography>
+        {/* // * ------ subtitle ------ */}
+        <Typography variant="body1">{subTitle}</Typography>
+      </Stack>
+      {/* <Box
+        component={"button"}
+        sx={{ display: "flex", alignItems: "center", gap: "4px" }}
+      >
+        <Typography variant="body2" sx={{ color: "text.onPrimary" }}>
+          {"بازگشت"}
+        </Typography>
+        <ArrowLeftIcon />
+      </Box> */}
+    </Box>
   );
 }
 

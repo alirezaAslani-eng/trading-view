@@ -3,13 +3,13 @@ import { Container, Stack } from "@mui/material";
 import AuthPageBackground from "@/components/ui/background/AuthPageBackground";
 import { PropsWithChildren } from "react";
 
-function LayoutAuthPage({ children }:PropsWithChildren) {
+function LayoutAuthPage({ children }: PropsWithChildren) {
   return (
     <>
       <Stack sx={{ minHeight: "100svh", position: "relative" }}>
         <AuthPageBackground />
 
-        <Container sx={{ flex: 1 }}>{children}</Container>
+        {children}
       </Stack>
     </>
   );
