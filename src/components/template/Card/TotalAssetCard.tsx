@@ -183,7 +183,6 @@ type AssetsDonutChartProps = {
 };
 
 function AssetsDonutChart({ loading, assets }: AssetsDonutChartProps) {
-  if (!!!assets?.length) return null;
   // <CircleBox sx={{ width: CHART_SIZE , bgcolor:"background.inputModal"}}>
   //   <Typography variant="caption" sx={{ color: "text.secondary" }}>
   //     {"داده ای برای نمایش در چارت وجود ندارد"}
@@ -195,6 +194,7 @@ function AssetsDonutChart({ loading, assets }: AssetsDonutChartProps) {
       <Skeleton variant="circular" width={CHART_SIZE} height={CHART_SIZE} />
     );
   }
+  if (!!!assets?.length) return null;
 
   const chartData = (assets ?? []).map((asset) => {
     return {
