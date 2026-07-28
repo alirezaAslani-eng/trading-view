@@ -10,7 +10,6 @@ import { ordersConfig } from "@/packages/react-query";
 import { OrderFilters } from "@/types";
 import { ToggleButton } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import CancleOrderTableAction from "../Button/CancleOrderTableAction";
 import {
   TableFallback,
   TableFallbackData,
@@ -19,19 +18,10 @@ import {
 import {
   PagePaper,
   PagePaperHeading,
-  PagePaperTitle,
 } from "@/components/ui/Layout/PaperLayout";
 
 const orderColumns = buildOrderColumns({
   include: ["productCode", "totalWeight", "price", "status"],
-  extra: [
-    {
-      headerName: "عملیات",
-      renderCell(row) {
-        return <CancleOrderTableAction orderId={row.orderId} />;
-      },
-    },
-  ],
 });
 
 type OrderSideFilter = OrderFilters["orderSide"];
@@ -47,7 +37,7 @@ function RecentOrdersTable() {
   const ordersLenght = ordersQuery.data?.items.length;
 
   const orderSideHandler = createNonNullToggleHandler<string>((value) =>
-    orderFilters.setSide(value as OrderSideFilter)
+    orderFilters.setSide(value as OrderSideFilter),
   );
   return (
     <PagePaper>
