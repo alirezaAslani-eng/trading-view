@@ -43,8 +43,8 @@ import {
   SELECT_FILTER_ALL,
   selectValueToFilter,
 } from "@/utils/app/filter";
-import mapOrderToExcel from "@/utils/features/order/mapOrderToExcel";
-import mapTransactionToExcel from "@/utils/features/transaction/mapTransactionToExcel";
+import mapOrderToTable from "@/utils/features/order/mapOrderToTable";
+import mapTransactionToTable from "@/utils/features/transaction/mapTransactionToTable";
 import { useQueryClient } from "@tanstack/react-query";
 import { ordersConfig, transactionsConfig } from "@/packages/react-query";
 import {
@@ -55,6 +55,9 @@ import {
   DateValueDisplay,
 } from "@/components/ui/DateCalendar/DateCalanderDropdown";
 import buildOrderColumns from "@/constant/features/order/orderColumns";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { OrdersResponse, Transaction, TransactionsResponse } from "@/api/types";
 const transactionColumns = buildTransactionColumns();
 const orderColumns = buildOrderColumns();
 
@@ -68,49 +71,12 @@ const TABS: { value: TabState; displayName: string }[] = [
 function ActivityHistory() {
   const [tab, setTab] = useState<TabState>("orders");
 
-  const queryClient = useQueryClient();
-
-  const orderFilters = useOrderFiltersProvider()!;
-  const transactionFilters = useTransactionFiltersProvider()!;
-
-  const orders = useOrders()!;
-  const transactions = useTransactions()!;
-
   const tabHandler = createNonNullToggleHandler(setTab);
 
   const isOrdersTab = tab === "orders";
   const isTransactionsTab = tab === "transactions";
 
-  const isExportDisabled =
-    tab === "orders"
-      ? orders.isLoading || (orders.data?.totalCount ?? 0) === 0
-      : transactions.isLoading || (transactions.data?.totalCount ?? 0) === 0;
-
-  const handleExport = async () => {
-    if (tab === "orders") {
-      const data = await queryClient.fetchQuery(
-        ordersConfig({ ...orderFilters.filters, page: 1, pageSize: 1000 })
-      );
-
-      exportExcel({
-        fileName: "orders",
-        rows: mapOrderToExcel(data.items),
-      });
-
-      return;
-    }
-    const data = await queryClient.fetchQuery(
-      transactionsConfig({
-        ...transactionFilters.filters,
-        page: 1,
-        pageSize: 1000,
-      })
-    );
-    exportExcel({
-      fileName: "transactions",
-      rows: mapTransactionToExcel(data.items),
-    });
-  };
+  // * ===== Move it to the ExportButton ======
   return (
     <>
       <PagePaper>
@@ -129,15 +95,7 @@ function ActivityHistory() {
             </ToggleTabGroup>
 
             {/* // * Export Button */}
-            <Button
-              sx={{ gap: "6px" }}
-              variant="on-surface"
-              onClick={handleExport}
-              disabled={isExportDisabled}
-            >
-              <DownloadIcon sx={{ color: "inherit" }} />
-              دانلود اکسل
-            </Button>
+            <Exporter tab={tab} />
           </PagePaperHeading>
 
           {/* // * Filter Bar */}
@@ -403,3 +361,76 @@ function OrderFilterControls() {
   );
 }
 export { ActivityHistoryProvider, ActivityHistory };
+
+//#region // * ------------ Internal components ------------
+
+type ExporterProps = {
+  tab: TabState;
+};
+function Exporter({ tab }: ExporterProps) {
+  // ISSUE : The exported pdf has some formating problems
+  // ARCHITECTURE : In the future the server might provides API for downloading excel and pdf or we might chnage the package
+  const orders = useOrders()!;
+  const transactions = useTransactions()!;
+
+  const isExportDisabled =
+    tab === "orders"
+      ? orders.isLoading || (orders.data?.totalCount ?? 0) === 0
+      : transactions.isLoading || (transactions.data?.totalCount ?? 0) === 0;
+
+  const handleExport = async () => {
+    if (tab === "orders") {
+      exportExcel({
+        fileName: "orders",
+        rows: mapOrderToTable(orders.data?.items!),
+      });
+      exportPdf({
+        fileName: "orders",
+        rows: mapOrderToTable(orders.data!.items),
+      });
+      return;
+    }
+
+    exportExcel({
+      fileName: "transactions",
+      rows: mapTransactionToTable(transactions.data?.items!),
+    });
+    exportPdf({
+      fileName: "transactions",
+      rows: mapTransactionToTable(transactions.data!.items),
+    });
+  };
+
+  return (
+    <Button
+      sx={{ gap: "6px" }}
+      variant="on-surface"
+      onClick={handleExport}
+      disabled={isExportDisabled}
+    >
+      <DownloadIcon sx={{ color: "inherit" }} />
+      {"دانلود خروجی"}
+    </Button>
+  );
+}
+//#endregion // * ------------ Internal components ------------
+
+//#region // * ------------ Internal Helpers ------------
+type ExportPdfProps = {
+  fileName: string;
+  rows: Record<string, unknown>[];
+};
+
+function exportPdf({ fileName, rows }: ExportPdfProps) {
+  if (!rows.length) return;
+
+  const doc = new jsPDF();
+
+  autoTable(doc, {
+    head: [Object.keys(rows[0])],
+    body: rows.map(Object.values),
+  });
+
+  doc.save(`${fileName}.pdf`);
+}
+//#endregion // * ------------ Internal Helpers ------------
