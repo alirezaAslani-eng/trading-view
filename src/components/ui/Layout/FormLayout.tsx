@@ -30,10 +30,13 @@ const FormLayoutField = styled(Stack)({
   width: "100%",
 });
 
-function FormLayoutFieldError(props: { isError: boolean; message?: string }) {
+function FormLayoutFieldError(props: {
+  isError?: boolean;
+  message?: string | undefined;
+}) {
   return (
     <>
-      {props.isError && (
+      {!!props?.message && (
         <Typography variant="caption1" sx={{ color: "status.loss", mt: "4px" }}>
           {props.message}
         </Typography>
