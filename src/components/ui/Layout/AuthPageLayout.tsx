@@ -45,15 +45,14 @@ function AuthPageLayoutFormContainer(
   props: ReplaceSxWithSxOnlyObject<StackProps>,
 ) {
   return (
-    <Box
+    <Stack
       {...props}
       sx={{
-        width: "100%",
-        display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-between",
         minHeight: "100svh",
         gap: "24px",
+        py: "52px",
         ...props.sx,
       }}
     />

@@ -7,19 +7,17 @@ import {
   AuthPageLayoutFormContainer,
   AuthPageLayoutHelperLinks,
 } from "@/components/ui/Layout/AuthPageLayout";
-import { AuthFlowProvider } from "@/context/feature/auth/AuthFlow/AuthFlowContext";
 
 function page() {
   return (
     <>
       <AuthPageLayoutFormContainer>
+        <AuthPageLayoutBrand />
         <AuthFlowRenderer
           enterInfoStep={<RequestAuthOTPForm />}
           verifyInfoStep={<VerifyAuthOTPForm />}
         />
-
-        {/* <AuthPageLayoutBrand /> */}
-        {/* <AuthPageLayoutHelperLinks /> */}
+        <AuthPageLayoutHelperLinks />
       </AuthPageLayoutFormContainer>
     </>
   );
