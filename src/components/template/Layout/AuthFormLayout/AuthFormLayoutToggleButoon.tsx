@@ -1,14 +1,17 @@
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import NextLink from "@/components/ui/Link/NextLink";
-import { ROUTES } from "@/constant/app/routes";
 import { ToggleButton } from "@mui/material";
-import { usePathname } from "next/navigation";
 
-export default function AuthFormLayoutToggleButoon() {
-  const pathname = usePathname();
+interface AuthFormLayoutToggleButoonProps {
+  activeButton: "signin" | "signup";
+}
+
+export default function AuthFormLayoutToggleButoon({
+  activeButton,
+}: AuthFormLayoutToggleButoonProps) {
   return (
     <ToggleButtonGroup
-      value={pathname}
+      value={activeButton}
       size="large"
       color="primary"
       fullWidth
@@ -18,16 +21,15 @@ export default function AuthFormLayoutToggleButoon() {
         borderRadius: "50px",
         padding: "4px",
         gap: "15px",
-        mb: "54px",
       }}
     >
-      <NextLink href={ROUTES.AUTH.SIGNIN} sx={{ flex: 1 }}>
-        <ToggleButton value={ROUTES.AUTH.SIGNIN} fullWidth>
+      <NextLink href={"/signin"} sx={{ flex: 1 }}>
+        <ToggleButton value="signin" fullWidth>
           {"ورود"}
         </ToggleButton>
       </NextLink>
-      <NextLink href={ROUTES.AUTH.SIGNUP} sx={{ flex: 1 }}>
-        <ToggleButton value={ROUTES.AUTH.SIGNUP} fullWidth>
+      <NextLink href={"/signup"} sx={{ flex: 1 }}>
+        <ToggleButton value="signup" fullWidth>
           {"ثبت نام"}
         </ToggleButton>
       </NextLink>

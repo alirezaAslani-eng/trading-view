@@ -49,7 +49,7 @@ function AuthPageLayoutFormContainer(
       {...props}
       sx={{
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-between",
         minHeight: "100svh",
         gap: "24px",
         py: "52px",
