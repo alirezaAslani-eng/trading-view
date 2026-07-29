@@ -11,6 +11,7 @@ function SubmitButton(props: ComponentProps<typeof Button>) {
       color="primary"
       size="large"
       type="submit"
+      fullWidth
       {...props}
     />
   );
