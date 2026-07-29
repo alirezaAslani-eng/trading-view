@@ -13,7 +13,7 @@ export async function exportExcel<T extends object>({
 
 const worksheet = workbook.addWorksheet("Report");
 workbook.creator = "Admin";
-
+//@ts-ignore
 workbook.company = "My Company";
 
 workbook.created = new Date();
