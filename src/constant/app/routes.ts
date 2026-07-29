@@ -12,6 +12,8 @@ export const ROUTES = {
   AUTH: {
     ROOT: "/auth",
     VERIFY: "/auth/verify",
+    SIGNUP: "/auth/signup",
+    SIGNIN: "/auth/signin",
   },
 
   TRADE: {
@@ -57,7 +59,7 @@ export const ROUTES = {
 type ExtractStrings<T> = T extends string
   ? T
   : T extends (...args: any[]) => string
-  ? never
-  : { [K in keyof T]: ExtractStrings<T[K]> }[keyof T];
+    ? never
+    : { [K in keyof T]: ExtractStrings<T[K]> }[keyof T];
 
 export type RoutePath = ExtractStrings<typeof ROUTES>;
