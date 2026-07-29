@@ -1,8 +1,6 @@
-import AuthFlowRenderer from "@/components/template/auth/AuthFlowRenderer";
-import RequestAuthOTPForm from "@/components/template/Form/RequestAuthOTPForm";
-import VerifyAuthOTPForm from "@/components/template/Form/VerifyAuthOTPForm";
+import { AuthForm } from "@/components/template/Form/AuthForm";
+import { AuthFlowProvider } from "@/context/feature/auth/AuthFlow/AuthFlowContext";
 import {
-  AuthPageLayout,
   AuthPageLayoutBrand,
   AuthPageLayoutFormContainer,
   AuthPageLayoutHelperLinks,
@@ -13,10 +11,9 @@ function page() {
     <>
       <AuthPageLayoutFormContainer>
         <AuthPageLayoutBrand />
-        <AuthFlowRenderer
-          enterInfoStep={<RequestAuthOTPForm />}
-          verifyInfoStep={<VerifyAuthOTPForm />}
-        />
+        <AuthFlowProvider>
+          <AuthForm />
+        </AuthFlowProvider>
         <AuthPageLayoutHelperLinks />
       </AuthPageLayoutFormContainer>
     </>
