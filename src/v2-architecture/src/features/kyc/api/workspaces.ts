@@ -12,19 +12,19 @@ export const MY_COMPANY_ROLE = {
 export type MyCompanyRole =
   (typeof MY_COMPANY_ROLE)[keyof typeof MY_COMPANY_ROLE];
 
-export type ResponseData = {
+export type WorkspacesData = {
   companyId: string;
   companyName: string;
   companyNationalId: string;
   myRole: MyCompanyRole;
-};
+}[];
 
 const URL = apiClient.authBaseURL("/api/v1/workspaces");
 
 export const workspaces = async ({
   signal,
-}: ApiConfig = {}): Promise<ResponseData> => {
+}: ApiConfig = {}): Promise<WorkspacesData> => {
   const res = await apiClient.get(URL, { signal });
-  const raw = await apiError.jsonHandler<BaseApiResponse<ResponseData>>(res);
+  const raw = await apiError.jsonHandler<BaseApiResponse<WorkspacesData>>(res);
   return raw.data;
 };
