@@ -1,6 +1,6 @@
 "use client";
 import InputPhoneNumber from "@/components/ui/Input/InputPhoneNumber";
-import { useId } from "react";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import requestAuthOTPSchema from "@/validations/auth/requestAuthOTPSchema";
@@ -9,7 +9,7 @@ import {
   VerifyAuthOTPSchemaType,
 } from "@/validations/types";
 import { authContent } from "@/content/auth";
-import { Box, FormControl, Typography } from "@mui/material";
+import { Box, Dialog, FormControl, Typography } from "@mui/material";
 import {
   AUTH_FLOW_STEPS,
   AUTH_METHODS,
@@ -45,6 +45,19 @@ import { signinSchema } from "@/validations/auth/signinSchema";
 import InputText from "@/components/ui/Input/InputText";
 import { signinConfig } from "@/v2-architecture/src/features/auth/react-query";
 import CheckBox from "@/components/ui/Checkbox/CheckBox";
+import { createPasswordConfig } from "@/v2-architecture/src/features/auth/react-query";
+import {
+  ModalLayout,
+  ModalLayoutBody,
+  ModalLayoutCloseIcon,
+  ModalLayoutHeading,
+  ModalLayoutTitle,
+} from "@/components/ui/Layout/ModalLayout";
+import {
+  CreatePasswordSchema,
+  createPasswordSchema,
+} from "@/validations/auth/createPasswordSchema";
+import { ModalFormProps } from "./types";
 
 export function AuthForm() {
   const authFlow = useAuthFlow()!;
@@ -134,7 +147,18 @@ function PhoneStep() {
 
 function FinalStepWithOTP() {
   const authFlow = useAuthFlow()!;
-  const router = useRouter();
+  const routes = useRouter();
+  //#region // * ------------ Password Modal State ------------
+  const [passwordModal, setPasswordModal] = useState(false);
+
+  const closePasswordModalHandler = () => {
+    routes.replace(ROUTES.PANEL.ROOT);
+    setPasswordModal(false);
+  };
+  const openPasswordModalHandler = () => {
+    setPasswordModal(true);
+  };
+  //#endregion // * ------------ Password Modal State ------------
 
   const form = useForm({
     resolver: zodResolver(verifyAuthOTPSchema),
@@ -143,21 +167,28 @@ function FinalStepWithOTP() {
     },
   });
 
+  //#region // * ------------ Form API ------------
   const mutation = useMutation(
     verifyAuthOTPConfig({
-      // TODO check the response if the user is new trigger the create password modal
-      onSuccess: () => router.replace(ROUTES.PANEL.ROOT),
+      onSuccess: (data) => {
+        if (false) {
+          routes.replace(ROUTES.PANEL.ROOT);
+          return;
+        }
+        openPasswordModalHandler();
+      },
     }),
   );
 
-  const submiter = async (fields: VerifyAuthOTPSchemaType) => {
+  const submitHandler = async (fields: VerifyAuthOTPSchemaType) => {
     await safeAsync(() => mutation.mutateAsync(fields));
   };
+  //#endregion // * ------------ Form API ------------
 
   return (
     <Box>
       <FormControl disabled={form.formState.isSubmitting}>
-        <FormLayout onSubmit={form.handleSubmit(submiter)}>
+        <FormLayout onSubmit={form.handleSubmit(submitHandler)}>
           <FormLayoutField>
             <FormLayoutLable>{"کد تایید"}</FormLayoutLable>
             <InputText
@@ -173,6 +204,12 @@ function FinalStepWithOTP() {
         </FormLayout>
       </FormControl>
       <VerifyAuthOTPFooter />
+
+      {/* // * Create Password Modal */}
+      <Dialog open={passwordModal} onClose={closePasswordModalHandler}>
+        <CreatePasswordModal onClose={closePasswordModalHandler} />
+      </Dialog>
+      {/* // * Create Password Modal */}
     </Box>
   );
 }
@@ -300,5 +337,80 @@ function VerifyAuthOTPFooter() {
         )}
       </Box>
     </>
+  );
+}
+
+const createPasswordModalContent = {
+  title: "تنظیم رمز عبور",
+  subtitle: "برای ورود به پنل، یک رمز عبور برای حساب خود تنظیم کنید",
+  newPasswordPlaceholder: "رمز عبور جدید را وارد کنید",
+  confirmPasswordPlaceholder: "تکرار رمز عبور",
+  submitLabel: "ایجاد رمز",
+};
+
+function CreatePasswordModal({ onClose }: ModalFormProps) {
+  const router = useRouter();
+
+  const mutation = useMutation(
+    createPasswordConfig({
+      onSuccess: () => router.replace(ROUTES.PANEL.ROOT),
+    }),
+  );
+
+  const form = useForm<CreatePasswordSchema>({
+    resolver: zodResolver(createPasswordSchema),
+  });
+
+  const submitHandler = async (fields: CreatePasswordSchema) => {
+    await safeAsync(() => mutation.mutateAsync(fields));
+  };
+
+  return (
+    <ModalLayout onSubmit={form.handleSubmit(submitHandler)}>
+      <ModalLayoutHeading>
+        <ModalLayoutTitle
+          title={createPasswordModalContent.title}
+          subtitle={createPasswordModalContent.subtitle}
+        />
+        <ModalLayoutCloseIcon onClick={onClose} />
+      </ModalLayoutHeading>
+      <ModalLayoutBody>
+        <FormControl disabled={form.formState.isSubmitting} fullWidth>
+          <FormLayout>
+            <FormLayoutField>
+              <InputText
+                type="password"
+                placeholder={createPasswordModalContent.newPasswordPlaceholder}
+                error={!!form.formState.errors.NewPassword}
+                size="large"
+                {...form.register("NewPassword")}
+              />
+              <FormLayoutFieldError
+                message={form.formState.errors.NewPassword?.message}
+              />
+            </FormLayoutField>
+
+            <FormLayoutField>
+              <InputText
+                type="password"
+                size="large"
+                error={!!form.formState.errors.confirmPassword}
+                {...form.register("confirmPassword")}
+                placeholder={
+                  createPasswordModalContent.confirmPasswordPlaceholder
+                }
+              />
+              <FormLayoutFieldError
+                message={form.formState.errors.confirmPassword?.message}
+              />
+            </FormLayoutField>
+
+            <FormLayoutSubmit>
+              {createPasswordModalContent.submitLabel}
+            </FormLayoutSubmit>
+          </FormLayout>
+        </FormControl>
+      </ModalLayoutBody>
+    </ModalLayout>
   );
 }
