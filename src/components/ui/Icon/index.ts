@@ -40,3 +40,4 @@ export { default as ArrowRightIcon } from "./ArrowRightIcon";
 export { default as FlaskIcon } from "./FlaskIcon";
 export { default as ScanFaceIcon } from "./ScanFaceIcon";
 export { default as UploadFileIcon } from "./UploadFileIcon";
+export { default as UserGroupIcon } from "./UserGroupIcon";
