@@ -1,5 +1,5 @@
 import PageHeader from "@/components/common/Appbar/PageHeader";
-import { UserIcon,CardIcon } from "@/components/ui/Icon";
+import { UserIcon, CardIcon, UserGroupIcon } from "@/components/ui/Icon";
 import {
   Header,
   Main,
@@ -33,8 +33,12 @@ function layout({ children }: PropsWithChildren) {
                 {"مشخصات کاربری"}
               </PageSubNavigationLink>
               <PageSubNavigationLink href={ROUTES.PROFILE.BANKS}>
-                <CardIcon/>
+                <CardIcon />
                 {"اطلاعات بانکی"}
+              </PageSubNavigationLink>
+              <PageSubNavigationLink href={ROUTES.PROFILE.COMPANIES}>
+                <UserGroupIcon />
+                {"شرکت ها"}
               </PageSubNavigationLink>
             </PageSubNavigation>
 

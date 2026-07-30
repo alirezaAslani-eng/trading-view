@@ -31,6 +31,7 @@ export const ROUTES = {
     ROOT: "/panel/profile",
     OVERIVIEW: "/panel/profile/overview",
     BANKS: "/panel/profile/banks",
+    COMPANIES: "/panel/profile/companies",
   },
 
   PRODUCTS: {
