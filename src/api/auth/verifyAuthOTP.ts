@@ -4,6 +4,7 @@ import { VerifyAuthOTPSchemaType } from "@/validations/types";
 import { VerifyAuthOTPResponse } from "@/api/types";
 import { sharedRequestInit } from "../sharedRequestInit";
 import mutationFetch from "@/utils/app/mutationFetch";
+import { BaseApiResponse } from "@/types";
 
 const URL = `${process.env.NEXT_PUBLIC_BASEURL}/api/v1/auth/login-cookie`;
 
@@ -23,9 +24,11 @@ async function verifyAuthOTP(
     return res;
   })) as Response;
 
-  const data = (await handleApiResponse(res)) as VerifyAuthOTPResponse;
+  const data = (await handleApiResponse(
+    res,
+  )) as BaseApiResponse<VerifyAuthOTPResponse>;
 
-  return data;
+  return data.data;
 }
 
 export default verifyAuthOTP;
