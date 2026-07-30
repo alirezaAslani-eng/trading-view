@@ -12,6 +12,7 @@ function AuthPageBackground() {
         sizes="100vh"
         priority
         quality={100}
+        unoptimized
         sx={{ zIndex: -2, objectFit: "cover" }}
       />
       {/* // * ------- gradient effect ------- */}
