@@ -1,5 +1,5 @@
 import { createMutationOptions } from "@/v2-architecture/src/shared/lib/react-query";
-import { kycL3Key, kycProgressKey } from "./keys";
+import { kycL3Key, kycProgressKey, workspacesKey } from "./keys";
 import {
   kycL3,
   KycL3Variables,
@@ -29,5 +29,15 @@ export const switchWorkSpaceConfig = createMutationOptions({
   onSuccess: () => queryClient.invalidateQueries(),
   mutationFn: (vars: SwitchWorkSpaceVariables) => {
     return switchWorkSpace({ body: vars });
+  },
+});
+
+export const createCompanyConfig = createMutationOptions({
+  mutationFn: (vars: SwitchWorkSpaceVariables) => {
+    return switchWorkSpace({ body: vars });
+  },
+  meta: {
+    successMessage: "حساب حقوقی با موفقیت ایجاد شد",
+    invalidates: [workspacesKey],
   },
 });
