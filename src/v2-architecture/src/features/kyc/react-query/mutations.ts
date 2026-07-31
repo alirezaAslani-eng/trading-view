@@ -1,8 +1,18 @@
 import { createMutationOptions } from "@/v2-architecture/src/shared/lib/react-query";
-import { kycL3Key, kycProgressKey, workspacesKey } from "./keys";
 import {
+  companyMembersKey,
+  kycL3Key,
+  kycProgressKey,
+  workspacesKey,
+} from "./keys";
+import {
+  addCompanyMember,
+  AddCompanyMemberVariables,
+  createCompany,
+  CreateCompanyVariables,
   kycL3,
   KycL3Variables,
+  removeCompanyMember,
   switchWorkSpace,
   SwitchWorkSpaceVariables,
 } from "../api";
@@ -33,11 +43,31 @@ export const switchWorkSpaceConfig = createMutationOptions({
 });
 
 export const createCompanyConfig = createMutationOptions({
-  mutationFn: (vars: SwitchWorkSpaceVariables) => {
-    return switchWorkSpace({ body: vars });
+  mutationFn: (vars: CreateCompanyVariables) => {
+    return createCompany({ body: vars });
   },
   meta: {
     successMessage: "حساب حقوقی با موفقیت ایجاد شد",
     invalidates: [workspacesKey],
+  },
+});
+
+export const addCompanyMemberConfig = createMutationOptions({
+  mutationFn: (vars: AddCompanyMemberVariables) => {
+    return addCompanyMember({ body: vars });
+  },
+  meta: {
+    successMessage: "عضو جدید با موفقیت اضافه شد",
+    invalidates: [companyMembersKey],
+  },
+});
+
+export const removeCompanyMemberConfig = createMutationOptions({
+  meta: {
+    successMessage: "عضو با موفقیت حذف شد",
+    invalidates: [companyMembersKey],
+  },
+  mutationFn: (id: string) => {
+    return removeCompanyMember({ params: { id } });
   },
 });

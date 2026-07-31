@@ -1,6 +1,10 @@
 import { queryOptions } from "@tanstack/react-query";
-import { kycProgressKey, workspacesKey } from "./keys";
-import { kycProgress, workspaces } from "../api";
+import {
+  companyMembersDynamicKey,
+  kycProgressKey,
+  workspacesKey,
+} from "./keys";
+import { companyMembers, kycProgress, workspaces } from "../api";
 
 export const kycProgressConfig = () =>
   queryOptions({
@@ -15,5 +19,13 @@ export const workspacesConfig = () =>
     queryKey: workspacesKey,
     queryFn: ({ signal }) => {
       return workspaces({ signal });
+    },
+  });
+
+export const companyMembersConfig = (companyId: string) =>
+  queryOptions({
+    queryKey: companyMembersDynamicKey(companyId),
+    queryFn: ({ signal }) => {
+      return companyMembers({ signal, params: { id: companyId } });
     },
   });
