@@ -48,7 +48,7 @@ function BankTableList() {
   const banksQuery = useQuery(queryConfig);
   const { checkAccess } = useKycGuard();
   const [modalState, setModalState] = useState<ModalState>();
-  const [selectedTab, setSelectedTab] = useState<TabState>("Ibans");
+  const [selectedTab, setSelectedTab] = useState<TabState>("banks");
 
   const handleTabChange = (ـ: any, newValue: string | null) => {
     if (!newValue) return;
@@ -80,7 +80,7 @@ function BankTableList() {
             </ToggleButton>
             <Divider orientation="vertical" flexItem />
             <ToggleButton value={"Ibans" satisfies TabState}>
-              {"شماره حساب"}
+              {"شماره شبا"}
             </ToggleButton>
           </ToggleTabGroup>
           {/* // * ----end---- Tabs -------- */}
