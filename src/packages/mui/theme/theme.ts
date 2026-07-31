@@ -63,6 +63,9 @@ const theme: ThemeOptions = {
       },
     },
     MuiSkeleton: {
+      defaultProps: {
+        animation: "pulse",
+      },
       styleOverrides: {
         root: ({ theme }) => ({
           backgroundColor: theme.palette.background.inputModal,
