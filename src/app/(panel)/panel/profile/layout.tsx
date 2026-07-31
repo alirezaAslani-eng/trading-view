@@ -36,7 +36,7 @@ function layout({ children }: PropsWithChildren) {
                 <CardIcon />
                 {"اطلاعات بانکی"}
               </PageSubNavigationLink>
-              <PageSubNavigationLink href={ROUTES.PROFILE.COMPANIES}>
+              <PageSubNavigationLink href={ROUTES.COMPANIES.ROOT} exact={false}>
                 <UserGroupIcon />
                 {"شرکت ها"}
               </PageSubNavigationLink>

@@ -33,6 +33,10 @@ export const ROUTES = {
     BANKS: "/panel/profile/banks",
     COMPANIES: "/panel/profile/companies",
   },
+  COMPANIES: {
+    ROOT: "/panel/profile/companies",
+    COMPANY_INFO: (id: number | string) => `/panel/profile/companies/${id}`,
+  },
 
   PRODUCTS: {
     ROOT: "/admin/products",
