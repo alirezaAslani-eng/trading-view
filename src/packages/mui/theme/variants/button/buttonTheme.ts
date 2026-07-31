@@ -80,6 +80,14 @@ function buttonTheme({
           color: theme.palette.text.onPrimary,
         },
       } satisfies ButtonThemeReturn,
+      outlined: {
+        rootTheme: {
+          backgroundColor: "transparent",
+          color: theme.palette.text.error,
+          borderColor: theme.palette.border.error,
+          border: "1px solid",
+        },
+      } satisfies ButtonThemeReturn,
     },
   };
 
