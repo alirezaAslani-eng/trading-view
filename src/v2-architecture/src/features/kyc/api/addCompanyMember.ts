@@ -1,4 +1,5 @@
 import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
+import { AddCompanyMemberSchema } from "@/validations/kyc/addCompanyMemberSchema";
 
 const url = (body: AddCompanyMemberVariables) =>
   apiClient.authBaseURL(`/api/v1/workspaces/${body.companyId}/members`);
@@ -16,9 +17,7 @@ export const addCompanyMember = async ({
 
 //#region // * ------------ Shared types ------------
 export type AddCompanyMemberData = void; // * the api doesn't return anything
-export interface AddCompanyMemberVariables {
-  companyId: string;
-}
+export interface AddCompanyMemberVariables extends AddCompanyMemberSchema {}
 //#endregion // * ------------ Shared types ------------
 
 //#region // * ------------ Internal types ------------
