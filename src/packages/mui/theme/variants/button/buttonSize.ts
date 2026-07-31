@@ -11,6 +11,7 @@ function buttonSize({ size, theme }: ButtonSizeProps) {
         fontSize: typography.button4.fontSize,
         fontFamily: typography.button4.fontFamily,
         lineHeight: typography.button4?.lineHeight,
+        gap: "2px",
       },
     } satisfies ButtonSizeReturn,
     medium: {
@@ -20,6 +21,7 @@ function buttonSize({ size, theme }: ButtonSizeProps) {
         padding: "0px 16px",
         fontSize: typography.button2.fontSize,
         fontFamily: typography.button2.fontFamily,
+        gap: "4px",
       },
     } satisfies ButtonSizeReturn,
     large: {
@@ -30,6 +32,7 @@ function buttonSize({ size, theme }: ButtonSizeProps) {
         fontSize: typography.button2.fontSize,
         fontFamily: typography.button2.fontFamily,
         lineHeight: typography.button2?.lineHeight,
+        gap: "6px",
       },
     } satisfies ButtonSizeReturn,
   };
