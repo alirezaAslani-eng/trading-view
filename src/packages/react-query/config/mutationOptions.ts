@@ -1,4 +1,4 @@
-import { kycL1, addShaba, enableDemo } from "@/api";
+import { kycL1, addShaba, enableDemo, KycL1Variables } from "@/api";
 import addCard from "@/api/bank/addcard";
 import { deposit } from "@/api";
 import addgroup from "@/api/group/addGroup";
@@ -71,7 +71,9 @@ const verifyAuthOTPConfig = createMutationOptions({
 
 const kycLevel1Config = createMutationOptions({
   mutationKey: kycLevel1Key,
-  mutationFn: kycL1,
+  mutationFn: (vars: KycL1Variables) => {
+    return kycL1({ body: vars });
+  },
   meta: {
     invalidates: [kycStatusKey, dashboardInfoKey, kycProgressKey],
   },
@@ -215,7 +217,7 @@ type AppMutationOptions<
   TData,
   TError = DefaultError,
   TVariables = void,
-  TContext = unknown
+  TContext = unknown,
 > = Omit<UseMutationOptions<TData, TError, TVariables, TContext>, "meta"> & {
   meta?: MutationMeta;
   extraInvalidates?: QueryKey[];
@@ -225,10 +227,10 @@ function createMutationOptions<
   TData,
   TError = DefaultError,
   TVariables = void,
-  TContext = unknown
+  TContext = unknown,
 >(base: UseMutationOptions<TData, TError, TVariables, TContext>) {
   const overridableMutation = (
-    overrides: AppMutationOptions<TData, TError, TVariables, TContext> = {}
+    overrides: AppMutationOptions<TData, TError, TVariables, TContext> = {},
   ): UseMutationOptions<TData, TError, TVariables, TContext> => {
     return {
       ...base,

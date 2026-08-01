@@ -4,7 +4,7 @@ export { default as getBankAccounts } from "./bank/getBankAccounts";
 export { default as addShaba } from "./bank/addShaba";
 export { default as deleteBankAccount } from "./bank/deleteBankAccount";
 export { default as kycStatus } from "./kyc/kycStatus";
-export { default as kycL1 } from "./kyc/kycL1";
+export { type KycL1Data, type KycL1Variables, kycL1 } from "./kyc/kycL1";
 export { default as kycL2 } from "./kyc/kycL2";
 export { default as dashboardInfo } from "./user/dashboardInfo";
 export { default as walletPortfolio } from "./wallet/walletPortfolio";

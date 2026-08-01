@@ -1,56 +1,45 @@
-import fetchHandler from "@/utils/app/fetchHandler";
-import handleApiResponse from "@/utils/app/handleApiResponse";
-import { KycL1RequestBody } from "@/api/types";
-import { sharedRequestInit } from "../sharedRequestInit";
-import mutationFetch from "@/utils/app/mutationFetch";
-const URL = (isCompany: boolean) => {
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/kyc/level1${
-    isCompany ? "/company" : ""
-  }`;
+// --- kycL1 ---
+
+import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
+import { KycL1Schema } from "@/validations/kyc/kycL1Schema";
+
+const url = apiClient.authBaseURL("/api/v1/kyc/level1");
+
+export const kycL1 = async ({ signal, body }: Config): Promise<KycL1Data> => {
+  const res = await apiClient.post(url, {
+    signal,
+    body: JSON.stringify(transformBody(body)),
+  });
+  return apiError.jsonHandler(res);
 };
 
-async function kycL1(body: KycL1RequestBody): Promise<void> {
-  const res = (await fetchHandler(async () => {
-    const res = await mutationFetch(URL(body.isCompany), {
-      ...sharedRequestInit,
-      method: "POST",
-      body: JSON.stringify(transformBody(body)),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return res;
-  })) as Response;
-
-  await handleApiResponse(res);
-}
-
-export default kycL1;
-
-function transformBody(body: KycL1RequestBody) {
+function transformBody(body: KycL1Variables) {
   return {
-    ...(body.isCompany
-      ? {
-          companyNationalId: body.nationalId,
-        }
-      : {
-          nationalId: body.nationalId,
-          birthDateShamsi: formatShamsiDate(
-            body.birthYear,
-            body.birthMonth,
-            body.birthDay
-          ),
-        }),
+    nationalId: body.nationalId,
+    birthDateShamsi: formatShamsiDate(
+      body.birthYear,
+      body.birthMonth,
+      body.birthDay,
+    ),
   };
 }
 
 function formatShamsiDate(
   year: number | string,
   month: number | string,
-  day: number | string
+  day: number | string,
 ): string {
   function pad2(value: number | string): string {
     return String(value).padStart(2, "0");
   }
   return `${year}/${pad2(month)}/${pad2(day)}`;
 }
+
+//#region // * ------------ Shared types ------------
+export type KycL1Data = void; // * the api doesn't return anything
+export type KycL1Variables = KycL1Schema;
+//#endregion // * ------------ Shared types ------------
+
+//#region // * ------------ Internal types ------------
+type Config = ApiConfig<{ body: KycL1Variables }>;
+//#endregion // * ------------ Internal types ------------

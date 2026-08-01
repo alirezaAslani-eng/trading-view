@@ -1,17 +1,13 @@
-import {  discriminatedUnion, literal, object, string } from "zod";
+import { type infer as Infer, object, string } from "zod";
 import isValidNationalCodeFormat from "@/utils/features/identification/isValidNationalCodeFormat";
+
 const inValidDateError = "تاریخ معتبر نیست";
 const invalidNationalError = "کد ملی نا معتبر";
 
-
-const companySchema = object({
-  isCompany: literal(true),
-  nationalId: string(invalidNationalError).regex(/^\d+$/, invalidNationalError),
-});
-
-const personSchema = object({
-  isCompany: literal(false),
-  nationalId: string(invalidNationalError).regex(/^\d+$/, invalidNationalError),
+export const kycL1Schema = object({
+  nationalId: string(invalidNationalError)
+    .regex(/^\d+$/, invalidNationalError)
+    .refine((v) => isValidNationalCodeFormat(v), invalidNationalError),
   birthYear: string(inValidDateError).regex(/^\d+$/, inValidDateError),
   birthDay: string(inValidDateError)
     .regex(/^\d+$/, inValidDateError)
@@ -26,6 +22,4 @@ const personSchema = object({
     }),
 });
 
-const kvcL1Schema = discriminatedUnion("isCompany", [companySchema, personSchema]);
-
-export default kvcL1Schema;
+export type KycL1Schema = Infer<typeof kycL1Schema>;

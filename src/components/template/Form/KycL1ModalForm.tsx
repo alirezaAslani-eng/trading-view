@@ -2,8 +2,7 @@
 import { DAYS, MONTHS, YEARS } from "@/constant/app/date";
 import { kycLevel1Config, kycStatusConfig } from "@/packages/react-query";
 import safeAsync from "@/utils/app/safeAsync";
-import kvcL1Schema from "@/validations/kyc/kycL1Schema";
-import { KycL1SchemaInput, KycL1SchemaOutput } from "@/validations/types";
+import { kycL1Schema, KycL1Schema } from "@/validations/kyc/kycL1Schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -14,7 +13,6 @@ import InputText from "@/components/ui/Input/InputText";
 import { kycContent } from "@/content/kyc";
 import { LockIcon } from "@/components/ui/Icon";
 import InputMarker from "@/components/ui/Marker/InputMarker";
-import CheckBox from "@/components/ui/Checkbox/CheckBox";
 import { FormControl } from "@mui/material";
 import {
   InputSelect,
@@ -24,7 +22,6 @@ import {
 import {
   FormLayout,
   FormLayoutAlert,
-  FormLayoutCheckboxGroup,
   FormLayoutField,
   FormLayoutFieldGroup,
   FormLayoutLable,
@@ -42,7 +39,6 @@ const kycStatusConfig_ = kycStatusConfig();
 
 const defaultValues = {
   nationalId: "",
-  isCompany: false,
   birthDay: "",
   birthMonth: "",
   birthYear: "",
@@ -54,24 +50,18 @@ function KycL1ModalForm() {
   const dispatch = useDispatch();
 
   const kycL1Mutation = useMutation(
-    kycLevel1Config({ onSuccess: () => dispatch(successKyc()) })
+    kycLevel1Config({ onSuccess: () => dispatch(successKyc()) }),
   );
 
-  const onSubmit: SubmitHandler<KycL1SchemaOutput> = async (fields) => {
-    await promiseAlert(
-      safeAsync(async () => {
-        await kycL1Mutation.mutateAsync(fields);
-      }),
-      { loading: kycContent.kycL1LoadingAlert }
-    );
+  const onSubmit: SubmitHandler<KycL1Schema> = async (fields) => {
+    await safeAsync(() => kycL1Mutation.mutateAsync(fields));
   };
 
-  const form = useForm<KycL1SchemaInput>({
-    resolver: zodResolver(kvcL1Schema),
+  const form = useForm({
+    resolver: zodResolver(kycL1Schema),
     defaultValues,
   });
 
-  const isCompany = form.watch("isCompany");
   return (
     <ModalLayout>
       <ModalLayoutHeading>
@@ -86,26 +76,19 @@ function KycL1ModalForm() {
         <FormControl disabled={form.formState.isSubmitting}>
           <FormLayout onSubmit={form.handleSubmit(onSubmit)}>
             <FormLayoutAlert>
-              {isCompany
-                ? kycContent.kycL1CompanyTypeFormAlert
-                : kycContent.kycL1UserTypeFormAlert}
+              {kycContent.kycL1UserTypeFormAlert}
             </FormLayoutAlert>
+
             <FormLayoutFieldGroup>
               {/* // * ----------- National Id ----------- */}
               <FormLayoutField>
                 <FormLayoutLable>
-                  {isCompany
-                    ? kycContent.kycL1CompanyIdLabel
-                    : kycContent.kycL1NationalIdLabel}
+                  {kycContent.kycL1NationalIdLabel}
                 </FormLayoutLable>
                 <InputText
                   error={!!form.formState.errors?.nationalId?.message}
                   {...form.register("nationalId")}
-                  placeholder={
-                    isCompany
-                      ? kycContent.kycL1CompanyIdPlaceholder
-                      : kycContent.kycL1NationalIdPlaceholder
-                  }
+                  placeholder={kycContent.kycL1NationalIdPlaceholder}
                 />
               </FormLayoutField>
 
@@ -114,10 +97,7 @@ function KycL1ModalForm() {
                 <FormLayoutLable>
                   {kycContent.kycL1PhoneNumberLabel}
                 </FormLayoutLable>
-                <InputMarker
-                  icon={<LockIcon fontSize="small" />}
-                  left="12px" // یا right="12px" بسته به محل نمایش
-                >
+                <InputMarker icon={<LockIcon fontSize="small" />} left="12px">
                   <InputText
                     placeholder="شماره موبایل خود را وارد کنید"
                     disabled
@@ -142,7 +122,6 @@ function KycL1ModalForm() {
                         <InputSelect
                           error={!!fieldState.error?.message}
                           placeholder={kycContent.kycL1BirthYearPlaceholder}
-                          disabled={isCompany}
                           {...field}
                         >
                           <InputSelectMenu>
@@ -169,7 +148,6 @@ function KycL1ModalForm() {
                         <InputSelect
                           error={!!fieldState.error?.message}
                           placeholder={kycContent.kycL1BirthMonthPlaceholder}
-                          disabled={isCompany}
                           {...field}
                         >
                           <InputSelectMenu>
@@ -196,7 +174,6 @@ function KycL1ModalForm() {
                         <InputSelect
                           error={!!fieldState.error?.message}
                           placeholder={kycContent.kycL1BirthDayPlaceholder}
-                          disabled={isCompany}
                           {...field}
                         >
                           <InputSelectMenu>
@@ -215,36 +192,6 @@ function KycL1ModalForm() {
                 </FormLayoutField>
               </FormLayoutFieldGroup>
             </FormLayoutField>
-
-            {/* // * ------------- Checkbox ------------- */}
-            <FormLayoutCheckboxGroup>
-              <Controller
-                control={form.control}
-                name="isCompany"
-                render={({ field, formState }) => {
-                  return (
-                    <>
-                      <CheckBox
-                        checked={field.value}
-                        label="حقوقی"
-                        disabled={formState.isSubmitting}
-                        onChange={({ target: { checked } }) => {
-                          if (checked) field.onChange(true);
-                        }}
-                      />
-                      <CheckBox
-                        checked={!field.value}
-                        label="حقیقی"
-                        disabled={formState.isSubmitting}
-                        onChange={({ target: { checked } }) => {
-                          if (checked) field.onChange(false);
-                        }}
-                      />
-                    </>
-                  );
-                }}
-              />
-            </FormLayoutCheckboxGroup>
 
             <FormLayoutSubmit>
               {kycContent.upgradeKycSubmitButton}
