@@ -64,7 +64,7 @@ const roleContent = {
   },
 } as const;
 
-function page() {
+export default function page() {
   const [companyModal, setCompanyModal] = useState(false);
 
   //#region // * ------------ Workspaces Data ------------
@@ -130,7 +130,6 @@ function page() {
   );
 }
 
-export default page;
 
 //#region // * ------------ Internal components ------------
 
@@ -191,14 +190,14 @@ function WorkspaceAccountItem({
         )}
 
         <Button
-          variant={false ? "contained" : "on-surface"}
+          variant={workspace.isActive ? "contained" : "on-surface"}
           size="small"
-          disabled={false || isSwitching}
+          disabled={workspace.isActive || isSwitching}
           onClick={onSwitch}
           sx={{ gap: "6px" }}
         >
           {isSwitching && <BouncCircleLoader bounceSx={{ width: "6px" }} />}
-          {!isSwitching && (false ? "فعال" : "سوییچ به این حساب")}
+          {!isSwitching && (workspace.isActive ? "فعال" : "سوییچ به این حساب")}
         </Button>
       </Stack>
     </Box>

@@ -12,6 +12,7 @@ export type WorkspacesData = {
   companyName: string;
   companyNationalId: string;
   myRole: MyCompanyRole;
+  isActive: boolean;
 }[];
 
 const FAKE_WORKSPACES: WorkspacesData = [
@@ -20,18 +21,21 @@ const FAKE_WORKSPACES: WorkspacesData = [
     companyName: "شرکت آریا تجارت",
     companyNationalId: "14007654321",
     myRole: MY_COMPANY_ROLE.owner,
+    isActive: true,
   },
   {
     companyId: "2",
     companyName: "بازرگانی پارسیان",
     companyNationalId: "14009876543",
     myRole: MY_COMPANY_ROLE.trader,
+    isActive: false,
   },
   {
     companyId: "3",
     companyName: "هلدینگ سپهر نوین",
     companyNationalId: "14001122334",
     myRole: MY_COMPANY_ROLE.owner,
+    isActive: false,
   },
 ];
 
