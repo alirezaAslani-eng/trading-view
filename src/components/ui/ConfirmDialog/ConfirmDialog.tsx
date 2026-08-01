@@ -2,15 +2,13 @@
 import { Box, IconButton, styled } from "@mui/material";
 import { CloseIcon } from "../Icon";
 import { ConfirmDialogColor, confirmDialogTheme } from "./styles";
-import { ComponentProps, CSSProperties } from "react";
+import { ComponentProps, CSSProperties, ReactNode } from "react";
 import { ModalLayout } from "../Layout/ModalLayout";
-
 
 const Root = styled(ModalLayout, {
   shouldForwardProp: (prop) => prop !== "color",
 })<{ color?: ConfirmDialogColor }>(({ theme, color = "success" }) => {
-
-  const dialog_theme = confirmDialogTheme({ theme, color })
+  const dialog_theme = confirmDialogTheme({ theme, color });
   return {
     position: "relative",
     width: "490px",
@@ -25,9 +23,9 @@ const Root = styled(ModalLayout, {
     "& .ConfirmDialog-icon": {
       ...dialog_theme.iconTheme,
       borderRadius: "16px",
-      "svg": {
-        color: dialog_theme.iconTheme?.color
-      }
+      svg: {
+        color: dialog_theme.iconTheme?.color,
+      },
     },
 
     "& .ConfirmDialog-action > button": {
@@ -40,16 +38,23 @@ const Root = styled(ModalLayout, {
     },
     "& .ConfirmDialog-action > button:last-of-type": {
       backgroundColor: "transparent",
-      color: theme.palette.text.onPrimary
+      color: theme.palette.text.onPrimary,
     } as CSSProperties,
   };
 });
 
-interface ConfirmDialogProps extends ComponentProps<typeof Root> {
+export interface ConfirmDialogProps extends ComponentProps<typeof Root> {
   children: React.ReactNode;
   onClose?: () => void;
 }
-
+export type ConfirmDialogPromiseProps = {
+  title?: string;
+  description?: string;
+  color?: ConfirmDialogProps["color"];
+  acceptText?: string;
+  rejectText?: string;
+  icon?: ReactNode;
+};
 
 export default function ConfirmDialog({
   children,
