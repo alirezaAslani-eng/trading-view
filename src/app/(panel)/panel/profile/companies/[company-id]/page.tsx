@@ -48,6 +48,8 @@ import {
   AddCompanyMemberSchema,
   addCompanyMemberSchema,
 } from "@/validations/kyc/addCompanyMemberSchema";
+import NiceModal from "@ebay/nice-modal-react";
+import { GenericConfirmDialog } from "@/packages/nice-modal-react";
 
 function CompanyMembersPage() {
   const params = useParams();
@@ -63,6 +65,12 @@ function CompanyMembersPage() {
 
   //#region // * ------------ Members Mutation ------------
   const removeMutation = useMutation(removeCompanyMemberConfig());
+  const removeHandler = async (id: string) => {
+    const result = await NiceModal.show(GenericConfirmDialog, {
+      color: "error",
+    });
+    if (!!result) removeMutation.mutate(id);
+  };
   //#endregion // * ------------ Members Mutation ------------
 
   //#region // * ------------ Add Member Modal ------------
@@ -106,7 +114,7 @@ function CompanyMembersPage() {
                 <CompanyMemberItem
                   key={member.id}
                   member={member}
-                  onRemove={() => removeMutation.mutate(member.id)}
+                  onRemove={removeHandler}
                   isRemoving={
                     removeMutation.isPending &&
                     removeMutation.variables === member.id
@@ -213,7 +221,7 @@ type CompanyMemberItemProps = {
     nationalCode: string;
   };
   isRemoving: boolean;
-  onRemove: () => void;
+  onRemove: (id: string) => void;
 };
 
 function CompanyMemberItem({
@@ -256,7 +264,7 @@ function CompanyMemberItem({
         variant="outlined"
         size="small"
         disabled={isRemoving}
-        onClick={onRemove}
+        onClick={() => onRemove(member.id)}
       >
         <DeleteIcon sx={{ color: "inherit" }} />
         {isRemoving ? "در حال حذف..." : "حذف معامله گر"}
