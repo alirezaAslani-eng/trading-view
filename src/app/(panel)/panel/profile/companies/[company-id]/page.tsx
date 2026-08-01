@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import {
   Box,
+  Chip,
   Dialog,
   FormControl,
   Skeleton,
@@ -15,7 +16,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/components/ui/Button/Button";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import ScrollContainer from "@/components/ui/ScrollContainer/ScrollContainer";
-import { WorkspacesData } from "@/v2-architecture/src/features/kyc/api";
+import {
+  CompanyMembersData,
+  MY_COMPANY_ROLE,
+  WorkspacesData,
+} from "@/v2-architecture/src/features/kyc/api";
 import { AddIcon, ArrowRightIcon, DeleteIcon } from "@/components/ui/Icon";
 import {
   addCompanyMemberConfig,
@@ -50,6 +55,8 @@ import {
 } from "@/validations/kyc/addCompanyMemberSchema";
 import NiceModal from "@ebay/nice-modal-react";
 import { GenericConfirmDialog } from "@/packages/nice-modal-react";
+import { convertToJalali } from "@/packages/dayjs";
+import { JALALI_FORMAT } from "@/constant/app/date";
 
 function CompanyMembersPage() {
   const params = useParams();
@@ -65,11 +72,11 @@ function CompanyMembersPage() {
 
   //#region // * ------------ Members Mutation ------------
   const removeMutation = useMutation(removeCompanyMemberConfig());
-  const removeHandler = async (id: string) => {
+  const removeHandler = async (employeeId: string) => {
     const result = await NiceModal.show(GenericConfirmDialog, {
       color: "error",
     });
-    if (!!result) removeMutation.mutate(id);
+    if (!!result) removeMutation.mutate(employeeId);
   };
   //#endregion // * ------------ Members Mutation ------------
 
@@ -112,12 +119,12 @@ function CompanyMembersPage() {
             <Stack spacing={2}>
               {data?.map((member) => (
                 <CompanyMemberItem
-                  key={member.id}
+                  key={member.employeeId}
                   member={member}
                   onRemove={removeHandler}
                   isRemoving={
                     removeMutation.isPending &&
-                    removeMutation.variables === member.id
+                    removeMutation.variables === member.employeeId
                   }
                 />
               ))}
@@ -213,15 +220,16 @@ function AddCompanyMemberModalForm({
     </Dialog>
   );
 }
+
+const roleContent = {
+  [MY_COMPANY_ROLE.owner]: { label: "مالک", color: "primary" },
+  [MY_COMPANY_ROLE.trader]: { label: "معامله‌گر", color: "default" },
+} as const;
+
 type CompanyMemberItemProps = {
-  member: {
-    id: string;
-    name: string;
-    phoneNumber: string;
-    nationalCode: string;
-  };
+  member: CompanyMembersData[number];
   isRemoving: boolean;
-  onRemove: (id: string) => void;
+  onRemove: (employeeId: string) => void;
 };
 
 function CompanyMemberItem({
@@ -229,6 +237,8 @@ function CompanyMemberItem({
   isRemoving,
   onRemove,
 }: CompanyMemberItemProps) {
+  const role = roleContent[member.role];
+
   return (
     <Box
       sx={{
@@ -244,9 +254,17 @@ function CompanyMemberItem({
       }}
     >
       <Stack sx={{ gap: "6px" }}>
-        <Typography variant="button1" sx={{ color: "text.heading" }}>
-          {member.name}
-        </Typography>
+        <Stack direction="row" sx={{ alignItems: "center", gap: "8px" }}>
+          <Typography variant="button1" sx={{ color: "text.heading" }}>
+            {member.fullName}
+          </Typography>
+          <Chip
+            label={role.label}
+            size="small"
+            color={role.color}
+            sx={{ height: "22px" }}
+          />
+        </Stack>
 
         <Typography variant="body3" sx={{ color: "text.secondary" }}>
           {"شماره تلفن: "}
@@ -254,8 +272,8 @@ function CompanyMemberItem({
         </Typography>
 
         <Typography variant="body3" sx={{ color: "text.secondary" }}>
-          {"کد ملی: "}
-          {member.nationalCode}
+          {"تاریخ عضویت: "}
+          {convertToJalali(member.joinedAt).format(JALALI_FORMAT)}
         </Typography>
       </Stack>
 
@@ -264,7 +282,7 @@ function CompanyMemberItem({
         variant="outlined"
         size="small"
         disabled={isRemoving}
-        onClick={() => onRemove(member.id)}
+        onClick={() => onRemove(member.employeeId)}
       >
         <DeleteIcon sx={{ color: "inherit" }} />
         {isRemoving ? "در حال حذف..." : "حذف معامله گر"}
