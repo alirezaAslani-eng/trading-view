@@ -12,6 +12,8 @@ import {
   CreateCompanyVariables,
   kycL3,
   KycL3Variables,
+  kycMergeAccount,
+  KycMergeAccountVariables,
   removeCompanyMember,
   RemoveCompanyMemberParams,
   switchWorkSpace,
@@ -72,5 +74,13 @@ export const removeCompanyMemberConfig = createMutationOptions({
     return removeCompanyMember({ params });
   },
 });
+
+export const kycMergeAccountConfig = createMutationOptions({
+  mutationFn: (vars: KycMergeAccountVariables) => {
+    return kycMergeAccount({ body: vars });
+  },
+  // OPTIMIZE : reset only the needed chaches !
+  onSuccess() {
+    queryClient.resetQueries();
   },
 });
