@@ -5,8 +5,8 @@ export interface SigninVariables extends SigninSchema {}
 
 const URL = apiClient.baseURL("/api/v1/auth/login-password");
 
-export const signin = async ({ signal }: Config): Promise<void> => {
-  const res = await apiClient.get(URL, { signal });
+export const signin = async ({ signal, body }: Config): Promise<void> => {
+  const res = await apiClient.post(URL, { signal, body: JSON.stringify(body) });
   await apiError.jsonHandler(res);
 };
 
