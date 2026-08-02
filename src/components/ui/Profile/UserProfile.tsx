@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 import { useQuery } from "@tanstack/react-query";
 import { dashboardInfoConfig } from "@/packages/react-query";
+import { userAvatarConfig } from "@/v2-architecture/src/features/user/react-query";
 
 function UserProfile(boxProps: ReplaceSxWithSxOnlyObject<BoxProps>) {
   return (
@@ -19,9 +20,12 @@ function UserProfile(boxProps: ReplaceSxWithSxOnlyObject<BoxProps>) {
   );
 }
 function UserProfileImage(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
-  const query = useQuery(dashboardInfoConfig());
+  const dashboardQuery = useQuery(dashboardInfoConfig());
+  const avatarQuery = useQuery(userAvatarConfig());
   const [isError, setIsError] = useState(false);
-  const { avatarUrl, fullName } = query.data || {};
+
+  const { fullName } = dashboardQuery.data || {};
+  const avatarUrl = avatarQuery.data;
 
   return (
     <Box
