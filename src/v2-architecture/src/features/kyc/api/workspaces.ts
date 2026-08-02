@@ -1,4 +1,9 @@
-import { ApiConfig } from "@/v2-architecture/src/api";
+import {
+  apiClient,
+  ApiConfig,
+  apiError,
+  BaseApiResponse,
+} from "@/v2-architecture/src/api";
 
 export const MY_COMPANY_ROLE = {
   owner: "Owner",
@@ -15,36 +20,12 @@ export type WorkspacesData = {
   isActive: boolean;
 }[];
 
-const FAKE_WORKSPACES: WorkspacesData = [
-  {
-    companyId: "1",
-    companyName: "شرکت آریا تجارت",
-    companyNationalId: "14007654321",
-    myRole: MY_COMPANY_ROLE.owner,
-    isActive: true,
-  },
-  {
-    companyId: "2",
-    companyName: "بازرگانی پارسیان",
-    companyNationalId: "14009876543",
-    myRole: MY_COMPANY_ROLE.trader,
-    isActive: false,
-  },
-  {
-    companyId: "3",
-    companyName: "هلدینگ سپهر نوین",
-    companyNationalId: "14001122334",
-    myRole: MY_COMPANY_ROLE.owner,
-    isActive: false,
-  },
-];
+const url = apiClient.authBaseURL("/api/v1/workspaces");
 
 export const workspaces = async ({
   signal,
 }: ApiConfig = {}): Promise<WorkspacesData> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(FAKE_WORKSPACES);
-    }, 1200); // شبیه‌سازی تاخیر شبکه
-  });
+  const res = await apiClient.get(url, { signal });
+  const raw = await apiError.jsonHandler<BaseApiResponse<WorkspacesData>>(res);
+  return raw.data;
 };
