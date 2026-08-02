@@ -37,9 +37,18 @@ export const kycL3Config = createMutationOptions({
 });
 
 export const switchWorkSpaceConfig = createMutationOptions({
-  meta: { successMessage: "حساب حقوقی با موفقیت تغییر کرد" },
+  meta: {
+    successMessage: "حساب حقوقی با موفقیت تغییر کرد",
+    invalidates: [workspacesKey],
+  },
   // OPTIMIZE : Dont clear the whole cache
-  onSuccess: () => queryClient.invalidateQueries(),
+  onSuccess: () => {
+    queryClient.resetQueries({
+      predicate(query) {
+        return query.queryKey?.[0] !== workspacesKey?.[0];
+      },
+    });
+  },
   mutationFn: (vars: SwitchWorkSpaceVariables) => {
     return switchWorkSpace({ body: vars });
   },
