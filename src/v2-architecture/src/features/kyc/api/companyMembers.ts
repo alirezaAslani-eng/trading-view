@@ -25,7 +25,7 @@ export const companyMembers = async ({
 export type CompanyMembersData = {
   employeeId: string;
   fullName: string;
-  phoneNumber: string;
+  phoneNumber: string | null;
   role: MyCompanyRole;
   joinedAt: string;
 }[];

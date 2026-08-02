@@ -270,9 +270,14 @@ function CompanyMemberItem({
           />
         </Stack>
 
-        <Typography variant="body3" sx={{ color: "text.secondary" }}>
+        <Typography
+          variant="body3"
+          sx={{
+            color: member.phoneNumber ? "text.secondary" : "status.warning",
+          }}
+        >
           {"شماره تلفن: "}
-          {member.phoneNumber}
+          {member.phoneNumber ?? "هنوز در پلتفرم ثبت‌نام نکرده"}
         </Typography>
 
         <Typography variant="body3" sx={{ color: "text.secondary" }}>
