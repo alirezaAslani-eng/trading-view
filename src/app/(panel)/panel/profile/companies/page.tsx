@@ -98,6 +98,7 @@ export default function page() {
         <FallbackHandler
           isError={isError}
           isLoading={isLoading}
+          dataLength={data?.length}
           fallbacks={{
             loader: <LoadingFallback />,
             noData: <NoDataFallback />,
@@ -129,7 +130,6 @@ export default function page() {
     </PagePaper>
   );
 }
-
 
 //#region // * ------------ Internal components ------------
 
