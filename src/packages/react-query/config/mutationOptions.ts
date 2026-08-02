@@ -59,6 +59,7 @@ import { kycMergeAccount } from "@/v2-architecture/src/features/kyc/api";
 import { show } from "@ebay/nice-modal-react";
 import { GenericConfirmDialog } from "@/packages/nice-modal-react";
 import { apiError } from "@/v2-architecture/src/api";
+import queryClient from "../core/queryClient";
 
 const requestAuthOTPConfig = createMutationOptions({
   mutationKey: requestAuthOTPKey,
@@ -203,7 +204,15 @@ const assignPermissionsConfig = createMutationOptions({
 const logoutConfig = createMutationOptions({
   mutationKey: logoutKey,
   mutationFn: logout,
-  onSuccess: () => TradeModeStore.clearStore(),
+
+  onSuccess: () => {
+    //#region // * ----------------------
+    // FTD : `auth` imports `trade`
+    // ARCH : This piec of code has DRY
+    TradeModeStore.clearStore();
+    queryClient.resetQueries();
+    //#endregion // * ----------------------
+  },
   meta: {
     disableSuccessAlert: true,
   },

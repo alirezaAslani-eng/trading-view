@@ -6,6 +6,7 @@ import {
   signin,
   SigninVariables,
 } from "../api";
+import { queryClient } from "@/packages/react-query";
 
 export const createPasswordConfig = createMutationOptions({
   mutationFn: (vars: CreatePasswordVariables) => {
@@ -14,7 +15,10 @@ export const createPasswordConfig = createMutationOptions({
 });
 
 export const signinConfig = createMutationOptions({
-  onSuccess: () => TradeModeStore.clearStore(),
+  onSuccess: () => {
+    TradeModeStore.clearStore();
+    queryClient.resetQueries();
+  },
   mutationFn: (vars: SigninVariables) => {
     return signin({ body: vars });
   },
