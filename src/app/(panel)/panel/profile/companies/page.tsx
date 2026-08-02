@@ -52,6 +52,8 @@ import {
 import InputText from "@/components/ui/Input/InputText";
 import NextLink from "@/components/ui/Link/NextLink";
 import { ROUTES } from "@/constant/app/routes";
+import useKycGuard from "@/hooks/features/kyc/useKycGuard";
+import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
 
 const roleContent = {
   [MY_COMPANY_ROLE.owner]: {
@@ -65,7 +67,18 @@ const roleContent = {
 } as const;
 
 export default function page() {
+  //#region // * ------------ Add Company Modal State ------------
   const [companyModal, setCompanyModal] = useState(false);
+  const { checkAccess } = useKycGuard();
+  const openCompanyModalHandler = () => {
+    if (!checkAccess(KYC_REQUIRED_LEVELS.createCompany)) return;
+    setCompanyModal(true);
+  };
+  const closeCompanyModalHandler = () => {
+    setCompanyModal(false);
+  };
+
+  //#endregion // * ------------ Add Company Modal State ------------
 
   //#region // * ------------ Workspaces Data ------------
   const { data, isLoading, isError } = useQuery(workspacesConfig());
@@ -87,7 +100,7 @@ export default function page() {
         <Button
           variant="on-surface"
           sx={{ gap: "4px" }}
-          onClick={() => setCompanyModal(true)}
+          onClick={openCompanyModalHandler}
         >
           <AddIcon />
           {"ایجاد شرکت"}

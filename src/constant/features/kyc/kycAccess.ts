@@ -5,6 +5,7 @@ const KYC_REQUIRED_LEVELS = {
   withdraw: KYC_LEVELS.LEVEL_1,
   deposit: KYC_LEVELS.LEVEL_1,
   bankAccount: KYC_LEVELS.LEVEL_1,
+  createCompany: KYC_LEVELS.LEVEL_1,
 } as const;
 
 export default KYC_REQUIRED_LEVELS;
