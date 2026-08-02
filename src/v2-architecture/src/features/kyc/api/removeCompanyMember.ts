@@ -3,7 +3,9 @@
 import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
 
 const url = (params: RemoveCompanyMemberParams) =>
-  apiClient.authBaseURL(`/api/v1/workspaces/${params.id}/members`);
+  apiClient.authBaseURL(
+    `/api/v1/workspaces/${params.companyId}/members/${params.employeeId}`,
+  );
 
 export const removeCompanyMember = async ({
   signal,
@@ -17,11 +19,12 @@ export const removeCompanyMember = async ({
 
 //#region // * ------------ Shared types ------------
 export type RemoveCompanyMemberData = void; // * the api doesn't return anything
+export interface RemoveCompanyMemberParams {
+  employeeId: string;
+  companyId: string;
+}
 //#endregion // * ------------ Shared types ------------
 
 //#region // * ------------ Internal types ------------
-interface RemoveCompanyMemberParams {
-  id: string;
-}
 type Config = ApiConfig<{ params: RemoveCompanyMemberParams }>;
 //#endregion // * ------------ Internal types ------------

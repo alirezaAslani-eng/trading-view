@@ -13,6 +13,7 @@ import {
   kycL3,
   KycL3Variables,
   removeCompanyMember,
+  RemoveCompanyMemberParams,
   switchWorkSpace,
   SwitchWorkSpaceVariables,
 } from "../api";
@@ -67,7 +68,9 @@ export const removeCompanyMemberConfig = createMutationOptions({
     successMessage: "عضو با موفقیت حذف شد",
     invalidates: [companyMembersKey],
   },
-  mutationFn: (id: string) => {
-    return removeCompanyMember({ params: { id } });
+  mutationFn: (params: RemoveCompanyMemberParams) => {
+    return removeCompanyMember({ params });
+  },
+});
   },
 });

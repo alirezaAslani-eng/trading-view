@@ -1,7 +1,7 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Box,
   Chip,
@@ -72,12 +72,16 @@ function CompanyMembersPage() {
 
   //#region // * ------------ Members Mutation ------------
   const removeMutation = useMutation(removeCompanyMemberConfig());
-  const removeHandler = async (employeeId: string) => {
-    const result = await NiceModal.show(GenericConfirmDialog, {
-      color: "error",
-    });
-    if (!!result) removeMutation.mutate(employeeId);
-  };
+
+  const removeHandler = useCallback(
+    async (employeeId: string) => {
+      const result = await NiceModal.show(GenericConfirmDialog, {
+        color: "error",
+      });
+      if (!!result) removeMutation.mutate({ employeeId, companyId });
+    },
+    [companyId],
+  );
   //#endregion // * ------------ Members Mutation ------------
 
   //#region // * ------------ Add Member Modal ------------
@@ -124,7 +128,7 @@ function CompanyMembersPage() {
                   onRemove={removeHandler}
                   isRemoving={
                     removeMutation.isPending &&
-                    removeMutation.variables === member.employeeId
+                    removeMutation.variables.employeeId === member.employeeId
                   }
                 />
               ))}
