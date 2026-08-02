@@ -4,7 +4,7 @@ export interface SwitchWorkSpaceVariables {
   companyId: string;
 }
 
-const URL = apiClient.baseURL("/api/v1/auth/switch-workspace");
+const URL = apiClient.authBaseURL("/api/v1/auth/switch-workspace");
 
 export const switchWorkSpace = async ({
   signal,
