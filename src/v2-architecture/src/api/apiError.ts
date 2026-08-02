@@ -93,6 +93,26 @@ class ApiError {
 
     return data as T;
   }
+  async blobHandler(res: Response): Promise<Blob | undefined> {
+    if (!res.ok) {
+      const data = await this.jsonParseHandler(res);
+      this.throwError(true, {
+        code: (data as any)?.errorCode,
+        message: (data as any)?.message ?? getFallbackErrorMessage(res.status),
+        status: res.status,
+        statusText: res.statusText,
+        details: data,
+      });
+    }
+
+    try {
+      const blob = await res.blob();
+      return blob;
+    } catch (err) {
+      console.warn("BLOB_PARSE_ERROR -> ", err);
+      return undefined;
+    }
+  }
 
   async requestHandler(fetcher: () => Promise<Response>) {
     try {
@@ -173,7 +193,3 @@ function getFallbackErrorMessage(status: number) {
   );
 }
 //#endregion // * ------------ Fallback Errors ------------
-
-
-
-
