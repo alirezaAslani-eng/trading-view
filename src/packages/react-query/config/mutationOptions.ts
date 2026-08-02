@@ -55,7 +55,10 @@ import {
 import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
 import { kycProgressKey } from "@/v2-architecture/src/features/kyc/react-query/keys";
 import safeAsync from "@/utils/app/safeAsync";
-import { kycMergeAccount } from "@/v2-architecture/src/features/kyc/api";
+import {
+  isKycMergeAccountError,
+  kycMergeAccount,
+} from "@/v2-architecture/src/features/kyc/api";
 import { show } from "@ebay/nice-modal-react";
 import { GenericConfirmDialog } from "@/packages/nice-modal-react";
 import { apiError } from "@/v2-architecture/src/api";
@@ -82,7 +85,7 @@ const kycLevel1Config = createMutationOptions({
   mutationFn: async (vars: KycL1Variables) => {
     const kycL1_res = await safeAsync(() => kycL1({ body: vars }));
     if (!kycL1_res.ok) {
-      if (true) {
+      if (isKycMergeAccountError(kycL1_res.error)) {
         const isConfirm = await show(GenericConfirmDialog, {
           color: "primary",
           title: "نیاز به ادغام حساب کاربری",
