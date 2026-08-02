@@ -26,7 +26,7 @@ const updateQueries = () => {
   [ordersKey, transactionsKey, walletProtfolioKey, orderBookKey].forEach(
     async (key) => {
       await queryClient.cancelQueries({ queryKey: key });
-      queryClient.invalidateQueries({ queryKey: key });
+      queryClient.resetQueries({ queryKey: key });
     }
   );
 };
