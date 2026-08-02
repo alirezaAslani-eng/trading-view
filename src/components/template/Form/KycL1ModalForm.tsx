@@ -1,12 +1,11 @@
 "use client";
 import { DAYS, MONTHS, YEARS } from "@/constant/app/date";
-import { kycLevel1Config, kycStatusConfig } from "@/packages/react-query";
+import { kycStatusConfig } from "@/packages/react-query";
 import safeAsync from "@/utils/app/safeAsync";
 import { kycL1Schema, KycL1Schema } from "@/validations/kyc/kycL1Schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { promiseAlert } from "@/packages/react-hot-toast";
 import { exitKycFlow, successKyc } from "@/redux/features/kyc";
 import { useDispatch } from "@/packages/redux";
 import InputText from "@/components/ui/Input/InputText";
@@ -34,6 +33,7 @@ import {
   ModalLayoutHeading,
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
+import { useKycL1Mutation } from "@/v2-architecture/src/features/kyc/hooks";
 
 const kycStatusConfig_ = kycStatusConfig();
 
@@ -49,9 +49,9 @@ function KycL1ModalForm() {
 
   const dispatch = useDispatch();
 
-  const kycL1Mutation = useMutation(
-    kycLevel1Config({ onSuccess: () => dispatch(successKyc()) }),
-  );
+  const kycL1Mutation = useKycL1Mutation({
+    onSuccess: () => dispatch(successKyc()),
+  });
 
   const onSubmit: SubmitHandler<KycL1Schema> = async (fields) => {
     await safeAsync(() => kycL1Mutation.mutateAsync(fields));
