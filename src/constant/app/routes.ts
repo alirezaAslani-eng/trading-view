@@ -33,6 +33,10 @@ export const ROUTES = {
     BANKS: "/panel/profile/banks",
     COMPANIES: "/panel/profile/companies",
   },
+  ROBOT: {
+    ROOT: "/admin/robot",
+    ROBOT_CONFIG: (symbol: string) => `/admin/robot/${symbol}`,
+  },
   COMPANIES: {
     ROOT: "/panel/profile/companies",
     COMPANY_INFO: (id: number | string) => `/panel/profile/companies/${id}`,

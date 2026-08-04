@@ -104,6 +104,13 @@ const sidebarNavigators: SidebarNavItem[] = [
     link: ROUTES.PROFILE.ROOT,
     submenus: [],
   },
+  {
+    id: "robot",
+    text: "ربات معامله گر",
+    icon: <UserIcon />,
+    link: ROUTES.ROBOT.ROBOT_CONFIG("REBAR"),
+    submenus: [],
+  },
 ];
 
 interface getSidebarNavigatorsConfig {
@@ -128,6 +135,6 @@ export type { SidebarNavItem, SidebarSubMenuItem };
 
 function StandardUserNavs(): SidebarNavItem[] {
   return sidebarNavigators.filter(
-    (nav) => !nav.link.startsWith(ROUTES.ADMIN.ROOT)
+    (nav) => !nav.link.startsWith(ROUTES.ADMIN.ROOT),
   );
 }
