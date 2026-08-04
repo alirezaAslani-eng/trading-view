@@ -1,5 +1,5 @@
 "use client";
-import { kycL1, addShaba, enableDemo, KycL1Variables } from "@/api";
+import { addShaba, enableDemo, KycL2Variables } from "@/api";
 import addCard from "@/api/bank/addcard";
 import { deposit } from "@/api";
 import addgroup from "@/api/group/addGroup";
@@ -81,7 +81,9 @@ const verifyAuthOTPConfig = createMutationOptions({
 
 const kycLevel2Config = createMutationOptions({
   mutationKey: kycLevel2Key,
-  mutationFn: kycL2,
+  mutationFn: (vars: KycL2Variables) => {
+    return kycL2({ body: vars });
+  },
   meta: {
     invalidates: [kycStatusKey, dashboardInfoKey, kycProgressKey],
   },

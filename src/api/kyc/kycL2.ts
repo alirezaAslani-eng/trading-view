@@ -1,35 +1,36 @@
-import fetchHandler from "@/utils/app/fetchHandler";
-import handleApiResponse from "@/utils/app/handleApiResponse";
+// --- kycL2 ---
+
+import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
 import { KycL2SchemaType } from "@/validations/types";
-import { KycL2Response } from "@/api/types";
-import { BaseApiResponse } from "@/types";
-import mutationFetch from "@/utils/app/mutationFetch";
 
-const URL = `${process.env.NEXT_PUBLIC_BASEURL}/api/v1/kyc/advanced/documents/upload`;
+const url = apiClient.authBaseURL("/api/v1/kyc/level2-info");
 
-async function kycL2(body: KycL2SchemaType): Promise<KycL2Response> {
-  const res = (await fetchHandler(async () => {
-    const res = await mutationFetch(URL, {
-      method: "POST",
-      body: getBody(body),
-    });
-    return res;
-  })) as Response;
+export const kycL2 = async ({ signal, body }: Config): Promise<KycL2Data> => {
+  const res = await apiClient.post(url, {
+    signal,
+    body: getBody(body),
+  });
+  return apiError.jsonHandler(res);
+};
 
-  const data = (await handleApiResponse(res)) as BaseApiResponse<KycL2Response>;
-
-  return data.data;
-}
-
-export default kycL2;
 // * Helpers
-function getBody(body: KycL2SchemaType): FormData {
+function getBody(body: KycL2Variables): FormData {
+  const { file, ...kyc_info } = body;
   const formData = new FormData();
-
-  body.file.forEach((file) => {
+  file.forEach((file) => {
     formData.append("file", file);
   });
-  formData.append("type", "NationalCard");
-
+  Object.keys(kyc_info).map((field) => {
+    formData.append(field, kyc_info[field as keyof typeof kyc_info]);
+  });
   return formData;
 }
+
+//#region // * ------------ Shared types ------------
+export type KycL2Data = void;
+export type KycL2Variables = KycL2SchemaType;
+//#endregion // * ------------ Shared types ------------
+
+//#region // * ------------ Internal types ------------
+type Config = ApiConfig<{ body: KycL2Variables }>;
+//#endregion // * ------------ Internal types ------------
