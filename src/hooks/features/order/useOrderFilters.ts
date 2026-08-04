@@ -3,6 +3,7 @@ import { UseOrderFiltersReturn } from "./types";
 import useFilter from "@/hooks/app/useFilter";
 import { dayjs } from "@/packages/dayjs";
 import { useCallback } from "react";
+import { calculatePageCount } from "@/utils/app/pagination";
 const INITIAL_FILTERS: OrderFilters = {
   orderSide: null,
   page: 1,
@@ -55,6 +56,17 @@ function useOrderFilters(
   const setPage = (page: OrderFilters["page"]) => {
     filter.setFilter("page", page);
   };
+  const setPageSize: UseOrderFiltersReturn["setPageSize"] = (
+    pageSize,
+    totalCount,
+  ) => {
+    filter.setFilter("pageSize", pageSize);
+    filter.setFilter("page", (prev) => {
+      const last_page = calculatePageCount(totalCount, pageSize);
+      if (prev.page > last_page) return last_page;
+      return prev.page;
+    });
+  };
 
   const onlyToday = useCallback(() => {
     filter.setFilter("fromDate", dayjs().startOf("day"));
@@ -72,6 +84,7 @@ function useOrderFilters(
     setView,
     setPage,
     onlyToday,
+    setPageSize,
     ...filter,
   };
 }

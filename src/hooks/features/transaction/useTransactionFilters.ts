@@ -1,6 +1,7 @@
 import useFilter from "@/hooks/app/useFilter";
 import { TransactionFilters } from "@/types";
 import { UseTransactionFiltersReturn } from "./types";
+import { calculatePageCount } from "@/utils/app/pagination";
 
 const INITIAL_FILTERS: TransactionFilters = {
   page: 1,
@@ -38,10 +39,22 @@ function useTransactionFilters(
   const setPage = (page: TransactionFilters["page"]) => {
     filter.setFilter("page", page);
   };
+  const setPageSize: UseTransactionFiltersReturn["setPageSize"] = (
+    pageSize,
+    totalCount,
+  ) => {
+    filter.setFilter("pageSize", pageSize);
+    filter.setFilter("page", (prev) => {
+      const last_page = calculatePageCount(totalCount, pageSize);
+      if (prev.page > last_page) return last_page;
+      return prev.page;
+    });
+  };
 
   return {
     setType,
     setPage,
+    setPageSize,
     setFromDate,
     setToDate,
     ...filter,
