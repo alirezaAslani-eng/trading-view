@@ -1,6 +1,14 @@
 //#region // * ------------ queries ------------
+
 export const kycProgressKey = ["kyc-progress"];
+
 export const workspacesKey = ["workspaces"];
+
+const addressInquiryKey = ["address-inquiry"];
+export const addressInquiryDynamicKey = (postalCode: string) => [
+  ...addressInquiryKey,
+  postalCode,
+];
 //#endregion // * ------------ queries ------------
 
 //#region // * ------------ mutations ------------

@@ -3,6 +3,7 @@ export { type KycProgressData, kycProgress } from "./kycProgress";
 export * from "./workspaces";
 export { type CreateCompanyVariables, createCompany } from "./createCompany";
 export { isKycMergeAccountError } from "./helpers";
+export { type AddressInquiryData, addressInquiry } from "./addressInquiry";
 export {
   type KycMergeAccountData,
   type KycMergeAccountVariables,
