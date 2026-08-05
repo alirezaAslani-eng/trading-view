@@ -25,26 +25,51 @@ import {
   Typography,
 } from "@mui/material";
 import { symbolsWithDefault } from "@/api/trading/symbols";
-import { useState } from "react";
+import { useCallback, useEffect } from "react";
 import NextLink from "@/components/ui/Link/NextLink";
 import { ROUTES } from "@/constant/app/routes";
 import { MarketTickerInfoResponse } from "@/api/types";
+import useFilter from "@/hooks/app/useFilter";
+import { ProductTrendFilters } from "@/v2-architecture/src/features/product/types";
+import { productTrendConfig } from "@/v2-architecture/src/features/product/react-query/queries";
+
+const DEFAULT_FILTERS: ProductTrendFilters = {
+  days: null,
+  symbol: null,
+} as const;
 
 function ProductTrendChart() {
-  const [activeSymbol, setActiveSymbol] = useState<string | undefined>();
+  //#region // * ------------ Filters ------------
+  const { filters, setFilter } = useFilter({ initialState: DEFAULT_FILTERS });
+  const symbolHandler = useCallback((symbol: string) => {
+    setFilter("symbol", symbol);
+  }, []);
+  //#endregion // * ------------ Filters ------------
 
-  //#region // * ------------ Data ------------
+  //#region // * ------------ Data-ProductTrend ------------
+  const productTrendQuery = useQuery(productTrendConfig(filters));
+  const { dates = [], prices = [] } = productTrendQuery.data ?? {};
+  //#endregion // * ------------ Data-ProductTrend ------------
+
+  //#region // * ------------ Data-Symbols ------------
   const symbolsQuery = useQuery({
     ...symbolsConfig(),
     select: symbolsWithDefault,
   });
   const { defSymbol, symbols } = symbolsQuery.data || {};
+  const defaultSymbol = defSymbol?.name;
+  useEffect(() => {
+    if (!defaultSymbol) return;
+    symbolHandler(defaultSymbol);
+  }, [defaultSymbol]);
+  //#endregion // * ------------ Data-Symbols ------------
 
+  //#region // * ------------ Data-SymbolInfo ------------
   const symbolInfoQuery = useQuery({
-    ...marketTickerInfoConfig(activeSymbol ?? defSymbol?.name!),
-    enabled: symbolsQuery.isSuccess,
+    ...marketTickerInfoConfig(filters.symbol!),
+    enabled: !!filters.symbol,
   });
-  //#endregion // * ------------ Data ------------
+  //#endregion // * ------------ Data-SymbolInfo ------------
 
   return (
     <PagePaper sx={{ minHeight: "368px" }}>
@@ -66,8 +91,8 @@ function ProductTrendChart() {
           placeholder="نماد"
           size="small"
           sx={{ width: "186px" }}
-          value={activeSymbol ?? defSymbol?.name ?? ""}
-          onChange={setActiveSymbol}
+          value={filters.symbol ?? ""}
+          onChange={symbolHandler}
         >
           <InputSelectMenu>
             {symbols?.map((symbol) => {
@@ -78,17 +103,17 @@ function ProductTrendChart() {
               );
             })}
           </InputSelectMenu>
-
-          <ToggleTabGroup value={"1"}>
-            <ToggleButton value={"5"}>{"ماهانه"}</ToggleButton>
-            <Divider flexItem />
-            <ToggleButton value={"4"}>{"سه ماهه"}</ToggleButton>
-            <Divider flexItem />
-            <ToggleButton value={"3"}>{"شش ماهه"}</ToggleButton>
-            <Divider flexItem />
-            <ToggleButton value={"2"}>{"سالانه"}</ToggleButton>
-          </ToggleTabGroup>
         </InputSelect>
+
+        {/* <ToggleTabGroup value={"1"}>
+          <ToggleButton value={"5"}>{"ماهانه"}</ToggleButton>
+          <Divider flexItem />
+          <ToggleButton value={"4"}>{"سه ماهه"}</ToggleButton>
+          <Divider flexItem />
+          <ToggleButton value={"3"}>{"شش ماهه"}</ToggleButton>
+          <Divider flexItem />
+          <ToggleButton value={"2"}>{"سالانه"}</ToggleButton>
+        </ToggleTabGroup> */}
       </Box>
 
       <Box sx={{ display: "flex", mt: "20px" }}>
@@ -101,7 +126,26 @@ function ProductTrendChart() {
           orientation="vertical"
           sx={{ borderColor: "border.default", mx: "24px" }}
         />
-        <TrendChart />
+        <LineChart
+          xAxis={[
+            {
+              scaleType: "point",
+              data: dates,
+              tickLabelStyle: {
+                fontSize: 12,
+                transform: "rotate(-45deg)",
+              },
+            },
+          ]}
+          series={[
+            {
+              data: prices,
+              area: true,
+              color: alpha("#57A8FF", 0.2),
+            },
+          ]}
+          height={210}
+        />
       </Box>
     </PagePaper>
   );
@@ -153,37 +197,6 @@ function SymbolInfoSection({
   );
 }
 
-function TrendChart() {
-  return (
-    <LineChart
-      xAxis={[
-        {
-          scaleType: "point",
-          data: ["فروردین", "اردیبهشت", "خرداد"],
-        },
-      ]}
-      series={[
-        {
-          data: [4500, 200, 4000],
-          area: true,
-          color: alpha("#57A8FF", 0.2),
-        },
-      ]}
-      height={210}
-      margin={{
-        bottom: 0,
-        left: 0,
-        // right: 0,
-        top: 0,
-      }}
-      //   sx={{
-      //     "& .MuiAreaElement-root": {
-      //       fill: "#fff",
-      //     },
-      //   }}
-    />
-  );
-}
 //#endregion // * ------------ Internal Components --------
 
 //#region // * -------- Components that might be generic in the future ---------
