@@ -4,8 +4,9 @@ import { widget } from "./charting_library/charting_library.esm";
 import { SymbolChangeHandler, WidgetOptions } from "./types";
 import type { IChartingLibraryWidget } from "./charting_library/charting_library";
 import { useSymbolChangeEvent, useSymbolSync, useThemeSync } from "./hooks";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Fade, Stack, Typography } from "@mui/material";
 import NextImage from "@/components/ui/Image/NextImage";
+import { BrandIcon } from "@/components/ui/Icon";
 
 // type WidgetOptions =
 //   | ChartingLibraryWidgetOptions
@@ -102,13 +103,21 @@ function TradingViewChart(props: TradingViewChartProps) {
           opacity: 0.3,
         }}
       >
-        <NextImage
-          src={"/images/arta-logo.png"}
-          alt="Arta Logo"
-          width={270}
-          height={100}
-          // sx={{ objectFit: "cover" }}
-        />
+        <Fade in timeout={{ enter: 1500 }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              color: "text.onPrimary",
+            }}
+          >
+            <BrandIcon
+              sx={{ color: "inherit", width: "120px", height: "120px" }}
+            />
+            <Typography variant="h1">{"IRONEX"}</Typography>
+          </Box>
+        </Fade>
         {/* <Typography
           variant="body2"
           sx={{ color: "text.onPrimary", whiteSpace: "nowrap" }}
