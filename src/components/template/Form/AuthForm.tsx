@@ -171,7 +171,7 @@ function FinalStepWithOTP() {
   const mutation = useMutation(
     verifyAuthOTPConfig({
       onSuccess: (data) => {
-        if (false) {
+        if (data.hasPassword) {
           routes.replace(ROUTES.PANEL.ROOT);
           return;
         }

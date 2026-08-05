@@ -1,6 +1,6 @@
 // *‌ ------start----- verifyAuthOTP.ts ---------
 interface VerifyAuthOTPResponse {
-  isNewUser: boolean;
+  hasPassword: boolean;
 }
 // *‌ ------end----- verifyAuthOTP.ts ---------
 // *‌ ------start----- refreshAuthToken.ts ---------
