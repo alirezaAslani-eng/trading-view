@@ -4,4 +4,5 @@ export type ExcelColumn<TRow extends object> = Omit<
   "key"
 > & {
   key: keyof TRow;
+  render?: (row: TRow) => string | number;
 };
