@@ -7,3 +7,4 @@ export type * from "./order.types";
 export type * from "./filter.types";
 export type * from "./transaction.types";
 export type * from "./auth.types";
+export type * from "./table.types";
