@@ -25,7 +25,7 @@ export const symbolsWithDefault = (
   symbols: SymbolsResponse
 ): { defSymbol: Symbol; symbols: SymbolsResponse } => {
   return {
-    defSymbol: symbols[1],
+    defSymbol: symbols[2],
     symbols,
   };
 };
