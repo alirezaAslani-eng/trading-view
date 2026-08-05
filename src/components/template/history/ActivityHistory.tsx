@@ -28,7 +28,7 @@ import TransactionsPagination from "../Pagination/TransactionsPagination";
 import { useQuery } from "@tanstack/react-query";
 import { symbolsConfig } from "@/packages/react-query";
 import { SelectInputLoader } from "@/components/ui/Fallback/SelectInputLoader";
-import { exportExcel } from "@/utils/app/exportExcel";
+import buildOrderColumns from "@/constant/features/order/orderColumns";
 import {
   PagePaper,
   PagePaperHeading,
@@ -43,10 +43,6 @@ import {
   SELECT_FILTER_ALL,
   selectValueToFilter,
 } from "@/utils/app/filter";
-import mapOrderToTable from "@/utils/features/order/mapOrderToTable";
-import mapTransactionToTable from "@/utils/features/transaction/mapTransactionToTable";
-import { useQueryClient } from "@tanstack/react-query";
-import { ordersConfig, transactionsConfig } from "@/packages/react-query";
 import {
   DateCalanderMenu,
   DateCalanderProvider,
@@ -54,10 +50,13 @@ import {
   DateCalendarDropdown,
   DateValueDisplay,
 } from "@/components/ui/DateCalendar/DateCalanderDropdown";
-import buildOrderColumns from "@/constant/features/order/orderColumns";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import { OrdersResponse, Transaction, TransactionsResponse } from "@/api/types";
+
+import {
+  exportOrdersExcel,
+  exportOrdersPDF,
+  exportTransactionsPDF,
+  exportTransactionsExcel,
+} from "./data-exporter";
 const transactionColumns = buildTransactionColumns();
 const orderColumns = buildOrderColumns();
 
@@ -368,69 +367,60 @@ type ExporterProps = {
   tab: TabState;
 };
 function Exporter({ tab }: ExporterProps) {
-  // ISSUE : The exported pdf has some formating problems
-  // ARCHITECTURE : In the future the server might provides API for downloading excel and pdf or we might chnage the package
-  const orders = useOrders()!;
-  const transactions = useTransactions()!;
+  //#region // * ------------ Data ------------
+  const ordersQuery = useOrders()!;
+  const transactionsQuery = useTransactions()!;
+  const { items: orders } = ordersQuery.data ?? {};
+  const { items: transactions } = transactionsQuery.data ?? {};
+  const ordersLength = orders?.length;
+  const transactionsLength = transactions?.length;
+  //#endregion // * ------------ Data ------------
 
   const isExportDisabled =
     tab === "orders"
-      ? orders.isLoading || (orders.data?.totalCount ?? 0) === 0
-      : transactions.isLoading || (transactions.data?.totalCount ?? 0) === 0;
+      ? ordersQuery.isPending || !ordersLength
+      : transactionsQuery.isPending || !transactionsLength;
 
-  const handleExport = async () => {
+  const exportExcelHandler = () => {
     if (tab === "orders") {
-      exportExcel({
-        fileName: "orders",
-        rows: mapOrderToTable(orders.data?.items!),
-      });
-      exportPdf({
-        fileName: "orders",
-        rows: mapOrderToTable(orders.data!.items),
-      });
-      return;
+      if (!ordersLength) return;
+      exportOrdersExcel(orders);
     }
-
-    exportExcel({
-      fileName: "transactions",
-      rows: mapTransactionToTable(transactions.data?.items!),
-    });
-    exportPdf({
-      fileName: "transactions",
-      rows: mapTransactionToTable(transactions.data!.items),
-    });
+    if (tab === "transactions") {
+      if (!transactionsLength) return;
+      exportTransactionsExcel(transactions);
+    }
+  };
+  const exportPDFHandler = () => {
+    if (tab === "orders") {
+      if (!ordersLength) return;
+      exportOrdersPDF(orders);
+    }
+    if (tab === "transactions") {
+      if (!transactionsLength) return;
+      exportTransactionsPDF(transactions);
+    }
   };
 
   return (
-    <Button
-      sx={{ gap: "6px" }}
-      variant="on-surface"
-      onClick={handleExport}
-      disabled={isExportDisabled}
-    >
-      <DownloadIcon sx={{ color: "inherit" }} />
-      {"دانلود خروجی"}
-    </Button>
+    <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <Button
+        variant="on-surface"
+        onClick={exportExcelHandler}
+        disabled={isExportDisabled}
+      >
+        <DownloadIcon sx={{ color: "inherit" }} />
+        {"دانلود اکسل"}
+      </Button>
+      <Button
+        variant="on-surface"
+        onClick={exportPDFHandler}
+        disabled={isExportDisabled}
+      >
+        <DownloadIcon sx={{ color: "inherit" }} />
+        {"دانلود پی دی اف"}
+      </Button>
+    </Box>
   );
 }
 //#endregion // * ------------ Internal components ------------
-
-//#region // * ------------ Internal Helpers ------------
-type ExportPdfProps = {
-  fileName: string;
-  rows: Record<string, unknown>[];
-};
-
-function exportPdf({ fileName, rows }: ExportPdfProps) {
-  if (!rows.length) return;
-
-  const doc = new jsPDF();
-
-  autoTable(doc, {
-    head: [Object.keys(rows[0])],
-    body: rows.map(Object.values),
-  });
-
-  doc.save(`${fileName}.pdf`);
-}
-//#endregion // * ------------ Internal Helpers ------------
