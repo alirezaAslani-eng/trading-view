@@ -15,54 +15,71 @@ import {
   DefColumns,
 } from "@/utils/app/buildColumns";
 import { Typography } from "@mui/material";
+import { transactionsBaseColumns } from "./transactionBaseColumns";
 
 type DefaultColumns = DefColumns<Transaction>;
 const priceUnit = PRICE_UNITS.IRT.displayName;
 
 export const transactionTableColumns: DefaultColumns = {
   createdAt: {
-    headerName: "زمان",
-    field: "createdAt",
+    headerName: transactionsBaseColumns.createdAt.headerName,
+    field: transactionsBaseColumns.createdAt.key,
+
     renderCell(row) {
-      const date = convertToJalali(row.createdAt).format(JALALI_FORMAT);
-      const time = convertToJalali(row.createdAt).format("HH:MM");
-      return `${date} | ${time}`;
+      return transactionsBaseColumns.createdAt.content(row);
     },
   },
+
   amount: {
-    headerName: `مبلغ (${priceUnit})`,
+    headerName: transactionsBaseColumns.amount.headerName,
+    field: transactionsBaseColumns.amount.key,
+
     renderCell(row) {
-      return formatFaPrice(row.amount);
+      return formatFaPrice(
+        transactionsBaseColumns.amount.content(row) as number,
+      );
     },
   },
+
   type: {
-    headerName: "نوع تراکنش",
+    headerName: transactionsBaseColumns.type.headerName,
+    field: transactionsBaseColumns.type.key,
+
     renderCell(row) {
-      return TRANSACTION_TYPE_LABELS[row.type] ?? row.type;
+      return transactionsBaseColumns.type.content(row);
     },
   },
+
   status: {
-    headerName: "وضعیت",
+    headerName: transactionsBaseColumns.status.headerName,
+    field: transactionsBaseColumns.status.key,
+
     renderCell(row) {
       const { isFailed, isPending, isSuccess } = getTransactionStatus(
         row.status,
       );
 
       let color = "";
+
       if (isFailed) color = "text.error";
       if (isPending) color = "status.warning";
       if (isSuccess) color = "text.profit";
 
       return (
         <Typography sx={{ color }} variant="inherit">
-          {TRANSACTION_STATUS_LABELS[row.status] ?? row.status}
+          {transactionsBaseColumns.status.content(row)}
         </Typography>
       );
     },
   },
+
   referenceId: {
-    headerName: "شناسه پیگیری",
-    field: "referenceId",
+    headerName: transactionsBaseColumns.referenceId.headerName,
+    field: transactionsBaseColumns.referenceId.key,
+
+    renderCell(row) {
+      return transactionsBaseColumns.referenceId.content(row);
+    },
   },
 };
 

@@ -1,8 +1,6 @@
 import { Column } from "@/components/ui/Table/DataTable";
 import { Order } from "@/api/types";
-import { convertToJalali } from "@/packages/dayjs";
-import { JALALI_FORMAT } from "@/constant/app/date";
-import { formatFaPrice, formatPrecent } from "@/utils";
+import { formatFaPrice } from "@/utils";
 import normalizeOrderStatus from "@/utils/features/order/normalizeOrderStatus";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -16,89 +14,119 @@ import {
   DefColumns,
 } from "@/utils/app/buildColumns";
 import CancleOrderTableAction from "@/components/template/Button/CancleOrderTableAction";
+import { ordersBaseColumns } from "./orderBaseColumns";
 
 type DefaultColumns = DefColumns<Order>;
 const weightUnit = WEIGHT_UNITS.KG.lable;
 export const orderTableColumns: DefaultColumns = {
   date: {
-    headerName: "تاریخ",
-    field: "date",
+    headerName: ordersBaseColumns.date.headerName,
+    field: ordersBaseColumns.date.key,
+
     renderCell(row) {
-      const time = convertToJalali(row.date).format("HH:MM");
-      const date = convertToJalali(row.date).format(JALALI_FORMAT);
-      return `${date} | ${time}`;
+      return ordersBaseColumns.date.content(row);
     },
   },
+
   productCode: {
-    headerName: "نماد",
-    field: "productCode",
+    headerName: ordersBaseColumns.productCode.headerName,
+    field: ordersBaseColumns.productCode.key,
+
+    renderCell(row) {
+      return ordersBaseColumns.productCode.content(row);
+    },
   },
+
   orderSide: {
-    headerName: "سمت",
+    headerName: ordersBaseColumns.orderSide.headerName,
+    field: ordersBaseColumns.orderSide.key,
+
     renderCell(row) {
       const isSeller = row.orderSide === "Sell";
+
       return (
         <Typography
           variant="inherit"
-          sx={{ color: isSeller ? "status.loss" : "text.profit" }}
+          sx={{
+            color: isSeller ? "status.loss" : "text.profit",
+          }}
         >
-          {isSeller ? "فروشنده" : "خریدار"}
+          {ordersBaseColumns.orderSide.content(row)}
         </Typography>
       );
     },
   },
+
   orderType: {
-    headerName: "نوع",
+    headerName: ordersBaseColumns.orderType.headerName,
+    field: ordersBaseColumns.orderType.key,
+
     renderCell(row) {
-      const isLimit = row.orderType === "Limit";
-      return isLimit ? "تعیین قیمت" : "فوری";
+      return ordersBaseColumns.orderType.content(row);
     },
   },
+
   price: {
-    headerName: "قیمت",
+    headerName: ordersBaseColumns.price.headerName,
+    field: ordersBaseColumns.price.key,
+
     renderCell(row) {
-      return formatFaPrice(row.price);
+      return formatFaPrice(ordersBaseColumns.price.content(row) as number);
     },
   },
+
   totalWeight: {
-    headerName: "وزن کل",
+    headerName: ordersBaseColumns.totalWeight.headerName,
+    field: ordersBaseColumns.totalWeight.key,
+
     renderCell(row) {
-      return `${row.totalWeight} ${weightUnit}`;
+      return `${ordersBaseColumns.totalWeight.content(row)} ${weightUnit}`;
     },
   },
+
   filledWeight: {
-    headerName: "وزن پر شده",
+    headerName: ordersBaseColumns.filledWeight.headerName,
+    field: ordersBaseColumns.filledWeight.key,
+
     renderCell(row) {
-      return `${row.filledWeight} ${weightUnit}`;
+      return `${ordersBaseColumns.filledWeight.content(row)} ${weightUnit}`;
     },
   },
+
   remainingWeight: {
-    headerName: "وزن باقی مانده",
+    headerName: ordersBaseColumns.remainingWeight.headerName,
+    field: ordersBaseColumns.remainingWeight.key,
+
     renderCell(row) {
-      return `${row.remainingWeight} ${weightUnit}`;
+      return `${ordersBaseColumns.remainingWeight.content(row)} ${weightUnit}`;
     },
   },
+
   progress: {
-    headerName: "درصد پر شده",
+    headerName: ordersBaseColumns.progress.headerName,
+    field: ordersBaseColumns.progress.key,
+
     renderCell(row) {
       return <Progress value={row.progress} />;
     },
   },
+
   status: {
-    headerName: "وضعیت",
+    headerName: ordersBaseColumns.status.headerName,
+    field: ordersBaseColumns.status.key,
+
     renderCell(row) {
-      const { isFaild, isPending, isFilled } = normalizeOrderStatus(row.status);
+      const { isFaild, isPending } = normalizeOrderStatus(row.status);
+
       const color = isFaild
         ? "status.loss"
         : isPending
-        ? "status.warning"
-        : "text.profit";
+          ? "status.warning"
+          : "text.profit";
 
       return (
         <Typography variant="caption1" sx={{ color }}>
-          {isPending && "در حال تکمیل"}
-          {isFaild && "لغو"}
-          {isFilled && "تکمیل"}
+          {ordersBaseColumns.status.content(row)}
         </Typography>
       );
     },
@@ -106,7 +134,7 @@ export const orderTableColumns: DefaultColumns = {
 };
 
 const buildOrderColumns = (
-  options?: BuildColumnsOptions<Order, DefaultColumns>
+  options?: BuildColumnsOptions<Order, DefaultColumns>,
 ): Column<Order>[] => {
   return buildColumns<Order>(orderTableColumns, {
     ...options,
