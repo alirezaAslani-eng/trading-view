@@ -127,6 +127,13 @@ function ProductTrendChart() {
           sx={{ borderColor: "border.default", mx: "24px" }}
         />
         <LineChart
+          slotProps={{
+            tooltip: {
+              container() {
+                return document.body;
+              },
+            },
+          }}
           xAxis={[
             {
               scaleType: "point",
