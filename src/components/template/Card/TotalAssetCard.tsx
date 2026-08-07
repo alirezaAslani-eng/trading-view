@@ -1,223 +1,198 @@
 "use client";
-import { WalletAsset } from "@/api/types";
+import { ReactNode } from "react";
+import { walletPortfolioConfig } from "@/packages/react-query";
+import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
+import { Box, Grid, Skeleton, Stack, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { formatFaPrice, formatPrecent, getTrendColor } from "@/utils";
+import PieChart from "@/components/ui/PieChart/PieChart";
 import Button from "@/components/ui/Button/Button";
 import { ReceiveIcon, SendIcon } from "@/components/ui/Icon";
-import { PagePaper } from "@/components/ui/Layout/PaperLayout";
 import NextLink from "@/components/ui/Link/NextLink";
-import PieChart from "@/components/ui/PieChart/PieChart";
+import { ROUTES } from "@/constant/app/routes";
+import SparkLineChart from "@/components/ui/Chart/SparkLineChart";
+import {
+  PagePaper,
+  PagePaperHeading,
+  PagePaperTitle,
+} from "@/components/ui/Layout/PaperLayout";
 import {
   Price,
   PriceAmount,
   PriceUnit,
 } from "@/components/ui/Typography/Price";
-import { ROUTES } from "@/constant/app/routes";
-import { walletPortfolioConfig } from "@/packages/react-query";
-import { formatFaPrice, formatPrecent, getTrendColor } from "@/utils";
-import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
-import { Box, Divider, Skeleton, Stack, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { PropsWithChildren } from "react";
 
-const queryConfig = walletPortfolioConfig();
+export default function PortfolioOverviewSection() {
+  const portfolioQuery = useQuery(walletPortfolioConfig());
 
-const CHART_SIZE = 220;
+  const isSuccessQuery = portfolioQuery.isSuccess;
 
-function TotalAssetCard() {
-  const portofolioQuery = useQuery(queryConfig);
+  const irtAsset = extractIRTAsset(portfolioQuery.data);
 
-  const isSuccessQuery = portofolioQuery.isSuccess;
+  const { availableBalance = 0 } = irtAsset ?? {};
 
-  const irtAsset = extractIRTAsset(portofolioQuery.data);
-
-  const { availableBalance } = irtAsset ?? {};
   const {
     totalPortfolioValueIrt = 0,
     totalProfitLoss24hIrt = 0,
     totalProfitLoss24hPercentage = 0,
-    assets,
-  } = portofolioQuery.data ?? {};
+    assets = [],
+  } = portfolioQuery.data ?? {};
 
   return (
-    <PagePaper
+    <Stack
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "62px",
-        height: "100%",
+        width: "100%",
+        gap: 2,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "start",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <PortfolioStatItem loading={!isSuccessQuery} title="ارزش کل دارایی">
-            <Price>
-              <PriceAmount>{formatFaPrice(totalPortfolioValueIrt)}</PriceAmount>
-              <PriceUnit />
-            </Price>
-          </PortfolioStatItem>
+      <PagePaper>
+        <Grid container spacing={2}>
+          <Grid size={3}>
+            <PortfolioStatItem
+              loading={!isSuccessQuery}
+              value={totalPortfolioValueIrt}
+              title="ارزش کل دارایی"
+            />
+          </Grid>
 
-          <Divider
-            orientation="vertical"
-            flexItem
-            sx={{ backgroundColor: "border.default", mx: "32px" }}
-          />
+          <Grid size={3}>
+            <PortfolioStatItem
+              loading={!isSuccessQuery}
+              title="موجودی نقد آزاد"
+              value={availableBalance}
+            />
+          </Grid>
 
-          <PortfolioStatItem
-            loading={!isSuccessQuery}
-            title={"موجودی نقد آزاد"}
-          >
-            <Price>
-              <PriceAmount>{formatFaPrice(availableBalance)}</PriceAmount>
-              <PriceUnit />
-            </Price>
-          </PortfolioStatItem>
+          <Grid size={3}>
+            <PortfolioStatItem
+              loading={!isSuccessQuery}
+              title="سود / ضرر 24 ساعته"
+              value={
+                <Price
+                  sx={{ color: getTrendColor(totalProfitLoss24hPercentage) }}
+                >
+                  <PriceAmount>
+                    {formatFaPrice(totalProfitLoss24hIrt)}
+                  </PriceAmount>
+                  <PriceUnit />
+                  <PriceAmount>
+                    ({formatPrecent(totalProfitLoss24hPercentage)})
+                  </PriceAmount>
+                </Price>
+              }
+            />
+          </Grid>
 
-          <Divider
-            orientation="vertical"
-            flexItem
-            sx={{ backgroundColor: "border.default", mx: "32px" }}
-          />
+          <Grid size={3}>
+            <PortfolioStatItem
+              loading={!isSuccessQuery}
+              title="اعتبار معاملاتی"
+              value={1000_000}
+            />
+          </Grid>
+        </Grid>
+      </PagePaper>
 
-          <PortfolioStatItem
-            loading={!isSuccessQuery}
-            title={"سود/ضرر 24 ساعته"}
-          >
-            <Price sx={{ color: getTrendColor(totalProfitLoss24hPercentage) }}>
-              <PriceAmount>{formatFaPrice(totalProfitLoss24hIrt)}</PriceAmount>
-              <PriceUnit />
-              <Typography variant="button2">
-                {formatPrecent(totalProfitLoss24hPercentage)}
-              </Typography>
-            </Price>
-          </PortfolioStatItem>
-        </Box>
-      </Box>
+      <Grid container spacing={2} sx={{ height: "300px" }}>
+        <Grid size={6}>
+          <PagePaper sx={{ height: "100%" }}>
+            <PagePaperHeading sx={{ mb: 4 }}>
+              <PagePaperTitle>{"روند کل داریی در ۲۴ ساعت اخیر"}</PagePaperTitle>
+            </PagePaperHeading>
 
-      <Box
-        sx={{
-          display: "flex",
-          gap: "61px",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flex: 1,
-        }}
-      >
-        <AssetsDonutChart loading={!isSuccessQuery} assets={assets} />
+            <SparkLineChart
+              data={[250000, 678678, 456456, 456787, 567567, 578576, 567567]}
+              height={210}
+            />
+          </PagePaper>
+        </Grid>
 
-        <Box
-          sx={{
-            display: "flex",
-            gap: "16px",
-            alignSelf: "end",
-            alignItems: "center",
-          }}
-        >
-          <NextLink
-            href={ROUTES.ASSETS.DEPOSIT}
-            sx={{ flex: 1, width: "120px" }}
-          >
-            <Button
-              color="primary"
-              variant="contained"
-              fullWidth
-              sx={{ gap: "2px", px: "4px" }}
+        <Grid size={6}>
+          <PagePaper sx={{ height: "100%" }}>
+            <PagePaperHeading sx={{ mb: 4 }}>
+              <PagePaperTitle>{"نمایی از داریی های شما"}</PagePaperTitle>
+            </PagePaperHeading>
+
+            <Stack
+              direction={"row"}
+              sx={{
+                gap: 3,
+                alignItems: "end",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+              }}
             >
-              <ReceiveIcon />
-              {"واریز"}
-            </Button>
-          </NextLink>
-          <NextLink href={ROUTES.ASSETS.WITHDRAW} sx={{ flex: 1 }}>
-            <Button
-              color="primary"
-              variant="contained"
-              fullWidth
-              sx={{ gap: "2px", px: "4px" }}
-            >
-              <SendIcon />
-              {"برداشت"}
-            </Button>
-          </NextLink>
-        </Box>
-      </Box>
-    </PagePaper>
-  );
-}
-
-export default TotalAssetCard;
-
-//#region // * ------------ Internal Components ------------
-type PortfolioStatItemProps = {
-  title: string;
-  loading: boolean;
-};
-
-function PortfolioStatItem({
-  title,
-  loading,
-  children,
-}: PropsWithChildren<PortfolioStatItemProps>) {
-  return (
-    <Stack sx={{ gap: "4px" }}>
-      <Typography variant="button2" sx={{ color: "text.caption" }}>
-        {title}
-      </Typography>
-
-      {loading ? <Skeleton variant="text" height={27} /> : children}
+              <Box sx={{ flexShrink: 0 }}>
+                <PieChart
+                  width={210}
+                  height={210}
+                  series={[
+                    {
+                      data: assets.map((asset) => ({
+                        value: asset.availableBalance,
+                        label: asset.assetSymbol,
+                      })),
+                    },
+                  ]}
+                />
+              </Box>
+              <Stack
+                direction={"row"}
+                sx={{ alignItems: "center", gap: 2, minWidth: "250px" }}
+              >
+                <NextLink href={ROUTES.ASSETS.WITHDRAW} sx={{ flex: 1 }}>
+                  <Button variant="outlined" fullWidth>
+                    <SendIcon sx={{ color: "inherit" }} />
+                    {"برداشت"}
+                  </Button>
+                </NextLink>
+                <NextLink href={ROUTES.ASSETS.DEPOSIT} sx={{ flex: 1 }}>
+                  <Button fullWidth variant="outlined">
+                    <ReceiveIcon sx={{ color: "inherit" }} />
+                    {"واریز"}
+                  </Button>
+                </NextLink>
+              </Stack>
+            </Stack>
+          </PagePaper>
+        </Grid>
+      </Grid>
     </Stack>
   );
 }
 
-type AssetsDonutChartProps = {
-  loading: boolean;
-  assets?: WalletAsset[];
+type PortfolioStatItemProps = {
+  title: string;
+  value: ReactNode;
+  loading?: boolean;
 };
 
-function AssetsDonutChart({ loading, assets }: AssetsDonutChartProps) {
-  // <CircleBox sx={{ width: CHART_SIZE , bgcolor:"background.inputModal"}}>
-  //   <Typography variant="caption" sx={{ color: "text.secondary" }}>
-  //     {"داده ای برای نمایش در چارت وجود ندارد"}
-  //   </Typography>
-  // </CircleBox>
-
-  if (loading) {
-    return (
-      <Skeleton variant="circular" width={CHART_SIZE} height={CHART_SIZE} />
-    );
-  }
-  if (!!!assets?.length) return null;
-
-  const chartData = (assets ?? []).map((asset) => {
-    return {
-      id: asset.assetSymbol,
-      value: asset.totalValueInIrt,
-      label: asset.assetSymbol,
-    };
-  });
-
+function PortfolioStatItem({
+  title,
+  loading = false,
+  value,
+}: PortfolioStatItemProps) {
   return (
-    <Box
-      sx={{
-        width: CHART_SIZE,
-        height: CHART_SIZE,
-        flexShrink: 0,
-      }}
-    >
-      <PieChart
-        series={[{ data: chartData }]}
-        width={CHART_SIZE}
-        height={CHART_SIZE}
-      />
-    </Box>
+    <Stack sx={{ gap: 0.5 }}>
+      <Typography
+        variant="button2"
+        sx={{
+          color: "text.caption",
+        }}
+      >
+        {title}
+      </Typography>
+
+      {loading ? (
+        <Skeleton variant="text" height={27} width="70%" />
+      ) : typeof value === "string" || typeof value === "number" ? (
+        <Price>
+          <PriceAmount>{formatFaPrice(value)}</PriceAmount>
+          <PriceUnit />
+        </Price>
+      ) : (
+        value
+      )}
+    </Stack>
   );
 }
-//#endregion // * ------------ Internal Components ------------
