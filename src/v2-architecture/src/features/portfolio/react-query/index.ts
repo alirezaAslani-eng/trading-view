@@ -1,0 +1,1 @@
+export { portfolioTrendConfig } from "./queries";
