@@ -1,4 +1,5 @@
-import { PieChart as MuiPieChart } from "@mui/x-charts/PieChart";
+import { defaultTooltipProps } from "@/packages/mui";
+import { PieChart as MuiPieChart, PieArc } from "@mui/x-charts/PieChart";
 import type { PieChartProps } from "@mui/x-charts/PieChart";
 import { useMemo } from "react";
 
@@ -22,16 +23,16 @@ function PieChart({ slotProps, ...props }: PieChartProps) {
   return (
     <MuiPieChart
       {...props}
+      series={series}
       slotProps={{
         ...slotProps,
-        tooltip: {
-          container() {
-            return document.body;
-          },
-          ...slotProps?.tooltip,
+        tooltip: { ...defaultTooltipProps(), ...slotProps?.tooltip },
+        pieArc: {
+          stroke: "none",
+          strokeWidth: 0,
+          ...slotProps?.pieArc,
         },
       }}
-      series={series}
     />
   );
 }
