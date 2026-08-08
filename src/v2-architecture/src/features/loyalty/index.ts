@@ -1,0 +1,1 @@
+export { LoaltyProgressSection } from "./components";
