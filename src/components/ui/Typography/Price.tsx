@@ -20,7 +20,7 @@ function Price(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
 }
 
 function PriceAmount(props: ReplaceSxWithSxOnlyObject<TypographyProps>) {
-  return <Typography variant="h7" {...props} />;
+  return <Typography variant="h7" component={"span"} {...props} />;
 }
 
 /**
@@ -28,7 +28,7 @@ function PriceAmount(props: ReplaceSxWithSxOnlyObject<TypographyProps>) {
  */
 function PriceUnit(props: ReplaceSxWithSxOnlyObject<TypographyProps>) {
   return (
-    <Typography variant="button3" {...props}>
+    <Typography variant="button3" component={"span"} {...props}>
       {props.children ?? PRICE_UNITS.IRT.displayName}
     </Typography>
   );
