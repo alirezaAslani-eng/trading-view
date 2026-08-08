@@ -1,6 +1,6 @@
 // --- editLoyaltyRule ---
-
 import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
+import { LoyaltyRuleSchema } from "../validations";
 
 const url = apiClient.authBaseURL("/api/v1/admin/tiers/rules");
 
@@ -17,13 +17,9 @@ export const editLoyaltyRule = async ({
 
 //#region // * ------------ Shared types ------------
 export type EditLoyaltyRuleData = void; // * the api doesn't return anything
-export interface editLoyaltyRuleVariables {
-  tierName: string;
-  minVolumeKg: number;
-  feeRate: number;
-}
+export type EditLoyaltyRuleVariables = LoyaltyRuleSchema;
 //#endregion // * ------------ Shared types ------------
 
 //#region // * ------------ Internal types ------------
-type Config = ApiConfig<{ body: editLoyaltyRuleVariables }>;
+type Config = ApiConfig<{ body: EditLoyaltyRuleVariables }>;
 //#endregion // * ------------ Internal types ------------
