@@ -1,1 +1,1 @@
-export { LoaltyProgressSection } from "./components";
+export { LoaltyProgressSection, LoyaltyRules } from "./components";
