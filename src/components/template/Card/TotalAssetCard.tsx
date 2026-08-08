@@ -21,10 +21,20 @@ import {
   PriceAmount,
   PriceUnit,
 } from "@/components/ui/Typography/Price";
+import { toProtfolioTrendChart } from "@/v2-architecture/src/features/portfolio/api";
+import { portfolioTrendConfig } from "@/v2-architecture/src/features/portfolio/react-query";
 
 export default function PortfolioOverviewSection() {
+  //#region // * ------------ Data : Portfolio Trend ------------
   const portfolioQuery = useQuery(walletPortfolioConfig());
+  const portfolioTrendQuery = useQuery({
+    ...portfolioTrendConfig(),
+    select: toProtfolioTrendChart,
+  });
+  const { prices: portfolioTrend = [] } = portfolioTrendQuery.data ?? {};
+  //#endregion // * ------------ Data : Portfolio Trend ------------
 
+  //#region // * ------------ Data : Wallet ------------
   const isSuccessQuery = portfolioQuery.isSuccess;
 
   const irtAsset = extractIRTAsset(portfolioQuery.data);
@@ -37,7 +47,7 @@ export default function PortfolioOverviewSection() {
     totalProfitLoss24hPercentage = 0,
     assets = [],
   } = portfolioQuery.data ?? {};
-
+  //#endregion // * ------------ Data : Wallet ------------
   return (
     <Stack
       sx={{
@@ -100,10 +110,7 @@ export default function PortfolioOverviewSection() {
               <PagePaperTitle>{"روند کل داریی در ۲۴ ساعت اخیر"}</PagePaperTitle>
             </PagePaperHeading>
 
-            <SparkLineChart
-              data={[250000, 678678, 456456, 456787, 567567, 578576, 567567]}
-              height={210}
-            />
+            <SparkLineChart data={portfolioTrend} height={210} />
           </PagePaper>
         </Grid>
 
