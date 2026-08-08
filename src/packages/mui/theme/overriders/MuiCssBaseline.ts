@@ -27,6 +27,7 @@ const MuiCssBaseline = {
         padding: "0px",
         cursor: "pointer",
         userSelect: "none",
+        whiteSpace: "nowrap",
       },
       //#region // * ------------ Chart Global Style ------------
       ".MuiChartsTooltip-paper": {
