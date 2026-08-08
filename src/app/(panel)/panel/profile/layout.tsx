@@ -26,7 +26,7 @@ function layout({ children }: PropsWithChildren) {
 
       <Main>
         <Section>
-          <SectionContent sx={{ gap: "32px" }}>
+          <SectionContent sx={{ gap: "32px", alignItems: "start" }}>
             <PageSubNavigation>
               <PageSubNavigationLink href={ROUTES.PROFILE.ROOT}>
                 <UserIcon />

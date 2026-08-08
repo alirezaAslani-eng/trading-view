@@ -5,7 +5,6 @@ import PanelPaper from "@/components/ui/Paper/PanelPaper";
 const PagePaper = styled(PanelPaper)({
   padding: "20px 16px",
   width: "100%",
-  height: "100%",
 });
 
 const PagePaperHeading = styled(Box)({
