@@ -49,7 +49,11 @@ import { formatFaPrice } from "@/utils";
 import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
 import { useMemo } from "react";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
-import { useLimitedTotalPrice, useMarketTotalPrice } from "./hooks";
+import {
+  useCalculateFee,
+  useLimitedTotalPrice,
+  useMarketTotalPrice,
+} from "./hooks";
 import { getTradeFee } from "@/constant/features/trading/fee";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
@@ -145,9 +149,8 @@ function TradeSummary() {
   const totalPrice =
     orderType === "limit" ? limitedTotalPrice : marketTotalPrice;
 
-  const fee = getTradeFee(
-    orderType === "limit" ? limitedTotalPrice : marketTotalPrice,
-  );
+  const { calculate } = useCalculateFee();
+  const fee_price = calculate(totalPrice);
   //#endregion // * ------------ Trade panel State ------------
 
   //#region // * ------------ Wallet Info ------------
@@ -186,11 +189,11 @@ function TradeSummary() {
 
       <Summary>
         <SummaryLable>{"کارمزد معامله:"}</SummaryLable>
-        <SummaryAmount>{`${formatFaPrice(fee)} ${priceUnitLabel}`}</SummaryAmount>
+        <SummaryAmount>{`${formatFaPrice(fee_price)} ${priceUnitLabel}`}</SummaryAmount>
       </Summary>
       <Summary>
         <SummaryLable>{"جمع کل:"}</SummaryLable>
-        <SummaryAmount>{`${formatFaPrice(orderSide === "buy" ? totalPrice + fee : totalPrice - fee)} ${priceUnitLabel}`}</SummaryAmount>
+        <SummaryAmount>{`${formatFaPrice(orderSide === "buy" ? totalPrice + fee_price : totalPrice - fee_price)} ${priceUnitLabel}`}</SummaryAmount>
       </Summary>
     </Stack>
   );
