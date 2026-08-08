@@ -4,5 +4,5 @@ export const USER_TIER_LOYALITY_LABEL = {
   Standard: "برنز",
   Trader: "نقره",
   Merchant: "طلا",
-  SteelMill:""
+  SteelMill:"VIP"
 } satisfies Record<UserTier, string>;
