@@ -59,6 +59,7 @@ export const ROUTES = {
   ADMIN: {
     ROOT: "/admin",
     DEMO_SETTING: "/admin/demo-setting",
+    LOYALTY_SETTING: "/admin/loyalty-rules",
   },
   ERROR: {
     BY_CODE: (code: number) => `/error/${code}`,

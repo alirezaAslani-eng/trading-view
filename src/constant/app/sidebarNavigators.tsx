@@ -79,7 +79,7 @@ const sidebarNavigators: SidebarNavItem[] = [
   {
     id: "products",
     text: "مدریت محصول",
-    icon: <BoxOutlinedIcon />,
+    icon: <LockIcon />,
     link: ROUTES.PRODUCTS.ROOT,
     submenus: [],
   },
@@ -98,6 +98,13 @@ const sidebarNavigators: SidebarNavItem[] = [
     submenus: [],
   },
   {
+    id: "loyalty-setting",
+    text: "تنظیمات سطح وفاداری",
+    icon: <LockIcon />,
+    link: ROUTES.ADMIN.LOYALTY_SETTING,
+    submenus: [],
+  },
+  {
     id: "profile",
     text: "پروفایل",
     icon: <UserIcon />,
@@ -107,7 +114,7 @@ const sidebarNavigators: SidebarNavItem[] = [
   {
     id: "robot",
     text: "ربات معامله گر",
-    icon: <UserIcon />,
+    icon: <LockIcon />,
     link: ROUTES.ROBOT.ROBOT_CONFIG("REBAR"),
     submenus: [],
   },
