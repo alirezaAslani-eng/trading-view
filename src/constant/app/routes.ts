@@ -60,6 +60,7 @@ export const ROUTES = {
     ROOT: "/admin",
     DEMO_SETTING: "/admin/demo-setting",
     LOYALTY_SETTING: "/admin/loyalty-rules",
+    LOYALTY_INFO: (userTier: string) => `/admin/loyalty-rules/${userTier}`,
   },
   ERROR: {
     BY_CODE: (code: number) => `/error/${code}`,
