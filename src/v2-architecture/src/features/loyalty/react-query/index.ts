@@ -1,0 +1,1 @@
+export { loyaltyProgressConfig } from "./queries";
