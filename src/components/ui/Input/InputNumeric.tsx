@@ -1,5 +1,5 @@
 "use client";
-import { styled } from "@mui/material";
+import { styled, useFormControl } from "@mui/material";
 import { BaseInputProps, StyledInputTextProps } from "../types";
 import { NumericFormat } from "react-number-format";
 import { ComponentProps } from "react";
@@ -53,10 +53,12 @@ function InputNumeric({
   error,
   ...props
 }: ComponentProps<typeof StyledNumericFormat> & BaseInputProps) {
+  const formControl = useFormControl();
   return (
     <StyledNumericFormat
       thousandSeparator
       {...props}
+      disabled={props?.disabled || formControl?.disabled}
       className={clsx(
         {
           "Mui-error": error,
