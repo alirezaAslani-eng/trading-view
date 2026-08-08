@@ -32,7 +32,7 @@ import { ArrowRightIcon } from "@/components/ui/Icon";
 function EditLoyaltyRuleForm() {
   const params = useParams<{ "user-tier": string }>();
   const { back } = useRouter();
-  const tierName = params["user-tier"];
+  const tierName = params["user-tier"] as UserTier;
 
   //#region // * ------------ Rule Data ------------
   const rulesQuery = useQuery(loyaltyRulesConfig());
@@ -68,7 +68,7 @@ export default EditLoyaltyRuleForm;
 
 //#region // * ------------ Internal Components ------------
 type RuleFormProps = {
-  tierName: string;
+  tierName: UserTier;
   rule: { minVolumeKg: number; feeRate: number };
 };
 
