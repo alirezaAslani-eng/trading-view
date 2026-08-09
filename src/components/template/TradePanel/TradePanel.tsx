@@ -20,9 +20,7 @@ import tradeFormSchema from "@/validations/trade/tradeFormSchema";
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import tradeTogglebuttonSell_sx from "@/packages/mui/theme/shared-style/features/trading/tradeTogglebuttonSell_sx";
 import { useMutation } from "@tanstack/react-query";
-import {
-  placeOrderConfig,
-} from "@/packages/react-query";
+import { placeOrderConfig } from "@/packages/react-query";
 import safeAsync from "@/utils/app/safeAsync";
 import { promiseAlert } from "@/packages/react-hot-toast";
 import alertMessages from "@/constant/app/alertMessages";
@@ -50,6 +48,8 @@ import { PRICE_UNITS } from "@/constant/features/priceConfig";
 import { useFinalTradeSunmmary, useTradeFormContext } from "./hooks";
 import { getTradePrecent } from "@/v2-architecture/src/features/trading";
 import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
+import { show } from "@ebay/nice-modal-react";
+import { GenericConfirmDialog } from "@/packages/nice-modal-react";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
@@ -92,6 +92,16 @@ function TradePanel() {
   const onSubmit = async (fields: TradeFormSchemaOutputType) => {
     const hasAccess = checkAccess(KYC_REQUIRED_LEVELS.trade);
     if (!hasAccess) return;
+
+    if (form.watch("settlementMode")) {
+      const confirm = await show(GenericConfirmDialog, {
+        color: "primary",
+        title: "توجه به نحوه تسویه معامله",
+        description:
+          "شما در حال ثبت معامله با حالت تسویه ۱۰٪ هستید. در این حالت تنها ۱۰٪ مبلغ معامله در ابتدا پرداخت می‌شود و ۹۰٪ باقی‌مانده به‌عنوان بدهی شما ثبت خواهد شد. شما حداکثر ۳ روز فرصت دارید بدهی ایجادشده را تسویه کنید.",
+      });
+      if (!confirm) return;
+    }
 
     await promiseAlert(
       safeAsync(() => placeOrderApi.mutateAsync(fields)),
@@ -194,7 +204,9 @@ function TradeSummary() {
       </Summary>
 
       <Summary>
-        <SummaryLable>{isSell ? "10 درصد مبلغ فروش" : "10 درصد مبلغ خرید:"}</SummaryLable>
+        <SummaryLable>
+          {isSell ? "10 درصد مبلغ فروش" : "10 درصد مبلغ خرید:"}
+        </SummaryLable>
         <SummaryAmount>{`${formatFaPrice(price_10_precent)} ${priceUnitLabel}`}</SummaryAmount>
       </Summary>
     </Stack>
