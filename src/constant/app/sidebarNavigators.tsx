@@ -51,6 +51,11 @@ const sidebarNavigators: SidebarNavItem[] = [
     link: ROUTES.ASSETS.ROOT,
     submenus: [
       {
+        id: "mragin",
+        text: "اعتبار معاملاتی",
+        link: ROUTES.ASSETS.MARGIN,
+      },
+      {
         id: "assets-withdraw",
         text: "برداشت",
         link: ROUTES.ASSETS.WITHDRAW,

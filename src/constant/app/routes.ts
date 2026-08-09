@@ -25,6 +25,7 @@ export const ROUTES = {
     ROOT: "/panel/assets",
     WITHDRAW: "/panel/assets/withdraw",
     DEPOSIT: "/panel/assets/deposit",
+    MARGIN: "/panel/assets/margin",
   },
 
   PROFILE: {
