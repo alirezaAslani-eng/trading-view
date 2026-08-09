@@ -2,6 +2,7 @@ import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
 import { marketTickerInfoConfig } from "@/packages/react-query";
 import { calculateTotalTradePrice } from "@/utils";
 import { loyaltyProgressConfig } from "@/v2-architecture/src/features/loyalty/react-query";
+import { getTradePrecent } from "@/v2-architecture/src/features/trading";
 import { TradeFormSchemaInputType } from "@/validations/types";
 import { useQuery } from "@tanstack/react-query";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -47,6 +48,39 @@ export const useCalculateFee = () => {
     calculate: (amount: number) => calculateFee(amount, currentFeeRate),
     pending: loyaltyProgressQuery.isPending,
     currentFee: currentFeeRate,
+  };
+};
+
+const trade_precent = getTradePrecent();
+export const useFinalTradeSunmmary = () => {
+  //#region // * ------------ Summary State ------------
+  const form = useFormContext<TradeFormSchemaInputType>();
+
+  const orderType = useWatch({ control: form.control, name: "orderType" });
+  const orderSide = useWatch({ control: form.control, name: "orderSide" });
+
+  const limitedTotalPrice = useLimitedTotalPrice();
+  const marketTotalPrice = useMarketTotalPrice(); // ! server state
+
+  const totalPrice =
+    orderType === "limit" ? limitedTotalPrice : marketTotalPrice;
+
+  const { calculate } = useCalculateFee();
+  const fee_price = calculate(totalPrice); // ! server state
+
+  const final_price =
+    orderSide === "buy" ? totalPrice + fee_price : totalPrice - fee_price;
+
+  // * calculate after final
+  const price_10_precent = (trade_precent.number * final_price) / 100;
+  const price_90_precent = (100 - trade_precent.number * final_price) / 100;
+  //#endregion // * ------------ Summary State ------------
+
+  return {
+    fee_price,
+    final_price,
+    price_10_precent,
+    price_90_precent,
   };
 };
 

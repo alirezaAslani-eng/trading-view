@@ -30,7 +30,6 @@ import {
   FormProvider,
   useController,
   useForm,
-  useFormContext,
   useFormState,
   useWatch,
 } from "react-hook-form";
@@ -49,12 +48,7 @@ import { formatFaPrice } from "@/utils";
 import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
 import { useMemo } from "react";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
-import {
-  useCalculateFee,
-  useLimitedTotalPrice,
-  useMarketTotalPrice,
-} from "./hooks";
-import { getTradeFee } from "@/constant/features/trading/fee";
+import { useFinalTradeSunmmary } from "./hooks";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
@@ -137,21 +131,7 @@ function TradePanel() {
 function TradeSummary() {
   const [symbol] = useSymbolParams();
 
-  //#region // * ------------ Trade panel State ------------
-  const form = useFormContext<TradeFormSchemaInputType>();
-
-  const orderType = useWatch({ control: form.control, name: "orderType" });
-  const orderSide = useWatch({ control: form.control, name: "orderSide" });
-
-  const limitedTotalPrice = useLimitedTotalPrice();
-  const marketTotalPrice = useMarketTotalPrice();
-
-  const totalPrice =
-    orderType === "limit" ? limitedTotalPrice : marketTotalPrice;
-
-  const { calculate } = useCalculateFee();
-  const fee_price = calculate(totalPrice);
-  //#endregion // * ------------ Trade panel State ------------
+  const { fee_price, final_price } = useFinalTradeSunmmary();
 
   //#region // * ------------ Wallet Info ------------
   const walletQuery = useQuery(walletPortfolioConfig());
@@ -193,7 +173,7 @@ function TradeSummary() {
       </Summary>
       <Summary>
         <SummaryLable>{"جمع کل:"}</SummaryLable>
-        <SummaryAmount>{`${formatFaPrice(orderSide === "buy" ? totalPrice + fee_price : totalPrice - fee_price)} ${priceUnitLabel}`}</SummaryAmount>
+        <SummaryAmount>{`${formatFaPrice(final_price)} ${priceUnitLabel}`}</SummaryAmount>
       </Summary>
     </Stack>
   );
