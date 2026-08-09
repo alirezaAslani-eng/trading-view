@@ -9,13 +9,14 @@ import {
   TradeFormSchemaInputType,
   TradeFormSchemaOutputType,
 } from "@/validations/types";
-import { useController, useFormContext, useWatch } from "react-hook-form";
+import { useController, useFormContext } from "react-hook-form";
 import WeightInput from "./WeightInput";
 import { TradeFormSubscriber } from "./types";
 import { InputTrade } from "../Trade/InputTrade";
-import { calculateTotalTradePrice, formatFaPrice } from "@/utils";
+import { formatFaPrice } from "@/utils";
 import AmountDisplay from "../Trade/AmountDisplay";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
+import { useLimitedTotalPrice } from "./hooks";
 
 function LimitedPriceForm() {
   const form = useFormContext<
@@ -42,7 +43,7 @@ function LimitedPriceForm() {
         </PercentButtons>
       </TradeFieldsLayoutPrecentage> */}
       <TradeFieldsLayoutTotalPrice>
-        <LimitTotalPrice control={form.control} />
+        <LimitTotalPrice />
       </TradeFieldsLayoutTotalPrice>
     </TradeFieldsLayout>
   );
@@ -65,17 +66,12 @@ function LimitedPriceInput({ control }: TradeFormSubscriber) {
   );
 }
 
-function LimitTotalPrice({ control }: TradeFormSubscriber) {
-  const limitedPrice = useWatch({ control, name: "limitedPrice" });
-  const weight = useWatch({ control, name: "weight" });
-  const totalPrice = calculateTotalTradePrice(
-    Number(weight),
-    Number(limitedPrice),
-  );
+function LimitTotalPrice() {
+  const totalPrice = useLimitedTotalPrice();
   return (
     <AmountDisplay
       label={`مبلغ سر به سر (${PRICE_UNITS.IRT.displayName})`}
-      value={!!totalPrice ? formatFaPrice(totalPrice) : "0"}
+      value={formatFaPrice(totalPrice)}
     />
   );
 }
