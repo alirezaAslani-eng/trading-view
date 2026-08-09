@@ -135,6 +135,23 @@ const theme: ThemeOptions = {
         },
       },
     },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: ({ theme }) => {
+          const { spacing } = theme;
+          return { gap: spacing(2), margin: 0 };
+        },
+
+        label: ({ theme }) => {
+          const { typography, palette } = theme;
+          return {
+            ...typography.button2,
+            color: palette.text.secondary,
+            userSelect: "none",
+          };
+        },
+      },
+    },
   },
 };
 
