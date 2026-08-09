@@ -32,7 +32,6 @@ function page() {
             sx={{
               ...tradePageSpacing_sx.sectionContent_sx,
               alignItems: "stretch",
-              height: "575px",
             }}
           >
             {/* // * -------- Trade Panel -------- */}
