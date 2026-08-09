@@ -6,7 +6,7 @@ function TradeFieldsLayout(props: StackProps) {
 }
 
 function TradeFieldsLayoutPrice(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
-  return <Box sx={{ mt: "32px", ...props.sx }} {...props} />;
+  return <Box sx={{ ...props.sx }} {...props} />;
 }
 
 function TradeFieldsLayoutAmount(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
