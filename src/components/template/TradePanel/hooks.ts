@@ -1,6 +1,10 @@
 import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
-import { marketTickerInfoConfig } from "@/packages/react-query";
+import {
+  marketTickerInfoConfig,
+  walletPortfolioConfig,
+} from "@/packages/react-query";
 import { calculateTotalTradePrice } from "@/utils";
+import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
 import { loyaltyProgressConfig } from "@/v2-architecture/src/features/loyalty/react-query";
 import { getTradePrecent } from "@/v2-architecture/src/features/trading";
 import {
@@ -8,6 +12,7 @@ import {
   TradeFormSchemaOutputType,
 } from "@/validations/types";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 
 export const useTradeFormContext = useFormContext<
@@ -62,6 +67,24 @@ export const useCalculateFee = () => {
 
 const trade_precent = getTradePrecent();
 export const useFinalTradeSunmmary = () => {
+  //#region // * ------------ Wallet Info ------------
+  const [symbol] = useSymbolParams();
+  const walletQuery = useQuery(walletPortfolioConfig());
+
+  const { assets } = walletQuery.data ?? {};
+
+  const wallet = extractIRTAsset(walletQuery.data); // ! server state
+
+  const asset = useMemo(() => {
+    return assets?.find((asset) => {
+      return asset.assetSymbol === symbol;
+    });
+  }, [symbol, assets]); // ! server state
+
+  const assetBalance = asset?.availableBalance ?? 0;
+  const walletBlance = wallet?.availableBalance ?? 0;
+  //#endregion // * ------------ Wallet Info ------------
+
   //#region // * ------------ Summary State ------------
   const form = useTradeFormContext();
 
@@ -77,12 +100,21 @@ export const useFinalTradeSunmmary = () => {
   const { calculate } = useCalculateFee();
   const fee_price = calculate(totalPrice); // ! server state
 
+  //#region // * ------------ Final Price ------------
+  const totalSellPrice = !(assetBalance <= 0) ? totalPrice - fee_price : 0;
   const final_price =
-    orderSide === "buy" ? totalPrice + fee_price : totalPrice - fee_price;
+    orderSide === "buy" ? totalPrice + fee_price : totalSellPrice;
+  //#endregion // * ------------ Final Price ------------
 
-  // * calculate after final
+  //#region // * ------------ 10 Precent of Price ------------
   const price_10_precent = (trade_precent.number * final_price) / 100;
   const price_90_precent = (100 - trade_precent.number * final_price) / 100;
+  //#endregion // * ------------ 10 Precent of Price ------------
+
+  //#region // * ------------ 10 Precent of Amount For (Sell)------------
+  const amount_10_precent = (trade_precent.number * assetBalance) / 100;
+  const amount_90_precent = (100 - trade_precent.number * assetBalance) / 100;
+  //#endregion // * ------------ 10 Precent of Amount For (Sell) ------------
   //#endregion // * ------------ Summary State ------------
 
   return {
@@ -90,6 +122,9 @@ export const useFinalTradeSunmmary = () => {
     final_price,
     price_10_precent,
     price_90_precent,
+    walletBlance,
+    assetBalance,
+    symbol,
   };
 };
 
