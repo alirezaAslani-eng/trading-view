@@ -6,7 +6,9 @@ import {
   Box,
   BoxProps,
   Divider,
+  FormControlLabel,
   Stack,
+  Switch,
   Tab,
   ToggleButton,
   Typography,
@@ -17,10 +19,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import tradeFormSchema from "@/validations/trade/tradeFormSchema";
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
 import tradeTogglebuttonSell_sx from "@/packages/mui/theme/shared-style/features/trading/tradeTogglebuttonSell_sx";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import {
   placeOrderConfig,
-  walletPortfolioConfig,
 } from "@/packages/react-query";
 import safeAsync from "@/utils/app/safeAsync";
 import { promiseAlert } from "@/packages/react-hot-toast";
@@ -45,10 +46,10 @@ import useKycGuard from "@/hooks/features/kyc/useKycGuard";
 import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 import { formatFaPrice } from "@/utils";
-import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
-import { useMemo } from "react";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
-import { useFinalTradeSunmmary } from "./hooks";
+import { useFinalTradeSunmmary, useTradeFormContext } from "./hooks";
+import { getTradePrecent } from "@/v2-architecture/src/features/trading";
+import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
@@ -60,7 +61,9 @@ const placeOrderMutationConfig = placeOrderConfig({
 });
 
 const priceUnitLabel = PRICE_UNITS.IRT.displayName;
+const weightUnitLabel = WEIGHT_UNITS.KG.lable;
 
+const tradePrecent = getTradePrecent();
 function TradePanel() {
   // * -------- productCode/Symbol --------
   const [symbol] = useSymbolParams();
@@ -107,8 +110,30 @@ function TradePanel() {
             <Box sx={{ mt: "calc(32px - 14px)" }}>
               {/* //* ---------- Order type selector ---------- */}
               <OrderTypeSelector control={form.control} />
-
+              <FormControlLabel
+                sx={{ my: 4 }}
+                control={
+                  <Switch
+                    {...form.register("settlementMode")}
+                    defaultChecked={
+                      form.formState.defaultValues?.settlementMode
+                    }
+                  />
+                }
+                label={
+                  <Typography
+                    component={"span"}
+                    variant="caption"
+                    sx={{ color: "text.secondary" }}
+                  >
+                    {form.watch("orderSide") === "sell"
+                      ? `فروش ${tradePrecent.number} درصد دارایی`
+                      : `پرداخت ${tradePrecent.number} درصد مبلغ`}
+                  </Typography>
+                }
+              />
               {/* // * ---------- Limited Price Tab ---------- */}
+
               <Box hidden={!isLimitedType}>
                 <LimitedPriceForm />
               </Box>
@@ -129,51 +154,48 @@ function TradePanel() {
 }
 
 function TradeSummary() {
-  const [symbol] = useSymbolParams();
+  const form = useTradeFormContext();
+  const {
+    fee_price,
+    final_price,
+    price_10_precent,
+    assetBalance,
+    walletBlance,
+    symbol,
+  } = useFinalTradeSunmmary();
 
-  const { fee_price, final_price } = useFinalTradeSunmmary();
-
-  //#region // * ------------ Wallet Info ------------
-  const walletQuery = useQuery(walletPortfolioConfig());
-
-  const { assets } = walletQuery.data ?? {};
-
-  const irtAsset = extractIRTAsset(walletQuery.data);
-
-  const metalAsset = useMemo(() => {
-    return assets?.find((asset) => {
-      return asset.assetSymbol === symbol;
-    });
-  }, [symbol, assets]);
-  //#endregion // * ------------ Wallet Info ------------
-
+  const isSell = form.watch("orderSide") === "sell";
   return (
     <Stack spacing={2.5} sx={{ mt: "8px" }}>
       <Summary>
         <SummaryLable>{"کیف پول:"}</SummaryLable>
         <SummaryAmount>
-          {`${formatFaPrice(irtAsset?.availableBalance ?? 0)} ${priceUnitLabel}`}
+          {`${formatFaPrice(walletBlance)} ${priceUnitLabel}`}
         </SummaryAmount>
       </Summary>
 
       <Summary>
         <SummaryLable>{`موجودی ${symbol}:`}</SummaryLable>
         <SummaryAmount sx={{ color: "text.secondary" }}>
-          {formatFaPrice(metalAsset?.availableBalance ?? 0, {
-            style: "unit",
-            unit: "kilogram",
-          })}
+          {`${formatFaPrice(assetBalance)} ${weightUnitLabel}`}
         </SummaryAmount>
       </Summary>
       <Divider sx={{ borderColor: "border.dark" }} />
 
       <Summary>
-        <SummaryLable>{"کارمزد معامله:"}</SummaryLable>
+        <SummaryLable>{"کارمزد:"}</SummaryLable>
         <SummaryAmount>{`${formatFaPrice(fee_price)} ${priceUnitLabel}`}</SummaryAmount>
       </Summary>
       <Summary>
-        <SummaryLable>{"جمع کل:"}</SummaryLable>
+        <SummaryLable>
+          {isSell ? "مبلق کل فروش:" : "مبلغ کل خرید:"}
+        </SummaryLable>
         <SummaryAmount>{`${formatFaPrice(final_price)} ${priceUnitLabel}`}</SummaryAmount>
+      </Summary>
+
+      <Summary>
+        <SummaryLable>{isSell ? "10 درصد مبلغ فروش" : "10 درصد مبلغ خرید:"}</SummaryLable>
+        <SummaryAmount>{`${formatFaPrice(price_10_precent)} ${priceUnitLabel}`}</SummaryAmount>
       </Summary>
     </Stack>
   );
