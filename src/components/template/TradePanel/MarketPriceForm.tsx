@@ -1,6 +1,6 @@
 import AmountDisplay from "../Trade/AmountDisplay";
 import { calculateTotalTradePrice, formatFaPrice } from "@/utils";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useWatch } from "react-hook-form";
 import { TradeFormSubscriber } from "./types";
 import SyncMarketPrice from "./SyncMarketPrice";
 import WeightInput from "./WeightInput";
@@ -10,18 +10,11 @@ import {
   TradeFieldsLayoutPrice,
   TradeFieldsLayoutTotalPrice,
 } from "@/components/ui/Layout/TradeFieldsLayout";
-import {
-  TradeFormSchemaInputType,
-  TradeFormSchemaOutputType,
-} from "@/validations/types";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
+import { useTradeFormContext } from "./hooks";
 
 function MarketPriceForm() {
-  const form = useFormContext<
-    TradeFormSchemaInputType,
-    unknown,
-    TradeFormSchemaOutputType
-  >();
+  const form = useTradeFormContext();
 
   return (
     <TradeFieldsLayout>

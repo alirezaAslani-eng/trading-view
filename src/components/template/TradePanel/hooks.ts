@@ -3,12 +3,21 @@ import { marketTickerInfoConfig } from "@/packages/react-query";
 import { calculateTotalTradePrice } from "@/utils";
 import { loyaltyProgressConfig } from "@/v2-architecture/src/features/loyalty/react-query";
 import { getTradePrecent } from "@/v2-architecture/src/features/trading";
-import { TradeFormSchemaInputType } from "@/validations/types";
+import {
+  TradeFormSchemaInputType,
+  TradeFormSchemaOutputType,
+} from "@/validations/types";
 import { useQuery } from "@tanstack/react-query";
 import { useFormContext, useWatch } from "react-hook-form";
 
+export const useTradeFormContext = useFormContext<
+  TradeFormSchemaInputType,
+  unknown,
+  TradeFormSchemaOutputType
+>;
+
 const useLimitedTotalPrice = () => {
-  const form = useFormContext<TradeFormSchemaInputType>();
+  const form = useTradeFormContext();
 
   const limitedPrice = useWatch({
     control: form.control,
@@ -24,7 +33,7 @@ const useLimitedTotalPrice = () => {
 };
 
 const useMarketTotalPrice = () => {
-  const form = useFormContext<TradeFormSchemaInputType>();
+  const form = useTradeFormContext();
 
   const weight = useWatch({
     control: form.control,
@@ -54,7 +63,7 @@ export const useCalculateFee = () => {
 const trade_precent = getTradePrecent();
 export const useFinalTradeSunmmary = () => {
   //#region // * ------------ Summary State ------------
-  const form = useFormContext<TradeFormSchemaInputType>();
+  const form = useTradeFormContext();
 
   const orderType = useWatch({ control: form.control, name: "orderType" });
   const orderSide = useWatch({ control: form.control, name: "orderSide" });

@@ -5,25 +5,17 @@ import {
   TradeFieldsLayoutPrice,
   TradeFieldsLayoutTotalPrice,
 } from "@/components/ui/Layout/TradeFieldsLayout";
-import {
-  TradeFormSchemaInputType,
-  TradeFormSchemaOutputType,
-} from "@/validations/types";
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 import WeightInput from "./WeightInput";
 import { TradeFormSubscriber } from "./types";
 import { InputTrade } from "../Trade/InputTrade";
 import { formatFaPrice } from "@/utils";
 import AmountDisplay from "../Trade/AmountDisplay";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
-import { useLimitedTotalPrice } from "./hooks";
+import { useLimitedTotalPrice, useTradeFormContext } from "./hooks";
 
 function LimitedPriceForm() {
-  const form = useFormContext<
-    TradeFormSchemaInputType,
-    unknown,
-    TradeFormSchemaOutputType
-  >();
+  const form = useTradeFormContext();
 
   return (
     <TradeFieldsLayout>
