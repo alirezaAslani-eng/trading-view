@@ -1,3 +1,5 @@
+import { QueryParamRules } from "@/utils/app/toQueryParams";
+
 export interface BaseApiResponse<TData> {
   isSuccess: boolean;
   message: string | null;
@@ -16,6 +18,7 @@ export type PaginationResponse<TData extends any[] = []> = {
 //#region // * ------------ Api Configuration ------------
 interface ApiConfigRule {
   queries?: string;
+  queryParams?: QueryParamRules;
   params?: Record<string, any>;
   body?: any;
 }
@@ -25,8 +28,3 @@ export type ApiConfig<
   TExtra extends object = {},
 > = Pick<RequestInit, "signal"> & TConfig & TExtra;
 //#endregion // * ------------ Api Configuration ------------
-
-
-
-
-
