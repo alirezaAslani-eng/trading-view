@@ -33,6 +33,7 @@ function page() {
             sx={{
               ...tradePageSpacing_sx.sectionContent_sx,
               alignItems: "stretch",
+              maxHeight: "617px", // * depends on the height of the largest section
             }}
           >
             {/* // * -------- Trade Panel -------- */}
