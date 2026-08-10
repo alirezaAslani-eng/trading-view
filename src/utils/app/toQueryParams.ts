@@ -1,4 +1,6 @@
-export type QueryParamRules = Record<string, boolean | number | string | null>;
+export type QueryParamRules = Partial<
+  Record<string, boolean | number | string | null>
+>;
 export function toQueryParams(
   params?: QueryParamRules,
 ): Record<string, string> {
