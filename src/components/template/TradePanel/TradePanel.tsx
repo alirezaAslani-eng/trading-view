@@ -158,7 +158,7 @@ function TradeSummary() {
     final_price,
     price_10_precent,
     assetBalance,
-    walletBlance,
+    buyingPower,
     symbol,
   } = useFinalTradeSunmmary();
 
@@ -169,7 +169,7 @@ function TradeSummary() {
       <Summary>
         <SummaryLable>{"قدرت خرید:"}</SummaryLable>
         <SummaryAmount>
-          {`${formatFaPrice(walletBlance)} ${priceUnitLabel}`}
+          {`${formatFaPrice(buyingPower)} ${priceUnitLabel}`}
         </SummaryAmount>
       </Summary>
 

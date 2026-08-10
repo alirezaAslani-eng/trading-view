@@ -62,9 +62,7 @@ export const useFinalTradeSunmmary = () => {
   const [symbol] = useSymbolParams();
   const walletQuery = useQuery(walletPortfolioConfig());
 
-  const { assets } = walletQuery.data ?? {};
-
-  const wallet = extractIRTAsset(walletQuery.data); // ! server state
+  const { assets, buyingPower = 0 } = walletQuery.data ?? {};
 
   const asset = useMemo(() => {
     return assets?.find((asset) => {
@@ -73,7 +71,6 @@ export const useFinalTradeSunmmary = () => {
   }, [symbol, assets]); // ! server state
 
   const assetBalance = asset?.availableBalance ?? 0;
-  const walletBlance = wallet?.availableBalance ?? 0;
   //#endregion // * ------------ Wallet Info ------------
 
   //#region // * ------------ Summary State ------------
@@ -112,7 +109,7 @@ export const useFinalTradeSunmmary = () => {
     final_price,
     price_10_precent,
     price_90_precent,
-    walletBlance,
+    buyingPower,
     assetBalance,
     symbol,
   };

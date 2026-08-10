@@ -26,7 +26,6 @@ import { portfolioTrendConfig } from "@/v2-architecture/src/features/portfolio/r
 
 export default function PortfolioOverviewSection() {
   //#region // * ------------ Data : Portfolio Trend ------------
-  const portfolioQuery = useQuery(walletPortfolioConfig());
   const portfolioTrendQuery = useQuery({
     ...portfolioTrendConfig(),
     select: toProtfolioTrendChart,
@@ -35,16 +34,14 @@ export default function PortfolioOverviewSection() {
   //#endregion // * ------------ Data : Portfolio Trend ------------
 
   //#region // * ------------ Data : Wallet ------------
+  const portfolioQuery = useQuery(walletPortfolioConfig());
   const isSuccessQuery = portfolioQuery.isSuccess;
-
-  const irtAsset = extractIRTAsset(portfolioQuery.data);
-
-  const { availableBalance = 0 } = irtAsset ?? {};
-
   const {
     totalPortfolioValueIrt = 0,
     totalProfitLoss24hIrt = 0,
     totalProfitLoss24hPercentage = 0,
+    availableCash = 0,
+    marginCredit = 0,
     assets = [],
   } = portfolioQuery.data ?? {};
   //#endregion // * ------------ Data : Wallet ------------
@@ -68,8 +65,8 @@ export default function PortfolioOverviewSection() {
           <Grid size={3}>
             <PortfolioStatItem
               loading={!isSuccessQuery}
-              title="موجودی نقد آزاد"
-              value={availableBalance}
+              title="کیف پول"
+              value={availableCash}
             />
           </Grid>
 
@@ -97,7 +94,7 @@ export default function PortfolioOverviewSection() {
             <PortfolioStatItem
               loading={!isSuccessQuery}
               title="اعتبار معاملاتی"
-              value={1000_000}
+              value={marginCredit}
             />
           </Grid>
         </Grid>
