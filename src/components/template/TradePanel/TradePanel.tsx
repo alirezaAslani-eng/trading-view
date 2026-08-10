@@ -167,7 +167,7 @@ function TradeSummary() {
   return (
     <Stack spacing={2.5} sx={{ mt: "8px" }}>
       <Summary>
-        <SummaryLable>{"کیف پول:"}</SummaryLable>
+        <SummaryLable>{"قدرت خرید:"}</SummaryLable>
         <SummaryAmount>
           {`${formatFaPrice(walletBlance)} ${priceUnitLabel}`}
         </SummaryAmount>
