@@ -7,9 +7,12 @@ interface WalletAsset {
 }
 
 interface WalletPortfolioResponse {
-  totalPortfolioValueIrt:number;
-  totalProfitLoss24hIrt:number;
-  totalProfitLoss24hPercentage:number;
+  totalPortfolioValueIrt: number;
+  totalProfitLoss24hIrt: number;
+  totalProfitLoss24hPercentage: number;
+  availableCash: number;
+  marginCredit: number;
+  buyingPower: number;
   assets: WalletAsset[];
 }
 export type { WalletPortfolioResponse, WalletAsset };
