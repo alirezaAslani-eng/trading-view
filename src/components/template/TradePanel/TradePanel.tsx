@@ -6,6 +6,7 @@ import {
   Box,
   BoxProps,
   Divider,
+  Fade,
   FormControlLabel,
   Stack,
   Switch,
@@ -190,13 +191,14 @@ function TradeSummary() {
         </SummaryLable>
         <SummaryAmount>{`${formatFaPrice(final_price)} ${priceUnitLabel}`}</SummaryAmount>
       </Summary>
-
-      <Summary hidden={!settlementMode}>
-        <SummaryLable>
-          {isSell ? "10 درصد مبلغ فروش" : "10 درصد مبلغ خرید:"}
-        </SummaryLable>
-        <SummaryAmount>{`${formatFaPrice(price_10_precent)} ${priceUnitLabel}`}</SummaryAmount>
-      </Summary>
+      <Fade in={settlementMode}>
+        <Summary>
+          <SummaryLable>
+            {isSell ? "10 درصد مبلغ فروش" : "10 درصد مبلغ خرید:"}
+          </SummaryLable>
+          <SummaryAmount>{`${formatFaPrice(price_10_precent)} ${priceUnitLabel}`}</SummaryAmount>
+        </Summary>
+      </Fade>
     </Stack>
   );
 }
@@ -206,7 +208,7 @@ function Summary(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
     <Box
       {...props}
       sx={({ typography }) => ({
-        display: "flex",
+        ...(!props.hidden && { display: "flex" }),
         justifyContent: "space-between",
         alignItems: "center",
         ...typography.caption2,
