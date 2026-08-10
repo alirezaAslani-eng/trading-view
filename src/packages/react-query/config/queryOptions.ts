@@ -33,6 +33,8 @@ import {
   symbols,
   walletPortfolio,
   transactions,
+  OrderBookParams,
+  OrderBookQuerieParams,
 } from "@/api";
 import buildOrderFilterQueries from "@/utils/features/order/buildOrderFilterQueries";
 import buildTransactionFilterQueries from "@/utils/features/transaction/buildTransactionFilterQueries";
@@ -103,11 +105,19 @@ const marketTickerInfoConfig = (tickerName: string) => {
     queryFn: () => marketTickerInfo(tickerName),
   });
 };
-const orderBookConfig = (symbol: string) => {
+const orderBookConfig = (filters: OrderBookParams & OrderBookQuerieParams) => {
+  const { symbol, settlementMode } = filters;
   return queryOptions({
-    queryKey: orderBookDynamicKey(symbol),
-    refetchOnMount: "always", // * Because signalr updates only the active ticker
-    queryFn: () => orderBook(symbol),
+    queryKey: orderBookDynamicKey(filters),
+    queryFn: ({ signal }) =>
+      orderBook({
+        signal,
+        params: { symbol },
+        queryParams: { settlementMode },
+      }),
+    gcTime: 0,
+    // Infinity because SignalR is responsible for real-time updates
+    staleTime: Infinity,
   });
 };
 const permissionGroupsConfig = () => {

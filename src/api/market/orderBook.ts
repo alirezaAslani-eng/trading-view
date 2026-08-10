@@ -1,30 +1,56 @@
-import fetchHandler from "@/utils/app/fetchHandler";
-import handleApiResponse from "@/utils/app/handleApiResponse";
-import { OrderBookResponse } from "@/api/types";
-import { sharedRequestInit } from "../sharedRequestInit";
-import { BaseApiResponse } from "@/types";
 import { buildTradeModeQueries } from "@/packages/react-query/config/helpers";
+import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
+import { toQueryParams } from "@/utils/app/toQueryParams";
+import { BaseApiResponse } from "@/types";
 
-const URL = (symbol: string) =>
-  `${
-    process.env.NEXT_PUBLIC_AUTH_BASEURL
-  }/api/v1/market/depth/${symbol}?${new URLSearchParams(
-    buildTradeModeQueries()
-  ).toString()}`;
+export const orderBook = async ({
+  signal,
+  params,
+  queryParams,
+}: Config): Promise<OrderBookData> => {
+  const res = await apiClient.get(url({ params, queryParams }), {
+    signal,
+  });
 
-async function orderBook(symbol: string): Promise<OrderBookResponse> {
-  const res = (await fetchHandler(async () => {
-    const response = await fetch(URL(symbol), {
-      ...sharedRequestInit,
-    });
-    return response;
-  })) as Response;
+  const raw = await apiError.jsonHandler<BaseApiResponse<OrderBookData>>(res);
+  return {
+    ...raw.data,
+    symbol: params.symbol,
+  };
+};
 
-  const data = (await handleApiResponse(
-    res
-  )) as BaseApiResponse<OrderBookResponse>;
-
-  return { ...data.data, symbol: symbol };
+type OrderBook = [number, number];
+type Config = ApiConfig<{
+  params: OrderBookParams;
+  queryParams?: OrderBookQuerieParams;
+}>;
+//#region // * ------------ Shared types ------------
+export interface OrderBookData {
+  bids: Array<OrderBook>;
+  asks: Array<OrderBook>;
+  symbol: string;
 }
+export type OrderBookQuerieParams = {
+  settlementMode?: boolean;
+};
+export type OrderBookParams = {
+  symbol: string;
+};
+//#endregion // * ------------ Shared types ------------
 
-export default orderBook;
+//#region // * ------------ Helpers ------------
+const url = ({
+  params,
+  queryParams,
+}: Pick<Config, "params" | "queryParams">) => {
+  return apiClient.authBaseURL(
+    `/api/v1/market/depth/${params.symbol}?${toQueryString(queryParams)}`,
+  );
+};
+const toQueryString = (queries?: OrderBookQuerieParams): string => {
+  return new URLSearchParams({
+    ...toQueryParams(queries),
+    ...buildTradeModeQueries(),
+  }).toString();
+};
+//#endregion // * ------------ Helpers ------------

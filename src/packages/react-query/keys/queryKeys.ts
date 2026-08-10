@@ -1,3 +1,4 @@
+import { OrderBookParams, OrderBookQuerieParams } from "@/api";
 import { ProductStatus } from "@/api/types";
 import { OrderFilters, TransactionFilters } from "@/types";
 import { symbol } from "zod";
@@ -36,7 +37,9 @@ const marketTickerInfoDynamicKey = (tickerName: string) => [
 ];
 const symbolsKey = ["symbols"];
 const orderBookKey = [...authBaseKey, "order-book"];
-const orderBookDynamicKey = (symbol: string) => [...orderBookKey, symbol];
+const orderBookDynamicKey = (
+  filters: OrderBookParams & OrderBookQuerieParams,
+) => [...orderBookKey, filters];
 
 const ordersKey = [...TradeBaseKey, "orders"];
 const ordersDynamicKey = (filters: OrderFilters) => [...ordersKey, filters];
@@ -87,7 +90,7 @@ export {
   transactionsDynamicKey,
   userPermissionsDynamicKey,
   recentTradesDynamicKey,
-  recentTradesKey
+  recentTradesKey,
 };
 
 // * prefix keys

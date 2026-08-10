@@ -23,6 +23,7 @@ import { PRICE_UNITS } from "@/constant/features/priceConfig";
 import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
 import { OrderSide } from "@/types";
 import { ORDER_SIDE } from "@/constant/features/order/orderSide";
+import { useTradeForm } from "../TradePanel/TradeFormContext";
 
 type OrderBookListProps = {
   rows: OrderBookType[];
@@ -48,11 +49,16 @@ export default function OrderBook() {
   const [symbol] = useSymbolParams();
   const [tab, setTab] = useState<"open-orders" | "last-trades">("open-orders");
   const recentTradesQuery = useQuery(recentTradesConfig(symbol));
-
   const [orderBookView, setOrderBookView] = useState<OrderBookViewType>("all");
 
-  const orderBookQuery = useQuery(orderBookConfig(symbol));
+  const tradeForm = useTradeForm();
   const tickerInfoQuery = useQuery(marketTickerInfoConfig(symbol));
+  const orderBookQuery = useQuery(
+    orderBookConfig({
+      symbol,
+      settlementMode: tradeForm.watch("settlementMode"),
+    }),
+  );
 
   const orderBookViewToggle = () => {
     setOrderBookView((prev) => {
@@ -125,7 +131,7 @@ export default function OrderBook() {
               }}
             />
 
-            {orderBookQuery.status === "success" && (
+            {orderBookQuery.isSuccess && (
               <>
                 {(orderBookView === "all" || orderBookView === "asks") && (
                   <OrderBookList
@@ -174,7 +180,7 @@ export default function OrderBook() {
               }}
             />
 
-            {recentTradesQuery.status === "success" && (
+            {recentTradesQuery.isSuccess && (
               <RecentTradesList rows={recentTradesQuery.data} />
             )}
           </>
