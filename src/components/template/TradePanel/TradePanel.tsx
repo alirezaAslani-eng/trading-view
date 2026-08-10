@@ -120,12 +120,12 @@ function TradePanel() {
                 }
                 label={
                   <Typography
-                    component={"span"}
+                    component="span"
                     variant="caption"
                     sx={{ color: "text.secondary" }}
                   >
                     {form.watch("orderSide") === "sell"
-                      ? `فروش ${tradePrecent.number} درصد دارایی`
+                      ? `دریافت ${tradePrecent.number} درصد مبلغ`
                       : `پرداخت ${tradePrecent.number} درصد مبلغ`}
                   </Typography>
                 }
