@@ -1,19 +1,12 @@
 import { marketTickerInfoConfig } from "@/packages/react-query";
-import {
-  TradeFormSchemaInputType,
-  TradeFormSchemaOutputType,
-} from "@/validations/types";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useWatch } from "react-hook-form";
+import { useTradeForm } from "./TradeFormContext";
 
 // * A logical component just to localise the re-render and update `marketPrice` field
 function SyncMarketPrice() {
-  const form = useFormContext<
-    TradeFormSchemaInputType,
-    unknown,
-    TradeFormSchemaOutputType
-  >();
+  const form = useTradeForm();
   const productCode = useWatch({ control: form.control, name: "productCode" });
 
   const query = useQuery(marketTickerInfoConfig(productCode));

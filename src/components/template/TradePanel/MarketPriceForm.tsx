@@ -11,10 +11,10 @@ import {
   TradeFieldsLayoutTotalPrice,
 } from "@/components/ui/Layout/TradeFieldsLayout";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
-import { useTradeFormContext } from "./hooks";
+import { useTradeForm } from "./TradeFormContext";
 
 function MarketPriceForm() {
-  const form = useTradeFormContext();
+  const form = useTradeForm();
 
   return (
     <TradeFieldsLayout>

@@ -7,22 +7,13 @@ import { calculateTotalTradePrice } from "@/utils";
 import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
 import { loyaltyProgressConfig } from "@/v2-architecture/src/features/loyalty/react-query";
 import { getTradePrecent } from "@/v2-architecture/src/features/trading";
-import {
-  TradeFormSchemaInputType,
-  TradeFormSchemaOutputType,
-} from "@/validations/types";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { useFormContext, useWatch } from "react-hook-form";
-
-export const useTradeFormContext = useFormContext<
-  TradeFormSchemaInputType,
-  unknown,
-  TradeFormSchemaOutputType
->;
+import { useWatch } from "react-hook-form";
+import { useTradeForm } from "./TradeFormContext";
 
 const useLimitedTotalPrice = () => {
-  const form = useTradeFormContext();
+  const form = useTradeForm();
 
   const limitedPrice = useWatch({
     control: form.control,
@@ -38,7 +29,7 @@ const useLimitedTotalPrice = () => {
 };
 
 const useMarketTotalPrice = () => {
-  const form = useTradeFormContext();
+  const form = useTradeForm();
 
   const weight = useWatch({
     control: form.control,
@@ -86,7 +77,7 @@ export const useFinalTradeSunmmary = () => {
   //#endregion // * ------------ Wallet Info ------------
 
   //#region // * ------------ Summary State ------------
-  const form = useTradeFormContext();
+  const form = useTradeForm();
 
   const orderType = useWatch({ control: form.control, name: "orderType" });
   const orderSide = useWatch({ control: form.control, name: "orderSide" });
@@ -101,9 +92,8 @@ export const useFinalTradeSunmmary = () => {
   const fee_price = calculate(totalPrice); // ! server state
 
   //#region // * ------------ Final Price ------------
-  const totalSellPrice = !(assetBalance <= 0) ? totalPrice - fee_price : 0;
   const final_price =
-    orderSide === "buy" ? totalPrice + fee_price : totalSellPrice;
+    orderSide === "buy" ? totalPrice + fee_price : totalPrice - fee_price;
   //#endregion // * ------------ Final Price ------------
 
   //#region // * ------------ 10 Precent of Price ------------

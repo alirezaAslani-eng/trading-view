@@ -13,6 +13,7 @@ import {
   Section,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
+import { TradeFormProvider } from "@/components/template/TradePanel/TradeFormContext";
 
 function page() {
   return (
@@ -35,13 +36,15 @@ function page() {
             }}
           >
             {/* // * -------- Trade Panel -------- */}
-            <Box sx={{ width: "270px", maxWidth: "270px" }}>
-              <TradePanel />
-            </Box>
-            {/* // * -------- Order Book -------- */}
-            <Box sx={{ width: "270px" }}>
-              <OrderBook />
-            </Box>
+            <TradeFormProvider>
+              <Box sx={{ width: "270px", maxWidth: "270px" }}>
+                <TradePanel />
+              </Box>
+              {/* // * -------- Order Book -------- */}
+              <Box sx={{ width: "270px" }}>
+                <OrderBook />
+              </Box>
+            </TradeFormProvider>
 
             {/* // * ---------- Trading Chart ---------- */}
             <Box sx={{ flex: 1, minWidth: "0px" }}>

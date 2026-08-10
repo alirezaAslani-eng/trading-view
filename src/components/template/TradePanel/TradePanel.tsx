@@ -45,11 +45,12 @@ import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 import { formatFaPrice } from "@/utils";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
-import { useFinalTradeSunmmary, useTradeFormContext } from "./hooks";
+import { useFinalTradeSunmmary } from "./hooks";
 import { getTradePrecent } from "@/v2-architecture/src/features/trading";
 import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
 import { show } from "@ebay/nice-modal-react";
 import { GenericConfirmDialog } from "@/packages/nice-modal-react";
+import { useTradeForm } from "./TradeFormContext";
 
 type OrderTypes = TradeFormSchemaInputType["orderType"];
 type OrderSide = TradeFormSchemaInputType["orderSide"];
@@ -65,28 +66,18 @@ const weightUnitLabel = WEIGHT_UNITS.KG.lable;
 
 const tradePrecent = getTradePrecent();
 function TradePanel() {
-  // * -------- productCode/Symbol --------
-  const [symbol] = useSymbolParams();
+  // * ------- Form Configuration -------
+  const form = useTradeForm();
+
+  //  * ------- Order type state ---------
+  const isMarketType = form.watch("orderType") === "market";
+  const isLimitedType = form.watch("orderType") === "limit";
 
   // * --------- From API ---------
   const placeOrderApi = useMutation(placeOrderMutationConfig);
 
   // * --------- KYC Guard ---------
   const { checkAccess } = useKycGuard();
-
-  // * ------- Form Configuration -------
-  const form = useForm({
-    resolver: zodResolver(tradeFormSchema),
-    defaultValues: {
-      orderSide: "buy",
-      orderType: "market",
-      productCode: symbol,
-    },
-  });
-
-  //  * ------- Order type state ---------
-  const isMarketType = form.watch("orderType") === "market";
-  const isLimitedType = form.watch("orderType") === "limit";
 
   //  * ------- Submit handler ---------
   const onSubmit = async (fields: TradeFormSchemaOutputType) => {
@@ -102,11 +93,7 @@ function TradePanel() {
       });
       if (!confirm) return;
     }
-
-    await promiseAlert(
-      safeAsync(() => placeOrderApi.mutateAsync(fields)),
-      { loading: alertMessages.loading },
-    );
+    await safeAsync(() => placeOrderApi.mutateAsync(fields));
   };
 
   return (
@@ -164,7 +151,7 @@ function TradePanel() {
 }
 
 function TradeSummary() {
-  const form = useTradeFormContext();
+  const form = useTradeForm();
   const {
     fee_price,
     final_price,
@@ -175,6 +162,7 @@ function TradeSummary() {
   } = useFinalTradeSunmmary();
 
   const isSell = form.watch("orderSide") === "sell";
+  const settlementMode = form.watch("settlementMode");
   return (
     <Stack spacing={2.5} sx={{ mt: "8px" }}>
       <Summary>
@@ -203,7 +191,7 @@ function TradeSummary() {
         <SummaryAmount>{`${formatFaPrice(final_price)} ${priceUnitLabel}`}</SummaryAmount>
       </Summary>
 
-      <Summary>
+      <Summary hidden={!settlementMode}>
         <SummaryLable>
           {isSell ? "10 درصد مبلغ فروش" : "10 درصد مبلغ خرید:"}
         </SummaryLable>

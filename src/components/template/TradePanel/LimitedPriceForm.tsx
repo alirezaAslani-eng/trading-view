@@ -12,10 +12,11 @@ import { InputTrade } from "../Trade/InputTrade";
 import { formatFaPrice } from "@/utils";
 import AmountDisplay from "../Trade/AmountDisplay";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
-import { useLimitedTotalPrice, useTradeFormContext } from "./hooks";
+import { useLimitedTotalPrice } from "./hooks";
+import { useTradeForm } from "./TradeFormContext";
 
 function LimitedPriceForm() {
-  const form = useTradeFormContext();
+  const form = useTradeForm();
 
   return (
     <TradeFieldsLayout>
