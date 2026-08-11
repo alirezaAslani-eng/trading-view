@@ -13,10 +13,13 @@ import {
 import ScrollContainer from "@/components/ui/ScrollContainer/ScrollContainer";
 import {
   MY_COMPANY_ROLE,
+  SwitchToPersonalData,
+  SwitchWorkSpaceVariables,
   WorkspacesData,
 } from "@/v2-architecture/src/features/kyc/api";
 import {
   createCompanyConfig,
+  switchToPersonalConfig,
   switchWorkSpaceConfig,
   workspacesConfig,
 } from "@/v2-architecture/src/features/kyc/react-query";
@@ -28,7 +31,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  DefaultError,
+  useMutation,
+  UseMutationResult,
+  useQuery,
+} from "@tanstack/react-query";
 import safeAsync from "@/utils/app/safeAsync";
 import {
   ModalLayout,
@@ -54,6 +62,9 @@ import NextLink from "@/components/ui/Link/NextLink";
 import { ROUTES } from "@/constant/app/routes";
 import useKycGuard from "@/hooks/features/kyc/useKycGuard";
 import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
+import { show } from "@ebay/nice-modal-react";
+import { GenericConfirmDialog } from "@/packages/nice-modal-react";
+import { SwitchWorkSpaceData } from "@/v2-architecture/src/features/kyc/api";
 
 const roleContent = {
   [MY_COMPANY_ROLE.owner]: {
@@ -64,6 +75,19 @@ const roleContent = {
     label: "معامله‌گر",
     color: "default",
   },
+} as const;
+
+const switchConfirm = {
+  title: "ورود به حساب حقوقی",
+  color: "primary",
+  description:
+    "آیا مطمئن هستید که می‌خواهید وارد حساب حقوقی شوید؟ پس از ورود، عملیات و اطلاعات شما مربوط به این حساب حقوقی خواهد بود.",
+} as const;
+const logoutConfirm = {
+  title: "خروج از حساب حقوقی",
+  color: "primary",
+  description:
+    "آیا مطمئن هستید که می‌خواهید از حساب حقوقی خارج شوید؟ پس از خروج، به حساب شخصی خود بازمی‌گردید.",
 } as const;
 
 export default function page() {
@@ -77,20 +101,27 @@ export default function page() {
   const closeCompanyModalHandler = () => {
     setCompanyModal(false);
   };
-
   //#endregion // * ------------ Add Company Modal State ------------
 
   //#region // * ------------ Workspaces Data ------------
   const { data, isLoading, isError } = useQuery(workspacesConfig());
-  //#endregion
+  //#endregion // * ------------ Workspaces Data ------------
 
   //#region // * ------------ Switch Workspace ------------
-  const switchMutation = useMutation(switchWorkSpaceConfig());
+  const switchWorkspaceMutation = useMutation(switchWorkSpaceConfig());
+  const switchToPersonalMutation = useMutation(switchToPersonalConfig());
 
   const switchWorkspace = async (companyId: string) => {
-    switchMutation.mutate({ companyId });
+    const confirm = await show(GenericConfirmDialog, switchConfirm);
+    if (!confirm) return;
+    switchWorkspaceMutation.mutate({ companyId });
   };
-  //#endregion
+  const logoutWorkspace = async () => {
+    const confirm = await show(GenericConfirmDialog, logoutConfirm);
+    if (!confirm) return;
+    switchToPersonalMutation.mutate();
+  };
+  //#endregion // * ------------ Switch Workspace ------------
 
   return (
     <PagePaper>
@@ -123,11 +154,13 @@ export default function page() {
                 <WorkspaceAccountItem
                   key={workspace.companyId}
                   workspace={workspace}
-                  isSwitching={
-                    switchMutation.isPending &&
-                    switchMutation.variables?.companyId === workspace.companyId
-                  }
-                  onSwitch={() => switchWorkspace(workspace.companyId)}
+                  isSwitching={getWorkspaceLoadingState({
+                    workspace,
+                    switchToPersonalMutation,
+                    switchWorkspaceMutation,
+                  })}
+                  onLogin={switchWorkspace}
+                  onLogout={logoutWorkspace}
                 />
               ))}
             </Stack>
@@ -136,7 +169,7 @@ export default function page() {
 
         <CreateCompanyModlaForm
           open={companyModal}
-          onClose={() => setCompanyModal(false)}
+          onClose={closeCompanyModalHandler}
         />
       </Box>
       {/* Custom Content */}
@@ -149,13 +182,15 @@ export default function page() {
 type WorkspaceAccountItemProps = {
   workspace: WorkspacesData[number];
   isSwitching: boolean;
-  onSwitch: () => void;
+  onLogin?: (companyId: string) => void;
+  onLogout?: () => void;
 };
 
 function WorkspaceAccountItem({
   workspace,
   isSwitching,
-  onSwitch,
+  onLogin,
+  onLogout,
 }: WorkspaceAccountItemProps) {
   const role = roleContent[workspace.myRole];
 
@@ -202,16 +237,30 @@ function WorkspaceAccountItem({
           </NextLink>
         )}
 
-        <Button
-          variant={workspace.isActive ? "contained" : "on-surface"}
-          size="small"
-          disabled={workspace.isActive || isSwitching}
-          onClick={onSwitch}
-          sx={{ gap: "6px" }}
-        >
-          {isSwitching && <BouncCircleLoader bounceSx={{ width: "6px" }} />}
-          {!isSwitching && (workspace.isActive ? "فعال" : "سوییچ به این حساب")}
-        </Button>
+        {workspace.isActive ? (
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            disabled={isSwitching}
+            onClick={onLogout}
+            sx={{ gap: "6px" }}
+          >
+            {isSwitching && <BouncCircleLoader bounceSx={{ width: "6px" }} />}
+            {!isSwitching && "خروج"}
+          </Button>
+        ) : (
+          <Button
+            variant="on-surface"
+            size="small"
+            disabled={isSwitching}
+            onClick={() => onLogin?.(workspace.companyId)}
+            sx={{ gap: "6px" }}
+          >
+            {isSwitching && <BouncCircleLoader bounceSx={{ width: "6px" }} />}
+            {!isSwitching && "سوییچ به این حساب"}
+          </Button>
+        )}
       </Stack>
     </Box>
   );
@@ -302,4 +351,31 @@ function CreateCompanyModlaForm({
       </ModalLayout>
     </Dialog>
   );
+}
+
+function getWorkspaceLoadingState({
+  workspace,
+  switchWorkspaceMutation,
+  switchToPersonalMutation,
+}: {
+  workspace: WorkspacesData[number];
+  switchToPersonalMutation: UseMutationResult<
+    SwitchToPersonalData,
+    DefaultError,
+    void
+  >;
+  switchWorkspaceMutation: UseMutationResult<
+    SwitchWorkSpaceData,
+    DefaultError,
+    SwitchWorkSpaceVariables
+  >;
+}): boolean {
+  const isSwitchingToThisWorkspace =
+    switchWorkspaceMutation.isPending &&
+    switchWorkspaceMutation.variables?.companyId === workspace.companyId;
+
+  const isSwitchingToThisPersonal =
+    switchToPersonalMutation.isPending && workspace.isActive;
+
+  return isSwitchingToThisWorkspace || isSwitchingToThisPersonal;
 }
