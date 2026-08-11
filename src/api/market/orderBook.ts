@@ -49,7 +49,7 @@ const url = ({
 };
 const toQueryString = (queries?: OrderBookQuerieParams): string => {
   return new URLSearchParams({
-    ...toQueryParams(queries),
+    ...toQueryParams({ settlementMode: queries?.settlementMode ? 1 : 0 }),
     ...buildTradeModeQueries(),
   }).toString();
 };
