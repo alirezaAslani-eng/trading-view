@@ -16,6 +16,7 @@ import {
   KycMergeAccountVariables,
   removeCompanyMember,
   RemoveCompanyMemberParams,
+  switchToPersonal,
   switchWorkSpace,
   SwitchWorkSpaceVariables,
 } from "../api";
@@ -33,24 +34,6 @@ export const kycL3Config = createMutationOptions({
   },
   mutationFn: (vars: KycL3Variables) => {
     return kycL3({ body: vars });
-  },
-});
-
-export const switchWorkSpaceConfig = createMutationOptions({
-  meta: {
-    successMessage: "حساب حقوقی با موفقیت تغییر کرد",
-    invalidates: [workspacesKey],
-  },
-  // OPTIMIZE : Dont clear the whole cache
-  onSuccess: () => {
-    queryClient.resetQueries({
-      predicate(query) {
-        return query.queryKey?.[0] !== workspacesKey?.[0];
-      },
-    });
-  },
-  mutationFn: (vars: SwitchWorkSpaceVariables) => {
-    return switchWorkSpace({ body: vars });
   },
 });
 
@@ -93,3 +76,39 @@ export const kycMergeAccountConfig = createMutationOptions({
     queryClient.resetQueries();
   },
 });
+
+//#region // * ------------ Account Switching Mutations ------------
+// ! ARCH : There is DRY in `onSuccess` & query invalidation
+export const switchWorkSpaceConfig = createMutationOptions({
+  meta: {
+    successMessage: "حساب حقوقی با موفقیت تغییر کرد",
+    invalidates: [workspacesKey],
+  },
+  // OPTIMIZE : Dont clear the whole cache
+  onSuccess: () => {
+    queryClient.resetQueries({
+      predicate(query) {
+        return query.queryKey?.[0] !== workspacesKey?.[0];
+      },
+    });
+  },
+  mutationFn: (vars: SwitchWorkSpaceVariables) => {
+    return switchWorkSpace({ body: vars });
+  },
+});
+// ! ARCH : There is DRY in `onSuccess` & query invalidation
+export const switchToPersonalConfig = createMutationOptions({
+  meta: {
+    successMessage: "به حساب حقیقی بازگشتید",
+    invalidates: [workspacesKey],
+  },
+  mutationFn: () => switchToPersonal(),
+  onSuccess() {
+    queryClient.resetQueries({
+      predicate(query) {
+        return query.queryKey?.[0] !== workspacesKey?.[0];
+      },
+    });
+  },
+});
+//#endregion // * ------------ Account Switching Mutations ------------
