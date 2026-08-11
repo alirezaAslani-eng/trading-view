@@ -133,7 +133,7 @@ export default function PortfolioOverviewSection() {
                   series={[
                     {
                       data: assets.map((asset) => ({
-                        value: asset.availableBalance,
+                        value: asset.totalValueInIrt,
                         label: asset.assetSymbol,
                       })),
                     },
