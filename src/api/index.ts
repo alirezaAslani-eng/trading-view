@@ -18,7 +18,7 @@ export { default as getMarketTickers } from "./market/getMarketTickers";
 export { default as tradingViewConfig } from "./trading/tradingViewConfig";
 export { default as candlestickHistory } from "./trading/candlestickHistory";
 export { default as symbols } from "./trading/symbols";
-export { default as placeOrder } from "./trading/placeOrder";
+export { placeOrder, type PlaceOrderVariables } from "./trading/placeOrder";
 export { default as marketTickerInfo } from "./market/marketTickerInfo";
 export * from "./market/orderBook";
 export { default as searchSymbols } from "./trading/searchSymbols";

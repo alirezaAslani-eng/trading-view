@@ -1,33 +1,36 @@
-import fetchHandler from "@/utils/app/fetchHandler";
-import handleApiResponse from "@/utils/app/handleApiResponse";
-import { sharedRequestInit } from "../sharedRequestInit";
-import { SharedHeaders } from "../sharedHeaders";
-import mutationFetch from "@/utils/app/mutationFetch";
+// --- placeOrder ---
+
+import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
 import { TradeFormSchemaOutputType } from "@/validations/types/trade.types";
-import { buildTradeModeQueries } from "@/packages/react-query/config/helpers";
-import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
+import { booleanToNumber } from "@/v2-architecture/src/shared/utils";
+import {
+  SettlementModeVariables,
+  TradeModeVariables,
+} from "@/v2-architecture/src/features/trading/api";
 
-const URL = () => {
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders`;
+const url = apiClient.authBaseURL("/api/v1/orders");
+
+export const placeOrder = async ({
+  signal,
+  body,
+}: Config): Promise<PlaceOrderData> => {
+  const res = await apiClient.post(url, {
+    signal,
+    body: JSON.stringify({
+      ...body,
+      settlementMode: booleanToNumber(body.settlementMode),
+    }),
+  });
+  return apiError.jsonHandler(res);
 };
-async function placeOrder(orderInfo: TradeFormSchemaOutputType): Promise<void> {
-  const res = (await fetchHandler(async () => {
-    const response = await mutationFetch(URL(), {
-      method: "POST",
-      ...sharedRequestInit,
-      body: JSON.stringify({
-        ...orderInfo,
-        isdemo: TradeModeStore.getTradeModeConfig().isDemo,
-      }),
-      headers: {
-        ...new SharedHeaders(),
-        "Content-Type": "application/json",
-      },
-    });
-    return response;
-  })) as Response;
 
-  await handleApiResponse(res);
-}
+//#region // * ------------ Shared types ------------
+export type PlaceOrderData = void; // * the api doesn't return anything
+export type PlaceOrderVariables = TradeFormSchemaOutputType &
+  TradeModeVariables &
+  SettlementModeVariables;
+//#endregion // * ------------ Shared types ------------
 
-export default placeOrder;
+//#region // * ------------ Internal types ------------
+type Config = ApiConfig<{ body: PlaceOrderVariables }>;
+//#endregion // * ------------ Internal types ------------

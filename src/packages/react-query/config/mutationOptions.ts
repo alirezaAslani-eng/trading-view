@@ -1,5 +1,11 @@
 "use client";
-import { addShaba, enableDemo, KycL2Variables } from "@/api";
+import {
+  addShaba,
+  enableDemo,
+  KycL2Variables,
+  placeOrder,
+  PlaceOrderVariables,
+} from "@/api";
 import addCard from "@/api/bank/addcard";
 import { deposit } from "@/api";
 import addgroup from "@/api/group/addGroup";
@@ -11,7 +17,6 @@ import {
   deleteBankAccount,
   deleteProduct,
   kycL2,
-  placeOrder,
   requestAuthOTP,
   verifyAuthOTP,
   withdraw,
@@ -147,7 +152,9 @@ const addGroupConfig = createMutationOptions({
 
 const placeOrderConfig = createMutationOptions({
   mutationKey: placeOrderKey,
-  mutationFn: placeOrder,
+  mutationFn: (vars: PlaceOrderVariables) => {
+    return placeOrder({ body: vars });
+  },
   meta: {
     invalidates: [transactionsKey],
   },
