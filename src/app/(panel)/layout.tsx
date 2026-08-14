@@ -5,10 +5,8 @@ import { SidebarProvider } from "@/context/app/Sidebar";
 import { BankModalProvider } from "@/context/feature/bank/BankModal";
 import BankGlobalModals from "@/components/template/Modal/BankGlobalModals";
 import TickerInfoSyncProvider from "@/context/feature/market/TickerInfoSyncProvider";
-import OrderBookSyncProvider from "@/context/feature/market/OrderBookSyncProvider";
 import MarketTickersSyncProvider from "@/context/feature/market/MarketTickersSyncProvider";
 import RecentTradeSyncProvider from "@/context/feature/trade/RecentTradeSyncProvider";
-import MarketSubscribeProvider from "@/context/feature/market/MarketSubscribeProvider";
 import WalletPortfolioSyncProvider from "@/context/feature/Portfolio/WalletPortfolioSyncProvider";
 import OrdersSyncProvider from "@/context/feature/market/OrdersSyncProvider";
 import { MarketProvider } from "@/v2-architecture/src/features/trading";
@@ -20,7 +18,6 @@ function layout({ children }: PWC) {
       <MarketTickersSyncProvider />
       <WalletPortfolioSyncProvider />
       <RecentTradeSyncProvider />
-      <OrderBookSyncProvider />
       <OrdersSyncProvider />
       {/* // * ---- Signalr Providers ---- */}
       <BankModalProvider>
@@ -28,7 +25,7 @@ function layout({ children }: PWC) {
           <KycGlobalModals />
           <BankGlobalModals />
           <MarketProvider>
-          <LayoutMainPanel>{children}</LayoutMainPanel>
+            <LayoutMainPanel>{children}</LayoutMainPanel>
           </MarketProvider>
         </SidebarProvider>
       </BankModalProvider>

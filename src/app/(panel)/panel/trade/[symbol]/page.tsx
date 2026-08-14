@@ -1,11 +1,12 @@
 import PageHeader from "@/components/common/Appbar/PageHeader";
-import OrderBook from "@/components/template/Table/OrderBook";
 import PriceOverview from "@/components/template/Trade/PriceOverview";
 import TradePanel from "@/components/template/TradePanel/TradePanel";
 import tradePageSpacing_sx from "@/packages/mui/theme/shared-style/features/trading/tradePageSpacing_sx";
 import TradeChart from "@/components/template/Trade/TradeChart";
 import { Box } from "@mui/material";
 import TradingActivity from "@/components/template/Trade/TradingActivity";
+import { TradeFormProvider } from "@/components/template/TradePanel/TradeFormContext";
+import { OrderBook } from "@/components/template/Table/OrderBook";
 import {
   Header,
   Main,
@@ -13,7 +14,7 @@ import {
   Section,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
-import { TradeFormProvider } from "@/components/template/TradePanel/TradeFormContext";
+import { OrderBookSyncProvider } from "@/context/feature/market/OrderBookSyncProvider";
 
 function page() {
   return (
@@ -37,6 +38,7 @@ function page() {
             }}
           >
             {/* // * -------- Trade Panel -------- */}
+            <OrderBookSyncProvider />
             <TradeFormProvider>
               <Box sx={{ width: "270px", maxWidth: "270px" }}>
                 <TradePanel />
