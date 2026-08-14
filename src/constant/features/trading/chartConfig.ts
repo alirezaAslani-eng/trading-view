@@ -7,7 +7,6 @@ import {
   marketHub,
   onTradeExecuted,
   OnTradeExecutedInfo,
-  subscribeToMarket,
 } from "@/packages/signalr";
 import { CandleDataType } from "@/api/types";
 
@@ -51,7 +50,7 @@ const datafeed: WidgetOptions["datafeed"] = {
           resolution,
           symbol: symbolInfo.name,
         },
-      })
+      }),
     );
 
     if (!candleHistory.ok) {
@@ -77,17 +76,12 @@ const datafeed: WidgetOptions["datafeed"] = {
     onResult(
       searchResult.data.map((item) => {
         return { ...item, ticker: item.symbol };
-      })
+      }),
     );
   },
 
   subscribeBars: (symbolInfo, _, onTick) => {
     const con = marketHub.build();
-    const startConection = async () => {
-      await marketHub.start(con);
-      con.invoke(subscribeToMarket, symbolInfo.name);
-    };
-    startConection();
     const handler = (trade: OnTradeExecutedInfo) => {
       if (trade.productCode !== symbolInfo.name) return;
       onTick({
