@@ -1,7 +1,11 @@
-import { buildTradeModeQueries } from "@/packages/react-query/config/helpers";
 import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
 import { toQueryParams } from "@/utils/app/toQueryParams";
 import { BaseApiResponse } from "@/types";
+import { booleanToNumber } from "@/v2-architecture/src/shared/utils";
+import {
+  SettlementModeQueries,
+  TradeModeQueries,
+} from "@/v2-architecture/src/features/trading/api";
 
 export const orderBook = async ({
   signal,
@@ -30,9 +34,7 @@ export interface OrderBookData {
   asks: Array<OrderBook>;
   symbol: string;
 }
-export type OrderBookQuerieParams = {
-  settlementMode?: boolean;
-};
+export type OrderBookQuerieParams = SettlementModeQueries & TradeModeQueries;
 export type OrderBookParams = {
   symbol: string;
 };
@@ -49,8 +51,10 @@ const url = ({
 };
 const toQueryString = (queries?: OrderBookQuerieParams): string => {
   return new URLSearchParams({
-    ...toQueryParams({ settlementMode: queries?.settlementMode ? 1 : 0 }),
-    ...buildTradeModeQueries(),
+    ...toQueryParams({
+      ...queries,
+      settlementMode: booleanToNumber(!!queries?.settlementMode),
+    }),
   }).toString();
 };
 //#endregion // * ------------ Helpers ------------

@@ -106,18 +106,17 @@ const marketTickerInfoConfig = (tickerName: string) => {
   });
 };
 const orderBookConfig = (filters: OrderBookParams & OrderBookQuerieParams) => {
-  const { symbol, settlementMode } = filters;
+  const { symbol, settlementMode, isdemo } = filters;
   return queryOptions({
+    // Infinity because SignalR is responsible for real-time updates
+    staleTime: Infinity,
     queryKey: orderBookDynamicKey(filters),
     queryFn: ({ signal }) =>
       orderBook({
         signal,
         params: { symbol },
-        queryParams: { settlementMode },
+        queryParams: { settlementMode, isdemo },
       }),
-    gcTime: 0,
-    // Infinity because SignalR is responsible for real-time updates
-    staleTime: Infinity,
   });
 };
 const permissionGroupsConfig = () => {
