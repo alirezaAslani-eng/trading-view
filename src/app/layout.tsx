@@ -9,34 +9,31 @@ import { QueryClientProvider } from "@/packages/react-query";
 import { ReduxProvider } from "@/packages/redux";
 import { Toaster } from "@/packages/react-hot-toast";
 import { LocalizationProvider } from "@/packages/mui";
-import { TradeModeProvider } from "@/context/feature/trade/TradeMode";
 import { ServerCookieProvider } from "@/context/app/Cookies";
 import { ModalPromiseProvider } from "@/packages/nice-modal-react";
 export default function RootLayout({ children }: PWC) {
   return (
     <QueryClientProvider>
       <ServerCookieProvider>
-        <TradeModeProvider>
-          <ReduxProvider>
-            <AppRouterCacheProvider>
-              <LocalizationProvider>
-                <ThemeProvider>
-                  <CssBaseline />
-                  <html lang="fa" dir="rtl">
-                    <Box
-                      component={"body"}
-                      sx={{ minHeight: "100svh" }}
-                      className={`${IranYekanMedium.variable} ${IranYekanDemibold.variable} ${IranYekanRegular.variable}`}
-                    >
-                      <ModalPromiseProvider>{children}</ModalPromiseProvider>
-                      <Toaster />
-                    </Box>
-                  </html>
-                </ThemeProvider>
-              </LocalizationProvider>
-            </AppRouterCacheProvider>
-          </ReduxProvider>
-        </TradeModeProvider>
+        <ReduxProvider>
+          <AppRouterCacheProvider>
+            <LocalizationProvider>
+              <ThemeProvider>
+                <CssBaseline />
+                <html lang="fa" dir="rtl">
+                  <Box
+                    component={"body"}
+                    sx={{ minHeight: "100svh" }}
+                    className={`${IranYekanMedium.variable} ${IranYekanDemibold.variable} ${IranYekanRegular.variable}`}
+                  >
+                    <ModalPromiseProvider>{children}</ModalPromiseProvider>
+                    <Toaster />
+                  </Box>
+                </html>
+              </ThemeProvider>
+            </LocalizationProvider>
+          </AppRouterCacheProvider>
+        </ReduxProvider>
       </ServerCookieProvider>
     </QueryClientProvider>
   );

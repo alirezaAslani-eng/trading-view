@@ -11,13 +11,13 @@ import RecentTradeSyncProvider from "@/context/feature/trade/RecentTradeSyncProv
 import MarketSubscribeProvider from "@/context/feature/market/MarketSubscribeProvider";
 import WalletPortfolioSyncProvider from "@/context/feature/Portfolio/WalletPortfolioSyncProvider";
 import OrdersSyncProvider from "@/context/feature/market/OrdersSyncProvider";
+import { MarketProvider } from "@/v2-architecture/src/features/trading";
 function layout({ children }: PWC) {
   return (
     <>
       {/* // * ---- Signalr Providers ---- */}
       <TickerInfoSyncProvider />
       <MarketTickersSyncProvider />
-      <MarketSubscribeProvider />
       <WalletPortfolioSyncProvider />
       <RecentTradeSyncProvider />
       <OrderBookSyncProvider />
@@ -27,7 +27,9 @@ function layout({ children }: PWC) {
         <SidebarProvider>
           <KycGlobalModals />
           <BankGlobalModals />
+          <MarketProvider>
           <LayoutMainPanel>{children}</LayoutMainPanel>
+          </MarketProvider>
         </SidebarProvider>
       </BankModalProvider>
     </>

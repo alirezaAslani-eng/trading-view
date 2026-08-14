@@ -1,2 +1,2 @@
-const subscribeToMarket = "SubscribeToMarket";
-export { subscribeToMarket };
+export const subscribeToMarket = "SubscribeToMarket";
+export const unSubscribeFromMarket = "UnsubscribeFromMarket";
