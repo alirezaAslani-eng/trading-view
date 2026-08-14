@@ -18,12 +18,13 @@ import { formatFaPrice } from "@/utils";
 import { Box, Stack, Tab, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import OrderBookIcon from "../Trade/OrderBookIcon";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
 import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
 import { OrderSide } from "@/types";
 import { ORDER_SIDE } from "@/constant/features/order/orderSide";
-import { useTradeForm } from "../TradePanel/TradeFormContext";
+import OrderBookIcon from "../../Trade/OrderBookIcon";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
+import { useSettlementMode } from "@/v2-architecture/src/features/trading";
 
 type OrderBookListProps = {
   rows: OrderBookType[];
@@ -46,25 +47,27 @@ const orderBookViewOrder: Record<OrderBookViewType, OrderBookViewType> = {
   bids: "all",
 };
 export default function OrderBook() {
-  const [symbol] = useSymbolParams();
+  //#region // * ------------ State ------------
   const [tab, setTab] = useState<"open-orders" | "last-trades">("open-orders");
-  const recentTradesQuery = useQuery(recentTradesConfig(symbol));
   const [orderBookView, setOrderBookView] = useState<OrderBookViewType>("all");
-
-  const tradeForm = useTradeForm();
-  const tickerInfoQuery = useQuery(marketTickerInfoConfig(symbol));
-  const orderBookQuery = useQuery(
-    orderBookConfig({
-      symbol,
-      settlementMode: tradeForm.watch("settlementMode"),
-    }),
-  );
-
   const orderBookViewToggle = () => {
     setOrderBookView((prev) => {
       return orderBookViewOrder[prev];
     });
   };
+  //#endregion // * ------------ State ------------
+
+  //#region // * ------------ Data ------------
+  const { isDemo } = useTradeMode();
+  const { settlementMode } = useSettlementMode()!;
+  const [symbol] = useSymbolParams();
+  const recentTradesQuery = useQuery(recentTradesConfig(symbol));
+  const tickerInfoQuery = useQuery(marketTickerInfoConfig(symbol));
+  const orderBookQuery = useQuery(
+    orderBookConfig({ symbol, settlementMode, isdemo: isDemo }),
+  );
+  //#endregion // * ------------ Data ------------
+
   return (
     <PanelPaper
       sx={{
