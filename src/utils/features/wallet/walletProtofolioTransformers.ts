@@ -13,6 +13,12 @@ function extractIRTAsset(
       livePrice: 0,
       lockedBalance: 0,
       totalValueInIrt: 0,
+      lockedDetails: {
+        lockedByAdmin: 0,
+        lockedForDebt: 0,
+        lockedInOrders: 0,
+        totalLocked: 0,
+      },
     }
   );
 }
