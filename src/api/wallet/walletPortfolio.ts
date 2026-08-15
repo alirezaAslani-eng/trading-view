@@ -1,28 +1,30 @@
-import { sharedRequestInit } from "../sharedRequestInit";
-import fetchHandler from "@/utils/app/fetchHandler";
-import handleApiResponse from "@/utils/app/handleApiResponse";
+// --- walletBalance ---
 import { WalletPortfolioResponse } from "../types";
-import { ApiOptions, BaseApiResponse } from "@/types";
-const URL = (queries?: string) =>
-  `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/wallet/portfolio?${queries ?? ""}`;
+import { TradeModeQueries } from "@/v2-architecture/src/features/trading/api";
+import { toQueryParams } from "@/utils/app/toQueryParams";
+import {
+  apiClient,
+  ApiConfig,
+  apiError,
+  BaseApiResponse,
+} from "@/v2-architecture/src/api";
 
-async function walletBalance({
+const url = apiClient.authBaseURL("/api/v1/wallet/portfolio");
+
+export const walletPortfolio = async ({
   signal,
-  queries,
-}: ApiOptions<{ queries?: string }>): Promise<WalletPortfolioResponse> {
-  const res = (await fetchHandler(async () => {
-    const res = await fetch(URL(queries), {
-      ...sharedRequestInit,
-      signal,
-    });
-    return res;
-  })) as Response;
+  queryParams,
+}: Config): Promise<WalletPortfolioResponse> => {
+  const query = new URLSearchParams(toQueryParams(queryParams)).toString();
+  const res = await apiClient.get(`${url}?${query}`, { signal });
+  const raw =
+    await apiError.jsonHandler<BaseApiResponse<WalletPortfolioResponse>>(res);
+  return raw.data;
+};
 
-  const data = (await handleApiResponse(
-    res,
-  )) as BaseApiResponse<WalletPortfolioResponse>;
-
-  return data.data;
-}
-
-export default walletBalance;
+//#region // * ------------ Shared types ------------
+export type WalletPortfolioQueryParams = TradeModeQueries;
+//#endregion
+//#region // * ------------ Internal types ------------
+type Config = ApiConfig<{ queryParams: WalletPortfolioQueryParams }>;
+//#endregion // * ------------ Internal types ------------

@@ -17,28 +17,30 @@ import alertMessages from "@/constant/app/alertMessages";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
 import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
 import useKycGuard from "@/hooks/features/kyc/useKycGuard";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
-const withdrawMutationConfig = depositConfig();
 function DepositForm() {
-  const form = useForm();
-  const depositMutate = useMutation({
-    ...withdrawMutationConfig,
-    onSuccess: () => {
-      form.setValue("amount", "");
-    },
-  });
   const { checkAccess } = useKycGuard();
+  const { isDemo } = useTradeMode();
+  const form = useForm();
+
+  const depositMutate = useMutation(
+    depositConfig({
+      onSuccess: () => {
+        form.setValue("amount", "");
+      },
+    }),
+  );
   const onSubmitHandler = async (fields: any) => {
     const hasAccess = checkAccess(KYC_REQUIRED_LEVELS.deposit);
     if (!hasAccess) return;
-    await promiseAlert(
-      safeAsync(async () => {
-        await depositMutate.mutateAsync({
-          referenceId: "Direct-Pay-01",
-          amount: fields.amount,
-        });
+
+    safeAsync(() =>
+      depositMutate.mutateAsync({
+        referenceId: "Direct-Pay-01",
+        amount: fields.amount,
+        isDemo,
       }),
-      { loading: alertMessages.loading }
     );
   };
 

@@ -1,9 +1,7 @@
-import serializeQueries from "@/utils/app/serializeQueries";
 import PermissionGroups from "@/api/permission/permissionGroups";
 import permissionChecklist from "@/api/permission/permissionChecklist";
 import { queryOptions } from "@tanstack/react-query";
 import { ProductStatus } from "@/api/types";
-import type { OrderFilters, TransactionFilters } from "@/types";
 import {
   banksKey,
   dashboardInfoKey,
@@ -18,7 +16,6 @@ import {
   permissionGroupsKey,
   transactionsDynamicKey,
   permissionChecklistDynamicKey,
-  userPermissionsDynamicKey,
   recentTradesDynamicKey,
 } from "@/packages/react-query";
 import {
@@ -35,13 +32,10 @@ import {
   transactions,
   OrderBookParams,
   OrderBookQuerieParams,
+  TransactionsQueryParams,
+  OrdersQueryParams,
 } from "@/api";
-import buildOrderFilterQueries from "@/utils/features/order/buildOrderFilterQueries";
-import buildTransactionFilterQueries from "@/utils/features/transaction/buildTransactionFilterQueries";
-import recentTrade from "@/api/trading/recentTrade";
 import recentTrades from "@/api/trading/recentTrade";
-import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
-import { buildTradeModeQueries } from "./helpers";
 
 const kycStatusConfig = () => {
   return queryOptions({
@@ -134,59 +128,41 @@ export const permissionChecklistConfig = (groupId: string | number) => {
 };
 
 //#region // * ------------ Apis that depends on isDemo query ------------
-const walletPortfolioConfig = () => {
+const walletPortfolioConfig = (isdemo: boolean) => {
   return queryOptions({
     queryKey: walletProtfolioKey,
     queryFn: ({ signal }) => {
       return walletPortfolio({
+        queryParams: { isdemo },
         signal,
-        queries: new URLSearchParams(buildTradeModeQueries()).toString(),
       });
     },
   });
 };
 
-const ordersConfig = (filters: OrderFilters) => {
+const ordersConfig = (filters: OrdersQueryParams) => {
   return queryOptions({
     queryKey: ordersDynamicKey(filters),
     queryFn: ({ signal }) => {
       return orders({
+        queryParams: filters,
         signal,
-        queries: new URLSearchParams({
-          ...buildOrderFilterQueries(filters),
-          ...buildTradeModeQueries(),
-        }).toString(),
       });
     },
   });
 };
-const transactionsConfig = (filters: TransactionFilters) => {
+const transactionsConfig = (filters: TransactionsQueryParams) => {
   return queryOptions({
     queryKey: transactionsDynamicKey(filters),
     queryFn: ({ signal }) => {
       return transactions({
         signal,
-        queries: new URLSearchParams({
-          ...buildTransactionFilterQueries(filters),
-          ...buildTradeModeQueries(),
-        }).toString(),
+        queryParams: filters,
       });
     },
   });
 };
 //#endregion // * ------------ Apis that depends on isDemo query ------------
-
-// TODO Remove this wrong query option from the codebase
-const userPermissonsConfig = (userID: string) => {
-  return queryOptions({
-    queryKey: userPermissionsDynamicKey(userID),
-    queryFn: () => {
-      return transactions({
-        queries: serializeQueries(userID).toString(),
-      });
-    },
-  });
-};
 
 const recentTradesConfig = (symbol: string) => ({
   queryKey: recentTradesDynamicKey(symbol),
@@ -207,5 +183,4 @@ export {
   ordersConfig,
   transactionsConfig,
   permissionGroupsConfig,
-  userPermissonsConfig,
 };

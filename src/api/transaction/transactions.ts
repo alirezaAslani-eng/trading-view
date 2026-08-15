@@ -1,31 +1,33 @@
-import fetchHandler from "@/utils/app/fetchHandler";
-import handleApiResponse from "@/utils/app/handleApiResponse";
+// --- transactions ---
 import { TransactionsResponse } from "@/api/types";
-import { sharedRequestInit } from "../sharedRequestInit";
-import { ApiOptions, BaseApiResponse } from "@/types";
+import { TradeModeQueries } from "@/v2-architecture/src/features/trading/api";
+import { TransactionFilters } from "@/types";
+import { toQueryParams } from "@/utils/app/toQueryParams";
+import {
+  apiClient,
+  ApiConfig,
+  apiError,
+  BaseApiResponse,
+} from "@/v2-architecture/src/api";
 
-type TransactionsConfig = ApiOptions<{ queries?: string }>;
+const url = apiClient.authBaseURL("/api/v1/wallet/transactions");
 
-const URL = (queries?: string) =>
-  `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/wallet/transactions?${queries ?? ""}`;
-
-async function transactions({
-  queries,
+export const transactions = async ({
   signal,
-}: TransactionsConfig): Promise<TransactionsResponse> {
-  const res = (await fetchHandler(async () => {
-    const response = await fetch(URL(queries), {
-      ...sharedRequestInit,
-      signal,
-    });
-    return response;
-  })) as Response;
+  queryParams,
+}: Config): Promise<TransactionsResponse> => {
+  const query = new URLSearchParams(toQueryParams(queryParams)).toString();
+  const res = await apiClient.get(`${url}?${query}`, { signal });
+  const raw =
+    await apiError.jsonHandler<BaseApiResponse<TransactionsResponse>>(res);
+  return raw.data;
+};
 
-  const data = (await handleApiResponse(
-    res,
-  )) as BaseApiResponse<TransactionsResponse>;
-
-  return data.data;
-}
-
-export default transactions;
+//#region // * ------------ Shared types ------------
+export type TransactionsQueryParams = Partial<
+  TradeModeQueries & TransactionFilters
+>;
+//#endregion // * ------------ Shared types ------------
+//#region // * ------------ Internal types ------------
+type Config = ApiConfig<{ queryParams: TransactionsQueryParams }>;
+//#endregion // * ------------ Internal types ------------

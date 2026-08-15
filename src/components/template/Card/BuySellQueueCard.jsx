@@ -8,18 +8,19 @@ import {
   PriceUnit,
 } from "@/components/ui/Typography/Price";
 import { useQuery } from "@tanstack/react-query";
-import { walletPortfolioConfig } from "@/packages/react-query";
 import transformTosellQueuePrice from "@/utils/features/wallet/transformTosellQueuePrice";
 import { formatFaPrice } from "@/utils";
 import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
 import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
 import getTotalAmountInQueue from "@/utils/features/wallet/getTotalAmountInQueue";
+import { walletPortfolioConfig } from "@/packages/react-query";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
-const walletConfig = walletPortfolioConfig();
 const priceUnitDisplay = PRICE_UNITS.IRT.displayName;
 function BuySellQueueCard() {
-  const walletQuery = useQuery(walletConfig);
+  const { isDemo } = useTradeMode();
+  const walletQuery = useQuery(walletPortfolioConfig(isDemo));
 
   const totalPriceInSellQueue = transformTosellQueuePrice(walletQuery.data);
   const totalAmountInSellQueue = getTotalAmountInQueue(walletQuery.data);

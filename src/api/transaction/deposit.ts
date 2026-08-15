@@ -1,38 +1,29 @@
-import fetchHandler from "@/utils/app/fetchHandler";
-import mutationFetch from "@/utils/app/mutationFetch";
-import { sharedRequestInit } from "../sharedRequestInit";
-import handleApiResponse from "@/utils/app/handleApiResponse";
-import { buildTradeModeQueries } from "@/packages/react-query/config/helpers";
-import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
+// --- deposit ---
 
-type DepositPayload = {
+import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
+import { TradeModeVariables } from "@/v2-architecture/src/features/trading/api";
+
+const url = apiClient.authBaseURL("/api/v1/wallet/deposit");
+
+export const deposit = async ({
+  signal,
+  body,
+}: Config): Promise<DepositData> => {
+  const res = await apiClient.post(url, {
+    signal,
+    body: JSON.stringify(body),
+  });
+  return apiError.jsonHandler(res);
+};
+
+//#region // * ------------ Shared types ------------
+export type DepositData = void; // * the api doesn't return anything
+export type DepositVariables = {
   amount: number;
   referenceId: string;
-};
+} & TradeModeVariables;
+//#endregion // * ------------ Shared types ------------
 
-const URL = () => {
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/wallet/deposit`;
-};
-
-async function deposit(body: DepositPayload): Promise<void> {
-  const res = (await fetchHandler(async () => {
-    const res = await mutationFetch(URL(), {
-      ...sharedRequestInit,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...body,
-        isdemo: TradeModeStore.getTradeModeConfig().isDemo,
-      }),
-    });
-
-    return res;
-  })) as Response;
-
-  await handleApiResponse(res);
-}
-
-export type { DepositPayload };
-export default deposit;
+//#region // * ------------ Internal types ------------
+type Config = ApiConfig<{ body: DepositVariables }>;
+//#endregion // * ------------ Internal types ------------

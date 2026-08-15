@@ -1,34 +1,32 @@
-import fetchHandler from "@/utils/app/fetchHandler";
-import handleApiResponse from "@/utils/app/handleApiResponse";
+// --- orders ---
+
+import {
+  apiClient,
+  ApiConfig,
+  apiError,
+  BaseApiResponse,
+} from "@/v2-architecture/src/api";
 import { OrdersResponse } from "@/api/types";
-import { ApiOptions, BaseApiResponse } from "@/types";
-import { sharedRequestInit } from "../sharedRequestInit";
+import { TradeModeQueries } from "@/v2-architecture/src/features/trading/api";
+import { toQueryParams } from "@/utils/app/toQueryParams";
+import { OrderFilters } from "@/types";
 
-type OrdersConfig = ApiOptions<{ queries?: string }>;
+const url = apiClient.authBaseURL("/api/v1/orders/list");
 
-const URL = ({ queries }: Pick<OrdersConfig, "queries">) => {
-  return `${process.env.NEXT_PUBLIC_AUTH_BASEURL}/api/v1/orders/list?${queries}`;
+export const orders = async ({
+  signal,
+  queryParams,
+}: Config): Promise<OrdersResponse> => {
+  const query = new URLSearchParams(toQueryParams(queryParams)).toString();
+  const res = await apiClient.get(`${url}?${query}`, { signal });
+  const raw = await apiError.jsonHandler<BaseApiResponse<OrdersResponse>>(res);
+  return raw.data;
 };
 
-async function orders({
-  signal,
-  queries,
-}: OrdersConfig): Promise<OrdersResponse> {
-  const res = (await fetchHandler(async () => {
-    const response = await fetch(URL({ queries }), {
-      ...sharedRequestInit,
-      signal,
-      method: "GET",
-    });
+//#region // * ------------ Shared types ------------
+export type OrdersQueryParams = Partial<TradeModeQueries & OrderFilters>;
+//#endregion
 
-    return response;
-  })) as Response;
-
-  const data = (await handleApiResponse(
-    res,
-  )) as BaseApiResponse<OrdersResponse>;
-
-  return data.data;
-}
-
-export default orders;
+//#region // * ------------ Internal types ------------
+type Config = ApiConfig<{ queryParams: OrdersQueryParams }>;
+//#endregion

@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/Typography/Price";
 import { toProtfolioTrendChart } from "@/v2-architecture/src/features/portfolio/api";
 import { portfolioTrendConfig } from "@/v2-architecture/src/features/portfolio/react-query";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
 export default function PortfolioOverviewSection() {
   //#region // * ------------ Data : Portfolio Trend ------------
@@ -34,7 +35,8 @@ export default function PortfolioOverviewSection() {
   //#endregion // * ------------ Data : Portfolio Trend ------------
 
   //#region // * ------------ Data : Wallet ------------
-  const portfolioQuery = useQuery(walletPortfolioConfig());
+  const { isDemo } = useTradeMode();
+  const portfolioQuery = useQuery(walletPortfolioConfig(isDemo));
   const isSuccessQuery = portfolioQuery.isSuccess;
   const {
     totalPortfolioValueIrt = 0,

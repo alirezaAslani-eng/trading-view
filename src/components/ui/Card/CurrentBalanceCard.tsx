@@ -5,13 +5,16 @@ import { Price, PriceAmount, PriceUnit } from "../Typography/Price";
 import { ComponentProps } from "react";
 import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 import { formatFaPrice } from "@/utils";
-import useIRTAssetQuery from "@/hooks/features/wallet/useIRTAssetQuery";
+import { useQuery } from "@tanstack/react-query";
+import { walletPortfolioConfig } from "@/packages/react-query";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
 function CurrentBalanceCard(
   props: ReplaceSxWithSxOnlyObject<ComponentProps<typeof PanelPaper>>,
 ) {
-  const query = useIRTAssetQuery();
-  const isSuccessQuery = query.status === "success";
+  const { isDemo } = useTradeMode();
+  const query = useQuery(walletPortfolioConfig(isDemo));
+  const isSuccessQuery = query.isSuccess;
   return (
     <PanelPaper
       {...props}
@@ -34,7 +37,7 @@ function CurrentBalanceCard(
       {isSuccessQuery && (
         <Price sx={{ gap: "10px" }}>
           <PriceAmount variant="h6" sx={{ color: "text.heading" }}>
-            {formatFaPrice(query.data?.availableBalance)}
+            {formatFaPrice(query.data.availableCash)}
           </PriceAmount>
           <PriceUnit variant="body1" sx={{ color: "text.secondary" }} />
         </Price>

@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { transactionsConfig } from "@/packages/react-query";
 import { useTransactionFiltersProvider } from "./hooks";
 import { TransactionsContextValue } from "./types";
+import { useTradeMode } from "../../trade/TradeMode";
 
 const TransactionContext = createContext<TransactionsContextValue | undefined>(
   undefined,
@@ -11,8 +12,10 @@ const TransactionContext = createContext<TransactionsContextValue | undefined>(
 
 function TransactionsProvider({ children }: PropsWithChildren) {
   const transactionFilters = useTransactionFiltersProvider()!;
-
-  const query = useQuery(transactionsConfig(transactionFilters.filters));
+  const { isDemo } = useTradeMode();
+  const query = useQuery(
+    transactionsConfig({ ...transactionFilters.filters, isdemo: isDemo }),
+  );
 
   return <TransactionContext value={query}>{children}</TransactionContext>;
 }

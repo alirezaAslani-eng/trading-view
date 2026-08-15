@@ -19,6 +19,7 @@ import {
   PagePaper,
   PagePaperHeading,
 } from "@/components/ui/Layout/PaperLayout";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
 const orderColumns = buildOrderColumns({
   include: ["productCode", "totalWeight", "price", "status"],
@@ -27,13 +28,16 @@ const orderColumns = buildOrderColumns({
 type OrderSideFilter = OrderFilters["orderSide"];
 
 function RecentOrdersTable() {
+  const { isDemo } = useTradeMode();
   const orderFilters = useOrderFilters({
     view: "active",
     pageSize: 4,
     orderSide: "Buy",
   });
 
-  const ordersQuery = useQuery(ordersConfig(orderFilters.filters));
+  const ordersQuery = useQuery(
+    ordersConfig({ ...orderFilters.filters, isdemo: isDemo }),
+  );
   const ordersLenght = ordersQuery.data?.items.length;
 
   const orderSideHandler = createNonNullToggleHandler<string>((value) =>

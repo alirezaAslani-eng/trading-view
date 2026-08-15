@@ -1,4 +1,9 @@
-import { OrderBookParams, OrderBookQuerieParams } from "@/api";
+import {
+  OrderBookParams,
+  OrderBookQuerieParams,
+  OrdersQueryParams,
+  TransactionsQueryParams,
+} from "@/api";
 import { ProductStatus } from "@/api/types";
 import { OrderFilters, TransactionFilters } from "@/types";
 import { symbol } from "zod";
@@ -42,11 +47,14 @@ const orderBookDynamicKey = (
 ) => [...orderBookKey, filters];
 
 const ordersKey = [...TradeBaseKey, "orders"];
-const ordersDynamicKey = (filters: OrderFilters) => [...ordersKey, filters];
+const ordersDynamicKey = (filters: OrdersQueryParams) => [
+  ...ordersKey,
+  filters,
+];
 
 const transactionsKey = [...TransactionKey, "transactions"];
-const transactionsDynamicKey = (filters: TransactionFilters) => [
-  ...ordersKey,
+const transactionsDynamicKey = (filters: TransactionsQueryParams) => [
+  ...transactionsKey,
   filters,
 ];
 

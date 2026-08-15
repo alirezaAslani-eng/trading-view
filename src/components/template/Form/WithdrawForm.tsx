@@ -38,12 +38,13 @@ import useKycGuard from "@/hooks/features/kyc/useKycGuard";
 import KYC_REQUIRED_LEVELS from "@/constant/features/kyc/kycAccess";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import BankSelectInputFallback from "@/components/ui/Feedback/BankSelectInputFallback";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
-const walletQueryConfig = walletPortfolioConfig();
 const withdrawMutationConfig = withdrawConfig();
 function WithdrawForm() {
   const withdrawMutate = useMutation(withdrawMutationConfig);
-  const walletQuery = useQuery(walletQueryConfig);
+  const { isDemo } = useTradeMode();
+  const walletQuery = useQuery(walletPortfolioConfig(isDemo));
   const { checkAccess } = useKycGuard();
 
   const form = useForm({

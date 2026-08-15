@@ -2,13 +2,7 @@
 import { useCookie } from "@/context/app/Cookies";
 import useUpdateEffect from "@/hooks/app/useUpdateEffect";
 import { TradeModeStore, IS_DEMO_KEY } from "./helpers";
-import {
-  orderBookKey,
-  ordersKey,
-  queryClient,
-  transactionsKey,
-  walletProtfolioKey,
-} from "@/packages/react-query";
+
 import {
   createContext,
   Dispatch,
@@ -22,17 +16,8 @@ type TradeModeContextValue = {
   setIsDemo: Dispatch<SetStateAction<boolean>>;
 };
 
-const updateQueries = () => {
-  [ordersKey, transactionsKey, walletProtfolioKey, orderBookKey].forEach(
-    async (key) => {
-      await queryClient.cancelQueries({ queryKey: key });
-      queryClient.resetQueries({ queryKey: key });
-    }
-  );
-};
-
 export const TradeModeContext = createContext<TradeModeContextValue | null>(
-  null
+  null,
 );
 
 export const TradeModeProvider = ({ children }: PropsWithChildren) => {
@@ -42,7 +27,6 @@ export const TradeModeProvider = ({ children }: PropsWithChildren) => {
   //#region // * ------------ Sync isDemo with localStorage & queries ------------
   useUpdateEffect(() => {
     TradeModeStore.storeIsDemo(isDemo);
-    updateQueries();
   }, [isDemo]);
   //#endregion // * ------------ Sync isDemo with localStorage & queries ------------
 
@@ -51,6 +35,7 @@ export const TradeModeProvider = ({ children }: PropsWithChildren) => {
   return <TradeModeContext value={value}>{children}</TradeModeContext>;
 };
 
+// TODO Implement this hook completely to notify user when their demo mode expired while interaction
 // const x = 10 * 1000;
 
 // function useExpireIn(isDemo: boolean, onExpire: () => void = () => {}) {

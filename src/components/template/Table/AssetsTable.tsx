@@ -10,10 +10,11 @@ import {
   TableFallbackData,
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
-const queryConfig = walletPortfolioConfig();
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
 function AssetsTable({ columns }: { columns: Column<WalletAsset>[] }) {
-  const query = useQuery(queryConfig);
+  const { isDemo } = useTradeMode();
+  const query = useQuery(walletPortfolioConfig(isDemo));
   const dataLength = query.data?.assets.length;
 
   const noneIrtAssets = extractNonIRTAssets(query.data);

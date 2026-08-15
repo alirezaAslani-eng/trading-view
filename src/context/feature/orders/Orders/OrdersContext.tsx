@@ -4,13 +4,16 @@ import { useQuery } from "@tanstack/react-query";
 import { useOrderFiltersProvider } from "./hooks";
 import { ordersConfig } from "@/packages/react-query";
 import { OrdersContextValue } from "./types";
+import { useTradeMode } from "../../trade/TradeMode";
 
 const OrdersContext = createContext<OrdersContextValue | undefined>(undefined);
 
 function OrdersProvider({ children }: PropsWithChildren) {
   const orderFilters = useOrderFiltersProvider()!;
-
-  const query = useQuery(ordersConfig(orderFilters.filters));
+  const { isDemo } = useTradeMode();
+  const query = useQuery(
+    ordersConfig({ ...orderFilters.filters, isdemo: isDemo }),
+  );
 
   return <OrdersContext value={query}>{children}</OrdersContext>;
 }

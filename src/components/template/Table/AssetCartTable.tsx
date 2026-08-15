@@ -2,7 +2,15 @@
 import DataTable from "@/components/ui/Table/DataTable";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import { ChangeEvent } from "react";
-import useAssetsQuery from "@/hooks/features/wallet/useAssetsQuery";
+import InputText from "@/components/ui/Input/InputText";
+import useSearch from "@/hooks/app/useSearch";
+import InputMarker from "@/components/ui/Marker/InputMarker";
+import { SearchIcon } from "@/components/ui/Icon";
+import { buildAssetColumns } from "@/constant/features/wallet/assetsColumns";
+import { extractNonIRTAssets } from "@/utils/features/wallet/walletProtofolioTransformers";
+import { useQuery } from "@tanstack/react-query";
+import { walletPortfolioConfig } from "@/packages/react-query";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 import {
   PagePaper,
   PagePaperHeading,
@@ -13,27 +21,26 @@ import {
   TableFallbackData,
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
-import InputText from "@/components/ui/Input/InputText";
-import useSearch from "@/hooks/app/useSearch";
-import InputMarker from "@/components/ui/Marker/InputMarker";
-import { SearchIcon } from "@/components/ui/Icon";
-import { buildAssetColumns } from "@/constant/features/wallet/assetsColumns";
 
 const columns = buildAssetColumns();
 
 function AssetCartTable() {
-  const assetsQuery = useAssetsQuery();
+  const { isDemo } = useTradeMode();
+
+  const assetsQuery = useQuery({
+    ...walletPortfolioConfig(isDemo),
+    select: extractNonIRTAssets,
+  });
 
   const { search, searchQuery, setSearchQuery } = useSearch();
 
   const searchHandler = (
-    e: ChangeEvent<HTMLInputElement, HTMLInputElement>
+    e: ChangeEvent<HTMLInputElement, HTMLInputElement>,
   ) => {
     setSearchQuery(e.target.value);
   };
 
-  const isVisableTable =
-    assetsQuery.status === "success" && !!assetsQuery.data.length;
+  const isVisableTable = assetsQuery.isSuccess && !!assetsQuery.data.length;
 
   return (
     <PagePaper>

@@ -1,16 +1,16 @@
 import useSymbolParams from "@/hooks/features/trading/useSymbolParams";
-import {
-  marketTickerInfoConfig,
-  walletPortfolioConfig,
-} from "@/packages/react-query";
 import { calculateTotalTradePrice } from "@/utils";
-import { extractIRTAsset } from "@/utils/features/wallet/walletProtofolioTransformers";
 import { loyaltyProgressConfig } from "@/v2-architecture/src/features/loyalty/react-query";
 import { getTradePrecent } from "@/v2-architecture/src/features/trading";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useWatch } from "react-hook-form";
 import { useTradeForm } from "./TradeFormContext";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
+import {
+  marketTickerInfoConfig,
+  walletPortfolioConfig,
+} from "@/packages/react-query";
 
 const useLimitedTotalPrice = () => {
   const form = useTradeForm();
@@ -60,7 +60,8 @@ const trade_precent = getTradePrecent();
 export const useFinalTradeSunmmary = () => {
   //#region // * ------------ Wallet Info ------------
   const [symbol] = useSymbolParams();
-  const walletQuery = useQuery(walletPortfolioConfig());
+  const { isDemo } = useTradeMode();
+  const walletQuery = useQuery(walletPortfolioConfig(isDemo));
 
   const { assets, buyingPower = 0 } = walletQuery.data ?? {};
 

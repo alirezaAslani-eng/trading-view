@@ -1,6 +1,9 @@
 "use client";
 import {
   addShaba,
+  CancelOrderParams,
+  CancelOrderVariables,
+  DepositVariables,
   enableDemo,
   KycL2Variables,
   placeOrder,
@@ -13,7 +16,7 @@ import assignPermissions from "@/api/permission/assignPermissions";
 import logout from "@/api/auth/logout";
 import {
   addProduct,
-  cancleOrder,
+  cancelOrder,
   deleteBankAccount,
   deleteProduct,
   kycL2,
@@ -128,7 +131,9 @@ const withdrawConfig = createMutationOptions({
 
 const depositConfig = createMutationOptions({
   mutationKey: depositKey,
-  mutationFn: deposit,
+  mutationFn: (vars: DepositVariables) => {
+    return deposit({ body: vars });
+  },
   meta: {
     invalidates: [transactionsKey],
   },
@@ -162,7 +167,12 @@ const placeOrderConfig = createMutationOptions({
 
 const cancleOrderConfig = createMutationOptions({
   mutationKey: cancleOrderKey,
-  mutationFn: cancleOrder,
+  mutationFn: ({
+    isDemo,
+    orderId,
+  }: CancelOrderVariables & CancelOrderParams) => {
+    return cancelOrder({ body: { isDemo }, params: { orderId } });
+  },
   meta: {
     invalidates: [transactionsKey],
     successMessage: "سفارش باموفقیت لغو شد",

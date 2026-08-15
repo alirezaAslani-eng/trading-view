@@ -7,9 +7,16 @@ export { default as kycStatus } from "./kyc/kycStatus";
 export { type KycL1Data, type KycL1Variables, kycL1 } from "./kyc/kycL1";
 export { kycL2, type KycL2Variables } from "./kyc/kycL2";
 export { default as dashboardInfo } from "./user/dashboardInfo";
-export { default as walletPortfolio } from "./wallet/walletPortfolio";
+export {
+  walletPortfolio,
+  type WalletPortfolioQueryParams,
+} from "./wallet/walletPortfolio";
 export { default as withdraw } from "./transaction/withdraw";
-export { default as deposit } from "./transaction/deposit";
+export {
+  deposit,
+  type DepositData,
+  type DepositVariables,
+} from "./transaction/deposit";
 export { default as getProducts } from "./product/getProducts";
 export { default as productCategories } from "./product/productCategories";
 export { default as addProduct } from "./product/addProduct";
@@ -22,9 +29,12 @@ export { placeOrder, type PlaceOrderVariables } from "./trading/placeOrder";
 export { default as marketTickerInfo } from "./market/marketTickerInfo";
 export * from "./market/orderBook";
 export { default as searchSymbols } from "./trading/searchSymbols";
-export { default as orders } from "./order/orders";
-export { default as cancleOrder } from "./order/cancleOrder";
-export { default as transactions } from "./transaction/transactions";
+export { orders, type OrdersQueryParams } from "./order/orders";
+export * from "./order/cancelOrder";
+export {
+  transactions,
+  type TransactionsQueryParams,
+} from "./transaction/transactions";
 export { default as deleteProduct } from "./product/deleteProduct";
 export { default as refrehAuthToken } from "./auth/refrehAuthToken";
 export { default as userPermissions } from "./permission/userPermissions";
