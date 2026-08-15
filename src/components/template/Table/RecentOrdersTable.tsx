@@ -35,10 +35,12 @@ function RecentOrdersTable() {
     orderSide: "Buy",
   });
   const {
-    filters: { orderSide },
+    filters: { orderSide, pageSize },
   } = orderFilters;
 
-  const ordersQuery = useQuery(ordersConfig({ isdemo: isDemo, orderSide }));
+  const ordersQuery = useQuery(
+    ordersConfig({ isdemo: isDemo, orderSide, pageSize }),
+  );
   const ordersLenght = ordersQuery.data?.items.length;
 
   const orderSideHandler = createNonNullToggleHandler<string>((value) =>
