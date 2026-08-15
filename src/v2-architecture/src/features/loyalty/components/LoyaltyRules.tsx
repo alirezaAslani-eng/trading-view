@@ -26,15 +26,9 @@ function LoyaltyRules() {
         <PagePaperTitle>قوانین سطوح وفاداری</PagePaperTitle>
       </PagePaperHeading>
 
-      {isLoading && (
+      {(isLoading || isError) && (
         <Typography variant="body3" sx={{ color: "text.tertiary" }}>
           {"در حال بارگذاری..."}
-        </Typography>
-      )}
-
-      {isError && (
-        <Typography variant="body3" sx={{ color: "status.loss" }}>
-          {"دریافت اطلاعات با خطا مواجه شد"}
         </Typography>
       )}
 

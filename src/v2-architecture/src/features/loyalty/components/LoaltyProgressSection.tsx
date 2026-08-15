@@ -13,6 +13,7 @@ import {
   PriceAmount,
   PriceUnit,
 } from "@/components/ui/Typography/Price";
+import LoyaltyRules from "./LoyaltyRules";
 
 function formatFeeRate(value: number) {
   return formatPrecent(value, { signDisplay: "never" });
@@ -312,6 +313,7 @@ export default function LoaltyProgressSection() {
           </Stack>
         </PagePaper>
       )}
+      <LoyaltyRules />
     </Stack>
   );
 }
