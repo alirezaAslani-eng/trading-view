@@ -7,6 +7,7 @@ import { convertToJalali } from "@/packages/dayjs";
 import { JALALI_FORMAT } from "@/constant/app/date";
 import { PRICE_UNITS } from "../priceConfig";
 import { WEIGHT_UNITS } from "../product/weightUnits";
+import { SETTLEMENT_LABELS } from "@/v2-architecture/src/features/order";
 
 export const ordersBaseColumns = {
   date: {
@@ -81,6 +82,13 @@ export const ordersBaseColumns = {
     key: "progress",
     content(row) {
       return row.progress;
+    },
+  },
+  settlementMode: {
+    headerName: "روش تصویه",
+    key: "settlementMode",
+    content(row) {
+      return SETTLEMENT_LABELS[row.settlementMode];
     },
   },
 

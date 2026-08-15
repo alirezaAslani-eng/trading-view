@@ -65,6 +65,10 @@ export const orderTableColumns: DefaultColumns = {
       return ordersBaseColumns.orderType.content(row);
     },
   },
+  settlementMode: {
+    headerName: ordersBaseColumns.settlementMode.headerName,
+    renderCell: ordersBaseColumns.settlementMode.content,
+  },
 
   price: {
     headerName: ordersBaseColumns.price.headerName,
