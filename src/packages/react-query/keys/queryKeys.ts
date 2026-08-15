@@ -26,6 +26,11 @@ const kycStatusKey = [...kycBaseKey, "status" as const];
 const dashboardInfoKey = [...kycBaseKey, "dashboard-info" as const];
 const banksKey = [...authBaseKey, "banks"];
 const walletProtfolioKey = [...authBaseKey, "wallet-portfolio"];
+const walletProtfolioDynamicKey = (isdemo: boolean) => [
+  ...authBaseKey,
+  "wallet-portfolio",
+  isdemo,
+];
 
 const productsKey = [...authBaseKey, "products"];
 const productsDynamicKey = (productStatus: ProductStatus) => [
@@ -99,6 +104,7 @@ export {
   userPermissionsDynamicKey,
   recentTradesDynamicKey,
   recentTradesKey,
+  walletProtfolioDynamicKey,
 };
 
 // * prefix keys

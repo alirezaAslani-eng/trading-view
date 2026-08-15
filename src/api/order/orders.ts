@@ -5,11 +5,12 @@ import {
   ApiConfig,
   apiError,
   BaseApiResponse,
+  PaginationQueries,
 } from "@/v2-architecture/src/api";
 import { OrdersResponse } from "@/api/types";
 import { TradeModeQueries } from "@/v2-architecture/src/features/trading/api";
-import { toQueryParams } from "@/utils/app/toQueryParams";
-import { OrderFilters } from "@/types";
+import { QueryParams, toQueryParams } from "@/utils/app/toQueryParams";
+import { DateFilterQueries } from "@/types";
 
 const url = apiClient.authBaseURL("/api/v1/orders/list");
 
@@ -24,7 +25,15 @@ export const orders = async ({
 };
 
 //#region // * ------------ Shared types ------------
-export type OrdersQueryParams = Partial<TradeModeQueries & OrderFilters>;
+export type OrdersQueryParams = QueryParams<{
+  orderSide: string;
+  productCode: string;
+  status: string;
+  viewType: string;
+}> &
+  TradeModeQueries &
+  DateFilterQueries &
+  PaginationQueries;
 //#endregion
 
 //#region // * ------------ Internal types ------------

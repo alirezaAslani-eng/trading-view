@@ -17,6 +17,7 @@ import {
   transactionsDynamicKey,
   permissionChecklistDynamicKey,
   recentTradesDynamicKey,
+  walletProtfolioDynamicKey,
 } from "@/packages/react-query";
 import {
   orders,
@@ -130,7 +131,7 @@ export const permissionChecklistConfig = (groupId: string | number) => {
 //#region // * ------------ Apis that depends on isDemo query ------------
 const walletPortfolioConfig = (isdemo: boolean) => {
   return queryOptions({
-    queryKey: walletProtfolioKey,
+    queryKey: walletProtfolioDynamicKey(isdemo),
     queryFn: ({ signal }) => {
       return walletPortfolio({
         queryParams: { isdemo },

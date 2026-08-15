@@ -5,7 +5,9 @@ export type QueryParamRules = Partial<
   Record<string, boolean | number | string | Date | null | Dayjs>
 >;
 
-export type QueryParams<TParams extends QueryParamRules> = TParams;
+export type QueryParams<TParams extends QueryParamRules> = {
+  [key in keyof TParams]?: TParams[key] | null;
+};
 
 export function toQueryParams(
   params?: QueryParamRules,

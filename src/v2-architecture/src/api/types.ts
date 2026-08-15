@@ -1,4 +1,4 @@
-import { QueryParamRules } from "@/utils/app/toQueryParams";
+import { QueryParamRules, QueryParams } from "@/utils/app/toQueryParams";
 
 export interface BaseApiResponse<TData> {
   isSuccess: boolean;
@@ -7,7 +7,9 @@ export interface BaseApiResponse<TData> {
   data: TData;
 }
 
-export type PaginationQueries = Partial<Record<"page" | "pageSize", string>>;
+export type PaginationQueries = QueryParams<
+  Record<"page" | "pageSize", string | number>
+>;
 export type PaginationResponse<TData extends any[] = []> = {
   totalCount: number;
   page: number;

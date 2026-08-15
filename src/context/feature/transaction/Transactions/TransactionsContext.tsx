@@ -11,10 +11,22 @@ const TransactionContext = createContext<TransactionsContextValue | undefined>(
 );
 
 function TransactionsProvider({ children }: PropsWithChildren) {
-  const transactionFilters = useTransactionFiltersProvider()!;
+  const {
+    filters: { Type, fromDate, page, pageSize, toDate },
+  } = useTransactionFiltersProvider()!;
   const { isDemo } = useTradeMode();
+
+  //#region // * ------------ Something ------------
+  //#endregion // * ------------ Something ------------
   const query = useQuery(
-    transactionsConfig({ ...transactionFilters.filters, isdemo: isDemo }),
+    transactionsConfig({
+      fromDate,
+      isdemo: isDemo,
+      page,
+      pageSize,
+      toDate,
+      Type,
+    }),
   );
 
   return <TransactionContext value={query}>{children}</TransactionContext>;

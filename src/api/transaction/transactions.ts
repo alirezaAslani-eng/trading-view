@@ -1,14 +1,16 @@
 // --- transactions ---
 import { TransactionsResponse } from "@/api/types";
 import { TradeModeQueries } from "@/v2-architecture/src/features/trading/api";
-import { TransactionFilters } from "@/types";
-import { toQueryParams } from "@/utils/app/toQueryParams";
+import { QueryParams, toQueryParams } from "@/utils/app/toQueryParams";
 import {
   apiClient,
   ApiConfig,
   apiError,
   BaseApiResponse,
+  PaginationQueries,
 } from "@/v2-architecture/src/api";
+import { TransactionType } from "@/constant/features/transaction/transactionType";
+import { DateFilterQueries } from "@/types";
 
 const url = apiClient.authBaseURL("/api/v1/wallet/transactions");
 
@@ -24,9 +26,12 @@ export const transactions = async ({
 };
 
 //#region // * ------------ Shared types ------------
-export type TransactionsQueryParams = Partial<
-  TradeModeQueries & TransactionFilters
->;
+export type TransactionsQueryParams = QueryParams<{
+  Type: TransactionType;
+}> &
+  PaginationQueries &
+  TradeModeQueries &
+  DateFilterQueries;
 //#endregion // * ------------ Shared types ------------
 //#region // * ------------ Internal types ------------
 type Config = ApiConfig<{ queryParams: TransactionsQueryParams }>;

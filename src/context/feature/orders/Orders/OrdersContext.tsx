@@ -9,10 +9,13 @@ import { useTradeMode } from "../../trade/TradeMode";
 const OrdersContext = createContext<OrdersContextValue | undefined>(undefined);
 
 function OrdersProvider({ children }: PropsWithChildren) {
-  const orderFilters = useOrderFiltersProvider()!;
+  const {
+    filters: { view, ...filters },
+  } = useOrderFiltersProvider()!;
+
   const { isDemo } = useTradeMode();
   const query = useQuery(
-    ordersConfig({ ...orderFilters.filters, isdemo: isDemo }),
+    ordersConfig({ ...filters, viewType: view, isdemo: isDemo }),
   );
 
   return <OrdersContext value={query}>{children}</OrdersContext>;

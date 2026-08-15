@@ -1,3 +1,4 @@
+import { QueryParams } from "@/utils/app/toQueryParams";
 import { Dayjs } from "dayjs";
 
 type PaginationFilter<T = unknown> = T & {
@@ -8,11 +9,13 @@ type DateFilter<T = unknown> = T & {
   fromDate: Dayjs | null;
   toDate: Dayjs | null;
 };
-type PaginationFilterQueries<T extends Record<string, string> = {}> = T &
-  Record<"page" | "pageSize", string>;
+type PaginationFilterQueries = QueryParams<
+  Record<"page" | "pageSize", string | number | null>
+>;
 
-type DateFilterQueries<T extends Record<string, string> = {}> = T &
-  Record<"fromDate" | "toDate", string>;
+type DateFilterQueries = QueryParams<
+  Record<"fromDate" | "toDate", string | Date | Dayjs>
+>;
 
 export type {
   PaginationFilter,
