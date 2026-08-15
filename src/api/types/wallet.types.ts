@@ -4,6 +4,12 @@ interface WalletAsset {
   lockedBalance: number;
   livePrice: number;
   totalValueInIrt: number;
+  lockedDetails: {
+    totalLocked: number;
+    lockedInOrders: number;
+    lockedForDebt: number;
+    lockedByAdmin: number;
+  };
 }
 
 interface WalletPortfolioResponse {
