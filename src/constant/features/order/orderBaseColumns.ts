@@ -85,7 +85,7 @@ export const ordersBaseColumns = {
     },
   },
   settlementMode: {
-    headerName: "روش تصویه",
+    headerName: "روش تسویه",
     key: "settlementMode",
     content(row) {
       return SETTLEMENT_LABELS[row.settlementMode];
