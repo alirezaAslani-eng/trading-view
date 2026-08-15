@@ -12,6 +12,7 @@ interface Order {
   filledWeight: 0;
   remainingWeight: 30;
   progress: 0;
+  settlementMode: 0 | 1;
 }
 
 // * --start-- orders.ts ----
