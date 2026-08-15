@@ -1,3 +1,4 @@
+import { dayjs } from "@/packages/dayjs";
 import { Dayjs } from "dayjs";
 
 export type QueryParamRules = Partial<
@@ -16,7 +17,7 @@ export function toQueryParams(
       .filter(([, value]) => value !== undefined && value !== null)
       .map(([key, value]) => [
         key,
-        value instanceof Date || value instanceof Dayjs
+        value instanceof Date || dayjs.isDayjs(value)
           ? value.toISOString()
           : String(value),
       ]),
