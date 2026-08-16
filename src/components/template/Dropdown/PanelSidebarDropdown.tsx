@@ -101,10 +101,8 @@ function PanelSidebarDropdown({
       {/* // * ---start--- Parent Link ------ */}
       <Tooltip title={isCollapsed ? text : ""} placement="left">
         <Nav href={href} exact={exact} collapsed={isCollapsed}>
-          {/* {isCollapsed && <SvgIcon>{icon}</SvgIcon>} */}
-
           <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <SvgIcon>{icon}</SvgIcon>
+            {icon}
             {!isCollapsed && (
               <Typography
                 variant="button3"

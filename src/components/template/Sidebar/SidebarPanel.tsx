@@ -7,7 +7,6 @@ import SwitchTheme from "../Button/SwitchTheme";
 import UserProfileCard from "@/components/ui/Card/UserProfileCard";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { getSidebarNavigators } from "@/constant/app/sidebarNavigators";
-import NextImage from "@/components/ui/Image/NextImage";
 import { PanelSidebarDropdown } from "@/components/template/Dropdown/PanelSidebarDropdown";
 import { useQuery } from "@tanstack/react-query";
 import { dashboardInfoConfig } from "@/packages/react-query";

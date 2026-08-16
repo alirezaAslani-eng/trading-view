@@ -1,14 +1,17 @@
 import type { ReactNode } from "react";
 import { ROUTES } from "@/constant/app/routes"; // adjust path to wherever routes.ts lives
-import DashboardIcon from "@/assets/svg/dashboard.svg";
-import MarketIcon from "@/assets/svg/markets.svg";
-import HistoryIcon from "@/assets/svg/history.svg";
-import WalletIcon from "@/assets/svg/wallet.svg";
 import {
   ArrowUpDownIcon,
   BoxOutlinedIcon,
+  GridIcon,
+  HistoryIcon,
+  HomeChartIcon,
   LockIcon,
+  ReceiptCheckIcon,
+  RobotIcon,
+  ToggleIcon,
   UserIcon,
+  WalletIcon,
 } from "@/components/ui/Icon";
 import {
   getPermissionGroup,
@@ -33,14 +36,14 @@ const sidebarNavigators: SidebarNavItem[] = [
   {
     id: "dashboard",
     text: "داشبورد",
-    icon: <DashboardIcon />,
+    icon: <GridIcon />,
     link: ROUTES.PANEL.ROOT,
     submenus: [],
   },
   {
     id: "market",
     text: "بازار ها",
-    icon: <MarketIcon />,
+    icon: <HomeChartIcon />,
     link: ROUTES.MARKET.ROOT,
     submenus: [],
   },
@@ -84,7 +87,7 @@ const sidebarNavigators: SidebarNavItem[] = [
   {
     id: "products",
     text: "مدریت محصول",
-    icon: <LockIcon />,
+    icon: <BoxOutlinedIcon />,
     link: ROUTES.PRODUCTS.ROOT,
     submenus: [],
   },
@@ -98,14 +101,14 @@ const sidebarNavigators: SidebarNavItem[] = [
   {
     id: "demoSetting",
     text: "تنظیمات دمو",
-    icon: <LockIcon />,
+    icon: <ToggleIcon />,
     link: ROUTES.ADMIN.DEMO_SETTING,
     submenus: [],
   },
   {
     id: "loyalty-setting",
     text: "تنظیمات سطح وفاداری",
-    icon: <LockIcon />,
+    icon: <ReceiptCheckIcon />,
     link: ROUTES.ADMIN.LOYALTY_SETTING,
     submenus: [],
   },
@@ -119,7 +122,7 @@ const sidebarNavigators: SidebarNavItem[] = [
   {
     id: "robot",
     text: "ربات معامله گر",
-    icon: <LockIcon />,
+    icon: <RobotIcon />,
     link: ROUTES.ROBOT.ROOT,
     submenus: [],
   },
