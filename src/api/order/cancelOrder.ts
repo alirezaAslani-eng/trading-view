@@ -2,6 +2,7 @@
 
 import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
 import { TradeModeVariables } from "@/v2-architecture/src/features/trading/api";
+import { SharedHeaders } from "../sharedHeaders";
 
 const url = (params: CancelOrderParams) =>
   apiClient.authBaseURL(`/api/v1/orders/${params.orderId}/cancel`);
@@ -13,6 +14,9 @@ export const cancelOrder = async ({
 }: Config): Promise<CancelOrderData> => {
   const res = await apiClient.put(url(params), {
     signal,
+    headers: {
+      ...new SharedHeaders(),
+    },
     body: JSON.stringify(body),
   });
   return apiError.jsonHandler(res);

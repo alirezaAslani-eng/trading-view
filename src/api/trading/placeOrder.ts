@@ -7,6 +7,7 @@ import {
   SettlementModeVariables,
   TradeModeVariables,
 } from "@/v2-architecture/src/features/trading/api";
+import { SharedHeaders } from "../sharedHeaders";
 
 const url = apiClient.authBaseURL("/api/v1/orders");
 
@@ -16,6 +17,9 @@ export const placeOrder = async ({
 }: Config): Promise<PlaceOrderData> => {
   const res = await apiClient.post(url, {
     signal,
+    headers: {
+      ...new SharedHeaders(),
+    },
     body: JSON.stringify({
       ...body,
       settlementMode: booleanToNumber(body.settlementMode),
