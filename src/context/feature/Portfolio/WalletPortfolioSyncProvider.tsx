@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import type { WalletAsset, WalletPortfolioResponse } from "@/api/types";
+// import type { WalletAsset, WalletPortfolioResponse } from "@/api/types";
 
 import {
   onPortfolioUpdate,
@@ -14,50 +14,54 @@ import {
 
 import { queryClient, walletProtfolioKey } from "@/packages/react-query";
 
-function updatePortfolio(data: OnPortfolioUpdateInfo) {
+async function updatePortfolio(data: OnPortfolioUpdateInfo) {
   walletHub.onTickLog({
     source: "Wallet Portofolio",
     event: onPortfolioUpdate,
   });
-
-  queryClient.setQueryData<WalletPortfolioResponse>(walletProtfolioKey, data);
+  await queryClient.cancelQueries({ queryKey: walletProtfolioKey });
+  queryClient.invalidateQueries({ queryKey: walletProtfolioKey });
+  // queryClient.setQueryData<WalletPortfolioResponse>(walletProtfolioKey, data);
 }
 
-function updatePrice(data: OnPriceUpdateInfo) {
+async function updatePrice(data: OnPriceUpdateInfo) {
   walletHub.onTickLog({ source: "Wallet Assets", event: onPriceUpdate });
-  queryClient.setQueryData<WalletPortfolioResponse>(
-    walletProtfolioKey,
-    (oldData) => {
-      if (!oldData) return oldData;
+  await queryClient.cancelQueries({ queryKey: walletProtfolioKey });
+  queryClient.invalidateQueries({ queryKey: walletProtfolioKey });
 
-      const assets: WalletAsset[] = oldData.assets.map((asset) => {
-        if (asset.assetSymbol !== data.symbol) {
-          return asset;
-        }
+  // queryClient.setQueryData<WalletPortfolioResponse>(
+  //   walletProtfolioKey,
+  //   (oldData) => {
+  //     if (!oldData) return oldData;
 
-        const totalBalance = asset.availableBalance + asset.lockedBalance;
+  //     const assets: WalletAsset[] = oldData.assets.map((asset) => {
+  //       if (asset.assetSymbol !== data.symbol) {
+  //         return asset;
+  //       }
 
-        const totalValueInIrt = totalBalance * data.newPrice;
+  //       const totalBalance = asset.availableBalance + asset.lockedBalance;
 
-        return {
-          ...asset,
-          livePrice: data.newPrice,
-          totalValueInIrt,
-        };
-      });
+  //       const totalValueInIrt = totalBalance * data.newPrice;
 
-      const totalPortfolioValueIrt = assets.reduce(
-        (sum, asset) => sum + asset.totalValueInIrt,
-        0
-      );
+  //       return {
+  //         ...asset,
+  //         livePrice: data.newPrice,
+  //         totalValueInIrt,
+  //       };
+  //     });
 
-      return {
-        ...oldData,
-        assets,
-        totalPortfolioValueIrt,
-      };
-    }
-  );
+  //     const totalPortfolioValueIrt = assets.reduce(
+  //       (sum, asset) => sum + asset.totalValueInIrt,
+  //       0,
+  //     );
+
+  //     return {
+  //       ...oldData,
+  //       assets,
+  //       totalPortfolioValueIrt,
+  //     };
+  //   },
+  // );
 }
 
 function WalletSyncProvider() {
