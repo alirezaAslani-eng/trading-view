@@ -85,7 +85,13 @@ const handler: RouteHandler<string[]> = async (req, context) => {
   });
 };
 
-export { handler as GET, handler as POST, handler as PUT, handler as DELETE };
+export {
+  handler as GET,
+  handler as POST,
+  handler as PUT,
+  handler as DELETE,
+  handler as PATCH,
+};
 
 function response(res: Response): Response {
   return new Response(res.body, {

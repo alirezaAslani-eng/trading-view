@@ -18,7 +18,7 @@ class ApiClient {
           ...headers,
           ...config?.headers,
         },
-      })
+      }),
     ) as Promise<Response>;
   }
 
@@ -39,6 +39,12 @@ class ApiClient {
     return this.mutationRequest(url, {
       ...config,
       method: "POST",
+    });
+  }
+  patch(url: string, config?: RequestConfig) {
+    return this.mutationRequest(url, {
+      ...config,
+      method: "PATCH",
     });
   }
   put(url: string, config?: RequestConfig) {
