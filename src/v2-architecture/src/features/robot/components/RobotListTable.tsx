@@ -60,7 +60,7 @@ const tradeBotsTableColumns: DefColumns<TradeRobot> = {
   },
   settlementMode: {
     field: "settlementMode",
-    headerName: "روش تسویه",
+    headerName: "روش معامله",
     renderCell: (row) => {
       return SETTLEMENT_LABELS[row.settlementMode];
     },
