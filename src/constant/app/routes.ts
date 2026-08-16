@@ -36,8 +36,9 @@ export const ROUTES = {
     LOYALTY: "/panel/profile/loyalty",
   },
   ROBOT: {
-    ROOT: "/admin/robot",
-    ROBOT_CONFIG: (symbol: string) => `/admin/robot/${symbol}`,
+    ROOT: "/admin/robots",
+    ROBOT_CONFIG: (botID: string | number) => `/admin/robots/${botID}`,
+    CREATE_ROBOT: `/admin/robots/create`,
   },
   COMPANIES: {
     ROOT: "/panel/profile/companies",

@@ -17,6 +17,7 @@ import {
   ConfigureBotSchemaInput,
   ConfigureBotSchemaOutput,
 } from "@/validations/robot/configureBotSchema";
+import { useEffect } from "react";
 
 function ConfigRobotForm() {
   const params = useParams<{ botId: string }>();
@@ -28,7 +29,7 @@ function ConfigRobotForm() {
 
   return (
     <>
-      {botSettingQuery.isLoading && (
+      {botSettingQuery.isPending && (
         <Typography variant="body1" sx={{ color: "text.secondary" }}>
           {"در حال بارگیری ..."}
         </Typography>
@@ -40,7 +41,7 @@ function ConfigRobotForm() {
         </Typography>
       )}
 
-      {!!botSettingQuery.data && (
+      {!botSettingQuery.isPending && botSettingQuery.isSuccess && (
         <RobotForm defaultValues={botSettingQuery.data} botId={botId} />
       )}
     </>
@@ -63,8 +64,12 @@ function RobotForm({ defaultValues, botId }: RobotFormProps) {
   //#region // * ------------ Form State ------------
   const form = useForm({
     resolver: zodResolver(configureBotSchema),
-    defaultValues: defaultValues,
   });
+
+  useEffect(() => {
+    form.reset(defaultValues);
+    console.log(defaultValues);
+  }, [defaultValues]);
 
   const submitHandler = (fields: ConfigureBotSchemaOutput) => {
     return safeAsync(() => botConfigMutation.mutateAsync({ ...fields, botId }));

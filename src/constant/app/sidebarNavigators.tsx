@@ -120,7 +120,7 @@ const sidebarNavigators: SidebarNavItem[] = [
     id: "robot",
     text: "ربات معامله گر",
     icon: <LockIcon />,
-    link: ROUTES.ROBOT.ROBOT_CONFIG("REBAR"),
+    link: ROUTES.ROBOT.ROOT,
     submenus: [],
   },
 ];

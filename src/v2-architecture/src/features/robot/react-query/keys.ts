@@ -1,5 +1,3 @@
+export const tradeRobotsKey = ["trading-robots" as const];
 export const botSettingKey = ["but-setting"];
-export const botSettingDynamicKey = (symbol: string) => [
-  ...botSettingKey,
-  symbol,
-];
+export const botSettingDynamicKey = (id: string) => [...botSettingKey, id];

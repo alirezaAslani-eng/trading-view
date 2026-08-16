@@ -32,6 +32,7 @@ export const configureBotSchema = object({
   whaleCooldownMinutes: number(),
   spreadPercentage: number(),
   spoofingProtectionRange: number(),
+  settlementMode: boolean(),
 });
 
 export type ConfigureBotSchema = Infer<typeof configureBotSchema>;

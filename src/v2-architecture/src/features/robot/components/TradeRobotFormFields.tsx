@@ -23,6 +23,7 @@ import {
 } from "@/validations/robot/configureBotSchema";
 import { toNumericFormatProps } from "@/utils/app/toNumericFieldProps";
 import { toCheckboxFieldProps } from "@/utils/app/toCheckboxFieldProps";
+import { useRouter } from "next/navigation";
 
 type TradeRobotFormFieldsProps = {
   form: UseFormReturn<
@@ -39,7 +40,7 @@ export default function TradeRobotFormFields({
   const symbolsQuery = useQuery(symbolsConfig());
   const symbols = symbolsQuery.data ?? [];
   //#endregion // * ------------ Symbols Data ------------
-
+  const router = useRouter();
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "pressureRules",
@@ -48,6 +49,14 @@ export default function TradeRobotFormFields({
   return (
     <>
       {/* ============ basic-setting-tab ============ */}
+      <Button
+        onClick={router.back}
+        sx={{ width: "fit-content" }}
+        variant="on-surface"
+        size="small"
+      >
+        {"برگشت"}
+      </Button>
       <FormLayoutFieldGroup>
         <FormLayoutField>
           <FormLayoutLable>{"نماد"}</FormLayoutLable>

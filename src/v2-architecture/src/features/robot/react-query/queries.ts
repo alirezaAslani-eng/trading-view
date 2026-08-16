@@ -1,11 +1,19 @@
 import { queryOptions } from "@tanstack/react-query";
-import { botSetting } from "../api";
-import { botSettingKey } from "./keys";
+import { botSetting, tradeRobots } from "../api";
+import { botSettingDynamicKey, tradeRobotsKey } from "./keys";
 
-export const botSettingConfig = () =>
+export const botSettingConfig = (botId: string) =>
   queryOptions({
-    queryKey: botSettingKey,
+    queryKey: botSettingDynamicKey(botId),
     queryFn: ({ signal }) => {
-      return botSetting({ signal });
+      return botSetting({ signal, params: { botId } });
+    },
+  });
+
+export const tradeRobotsConfig = () =>
+  queryOptions({
+    queryKey: tradeRobotsKey,
+    queryFn: ({ signal }) => {
+      return tradeRobots({ signal });
     },
   });
