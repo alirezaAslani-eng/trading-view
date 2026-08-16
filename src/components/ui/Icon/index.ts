@@ -49,3 +49,5 @@ export { default as HistoryIcon } from "./HistoryIcon";
 export { default as RobotIcon } from "./RobotIcon";
 export { default as ReceiptCheckIcon } from "./ReceiptCheckIcon";
 export { default as ToggleIcon } from "./ToggleIcon";
+export { default as PdfIcon } from "./PdfIcon";
+export { default as ExcelIcon } from "./ExcelIcon";

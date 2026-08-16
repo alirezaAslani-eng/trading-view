@@ -1,14 +1,12 @@
 "use client";
-import Button from "@/components/ui/Button/Button";
 import ToggleTabGroup from "@/components/ui/ButtonGroup/ToggleTabGroup";
-import DownloadIcon from "@/components/ui/Icon/DownloadIcon";
 import {
   useOrders,
   useOrderFiltersProvider,
 } from "@/context/feature/orders/Orders/hooks";
 import { OrderFiltersProvider } from "@/context/feature/orders/Orders/OrderFiltersContext";
 import { OrdersProvider } from "@/context/feature/orders/Orders/OrdersContext";
-import { Box, Divider, Stack, ToggleButton } from "@mui/material";
+import { Box, Divider, IconButton, Stack, ToggleButton } from "@mui/material";
 import { OrderFilters, TransactionFilters } from "@/types";
 import CheckBox from "@/components/ui/Checkbox/CheckBox";
 import OrdersTable from "../Table/OrdersTable";
@@ -57,6 +55,7 @@ import {
   exportTransactionsPDF,
   exportTransactionsExcel,
 } from "./data-exporter";
+import { ExcelIcon, PdfIcon } from "@/components/ui/Icon";
 const transactionColumns = buildTransactionColumns();
 const orderColumns = buildOrderColumns();
 
@@ -404,22 +403,12 @@ function Exporter({ tab }: ExporterProps) {
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-      <Button
-        variant="on-surface"
-        onClick={exportExcelHandler}
-        disabled={isExportDisabled}
-      >
-        <DownloadIcon sx={{ color: "inherit" }} />
-        {"دانلود اکسل"}
-      </Button>
-      <Button
-        variant="on-surface"
-        onClick={exportPDFHandler}
-        disabled={isExportDisabled}
-      >
-        <DownloadIcon sx={{ color: "inherit" }} />
-        {"دانلود پی دی اف"}
-      </Button>
+      <IconButton onClick={exportExcelHandler} disabled={isExportDisabled}>
+        <ExcelIcon sx={{ width: 26, height: 26 }} />
+      </IconButton>
+      <IconButton onClick={exportPDFHandler} disabled={isExportDisabled}>
+        <PdfIcon sx={{ width: 26, height: 26 }} />
+      </IconButton>
     </Box>
   );
 }
