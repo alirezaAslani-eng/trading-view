@@ -1,5 +1,5 @@
 import PageHeader from "@/components/common/Appbar/PageHeader";
-import { UserIcon, CardIcon, UserGroupIcon } from "@/components/ui/Icon";
+import { UserIcon, CardIcon, UserGroupIcon, ReceiptCheckIcon } from "@/components/ui/Icon";
 import {
   Header,
   Main,
@@ -40,7 +40,7 @@ function layout({ children }: PropsWithChildren) {
                 href={ROUTES.PROFILE.LOYALTY}
                 exact={false}
               >
-                <UserGroupIcon />
+                <ReceiptCheckIcon />
                 {"سطح وفاداری"}
               </PageSubNavigationLink>
               <PageSubNavigationLink href={ROUTES.COMPANIES.ROOT} exact={false}>
