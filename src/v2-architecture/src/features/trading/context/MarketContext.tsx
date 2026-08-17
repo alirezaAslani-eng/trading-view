@@ -1,7 +1,8 @@
 "use client";
 import { MarketSubscribeProvider } from "@/context/feature/market/MarketSubscribeProvider";
 import { TradeModeProvider } from "@/context/feature/trade/TradeMode";
-import { GenericConfirmDialog } from "@/packages/nice-modal-react";
+import { AgreementPromiseDialog } from "@/packages/nice-modal-react";
+import { useDismiss } from "@/v2-architecture/src/shared/hooks";
 import { show } from "@ebay/nice-modal-react";
 import {
   createContext,
@@ -40,17 +41,24 @@ const SettlementModeContext = createContext<SettlementModeContextValue | null>(
 function SettlementModeProvider({ children }: PropsWithChildren) {
   const [settlementMode, setSettlementMode] = useState<SettlementMode>(false);
 
-  const setMode = useCallback(async (mode: SettlementMode) => {
-    if (mode) {
-      const confirm = await conferimMode();
+  const { dismiss, isDismised } = useDismiss("dismis-settlement-dialog");
+
+  const setMode = async (mode: SettlementMode) => {
+    if (mode && !isDismised) {
+      const confirm = await show(AgreementPromiseDialog, {
+        title: "توجه به نحوه تسویه معامله",
+        rules:
+          "شما در حال ثبت معامله با حالت تسویه ۱۰٪ هستید. در این حالت تنها ۱۰٪ مبلغ معامله در ابتدا پرداخت می‌شود و ۹۰٪ باقی‌مانده به‌عنوان بدهی شما ثبت خواهد شد. شما حداکثر ۳ روز فرصت دارید بدهی ایجادشده را تسویه کنید.",
+      });
       if (!confirm) return;
+      dismiss();
     }
     setSettlementMode(mode);
-  }, []);
+  };
 
-  const toggleMode = useCallback(() => {
+  const toggleMode = () => {
     setMode(!settlementMode);
-  }, [settlementMode]);
+  };
 
   const value: SettlementModeContextValue = {
     settlementMode,
@@ -65,12 +73,3 @@ function SettlementModeProvider({ children }: PropsWithChildren) {
 export const useSettlementMode = () => useContext(SettlementModeContext);
 
 //#endregion // * ------------ SettlementModeContext ------------
-
-function conferimMode() {
-  return show(GenericConfirmDialog, {
-    color: "primary",
-    title: "توجه به نحوه تسویه معامله",
-    description:
-      "شما در حال ثبت معامله با حالت تسویه ۱۰٪ هستید. در این حالت تنها ۱۰٪ مبلغ معامله در ابتدا پرداخت می‌شود و ۹۰٪ باقی‌مانده به‌عنوان بدهی شما ثبت خواهد شد. شما حداکثر ۳ روز فرصت دارید بدهی ایجادشده را تسویه کنید.",
-  });
-}
