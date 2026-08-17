@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import {
   onPortfolioUpdate,
   onPriceUpdate,
+  onRefreshWallet,
   walletHub,
   type OnPortfolioUpdateInfo,
   type OnPriceUpdateInfo,
@@ -64,6 +65,15 @@ async function updatePrice(data: OnPriceUpdateInfo) {
   // );
 }
 
+async function refreshPortfolio() {
+  walletHub.onTickLog({
+    source: "Wallet Refresh",
+    event: onRefreshWallet,
+  });
+  await queryClient.cancelQueries({ queryKey: walletProtfolioKey });
+  queryClient.invalidateQueries({ queryKey: walletProtfolioKey });
+}
+
 function WalletSyncProvider() {
   useEffect(() => {
     const con = walletHub.build();
@@ -71,10 +81,12 @@ function WalletSyncProvider() {
     walletHub.start(con);
     con.on(onPortfolioUpdate, updatePortfolio);
     con.on(onPriceUpdate, updatePrice);
+    con.on(onRefreshWallet, refreshPortfolio);
 
     return () => {
       con.off(onPortfolioUpdate, updatePortfolio);
       con.off(onPriceUpdate, updatePrice);
+      con.off(onRefreshWallet, refreshPortfolio);
     };
   }, []);
 

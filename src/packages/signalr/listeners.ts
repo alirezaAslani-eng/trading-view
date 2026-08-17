@@ -1,9 +1,19 @@
+//#region // * ------------ Market ------------
 const onTradeExecuted = "OnTradeExecuted";
 const orderBookUpdated = "OrderBookUpdated";
 const OnMarketPriceChanged = "OnMarketPriceChanged";
-const onPortfolioUpdate = "PortfolioUpdate";
-const onPriceUpdate = "OnPriceUpdate";
+//#endregion
+
+//#region // * ------------ Orders ------------
 const onOrderUpdate = "OrderUpdate";
+//#endregion
+
+//#region // * ------------ Wallet ------------
+const onPriceUpdate = "OnPriceUpdate";
+const onPortfolioUpdate = "PortfolioUpdate";
+const onRefreshWallet = "RefreshWallet";
+//#endregion
+
 export {
   onTradeExecuted,
   orderBookUpdated,
@@ -11,4 +21,5 @@ export {
   onPortfolioUpdate,
   onPriceUpdate,
   onOrderUpdate,
+  onRefreshWallet,
 };

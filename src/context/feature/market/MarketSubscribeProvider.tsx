@@ -117,6 +117,14 @@ const invokeMarket = async (config: StartMarketConfig) => {
     await marketHub.start(con);
 
     for (const symbol of symbols) {
+      console.log(
+        "invoke",
+        event,
+        symbol,
+        isdemo,
+        activeSymbol === symbol ? (settlementMode ? 1 : 0) : 0,
+      );
+
       await con.invoke(
         event,
         symbol,
