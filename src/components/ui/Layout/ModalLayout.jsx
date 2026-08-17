@@ -35,7 +35,7 @@ const ModalLayoutCloseIcon = styled(CloseIcon)(({ theme }) => ({
 }));
 
 /**
- * @param {import("@mui/material").StackProps & {title:string,subtitle:string}} param0
+ * @param {import("@mui/material").StackProps & {title:string,subtitle?:string}} param0
  */
 function ModalLayoutTitle({ title, subtitle, ...props }) {
   return (
@@ -49,9 +49,11 @@ function ModalLayoutTitle({ title, subtitle, ...props }) {
       <Typography variant="h6" sx={{ color: "text.heading" }}>
         {title}
       </Typography>
-      <Typography variant="body3" sx={{ color: "text.caption" }}>
-        {subtitle}
-      </Typography>
+      {subtitle && (
+        <Typography variant="body3" sx={{ color: "text.caption" }}>
+          {subtitle}
+        </Typography>
+      )}
     </Stack>
   );
 }
