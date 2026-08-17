@@ -4,6 +4,10 @@ import { Dialog } from "@mui/material";
 import { create, useModal } from "@ebay/nice-modal-react";
 import { WarningIcon } from "@/components/ui/Icon";
 import {
+  AgreementDialog,
+  AgreementDialogProps,
+} from "@/components/ui/AgreementDialog/AgreementDialog";
+import {
   ConfirmDialog,
   ConfirmDialogPromiseProps,
   DialogAction,
@@ -11,7 +15,7 @@ import {
   DialogInfo,
 } from "@/components/ui/ConfirmDialog";
 
-const GenericConfirmDialog = create(
+export const GenericConfirmDialog = create(
   ({
     description = "آیا از انجام این عملیات مطمئن هستید؟",
     title = "تأیید انجام عملیات",
@@ -50,4 +54,35 @@ const GenericConfirmDialog = create(
   },
 );
 
-export { GenericConfirmDialog };
+export const AgreementPromiseDialog = create(
+  ({
+    title,
+    rules,
+    agreementLabel,
+    confirmLabel,
+  }: Omit<AgreementDialogProps, "onClose" | "open" | "onConfirm">) => {
+    const modal = useModal();
+
+    const resolveHandler = () => {
+      modal.resolve(true);
+      modal.hide();
+    };
+
+    const rejectHandler = () => {
+      modal.resolve(false);
+      modal.hide();
+    };
+
+    return (
+      <AgreementDialog
+        open={modal.visible}
+        onClose={rejectHandler}
+        onConfirm={resolveHandler}
+        title={title}
+        rules={rules}
+        agreementLabel={agreementLabel}
+        confirmLabel={confirmLabel}
+      />
+    );
+  },
+);
