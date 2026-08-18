@@ -1,9 +1,6 @@
+import { useState } from "react";
+import { Box, Stack, Typography } from "@mui/material";
 import { ModalFormProps } from "@/components/template/Form/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { kycL3Schema, KycL3SchemaOutput } from "../validations";
-import InputFile from "@/components/ui/Input/InputFile";
-import { FormControl } from "@mui/material";
 import {
   ModalLayout,
   ModalLayoutBody,
@@ -11,57 +8,114 @@ import {
   ModalLayoutHeading,
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
-import {
-  FormLayout,
-  FormLayoutAlert,
-  FormLayoutField,
-  FormLayoutFieldError,
-  FormLayoutLable,
-  FormLayoutSubmit,
-} from "@/components/ui/Layout/FormLayout";
-import { useMutation } from "@tanstack/react-query";
+import Button from "@/components/ui/Button/Button";
+import { KycL3FaceDetectionModal } from "./KycL3FaceDetectionModal";
 import { kycL3Config } from "../react-query";
-import safeAsync from "@/utils/app/safeAsync";
+import { useMutation } from "@tanstack/react-query";
+
+type KycL3Step = "requirements" | "recording";
 
 function KycL3ModalForm({ onClose }: ModalFormProps) {
-  const form = useForm({ resolver: zodResolver(kycL3Schema) });
+  const [step, setStep] = useState<KycL3Step>("requirements");
   const mutation = useMutation(kycL3Config());
-  const vedoFieldError = form.formState.errors.video?.message;
 
-  const submitHandler = async (fields: KycL3SchemaOutput) => {
-    await safeAsync(() => mutation.mutateAsync(fields));
+  const requirements = [
+    "در محیطی با نور کافی و یکنواخت قرار بگیرید و از قرار گرفتن نور شدید پشت سر خودداری کنید.",
+    "صورت شما باید کاملاً داخل کادر دوربین قرار داشته باشد و به‌وضوح قابل مشاهده باشد.",
+    "در هنگام احراز از ماسک، عینک آفتابی، کلاه یا مواردی که مانع تشخیص واضح چهره می‌شوند استفاده نکنید.",
+    "هنگام ضبط ویدیو ثابت بمانید و از حرکت یا چرخاندن شدید سر خودداری کنید.",
+    "از اتصال پایدار اینترنت در طول فرآیند احراز اطمینان حاصل کنید.",
+    "دسترسی دوربین و میکروفون دستگاه باید در طول فرآیند فعال باشد.",
+    "ویدیو باید توسط خود شما و در همان لحظه فرآیند احراز ضبط شود.",
+  ];
+
+  const handleStartVerification = () => {
+    setStep("recording");
+  };
+
+  const handleRecordingClose = () => {
+    setStep("requirements");
+  };
+
+  const handleReadyFile = (file: File) => {
+    mutation.mutate({ video: file });
   };
 
   return (
-    <FormControl disabled={form.formState.isSubmitting}>
-      <ModalLayout onSubmit={form.handleSubmit(submitHandler)}>
-        <ModalLayoutHeading>
-          <ModalLayoutTitle
-            title="احراز سطح 3"
-            subtitle="برای احراز سطح 3 اطلاعات فرم را تکمیل کنید"
-          />
-          <ModalLayoutCloseIcon onClick={onClose} />
-        </ModalLayoutHeading>
-        <ModalLayoutBody>
-          <FormLayout>
-            <FormLayoutAlert>{"قوانین احراز"}</FormLayoutAlert>
-            <FormLayoutField>
-              <FormLayoutLable>{"لطفا اطلاعات فرم را پر کنید"}</FormLayoutLable>
-              <InputFile
-                {...form.register("video")}
-                error={!!vedoFieldError}
-                accept="video/*"
-              />
-              <FormLayoutFieldError
-                isError={!!vedoFieldError}
-                message={vedoFieldError}
-              />
-            </FormLayoutField>
-            <FormLayoutSubmit>{"ثبت اطلاعات"}</FormLayoutSubmit>
-          </FormLayout>
-        </ModalLayoutBody>
-      </ModalLayout>
-    </FormControl>
+    <ModalLayout>
+      <ModalLayoutHeading>
+        <ModalLayoutTitle
+          title="احراز سطح ۳"
+          subtitle={
+            step === "requirements"
+              ? "قبل از شروع، موارد زیر را رعایت کنید"
+              : "ویدیوی احراز خود را ضبط کنید"
+          }
+        />
+
+        <ModalLayoutCloseIcon onClick={onClose} />
+      </ModalLayoutHeading>
+
+      <ModalLayoutBody>
+        {step === "requirements" && (
+          <Stack spacing={3}>
+            <Typography
+              variant="body2"
+              sx={{
+                color: "text.secondary",
+              }}
+            >
+              برای اینکه فرآیند احراز با موفقیت انجام شود، لطفاً قبل از شروع
+              موارد زیر را بررسی کنید.
+            </Typography>
+
+            <Stack
+              component="ul"
+              spacing={1.5}
+              sx={{
+                m: 0,
+                pr: 2.5,
+                pl: 0,
+              }}
+            >
+              {requirements.map((requirement, index) => (
+                <Box
+                  component="li"
+                  key={index}
+                  sx={{
+                    pl: 0.75,
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "text.secondary",
+                      lineHeight: 1.8,
+                    }}
+                  >
+                    {requirement}
+                  </Typography>
+                </Box>
+              ))}
+            </Stack>
+
+            <Button
+              fullWidth
+              variant="on-surface"
+              size="large"
+              onClick={handleStartVerification}
+            >
+              شروع احراز
+            </Button>
+          </Stack>
+        )}
+
+        <KycL3FaceDetectionModal
+          open={step === "recording"}
+          onClose={handleRecordingClose}
+        />
+      </ModalLayoutBody>
+    </ModalLayout>
   );
 }
 
