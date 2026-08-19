@@ -10,7 +10,10 @@ import {
 import { buildColumns } from "@/utils/app/buildColumns";
 import { formatFaPrice } from "@/utils";
 import { PRICE_UNITS } from "@/constant/features/priceConfig";
-import { tradeContractsConfig } from "../react-query";
+import {
+  settleTradeContractConfig,
+  tradeContractsConfig,
+} from "../react-query";
 import FallbackHandler from "@/components/ui/Fallback/FallbackHandler";
 import {
   TableFallback,
@@ -19,8 +22,11 @@ import {
 } from "@/components/ui/Fallback/TableFallback";
 import { convertToJalali } from "@/packages/dayjs";
 import { JALALI_FORMAT } from "@/constant/app/date";
-import { Chip, Typography } from "@mui/material";
+import { Chip, CircularProgress, Typography } from "@mui/material";
 import ButtonTableAction from "@/components/ui/Button/ButtonTableAction";
+import { useMutation } from "@tanstack/react-query";
+import { show } from "@ebay/nice-modal-react";
+import { GenericConfirmDialog } from "@/packages/nice-modal-react";
 
 const statusColors: Record<TradeContractStatus, string> = {
   Canceled: "text.error",
@@ -29,6 +35,32 @@ const statusColors: Record<TradeContractStatus, string> = {
 } as const;
 const priceUnitDisplay = PRICE_UNITS.IRT.displayName;
 
+type SettleTradeContractActionProps = {
+  id: string;
+};
+
+function SettleTradeContractAction({ id }: SettleTradeContractActionProps) {
+  const mutation = useMutation(settleTradeContractConfig());
+  const handleSettle = async () => {
+    const isConfirmed = await show(GenericConfirmDialog, {
+      title: "تأیید پرداخت قرارداد",
+      description:
+        "با تأیید این عملیات، مبلغ بدهی قرارداد از موجودی کیف پول شما کسر خواهد شد. آیا از پرداخت این مبلغ اطمینان دارید؟",
+    });
+    if (!isConfirmed) return;
+    mutation.mutate({ id });
+  };
+
+  return (
+    <ButtonTableAction onClick={handleSettle} disabled={mutation.isPending}>
+      {mutation.isPending ? (
+        <CircularProgress color="inherit" size={16} />
+      ) : (
+        "پرداخت"
+      )}
+    </ButtonTableAction>
+  );
+}
 const tradeContractsColumns = buildColumns<TradeContract>(
   {
     productCode: {
@@ -113,7 +145,7 @@ const tradeContractsColumns = buildColumns<TradeContract>(
       {
         headerName: "عملیات",
         renderCell(row) {
-          return <ButtonTableAction>{"پرداخت"}</ButtonTableAction>;
+          return <SettleTradeContractAction id={row.id} />;
         },
       },
     ],
