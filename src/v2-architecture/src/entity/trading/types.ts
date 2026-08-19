@@ -12,5 +12,6 @@ export interface TradeContract {
   remaningDebt: number;
   penaltyAmount: number;
   createdAt: string;
+  remaningDate: number;
   status: TradeContractStatus;
 }
