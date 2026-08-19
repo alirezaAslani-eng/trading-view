@@ -118,6 +118,18 @@ const tradeContractsColumns = buildColumns<TradeContract>(
         );
       },
     },
+    remaningDate: {
+      field: "remaningDate",
+      headerName: "مهلت پرداخت",
+      renderCell: (row) => {
+        const color = getRemainingDaysColor(row.remaningDate);
+        const label = getRemainingDaysLabel(row.remaningDate);
+
+        return (
+          <Chip label={label} variant="outlined" color={color} size="small" />
+        );
+      },
+    },
 
     createdAt: {
       field: "createdAt",
@@ -182,3 +194,25 @@ function ContractsTable() {
 }
 
 export default ContractsTable;
+
+//#region // * ------------ Internal helpers ------------
+
+function getRemainingDaysLabel(days: number) {
+  if (days === 0) {
+    return "تا پایان امروز";
+  }
+
+  return `${days} روز تا پرداخت`;
+}
+function getRemainingDaysColor(days: number) {
+  if (days === 0) {
+    return "error";
+  }
+
+  if (days <= 1) {
+    return "warning";
+  }
+
+  return "primary";
+}
+//#endregion // * ------------ Internal helpers ------------
