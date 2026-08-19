@@ -1,6 +1,5 @@
 import PageHeader from "@/components/common/Appbar/PageHeader";
 import TotalAssetCard from "@/components/template/Card/TotalAssetCard";
-import ExchangeAssetForm from "@/components/template/Form/ExchangeAssetForm";
 import { Box } from "@mui/material";
 import AssetCartTable from "@/components/template/Table/AssetCartTable";
 import BuySellQueueCard from "@/components/template/Card/BuySellQueueCard";
@@ -14,6 +13,12 @@ import {
   SectionTitle,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
+import {
+  PagePaper,
+  PagePaperHeading,
+  PagePaperTitle,
+} from "@/components/ui/Layout/PaperLayout";
+import { TradeContractsTable } from "@/v2-architecture/src/features/trading";
 function page() {
   return (
     <Page>
@@ -22,26 +27,36 @@ function page() {
       </Header>
       <Main>
         <Section>
-           <Box >
-              <TotalAssetCard />
-            </Box>
-          <SectionContent>
-           
-            {/* <Box sx={{ width: "34.36%", minHeight: "242px" }}>
+          <Box>
+            <TotalAssetCard />
+          </Box>
+          {/* <SectionContent>
+            <Box sx={{ width: "34.36%", minHeight: "242px" }}>
               <ExchangeAssetForm />
-            </Box> */}
-          </SectionContent>
+            </Box>
+          </SectionContent> */}
         </Section>
 
         <Section>
           <SectionHeading>
             <SectionTitle>{"لیست دارایی کالا"}</SectionTitle>
           </SectionHeading>
-          <SectionContent>
-            <Box sx={{ minHeight: "332px", flex: 1 }}>
-              <AssetCartTable />
-            </Box>
-          </SectionContent>
+
+          <AssetCartTable />
+        </Section>
+
+        <Section>
+          {/* <SectionHeading>
+            <SectionTitle>فعالیت‌های معاملاتی</SectionTitle>
+          </SectionHeading> */}
+
+          <PagePaper>
+            <PagePaperHeading sx={{ mb: "40px" }}>
+              <PagePaperTitle>{"معامله های ۱۰ درصدی"}</PagePaperTitle>
+            </PagePaperHeading>
+
+            <TradeContractsTable />
+          </PagePaper>
         </Section>
 
         <Section>
