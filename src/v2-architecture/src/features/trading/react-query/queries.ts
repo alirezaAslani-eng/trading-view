@@ -13,7 +13,9 @@ export const demoSettingConfig = () => {
 
 export const tradeContractsConfig = () => {
   return queryOptions({
+    // ! OMTIMISE : tradeContractsKey must be invalidated only for settlement=1 trade mode
     queryKey: tradeContractsKey,
+    refetchOnMount: true,
     queryFn: ({ signal }) => {
       return tradeContracts({ signal });
     },
