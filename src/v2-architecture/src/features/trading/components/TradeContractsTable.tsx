@@ -1,6 +1,13 @@
 "use client";
 import DataTable from "@/components/ui/Table/DataTable";
 import { useQuery } from "@tanstack/react-query";
+import { convertToJalali } from "@/packages/dayjs";
+import { JALALI_FORMAT } from "@/constant/app/date";
+import { Chip, CircularProgress, Typography } from "@mui/material";
+import ButtonTableAction from "@/components/ui/Button/ButtonTableAction";
+import { useMutation } from "@tanstack/react-query";
+import { show } from "@ebay/nice-modal-react";
+import { GenericConfirmDialog } from "@/packages/nice-modal-react";
 
 import {
   TRADE_CONTRACT_STATUS_LABELS,
@@ -20,13 +27,6 @@ import {
   TableFallbackData,
   TableFallbackLoader,
 } from "@/components/ui/Fallback/TableFallback";
-import { convertToJalali } from "@/packages/dayjs";
-import { JALALI_FORMAT } from "@/constant/app/date";
-import { Chip, CircularProgress, Typography } from "@mui/material";
-import ButtonTableAction from "@/components/ui/Button/ButtonTableAction";
-import { useMutation } from "@tanstack/react-query";
-import { show } from "@ebay/nice-modal-react";
-import { GenericConfirmDialog } from "@/packages/nice-modal-react";
 
 const statusColors: Record<TradeContractStatus, string> = {
   Canceled: "text.error",
@@ -68,7 +68,11 @@ const tradeContractsColumns = buildColumns<TradeContract>(
       headerName: "محصول",
       renderCell: (row) => row.productCode,
     },
-
+    createdAt: {
+      field: "createdAt",
+      headerName: "تاریخ ایجاد",
+      renderCell: (row) => convertToJalali(row.createdAt).format(JALALI_FORMAT),
+    },
     matchPrice: {
       field: "matchPrice",
       headerName: "قیمت معامله",
@@ -129,12 +133,6 @@ const tradeContractsColumns = buildColumns<TradeContract>(
           <Chip label={label} variant="outlined" color={color} size="small" />
         );
       },
-    },
-
-    createdAt: {
-      field: "createdAt",
-      headerName: "تاریخ ایجاد",
-      renderCell: (row) => convertToJalali(row.createdAt).format(JALALI_FORMAT),
     },
 
     status: {
