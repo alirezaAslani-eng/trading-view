@@ -58,6 +58,7 @@ import {
   createPasswordSchema,
 } from "@/validations/auth/createPasswordSchema";
 import { ModalFormProps } from "./types";
+import InputPassword from "@/components/ui/Input/InputPassword";
 
 export function AuthForm() {
   const authFlow = useAuthFlow()!;
@@ -240,7 +241,7 @@ function FinalStepWithPassword() {
       <FormLayout onSubmit={form.handleSubmit(submiter)}>
         <FormLayoutField>
           <FormLayoutLable>{"رمز ورود"}</FormLayoutLable>
-          <InputText
+          <InputPassword
             {...form.register("password")}
             size="large"
             placeholder="رمز عبور خود را وارد کنید"
