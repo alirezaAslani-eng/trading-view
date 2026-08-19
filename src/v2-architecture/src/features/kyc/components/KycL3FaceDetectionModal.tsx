@@ -50,9 +50,7 @@ function KycL3FaceDetectionModal({
   const mutation = useMutation({
     ...kycL3Config(),
 
-    onSuccess: () => {
-      onClose();
-    },
+    onSuccess: onClose,
 
     onError: async () => {
       setElapsedSeconds(0);

@@ -34,6 +34,7 @@ import {
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
 import { useKycL1Mutation } from "@/v2-architecture/src/features/kyc/hooks";
+import { ModalFormProps } from "./types";
 
 const kycStatusConfig_ = kycStatusConfig();
 
@@ -44,13 +45,11 @@ const defaultValues = {
   birthYear: "",
 };
 
-function KycL1ModalForm() {
+function KycL1ModalForm({ onClose }: ModalFormProps) {
   const kycStatus = useQuery(kycStatusConfig_);
 
-  const dispatch = useDispatch();
-
   const kycL1Mutation = useKycL1Mutation({
-    onSuccess: () => dispatch(successKyc()),
+    onSuccess: onClose,
   });
 
   const onSubmit: SubmitHandler<KycL1Schema> = async (fields) => {
@@ -69,7 +68,7 @@ function KycL1ModalForm() {
           title={kycContent.kycL1FormTitle}
           subtitle={kycContent.kycL1FormSubTitle}
         />
-        <ModalLayoutCloseIcon onClick={() => dispatch(exitKycFlow())} />
+        <ModalLayoutCloseIcon onClick={onClose} />
       </ModalLayoutHeading>
 
       <ModalLayoutBody>

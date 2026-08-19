@@ -5,8 +5,6 @@ import { kycLevel2Config } from "@/packages/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch } from "@/packages/redux";
-import { exitKycFlow } from "@/redux/features/kyc";
 import { FormControl, Typography } from "@mui/material";
 import {
   FormLayout,
@@ -37,23 +35,24 @@ import {
 } from "@/v2-architecture/src/features/kyc/react-query";
 import useUpdateEffect from "@/hooks/app/useUpdateEffect";
 import safeAsync from "@/utils/app/safeAsync";
+import { ModalFormProps } from "./types";
 
-function KycL2Form() {
-  const dispatch = useDispatch();
-  const closeKycModal = () => dispatch(exitKycFlow());
-
+function KycL2Form({ onClose }: ModalFormProps) {
   //#region // * ------------ Form Mutation ------------
+
   const mutation = useMutation(
     kycLevel2Config({
-      onSuccess: closeKycModal,
+      onSuccess: onClose,
       meta: {
         successMessage: "احراز سطح 2 ثبت شد",
       },
     }),
   );
+
   //#endregion // * ------------ Form Mutation ------------
 
   //#region // * ------------ Form State ------------
+
   const form = useForm({
     resolver: zodResolver(kycL2Schema),
     defaultValues: {
@@ -65,24 +64,33 @@ function KycL2Form() {
       state: "",
     },
   });
+
   const submitHandler = async (fields: KycL2Variables) => {
     await safeAsync(() => mutation.mutateAsync(fields));
   };
+
   //#endregion // * ------------ Form State ------------
 
   //#region // * ------------ Form Data ------------
-  // * ActivityFields
+
+  // * Activity Fields
   const { data: activityFields = [] } = useQuery(activityFieldsConfig());
-  // * AddressInquiry
+
+  // * Address Inquiry
   const postalCode = form.watch("postalCode");
+
   const { data: addressInquiry } = useQuery(addressInquiryConfig(postalCode));
+
   useUpdateEffect(() => {
     if (!addressInquiry) return;
+
     form.setValue("state", addressInquiry.state);
     form.setValue("city", addressInquiry.city);
     form.setValue("fullAddress", addressInquiry.fullAddress);
   }, [addressInquiry]);
+
   //#endregion // * ------------ Form Data ------------
+
   return (
     <ModalLayout>
       <ModalLayoutHeading>
@@ -90,7 +98,8 @@ function KycL2Form() {
           title={kycContent.kycL2FormTitle}
           subtitle={kycContent.kycL2FormSubTitle}
         />
-        <ModalLayoutCloseIcon onClick={closeKycModal} />
+
+        <ModalLayoutCloseIcon onClick={onClose} />
       </ModalLayoutHeading>
 
       <ModalLayoutBody>
@@ -99,6 +108,7 @@ function KycL2Form() {
             <FormLayoutFieldGroup>
               <FormLayoutField>
                 <FormLayoutLable>{"حوزه فعالیت"}</FormLayoutLable>
+
                 <Controller
                   control={form.control}
                   name="activityField"
@@ -123,6 +133,7 @@ function KycL2Form() {
 
               <FormLayoutField>
                 <FormLayoutLable>{"شغل"}</FormLayoutLable>
+
                 <InputText
                   placeholder="شغل خود را وارد کنید"
                   {...form.register("jobTitle")}
@@ -134,6 +145,7 @@ function KycL2Form() {
             <FormLayoutFieldGroup>
               <FormLayoutField>
                 <FormLayoutLable>{"کد پستی"}</FormLayoutLable>
+
                 <InputText
                   placeholder="کد پستی خود را وارد کنید"
                   {...form.register("postalCode")}
@@ -143,6 +155,7 @@ function KycL2Form() {
 
               <FormLayoutField>
                 <FormLayoutLable>{"منطقه"}</FormLayoutLable>
+
                 <InputText
                   placeholder="عدد منطقه را وارد کنید"
                   {...form.register("state")}
@@ -162,8 +175,9 @@ function KycL2Form() {
 
             <FormLayoutField>
               <FormLayoutLable>{"آدرس"}</FormLayoutLable>
+
               <InputText
-                placeholder="آدرس محل سکونت را وارد کنید"
+                placeholder="آدرس محل سکونت خود را وارد کنید"
                 //@ts-ignore
                 textarea
                 {...form.register("fullAddress")}

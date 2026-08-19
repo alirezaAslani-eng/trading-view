@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import { ModalFormProps } from "@/components/template/Form/types";
+import Button from "@/components/ui/Button/Button";
+import { KycL3FaceDetectionModal } from "./KycL3FaceDetectionModal";
 import {
   ModalLayout,
   ModalLayoutBody,
@@ -8,16 +10,11 @@ import {
   ModalLayoutHeading,
   ModalLayoutTitle,
 } from "@/components/ui/Layout/ModalLayout";
-import Button from "@/components/ui/Button/Button";
-import { KycL3FaceDetectionModal } from "./KycL3FaceDetectionModal";
-import { kycL3Config } from "../react-query";
-import { useMutation } from "@tanstack/react-query";
 
 type KycL3Step = "requirements" | "recording";
 
 function KycL3ModalForm({ onClose }: ModalFormProps) {
   const [step, setStep] = useState<KycL3Step>("requirements");
-  const mutation = useMutation(kycL3Config());
 
   const requirements = [
     "در محیطی با نور کافی و یکنواخت قرار بگیرید و از قرار گرفتن نور شدید پشت سر خودداری کنید.",
@@ -35,10 +32,6 @@ function KycL3ModalForm({ onClose }: ModalFormProps) {
 
   const handleRecordingClose = () => {
     setStep("requirements");
-  };
-
-  const handleReadyFile = (file: File) => {
-    mutation.mutate({ video: file });
   };
 
   return (
