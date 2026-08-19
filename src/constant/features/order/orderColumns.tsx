@@ -2,7 +2,7 @@ import { Column } from "@/components/ui/Table/DataTable";
 import { Order } from "@/api/types";
 import { formatFaPrice } from "@/utils";
 import normalizeOrderStatus from "@/utils/features/order/normalizeOrderStatus";
-import { Typography } from "@mui/material";
+import { Chip, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { WEIGHT_UNITS } from "../product/weightUnits";
 import CircularProgress, {
@@ -15,6 +15,7 @@ import {
 } from "@/utils/app/buildColumns";
 import CancleOrderTableAction from "@/components/template/Button/CancleOrderTableAction";
 import { ordersBaseColumns } from "./orderBaseColumns";
+import { SETTLEMENT_LABELS } from "@/v2-architecture/src/features/order";
 
 type DefaultColumns = DefColumns<Order>;
 const weightUnit = WEIGHT_UNITS.KG.lable;
@@ -67,7 +68,17 @@ export const orderTableColumns: DefaultColumns = {
   },
   settlementMode: {
     headerName: ordersBaseColumns.settlementMode.headerName,
-    renderCell: ordersBaseColumns.settlementMode.content,
+    renderCell: (row) => {
+      const { settlementMode } = row;
+      return (
+        <Chip
+          size="small"
+          variant={settlementMode ? "filled" : "outlined"}
+          color={settlementMode ? "warning" : "primary"}
+          label={SETTLEMENT_LABELS[settlementMode]}
+        />
+      );
+    },
   },
 
   price: {
