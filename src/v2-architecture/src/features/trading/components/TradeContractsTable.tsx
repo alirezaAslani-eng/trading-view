@@ -100,11 +100,11 @@ const tradeContractsColumns = buildColumns<TradeContract>(
         `${formatFaPrice(row.depositPaid)} ${priceUnitDisplay}`,
     },
 
-    remaningDebt: {
-      field: "remaningDebt",
+    remainingDebt: {
+      field: "remainingDebt",
       headerName: "بدهی باقی‌مانده",
       renderCell: (row) =>
-        `${formatFaPrice(row.remaningDebt)} ${priceUnitDisplay}`,
+        `${formatFaPrice(row.remainingDebt)} ${priceUnitDisplay}`,
     },
 
     penaltyAmount: {
@@ -122,12 +122,12 @@ const tradeContractsColumns = buildColumns<TradeContract>(
         );
       },
     },
-    remaningDate: {
-      field: "remaningDate",
+    remainingDays: {
+      field: "remainingDays",
       headerName: "مهلت پرداخت",
       renderCell: (row) => {
-        const color = getRemainingDaysColor(row.remaningDate);
-        const label = getRemainingDaysLabel(row.remaningDate);
+        const color = getRemainingDaysColor(row.remainingDays);
+        const label = getRemainingDaysLabel(row.remainingDays);
 
         return (
           <Chip label={label} variant="outlined" color={color} size="small" />

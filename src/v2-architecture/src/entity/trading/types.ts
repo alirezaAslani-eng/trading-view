@@ -9,9 +9,9 @@ export interface TradeContract {
   matchWeight: number;
   totalValue: number;
   depositPaid: number;
-  remaningDebt: number;
+  remainingDebt: number;
   penaltyAmount: number;
   createdAt: string;
-  remaningDate: number;
+  remainingDays: number;
   status: TradeContractStatus;
 }
