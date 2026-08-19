@@ -1,6 +1,7 @@
 export type TradeContractStatus = "Canceled" | "Settled" | "Pending";
 
 export interface TradeContract {
+  id: string;
   buyerId: string;
   sellerId: string;
   productCode: string;
