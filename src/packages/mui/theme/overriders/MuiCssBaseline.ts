@@ -17,6 +17,26 @@ const MuiCssBaseline = {
         border: "none",
         backgroundColor: "transparent",
         outline: "none",
+
+        //#region // * ------------ Hidden eye password icon ------------
+        "&::-ms-reveal": {
+          display: "none",
+        },
+
+        "&::-ms-clear": {
+          display: "none",
+        },
+
+        "&::-webkit-credentials-auto-fill-button": {
+          visibility: "hidden",
+          display: "none",
+          pointerEvents: "none",
+        },
+
+        "&::-webkit-textfield-decoration-container": {
+          display: "none",
+        },
+        //#endregion
       },
       label: {
         cursor: "pointer",
