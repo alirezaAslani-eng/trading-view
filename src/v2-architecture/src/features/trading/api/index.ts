@@ -10,3 +10,7 @@ export type {
   SettlementModeQueries,
   SettlementModeVariables,
 } from "./types";
+export {
+  type SettleTradeContractParams,
+  settleTradeContract,
+} from "./settleTradeContract";
