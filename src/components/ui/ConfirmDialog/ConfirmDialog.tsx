@@ -5,7 +5,7 @@ import { ConfirmDialogColor, confirmDialogTheme } from "./styles";
 import { ComponentProps, CSSProperties, ReactNode } from "react";
 import { ModalLayout } from "../Layout/ModalLayout";
 
-const Root = styled(ModalLayout, {
+const Root = styled(Box, {
   shouldForwardProp: (prop) => prop !== "color",
 })<{ color?: ConfirmDialogColor }>(({ theme, color = "success" }) => {
   const dialog_theme = confirmDialogTheme({ theme, color });
@@ -16,8 +16,8 @@ const Root = styled(ModalLayout, {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-
-    backgroundColor: theme.palette.background.surface,
+    
+    backgroundColor: theme.palette.background.surfaceLevel4,
     borderRadius: 16,
 
     "& .ConfirmDialog-icon": {
