@@ -1,2 +1,2 @@
-export { demoSettingConfig } from "./queries";
-export { setDemoConfig } from "./mutations";
+export * from "./queries";
+export * from "./mutations";

@@ -1,4 +1,5 @@
 export { demoSetting, type DemoSettingData } from "./demoSetting";
+export { tradeContracts, type TradeContractsData } from "./tradeContracts";
 export {
   setDemoSetting,
   type SetDemoSettingVariables,
