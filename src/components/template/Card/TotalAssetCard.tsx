@@ -106,16 +106,6 @@ export default function PortfolioOverviewSection() {
         <Grid size={6}>
           <PagePaper sx={{ height: "100%" }}>
             <PagePaperHeading sx={{ mb: 4 }}>
-              <PagePaperTitle>{"روند کل داریی در ۲۴ ساعت اخیر"}</PagePaperTitle>
-            </PagePaperHeading>
-
-            <SparkLineChart data={portfolioTrend} height={210} />
-          </PagePaper>
-        </Grid>
-
-        <Grid size={6}>
-          <PagePaper sx={{ height: "100%" }}>
-            <PagePaperHeading sx={{ mb: 4 }}>
               <PagePaperTitle>{"نمایی از داریی های شما"}</PagePaperTitle>
             </PagePaperHeading>
 
@@ -128,20 +118,6 @@ export default function PortfolioOverviewSection() {
                 flexWrap: "wrap",
               }}
             >
-              <Box sx={{ flexShrink: 0 }}>
-                <PieChart
-                  width={210}
-                  height={210}
-                  series={[
-                    {
-                      data: assets.map((asset) => ({
-                        value: asset.totalValueInIrt,
-                        label: asset.assetSymbol,
-                      })),
-                    },
-                  ]}
-                />
-              </Box>
               <Stack
                 direction={"row"}
                 sx={{ alignItems: "center", gap: 2, minWidth: "250px" }}
@@ -159,7 +135,31 @@ export default function PortfolioOverviewSection() {
                   </Button>
                 </NextLink>
               </Stack>
+              <Box sx={{ flexShrink: 0 }}>
+                <PieChart
+                  width={210}
+                  height={210}
+                  series={[
+                    {
+                      data: assets.map((asset) => ({
+                        value: asset.totalValueInIrt,
+                        label: asset.assetSymbol,
+                      })),
+                    },
+                  ]}
+                />
+              </Box>
             </Stack>
+          </PagePaper>
+        </Grid>
+
+        <Grid size={6}>
+          <PagePaper sx={{ height: "100%" }}>
+            <PagePaperHeading sx={{ mb: 4 }}>
+              <PagePaperTitle>{"روند کل داریی در ۲۴ ساعت اخیر"}</PagePaperTitle>
+            </PagePaperHeading>
+
+            <SparkLineChart data={portfolioTrend} height={210} />
           </PagePaper>
         </Grid>
       </Grid>
