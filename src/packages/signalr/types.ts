@@ -8,7 +8,7 @@ type OnTradeExecutedInfo = Record<"price" | "volum" | "time", number> & {
   isOrganic: boolean;
   side: OrderSide;
 };
-type OrderBookUpdatedInfo = {
+type OrderBookUpdatedPayload = {
   /**
    * symbol
    */
@@ -21,6 +21,8 @@ type OrderBookUpdatedInfo = {
    * bids
    */
   b: [];
+  settlementMode: 0 | 1;
+  isDemo: boolean;
 };
 type OnMarketTickersUpdatedInfo = OnTradeExecutedInfo;
 type OnPortfolioUpdateInfo = WalletPortfolioResponse;
@@ -35,7 +37,7 @@ type OnMarketPriceChangedInfo = {
 };
 export type {
   OnTradeExecutedInfo,
-  OrderBookUpdatedInfo,
+  OrderBookUpdatedPayload,
   OnMarketTickersUpdatedInfo,
   OnPriceUpdateInfo,
   OnPortfolioUpdateInfo,
