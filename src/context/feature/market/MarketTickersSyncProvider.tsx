@@ -1,16 +1,25 @@
 "use client";
 
 import { useEffect } from "react";
-import { marketTickersKey, queryClient } from "@/packages/react-query";
+
 import type { MarketTickersResponse } from "@/api/types";
+
+import { marketTickersKey, queryClient } from "@/packages/react-query";
+
 import {
-  OnMarketTickersUpdatedInfo,
-  OnMarketPriceChanged,
   marketHub,
+  OnMarketPriceChanged,
+  type OnMarketTickersUpdatedInfo,
 } from "@/packages/signalr";
 
+import { signalRLog } from "@/packages/signalr/helpers";
+
 function updateMarketTickersQuery(data: OnMarketTickersUpdatedInfo) {
-  marketHub.onTickLog({ event: OnMarketPriceChanged, source: "All Products" });
+  signalRLog("market", "CACHE_UPDATED", {
+    listener: OnMarketPriceChanged,
+    payload: data,
+    target_cache: marketTickersKey,
+  });
 
   queryClient.setQueryData(
     marketTickersKey,
@@ -27,13 +36,14 @@ function updateMarketTickersQuery(data: OnMarketTickersUpdatedInfo) {
           lastPrice: data.price,
         };
       });
-    }
+    },
   );
 }
 
 function MarketTickersSyncProvider() {
   useEffect(() => {
     const con = marketHub.build();
+
     con.on(OnMarketPriceChanged, updateMarketTickersQuery);
 
     return () => {

@@ -13,10 +13,14 @@ import {
   type OnMarketPriceChangedInfo,
   type OnTradeExecutedInfo,
 } from "@/packages/signalr";
+import { signalRLog } from "@/packages/signalr/helpers";
 
 function updateByMarketPrice(data: OnMarketPriceChangedInfo) {
-  marketHub.onTickLog({ source: "Ticker Info", event: OnMarketPriceChanged });
-
+  signalRLog("market", "CACHE_UPDATED", {
+    listener: OnMarketPriceChanged,
+    payload: data,
+    target_cahce: marketTickerInfoKey,
+  });
   queryClient.setQueriesData(
     { queryKey: marketTickerInfoKey },
     (tickerInfo: MarketTickerInfoResponse | undefined) => {
@@ -28,12 +32,16 @@ function updateByMarketPrice(data: OnMarketPriceChangedInfo) {
         ...tickerInfo,
         lastPrice: data.price,
       };
-    }
+    },
   );
 }
 
 function updateByTrade(data: OnTradeExecutedInfo) {
-  marketHub.onTickLog({ source: "Ticker Info", event: onTradeExecuted });
+  signalRLog("market", "CACHE_UPDATED", {
+    listener: onTradeExecuted,
+    payload: data,
+    target_cahce: marketTickerInfoKey,
+  });
   queryClient.setQueriesData(
     { queryKey: marketTickerInfoKey },
     (tickerInfo: MarketTickerInfoResponse | undefined) => {
@@ -45,7 +53,7 @@ function updateByTrade(data: OnTradeExecutedInfo) {
         ...tickerInfo,
         volum: data.volum,
       };
-    }
+    },
   );
 }
 

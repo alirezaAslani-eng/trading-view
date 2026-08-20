@@ -1,25 +1,28 @@
 "use client";
-
 import { useEffect } from "react";
-
+import { queryClient, recentTradesDynamicKey } from "@/packages/react-query";
+import type { RecentTrade, RecentTradeResponse } from "@/api/types";
+import { signalRLog } from "@/packages/signalr/helpers";
 import {
   marketHub,
   onTradeExecuted,
   type OnTradeExecutedInfo,
 } from "@/packages/signalr";
 
-import { queryClient, recentTradesDynamicKey } from "@/packages/react-query";
-
-import type { RecentTrade, RecentTradeResponse } from "@/api/types";
-
 function updateRecentTrade(payload: OnTradeExecutedInfo) {
-  marketHub.onTickLog({ source: "Recent Trades", event: onTradeExecuted });
+  signalRLog("market", "CACHE_UPDATED", {
+    listener: onTradeExecuted,
+    payload,
+    target_cache: recentTradesDynamicKey(payload.productCode),
+  });
+
   if (!payload.isOrganic) return;
 
   queryClient.setQueryData<RecentTradeResponse>(
     recentTradesDynamicKey(payload.productCode),
     (oldData) => {
       if (!oldData) return oldData;
+
       const newTrade: RecentTrade = {
         price: payload.price,
         source: payload.source,
@@ -29,7 +32,7 @@ function updateRecentTrade(payload: OnTradeExecutedInfo) {
       };
 
       return [newTrade, ...oldData].slice(0, 50);
-    }
+    },
   );
 }
 

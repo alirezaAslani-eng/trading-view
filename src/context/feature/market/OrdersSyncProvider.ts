@@ -1,27 +1,45 @@
 "use client";
+
 import { useEffect } from "react";
-import { orderHub } from "@/packages/signalr/hubs";
-import { onOrderUpdate } from "@/packages/signalr";
+
 import { ordersKey, queryClient } from "@/packages/react-query";
 
-async function updateOrderBookCache() {
-  orderHub.onTickLog({ event: onOrderUpdate, source: "Orders" });
-  await queryClient.cancelQueries({ queryKey: ordersKey });
-  queryClient.invalidateQueries({ queryKey: ordersKey });
+import { onOrderUpdate } from "@/packages/signalr";
+
+import { orderHub } from "@/packages/signalr/hubs";
+
+import { signalRLog } from "@/packages/signalr/helpers";
+
+async function updateOrdersCache() {
+  await queryClient.cancelQueries({
+    queryKey: ordersKey,
+  });
+
+  queryClient.invalidateQueries({
+    queryKey: ordersKey,
+  });
+
+  signalRLog("orders", "CACHE_INVALIDATED", {
+    listener: onOrderUpdate,
+    target_cache: ordersKey,
+  });
 }
 
 function OrdersSyncProvider() {
   useEffect(() => {
     const con = orderHub.build();
 
-    orderHub.start(con);
+    orderHub.start(con).then(() => {
+      signalRLog("orders", "CONNECTION_STARTED");
+    });
 
-    con.on(onOrderUpdate, updateOrderBookCache);
+    con.on(onOrderUpdate, updateOrdersCache);
 
     return () => {
-      con.off(onOrderUpdate, updateOrderBookCache);
+      con.off(onOrderUpdate, updateOrdersCache);
     };
   }, []);
+
   return null;
 }
 
