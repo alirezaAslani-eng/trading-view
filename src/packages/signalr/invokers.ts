@@ -21,6 +21,7 @@ const invokeMarket = async (config: InvokeMarketConfig) => {
 
   try {
     await marketHub.start(con);
+    signalRLog("market", "CONNECTION_STARTED");
 
     for (const symbol of symbols) {
       const payload = {
@@ -34,7 +35,7 @@ const invokeMarket = async (config: InvokeMarketConfig) => {
       signalRLog("market", "INVOKE_SUCCESS", { payload });
     }
   } catch (err) {
-    signalRLog("market", "INVOKE_FAILED", config);
+    signalRLog("market", "INVOKE_FAILED", { config, err });
     apiError.throwError(true, {
       message: "خطا در اتصال به بازار",
     });
