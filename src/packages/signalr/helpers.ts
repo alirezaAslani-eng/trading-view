@@ -22,5 +22,5 @@ export function signalRLog(
   action: SignalRLogAction,
   data?: unknown,
 ) {
-  console.log(`[SIGNALR] ${action}`, data ?? "");
+  console.log(`[SIGNALR] [${hub}] ${action}`, data ?? "");
 }
