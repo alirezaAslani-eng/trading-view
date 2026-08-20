@@ -1,30 +1,8 @@
 "use client";
-import { MarketSubscribeProvider } from "@/context/feature/market/MarketSubscribeProvider";
-import { TradeModeProvider } from "@/context/feature/trade/TradeMode";
 import { AgreementPromiseDialog } from "@/packages/nice-modal-react";
 import { useDismiss } from "@/v2-architecture/src/shared/hooks";
 import { show } from "@ebay/nice-modal-react";
-import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useContext,
-  useState,
-} from "react";
-
-export function MarketProvider({ children }: PropsWithChildren) {
-  return (
-    <TradeModeProvider>
-      <SettlementModeProvider>
-        <MarketSubscribeProvider>{children}</MarketSubscribeProvider>
-      </SettlementModeProvider>
-    </TradeModeProvider>
-  );
-}
-
-export default MarketProvider;
-
-//#region // * ------------ SettlementModeContext ------------
+import { createContext, PropsWithChildren, useContext, useState } from "react";
 
 type SettlementMode = boolean;
 
@@ -38,7 +16,7 @@ const SettlementModeContext = createContext<SettlementModeContextValue | null>(
   null,
 );
 
-function SettlementModeProvider({ children }: PropsWithChildren) {
+export function SettlementModeProvider({ children }: PropsWithChildren) {
   const [settlementMode, setSettlementMode] = useState<SettlementMode>(false);
 
   const { dismiss, isDismised } = useDismiss("dismis-settlement-dialog");
@@ -72,4 +50,3 @@ function SettlementModeProvider({ children }: PropsWithChildren) {
 }
 export const useSettlementMode = () => useContext(SettlementModeContext);
 
-//#endregion // * ------------ SettlementModeContext ------------

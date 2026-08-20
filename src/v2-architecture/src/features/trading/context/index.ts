@@ -1,1 +1,4 @@
-export { useSettlementMode, MarketProvider } from "./MarketContext";
+export {
+  useSettlementMode,
+  SettlementModeProvider,
+} from "./SettlementModeContext";

@@ -4,32 +4,41 @@ import KycGlobalModals from "@/components/template/Modal/KycGlobalModals";
 import { SidebarProvider } from "@/context/app/Sidebar";
 import { BankModalProvider } from "@/context/feature/bank/BankModal";
 import BankGlobalModals from "@/components/template/Modal/BankGlobalModals";
-import TickerInfoSyncProvider from "@/context/feature/market/TickerInfoSyncProvider";
-import MarketTickersSyncProvider from "@/context/feature/market/MarketTickersSyncProvider";
-import RecentTradeSyncProvider from "@/context/feature/trade/RecentTradeSyncProvider";
 import WalletPortfolioSyncProvider from "@/context/feature/Portfolio/WalletPortfolioSyncProvider";
 import OrdersSyncProvider from "@/context/feature/market/OrdersSyncProvider";
-import { MarketProvider } from "@/v2-architecture/src/features/trading";
+import { JoinMarketsProvider } from "@/context/feature/market/JoinMarketsProvider";
+import MarketTickersSyncProvider from "@/context/feature/market/MarketTickersSyncProvider";
+import RecentTradeSyncProvider from "@/context/feature/trade/RecentTradeSyncProvider";
+import { TradeModeProvider } from "@/context/feature/trade/TradeMode";
+import { SettlementModeProvider } from "@/v2-architecture/src/features/trading";
 function layout({ children }: PWC) {
   return (
-    <>
-      {/* // * ---- Signalr Providers ---- */}
-      <TickerInfoSyncProvider />
-      <MarketTickersSyncProvider />
-      <WalletPortfolioSyncProvider />
-      <RecentTradeSyncProvider />
-      <OrdersSyncProvider />
-      {/* // * ---- Signalr Providers ---- */}
-      <BankModalProvider>
-        <SidebarProvider>
+    <TradeModeProvider>
+      <SettlementModeProvider>
+        {/* // * invok Markets  */}
+        <JoinMarketsProvider />
+        {/* // * invok Markets  */}
+
+        {/* // * Market Listeners */}
+        <MarketTickersSyncProvider />
+        <RecentTradeSyncProvider />
+        {/* // * Market Listeners */}
+
+        {/* // * ---- Wallet & Orders Listeners ---- */}
+        <WalletPortfolioSyncProvider />
+        <OrdersSyncProvider />
+        {/* // * ---- Wallet & Orders Listeners ---- */}
+
+        <BankModalProvider>
           <KycGlobalModals />
           <BankGlobalModals />
-          <MarketProvider>
+
+          <SidebarProvider>
             <LayoutMainPanel>{children}</LayoutMainPanel>
-          </MarketProvider>
-        </SidebarProvider>
-      </BankModalProvider>
-    </>
+          </SidebarProvider>
+        </BankModalProvider>
+      </SettlementModeProvider>
+    </TradeModeProvider>
   );
 }
 
