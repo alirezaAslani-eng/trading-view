@@ -12,7 +12,7 @@ export const transactionsBaseColumns = {
     key: "createdAt",
     content(row) {
       const date = convertToJalali(row.createdAt).format(JALALI_FORMAT);
-      const time = convertToJalali(row.createdAt).format("HH:MM");
+      const time = convertToJalali(row.createdAt).format("HH:mm");
 
       return `${date} | ${time}`;
     },

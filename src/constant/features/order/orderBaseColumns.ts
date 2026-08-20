@@ -14,7 +14,7 @@ export const ordersBaseColumns = {
     headerName: "تاریخ",
     key: "date",
     content(row) {
-      const time = convertToJalali(row.date).format("HH:MM");
+      const time = convertToJalali(row.date).format("HH:mm");
       const date = convertToJalali(row.date).format(JALALI_FORMAT);
 
       return `${date} | ${time}`;
