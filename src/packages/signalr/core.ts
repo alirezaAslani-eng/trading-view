@@ -13,20 +13,16 @@ export function createHub(factory: () => HubConnection): () => HubConnection {
   };
 }
 
-
 export function createStarter() {
-  let started: boolean;
-  return async function start(conn: HubConnection) {
-    if (started) return;
-    started = true;
+  let startPromise: Promise<void> | null = null;
 
-    try {
-      await conn.start();
-      console.log("signalr connected");
-    } catch (err) {
-      started = false;
-      console.log("signalr failed", err);
-      throw err;
+  return async function start(conn: HubConnection) {
+    if (startPromise) {
+      return startPromise;
     }
+
+    startPromise = conn.start();
+
+    return startPromise;
   };
 }
