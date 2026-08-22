@@ -10,6 +10,7 @@ import { ordersConfig } from "@/packages/react-query";
 import { OrderFilters } from "@/types";
 import { ToggleButton } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
+import { useTradeMode } from "@/context/feature/trade/TradeMode";
 import {
   TableFallback,
   TableFallbackData,
@@ -19,7 +20,6 @@ import {
   PagePaper,
   PagePaperHeading,
 } from "@/components/ui/Layout/PaperLayout";
-import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
 const orderColumns = buildOrderColumns({
   include: ["productCode", "totalWeight", "price", "status"],
@@ -35,11 +35,11 @@ function RecentOrdersTable() {
     orderSide: "Buy",
   });
   const {
-    filters: { orderSide, pageSize },
+    filters: { orderSide, pageSize, view },
   } = orderFilters;
 
   const ordersQuery = useQuery(
-    ordersConfig({ isdemo: isDemo, orderSide, pageSize }),
+    ordersConfig({ isdemo: isDemo, orderSide, pageSize, viewType: view }),
   );
   const ordersLenght = ordersQuery.data?.items.length;
 
