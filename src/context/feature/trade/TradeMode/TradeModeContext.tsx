@@ -1,8 +1,6 @@
 "use client";
-import { useCookie } from "@/context/app/Cookies";
 import useUpdateEffect from "@/hooks/app/useUpdateEffect";
-import { TradeModeStore, IS_DEMO_KEY } from "./helpers";
-
+import { TradeModeStore } from "./helpers";
 import {
   createContext,
   Dispatch,
@@ -21,8 +19,7 @@ export const TradeModeContext = createContext<TradeModeContextValue | null>(
 );
 
 export const TradeModeProvider = ({ children }: PropsWithChildren) => {
-  const presisted_isDemo = useCookie(IS_DEMO_KEY);
-  const [isDemo, setIsDemo] = useState(presisted_isDemo === "true");
+  const [isDemo, setIsDemo] = useState(false);
 
   //#region // * ------------ Sync isDemo with localStorage & queries ------------
   useUpdateEffect(() => {
