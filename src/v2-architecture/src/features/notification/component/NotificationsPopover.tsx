@@ -18,6 +18,8 @@ import {
   notificationsInfiniteConfig,
   readAllNotificationsConfig,
 } from "@/v2-architecture/src/features/notification/react-query";
+import NextLink from "@/components/ui/Link/NextLink";
+import { ROUTES } from "@/constant/app/routes";
 
 export default function NotificationsPopover() {
   const { anchoreEl, closeMenu, openMenu, isOpenMenu } = useMuiMenuState();
@@ -149,9 +151,11 @@ export default function NotificationsPopover() {
 
           {/* View All */}
           <Box sx={{ p: 1 }}>
-            <Button fullWidth variant="text">
-              مشاهده همه اعلان‌ها
-            </Button>
+            <NextLink href={ROUTES.PROFILE.NOTIFICATIONS}>
+              <Button fullWidth variant="text">
+                مشاهده همه اعلان‌ها
+              </Button>
+            </NextLink>
           </Box>
         </Box>
       </Popover>
