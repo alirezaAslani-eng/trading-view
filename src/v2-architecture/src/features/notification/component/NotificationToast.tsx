@@ -89,7 +89,9 @@ export default function NotificationToast({
             gap: 0.5,
           }}
         >
-          <Typography variant="body3">{notification.title}</Typography>
+          <Typography variant="body3" sx={{ color: "text.heading" }}>
+            {notification.title}
+          </Typography>
 
           <Typography
             variant="body4"
