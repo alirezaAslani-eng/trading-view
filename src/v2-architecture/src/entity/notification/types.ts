@@ -1,7 +1,9 @@
+export type NotificationType = "success" | "error" | "warning" | "info";
 export interface Notification {
   id: number;
   title: string;
   message: string;
-  type: string;
-  time: number;
+  type: NotificationType;
+  isRead: boolean;
+  createdAt: string;
 }
