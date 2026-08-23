@@ -1,4 +1,6 @@
-const notificationSound = new Audio("/audio/notification-sound.mp3");
+import { createAudio } from "@/v2-architecture/src/shared/utils";
+
+const notificationSound = createAudio("/audio/notification-sound.mp3")!;
 
 export function playNotificationSound() {
   notificationSound.currentTime = 0;
