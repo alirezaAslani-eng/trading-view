@@ -1,12 +1,12 @@
 // --- queries.ts (addition) ---
-import { notificationsKey } from "./keys";
+import { notificationsDynamicKey, notificationsKey } from "./keys";
 import { notifications, NotificationsData } from "../api";
 import { infiniteQueryOptions } from "@tanstack/react-query";
 import { getNextPageParam } from "@/v2-architecture/src/api";
 
 export const notificationsInfiniteConfig = (pageSize: number = 10) =>
   infiniteQueryOptions({
-    queryKey: notificationsKey,
+    queryKey: notificationsDynamicKey(pageSize),
     initialPageParam: 1,
     getNextPageParam,
 
