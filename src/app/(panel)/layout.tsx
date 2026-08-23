@@ -11,6 +11,7 @@ import MarketTickersSyncProvider from "@/context/feature/market/MarketTickersSyn
 import RecentTradeSyncProvider from "@/context/feature/trade/RecentTradeSyncProvider";
 import { TradeModeProvider } from "@/context/feature/trade/TradeMode";
 import { SettlementModeProvider } from "@/v2-architecture/src/features/trading";
+import { NotificationSocketProvider } from "@/v2-architecture/src/features/notification";
 function layout({ children }: PWC) {
   return (
     <TradeModeProvider>
@@ -24,10 +25,11 @@ function layout({ children }: PWC) {
         <RecentTradeSyncProvider />
         {/* // * Market Listeners */}
 
-        {/* // * ---- Wallet & Orders Listeners ---- */}
+        {/* // * ---- Wallet & Orders & Notifications Listeners ---- */}
         <WalletPortfolioSyncProvider />
         <OrdersSyncProvider />
-        {/* // * ---- Wallet & Orders Listeners ---- */}
+        <NotificationSocketProvider />
+        {/* // * ---- Wallet & Orders & Notifications Listeners ---- */}
 
         <BankModalProvider>
           <KycGlobalModals />

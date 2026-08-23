@@ -14,6 +14,10 @@ const onPortfolioUpdate = "PortfolioUpdate";
 const onRefreshWallet = "RefreshWallet";
 //#endregion
 
+//#region // * ------------ Notifications ------------
+const OnReceiveNotification = "ReceiveNotification";
+//#endregion
+
 export {
   onTradeExecuted,
   orderBookUpdated,
@@ -22,4 +26,5 @@ export {
   onPriceUpdate,
   onOrderUpdate,
   onRefreshWallet,
+  OnReceiveNotification,
 };

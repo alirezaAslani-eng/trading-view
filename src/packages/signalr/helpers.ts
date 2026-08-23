@@ -15,7 +15,7 @@ type SignalRLogAction =
   | "RECONNECT_SUCCESS"
   | "RECONNECT_FAILED";
 
-type Hubs = "wallet" | "market" | "orders";
+type Hubs = "wallet" | "market" | "orders" | "notifications";
 
 export function signalRLog(
   hub: Hubs,

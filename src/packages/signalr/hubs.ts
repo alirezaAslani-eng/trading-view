@@ -34,6 +34,16 @@ export const orderHub = {
   }),
 };
 
+export const notificationHub = {
+  start: createStarter(),
+  build: createHub(() => {
+    return new HubConnectionBuilder()
+      .withUrl(`${BASE_URL}/notifications`, { withCredentials: true })
+      .withAutomaticReconnect()
+      .build();
+  }),
+};
+
 type LogLevel = "info" | "success" | "warn" | "error";
 
 function createEventLogger(title: string) {
@@ -54,7 +64,7 @@ const styles: Record<LogLevel, string> = {
 export function logger(
   title: string,
   data?: unknown,
-  level: LogLevel = "info"
+  level: LogLevel = "info",
 ) {
   const time = new Date().toLocaleTimeString();
 
@@ -62,7 +72,7 @@ export function logger(
     `%c ${title.toUpperCase()} %c ${title} %c ${time}`,
     styles[level],
     "font-weight:bold;color:#111827;",
-    "color:#6b7280;"
+    "color:#6b7280;",
   );
 
   if (data !== undefined) {
