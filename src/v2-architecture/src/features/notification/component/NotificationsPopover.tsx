@@ -1,13 +1,5 @@
-import { JALALI_FORMAT } from "@/constant/app/date";
-import { convertToJalali } from "@/packages/dayjs";
-import { Notification } from "@/v2-architecture/src/entity/notification";
-import { NotificationType } from "@/v2-architecture/src/entity/notification/types";
-import {
-  CheckedIcon,
-  NotificationIcon,
-  WarningCircleIcon,
-  WarningIcon,
-} from "@/components/ui/Icon";
+"use client";
+import { NotificationIcon } from "@/components/ui/Icon";
 import {
   Box,
   Stack,
@@ -19,13 +11,13 @@ import {
   Skeleton,
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import useMuiMenuState from "@/hooks/app/useMuiMenuState";
+import Button from "@/components/ui/Button/Button";
+import NotificationCard from "./NotificationCard";
 import {
   notificationsConfig,
   readAllNotificationsConfig,
 } from "@/v2-architecture/src/features/notification/react-query";
-import useMuiMenuState from "@/hooks/app/useMuiMenuState";
-import Button from "@/components/ui/Button/Button";
-import NotificationCard from "./NotificationCard";
 
 export default function NotificationsPopover() {
   const { anchoreEl, closeMenu, openMenu, isOpenMenu } = useMuiMenuState();
