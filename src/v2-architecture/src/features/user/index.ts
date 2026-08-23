@@ -1,1 +1,1 @@
-export { AvatarUploader } from "./components";
+export { AvatarUploader, CreatePasswordModal } from "./components";

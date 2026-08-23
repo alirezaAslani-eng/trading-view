@@ -45,20 +45,8 @@ import { signinSchema } from "@/validations/auth/signinSchema";
 import InputText from "@/components/ui/Input/InputText";
 import { signinConfig } from "@/v2-architecture/src/features/auth/react-query";
 import CheckBox from "@/components/ui/Checkbox/CheckBox";
-import { createPasswordConfig } from "@/v2-architecture/src/features/auth/react-query";
-import {
-  ModalLayout,
-  ModalLayoutBody,
-  ModalLayoutCloseIcon,
-  ModalLayoutHeading,
-  ModalLayoutTitle,
-} from "@/components/ui/Layout/ModalLayout";
-import {
-  CreatePasswordSchema,
-  createPasswordSchema,
-} from "@/validations/auth/createPasswordSchema";
-import { ModalFormProps } from "./types";
 import InputPassword from "@/components/ui/Input/InputPassword";
+import { CreatePasswordModal } from "@/v2-architecture/src/features/user";
 
 export function AuthForm() {
   const authFlow = useAuthFlow()!;
@@ -208,7 +196,10 @@ function FinalStepWithOTP() {
 
       {/* // * Create Password Modal */}
       <Dialog open={passwordModal} onClose={closePasswordModalHandler}>
-        <CreatePasswordModal onClose={closePasswordModalHandler} />
+        <CreatePasswordModal
+          onClose={closePasswordModalHandler}
+          onSuccess={() => routes.push(ROUTES.PANEL.ROOT)}
+        />
       </Dialog>
       {/* // * Create Password Modal */}
     </Box>
@@ -341,77 +332,4 @@ function VerifyAuthOTPFooter() {
   );
 }
 
-const createPasswordModalContent = {
-  title: "تنظیم رمز عبور",
-  subtitle: "برای ورود به پنل، یک رمز عبور برای حساب خود تنظیم کنید",
-  newPasswordPlaceholder: "رمز عبور جدید را وارد کنید",
-  confirmPasswordPlaceholder: "تکرار رمز عبور",
-  submitLabel: "ایجاد رمز",
-};
 
-function CreatePasswordModal({ onClose }: ModalFormProps) {
-  const router = useRouter();
-
-  const mutation = useMutation(
-    createPasswordConfig({
-      onSuccess: () => router.replace(ROUTES.PANEL.ROOT),
-    }),
-  );
-
-  const form = useForm<CreatePasswordSchema>({
-    resolver: zodResolver(createPasswordSchema),
-  });
-
-  const submitHandler = async (fields: CreatePasswordSchema) => {
-    await safeAsync(() => mutation.mutateAsync(fields));
-  };
-
-  return (
-    <ModalLayout onSubmit={form.handleSubmit(submitHandler)}>
-      <ModalLayoutHeading>
-        <ModalLayoutTitle
-          title={createPasswordModalContent.title}
-          subtitle={createPasswordModalContent.subtitle}
-        />
-        <ModalLayoutCloseIcon onClick={onClose} />
-      </ModalLayoutHeading>
-      <ModalLayoutBody>
-        <FormControl disabled={form.formState.isSubmitting} fullWidth>
-          <FormLayout>
-            <FormLayoutField>
-              <InputText
-                type="password"
-                placeholder={createPasswordModalContent.newPasswordPlaceholder}
-                error={!!form.formState.errors.NewPassword}
-                size="large"
-                {...form.register("NewPassword")}
-              />
-              <FormLayoutFieldError
-                message={form.formState.errors.NewPassword?.message}
-              />
-            </FormLayoutField>
-
-            <FormLayoutField>
-              <InputText
-                type="password"
-                size="large"
-                error={!!form.formState.errors.confirmPassword}
-                {...form.register("confirmPassword")}
-                placeholder={
-                  createPasswordModalContent.confirmPasswordPlaceholder
-                }
-              />
-              <FormLayoutFieldError
-                message={form.formState.errors.confirmPassword?.message}
-              />
-            </FormLayoutField>
-
-            <FormLayoutSubmit>
-              {createPasswordModalContent.submitLabel}
-            </FormLayoutSubmit>
-          </FormLayout>
-        </FormControl>
-      </ModalLayoutBody>
-    </ModalLayout>
-  );
-}

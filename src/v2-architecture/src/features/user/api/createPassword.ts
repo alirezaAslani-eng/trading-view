@@ -1,5 +1,5 @@
 import { apiClient, ApiConfig, apiError } from "@/v2-architecture/src/api";
-import { CreatePasswordSchema } from "@/validations/auth/createPasswordSchema";
+import { CreatePasswordSchema } from "../validation";
 
 export interface CreatePasswordVariables extends CreatePasswordSchema {}
 

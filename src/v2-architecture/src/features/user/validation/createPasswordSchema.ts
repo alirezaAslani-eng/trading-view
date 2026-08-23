@@ -1,5 +1,5 @@
+import { passwordValidation } from "@/validations/shared";
 import { type infer as Infer, object, string } from "zod";
-import { passwordValidation } from "../shared";
 
 export const createPasswordSchema = object({
   NewPassword: passwordValidation(),

@@ -1,18 +1,7 @@
 import { TradeModeStore } from "@/context/feature/trade/TradeMode/helpers";
 import { createMutationOptions } from "@/v2-architecture/src/shared/lib/react-query";
-import {
-  createPassword,
-  CreatePasswordVariables,
-  signin,
-  SigninVariables,
-} from "../api";
+import { signin, SigninVariables } from "../api";
 import { queryClient } from "@/packages/react-query";
-
-export const createPasswordConfig = createMutationOptions({
-  mutationFn: (vars: CreatePasswordVariables) => {
-    return createPassword({ body: vars });
-  },
-});
 
 export const signinConfig = createMutationOptions({
   onSuccess: () => {
