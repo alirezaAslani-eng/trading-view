@@ -1,3 +1,4 @@
+"use client";
 import { ModalFormProps } from "@/components/template/Form/types";
 import { createPasswordConfig } from "../react-query";
 import { useMutation } from "@tanstack/react-query";
@@ -36,11 +37,18 @@ export default function CreatePasswordModal({
   onClose,
   onSuccess,
 }: CreatePasswordModalProps) {
-  const mutation = useMutation(createPasswordConfig({ onSuccess }));
-
   const form = useForm({
     resolver: zodResolver(createPasswordSchema),
   });
+
+  const mutation = useMutation(
+    createPasswordConfig({
+      onSuccess: () => {
+        onSuccess?.();
+        form.reset();
+      },
+    }),
+  );
 
   const submitHandler = async (fields: CreatePasswordSchema) => {
     await safeAsync(() => mutation.mutateAsync(fields));
