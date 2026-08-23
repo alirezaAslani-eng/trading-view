@@ -1,21 +1,5 @@
 "use client";
-import InputText from "@/components/ui/Input/InputText";
-import {
-  Box,
-  BoxProps,
-  IconButton,
-  SvgIcon,
-  SxProps,
-  Theme,
-  ToggleButton,
-  Typography,
-} from "@mui/material";
-import SearchIcon from "@/assets/svg/search-icon.svg";
-import NotificationIcon from "@/assets/svg/notification.svg";
-import {
-  createNonNullToggleHandler,
-  identifySxProp,
-} from "@/packages/mui/theme/helpers";
+import { identifySxProp } from "@/packages/mui/theme/helpers";
 import InputMarker from "@/components/ui/Marker/InputMarker";
 import LogoutIcon from "@/components/ui/Icon/Logout";
 import { useMutation } from "@tanstack/react-query";
@@ -27,6 +11,19 @@ import { FlaskIcon, ScanFaceIcon } from "@/components/ui/Icon";
 import { useTradeMode } from "@/context/feature/trade/TradeMode";
 import useKycGuard from "@/hooks/features/kyc/useKycGuard";
 import { KYC_LEVELS } from "@/constant/features/kyc/kycLevelOreder";
+import InputText from "@/components/ui/Input/InputText";
+import SearchIcon from "@/assets/svg/search-icon.svg";
+import { NotificationsPopover } from "@/v2-architecture/src/features/notification";
+import {
+  Box,
+  BoxProps,
+  IconButton,
+  SvgIcon,
+  SxProps,
+  Theme,
+  ToggleButton,
+  Typography,
+} from "@mui/material";
 
 interface PageHeaderProps extends Pick<BoxProps, "sx"> {
   title: string;
@@ -38,7 +35,7 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
   const logoutMutation = useMutation(
     logoutConfig({
       onSuccess: () => router.replace(ROUTES.AUTH.ROOT),
-    })
+    }),
   );
 
   return (
@@ -100,9 +97,9 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
           />
         </InputMarker>
 
-        <SvgIcon sx={{ width: "24px", height: "24px" }}>
-          <NotificationIcon />
-        </SvgIcon>
+        {/* // * ------- Notifications -------- */}
+        <NotificationsPopover />
+        {/* // * ------- Notifications -------- */}
         <IconButton size="small" onClick={() => logoutMutation.mutate()}>
           <LogoutIcon />
         </IconButton>
