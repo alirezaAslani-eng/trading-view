@@ -53,3 +53,4 @@ export { default as PdfIcon } from "./PdfIcon";
 export { default as ExcelIcon } from "./ExcelIcon";
 export { default as NotificationIcon } from "./NotificationIcon";
 export { default as WarningCircleIcon } from "./WarningCircleIcon";
+export { default as SettingIcon } from "./SettingIcon";
