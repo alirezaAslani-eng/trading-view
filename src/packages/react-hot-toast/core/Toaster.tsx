@@ -6,7 +6,8 @@ function Toaster() {
   const { palette, typography } = useTheme();
   return (
     <Toaster_
-      position="top-center"
+    
+      position="top-left"
       reverseOrder={false}
       toastOptions={{
         error: {
