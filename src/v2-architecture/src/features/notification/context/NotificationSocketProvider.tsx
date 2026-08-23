@@ -14,9 +14,12 @@ const updateNotifications = async (payload: NotificationSocketPayload) => {
   queryClient.invalidateQueries({ queryKey: notificationsKey }).then(() => {
     playNotificationSound();
     //#region // * ------------ Ui ------------
-    customAlert(() => {
-      return <NotificationToast notification={payload} />;
-    });
+    customAlert(
+      () => {
+        return <NotificationToast notification={payload} />;
+      },
+      { position: "bottom-left" },
+    );
     //#endregion
   });
 };
