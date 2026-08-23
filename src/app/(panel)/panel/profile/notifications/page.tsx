@@ -1,8 +1,7 @@
+import { Notifications } from "@/v2-architecture/src/features/notification";
 
 function page() {
-  return (
-    <div>page</div>
-  )
+  return <Notifications />;
 }
 
-export default page
+export default page;

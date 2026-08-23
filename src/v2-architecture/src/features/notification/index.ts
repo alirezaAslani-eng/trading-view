@@ -1,2 +1,6 @@
-export { NotificationsPopover, NotificationToast } from "./component";
 export { NotificationSocketProvider } from "./context";
+export {
+  NotificationsPopover,
+  NotificationToast,
+  Notifications,
+} from "./component";
