@@ -1,5 +1,11 @@
 import PageHeader from "@/components/common/Appbar/PageHeader";
-import { UserIcon, CardIcon, UserGroupIcon, ReceiptCheckIcon } from "@/components/ui/Icon";
+import {
+  UserIcon,
+  CardIcon,
+  UserGroupIcon,
+  ReceiptCheckIcon,
+  NotificationIcon,
+} from "@/components/ui/Icon";
 import {
   Header,
   Main,
@@ -46,6 +52,13 @@ function layout({ children }: PropsWithChildren) {
               <PageSubNavigationLink href={ROUTES.COMPANIES.ROOT} exact={false}>
                 <UserGroupIcon />
                 {"شرکت ها"}
+              </PageSubNavigationLink>
+              <PageSubNavigationLink
+                href={ROUTES.PROFILE.NOTIFICATIONS}
+                exact={false}
+              >
+                <NotificationIcon />
+                {"اعلان ها"}
               </PageSubNavigationLink>
             </PageSubNavigation>
 
