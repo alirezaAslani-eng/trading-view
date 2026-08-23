@@ -10,12 +10,12 @@ import {
   Popover,
   Skeleton,
 } from "@mui/material";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import useMuiMenuState from "@/hooks/app/useMuiMenuState";
 import Button from "@/components/ui/Button/Button";
 import NotificationCard from "./NotificationCard";
 import {
-  notificationsConfig,
+  notificationsInfiniteConfig,
   readAllNotificationsConfig,
 } from "@/v2-architecture/src/features/notification/react-query";
 
@@ -24,14 +24,12 @@ export default function NotificationsPopover() {
 
   //#region // * ------------ Notification APIs ------------
   const readAllMutation = useMutation(readAllNotificationsConfig());
-  const notificationsQuery = useQuery(
-    notificationsConfig({
-      page: 1,
-      pageSize: 6,
-    }),
-  );
-  const { data, isPending, isError } = notificationsQuery;
-  const { items: notifications = [], unreadCount = 0 } = data ?? {};
+  const notificationsQuery = useInfiniteQuery(notificationsInfiniteConfig(6));
+  const { isPending, isError } = notificationsQuery;
+
+  const { items: notifications = [], unreadCount = 0 } =
+    notificationsQuery.data ?? {};
+
   const handleReadAll = () => readAllMutation.mutate();
   //#endregion
 

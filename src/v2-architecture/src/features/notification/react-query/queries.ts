@@ -1,12 +1,30 @@
 // --- queries.ts (addition) ---
-import { queryOptions } from "@tanstack/react-query";
-import { notificationsDynamicKey } from "./keys";
-import { notifications, NotificationsQueryParams } from "../api";
+import { notificationsKey } from "./keys";
+import { notifications, NotificationsData } from "../api";
+import { infiniteQueryOptions } from "@tanstack/react-query";
+import { getNextPageParam } from "@/v2-architecture/src/api";
 
-export const notificationsConfig = (filters: NotificationsQueryParams) =>
-  queryOptions({
-    queryKey: notificationsDynamicKey(filters),
-    queryFn: ({ signal }) => {
-      return notifications({ signal, queryParams: filters });
+export const notificationsInfiniteConfig = (pageSize: number = 10) =>
+  infiniteQueryOptions({
+    queryKey: notificationsKey,
+    initialPageParam: 1,
+    getNextPageParam,
+
+    queryFn: ({ signal, pageParam }) => {
+      return notifications({
+        signal,
+        queryParams: {
+          pageSize,
+          page: pageParam,
+        },
+      });
+    },
+    select(data): Pick<NotificationsData, "items" | "unreadCount"> {
+      return {
+        unreadCount: data.pages[0]?.unreadCount ?? 0,
+        items: data.pages.flatMap((item) => {
+          return item.items;
+        }),
+      };
     },
   });
