@@ -11,5 +11,8 @@ function promiseAlert<T = unknown>(
 ) {
   return toast.promise<T>(...params);
 }
+function customAlert(...params: Parameters<typeof toast.custom>) {
+  return toast.custom(...params);
+}
 
-export { errorAlert, promiseAlert, successAlert };
+export { errorAlert, promiseAlert, successAlert, customAlert };
