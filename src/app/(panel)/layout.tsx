@@ -12,6 +12,7 @@ import RecentTradeSyncProvider from "@/context/feature/trade/RecentTradeSyncProv
 import { TradeModeProvider } from "@/context/feature/trade/TradeMode";
 import { SettlementModeProvider } from "@/v2-architecture/src/features/trading";
 import { NotificationSocketProvider } from "@/v2-architecture/src/features/notification";
+import TickerInfoSyncProvider from "@/context/feature/market/TickerInfoSyncProvider";
 function layout({ children }: PWC) {
   return (
     <TradeModeProvider>
@@ -23,6 +24,7 @@ function layout({ children }: PWC) {
         {/* // * Market Listeners */}
         <MarketTickersSyncProvider />
         <RecentTradeSyncProvider />
+        <TickerInfoSyncProvider />
         {/* // * Market Listeners */}
 
         {/* // * ---- Wallet & Orders & Notifications Listeners ---- */}

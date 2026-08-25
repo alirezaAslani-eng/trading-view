@@ -4,7 +4,11 @@ import { useEffect } from "react";
 
 import type { MarketTickerInfoResponse } from "@/api/types";
 
-import { marketTickerInfoKey, queryClient } from "@/packages/react-query";
+import {
+  marketTickerInfoDynamicKey,
+  marketTickerInfoKey,
+  queryClient,
+} from "@/packages/react-query";
 
 import {
   marketHub,
@@ -16,24 +20,22 @@ import {
 import { signalRLog } from "@/packages/signalr/helpers";
 
 function updateByMarketPrice(data: OnMarketPriceChangedInfo) {
+  queryClient.setQueryData(
+    marketTickerInfoDynamicKey(data.symbol),
+    (tickerInfo: MarketTickerInfoResponse | undefined) => {
+      if (!tickerInfo) return tickerInfo;
+
+      return {
+        ...tickerInfo,
+        lastPrice: data.price,
+      } satisfies MarketTickerInfoResponse;
+    },
+  );
   signalRLog("market", "CACHE_UPDATED", {
     listener: OnMarketPriceChanged,
     payload: data,
     target_cahce: marketTickerInfoKey,
   });
-  queryClient.setQueriesData(
-    { queryKey: marketTickerInfoKey },
-    (tickerInfo: MarketTickerInfoResponse | undefined) => {
-      if (!tickerInfo) return tickerInfo;
-
-      if (tickerInfo.symbol !== data.symbol) return tickerInfo;
-
-      return {
-        ...tickerInfo,
-        lastPrice: data.price,
-      };
-    },
-  );
 }
 
 function updateByTrade(data: OnTradeExecutedInfo) {
