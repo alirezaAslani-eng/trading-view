@@ -52,12 +52,6 @@ const walletAssetTableColumns: DefaultColumns = {
       return `${formatFaPrice(row.totalValueInIrt)} ${priceUnitDisplay}`;
     },
   },
-  lockedDetails: {
-    headerName: "مقدار بدهی",
-    renderCell(row) {
-      return `${formatFaPrice(row.lockedDetails.lockedForDebt)} ${priceUnitDisplay}`;
-    },
-  },
 };
 
 const buildAssetColumns = (
