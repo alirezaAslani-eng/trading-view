@@ -15,7 +15,7 @@ export default function LoyaltyTiersPage() {
 
       <Main>
         <Section>
-          <LoyaltyRules />
+          <LoyaltyRules editable />
         </Section>
       </Main>
     </Page>

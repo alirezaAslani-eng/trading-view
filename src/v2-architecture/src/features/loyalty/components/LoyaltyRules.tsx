@@ -15,7 +15,7 @@ import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
 import { LoyaltyRulesData } from "../api";
 import { formatFaPrice } from "@/utils";
 
-function LoyaltyRules() {
+function LoyaltyRules({ editable }: { editable?: boolean }) {
   //#region // * ------------ Data : Loyalty Rules ------------
   const { data, isLoading, isError } = useQuery(loyaltyRulesConfig());
   //#endregion // * ------------ Data : Loyalty Rules ------------
@@ -41,7 +41,7 @@ function LoyaltyRules() {
           }}
         >
           {data?.map((rule) => (
-            <TierRuleCard key={rule.tierName} rule={rule} />
+            <TierRuleCard key={rule.tierName} rule={rule} editable={editable} />
           ))}
         </Box>
       )}
@@ -53,9 +53,10 @@ export default LoyaltyRules;
 
 type TierRuleCardProps = {
   rule: LoyaltyRulesData[number];
+  editable?: boolean;
 };
 
-function TierRuleCard({ rule }: TierRuleCardProps) {
+function TierRuleCard({ rule, editable }: TierRuleCardProps) {
   return (
     <Box
       sx={{
@@ -96,11 +97,13 @@ function TierRuleCard({ rule }: TierRuleCardProps) {
               {rule.tierName}
             </Typography>
           </Box>
-          <NextLink href={ROUTES.ADMIN.LOYALTY_INFO(rule.tierName)}>
-            <Button variant="outlined" size="small">
-              ویرایش
-            </Button>
-          </NextLink>
+          {editable && (
+            <NextLink href={ROUTES.ADMIN.LOYALTY_INFO(rule.tierName)}>
+              <Button variant="outlined" size="small">
+                ویرایش
+              </Button>
+            </NextLink>
+          )}
         </Box>
 
         {/* Rules */}

@@ -8,12 +8,12 @@ import { useQuery } from "@tanstack/react-query";
 import { loyaltyProgressConfig } from "../react-query";
 import InputText from "@/components/ui/Input/InputText";
 import Button from "@/components/ui/Button/Button";
+import LoyaltyRules from "./LoyaltyRules";
 import {
   Price,
   PriceAmount,
   PriceUnit,
 } from "@/components/ui/Typography/Price";
-import LoyaltyRules from "./LoyaltyRules";
 
 function formatFeeRate(value: number) {
   return formatPrecent(value, { signDisplay: "never" });
