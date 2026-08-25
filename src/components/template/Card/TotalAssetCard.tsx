@@ -26,16 +26,17 @@ import { portfolioTrendConfig } from "@/v2-architecture/src/features/portfolio/r
 import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
 export default function PortfolioOverviewSection() {
+  const { isDemo } = useTradeMode();
   //#region // * ------------ Data : Portfolio Trend ------------
   const portfolioTrendQuery = useQuery({
-    ...portfolioTrendConfig(),
+    ...portfolioTrendConfig(isDemo),
     select: toProtfolioTrendChart,
   });
   const { prices: portfolioTrend = [] } = portfolioTrendQuery.data ?? {};
   //#endregion // * ------------ Data : Portfolio Trend ------------
 
   //#region // * ------------ Data : Wallet ------------
-  const { isDemo } = useTradeMode();
+
   const portfolioQuery = useQuery(walletPortfolioConfig(isDemo));
   const isSuccessQuery = portfolioQuery.isSuccess;
   const {
