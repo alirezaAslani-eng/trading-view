@@ -66,7 +66,7 @@ function layout({ children }: PropsWithChildren) {
                 exact={false}
               >
                 <SettingIcon />
-                {"تنزیمات پروفایل"}
+                {"تنظیمات پروفایل"}
               </PageSubNavigationLink>
             </PageSubNavigation>
 
