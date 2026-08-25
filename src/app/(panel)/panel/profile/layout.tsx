@@ -5,6 +5,7 @@ import {
   UserGroupIcon,
   ReceiptCheckIcon,
   NotificationIcon,
+  SettingIcon,
 } from "@/components/ui/Icon";
 import {
   Header,
@@ -59,6 +60,13 @@ function layout({ children }: PropsWithChildren) {
               >
                 <NotificationIcon />
                 {"اعلان ها"}
+              </PageSubNavigationLink>
+              <PageSubNavigationLink
+                href={ROUTES.PROFILE.SETTING}
+                exact={false}
+              >
+                <SettingIcon />
+                {"تنزیمات پروفایل"}
               </PageSubNavigationLink>
             </PageSubNavigation>
 

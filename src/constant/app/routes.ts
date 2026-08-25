@@ -35,6 +35,7 @@ export const ROUTES = {
     COMPANIES: "/panel/profile/companies",
     LOYALTY: "/panel/profile/loyalty",
     NOTIFICATIONS: "/panel/profile/notifications",
+    SETTING: "/panel/profile/setting",
   },
   ROBOT: {
     ROOT: "/admin/robots",
