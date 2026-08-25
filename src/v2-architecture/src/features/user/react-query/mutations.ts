@@ -7,7 +7,10 @@ import {
   CreatePasswordVariables,
   updateAvatar,
   UpdateAvatarVariables,
+  updateEmail,
+  UpdateEmailVariables,
 } from "../api";
+import { dashboardInfoKey } from "@/packages/react-query";
 
 export const updateAvatarConfig = createMutationOptions({
   mutationFn: (vars: UpdateAvatarVariables) => {
@@ -28,5 +31,15 @@ export const changePasswordConfig = createMutationOptions({
   meta: { successMessage: "رمز عبور با موفقیت تغییر کرد" },
   mutationFn: (vars: ChangePasswordVariables) => {
     return changePassword({ body: vars });
+  },
+});
+
+export const updateEmailConfig = createMutationOptions({
+  meta: {
+    successMessage: "ایمیل با موفقیت به‌روزرسانی شد",
+    invalidates: [dashboardInfoKey],
+  },
+  mutationFn: (vars: UpdateEmailVariables) => {
+    return updateEmail({ body: vars });
   },
 });

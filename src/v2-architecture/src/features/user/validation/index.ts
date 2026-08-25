@@ -1,3 +1,4 @@
+export { type UpdateEmailSchema, updateEmailSchema } from "./updateEmailSchema";
 export {
   type CreatePasswordSchema,
   createPasswordSchema,
