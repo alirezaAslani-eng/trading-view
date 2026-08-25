@@ -45,6 +45,7 @@ export default function CreatePasswordModal({
     createPasswordConfig({
       onSuccess: () => {
         onSuccess?.();
+        onClose?.();
         form.reset();
       },
     }),
