@@ -55,3 +55,5 @@ export { default as NotificationIcon } from "./NotificationIcon";
 export { default as WarningCircleIcon } from "./WarningCircleIcon";
 export { default as SettingIcon } from "./SettingIcon";
 export { default as EmailIcon } from "./EmailIcon";
+export { default as SortIcon } from "./SortIcon";
+export { default as LogoutIcon } from "./Logout";
