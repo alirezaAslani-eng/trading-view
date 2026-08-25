@@ -14,6 +14,7 @@ import {
 
 import { kycL3Config } from "../react-query";
 import { useKycL3Video } from "../hooks";
+import { LoadingModal } from "@/v2-architecture/src/shared/ui";
 
 const COUNTDOWN_SECONDS = 3;
 const RECORDING_DURATION = 10;
@@ -329,44 +330,12 @@ function KycL3FaceDetectionModal({
       </Dialog>
 
       {/* Upload Pending Dialog */}
-      <Dialog open={mutation.isPending} fullWidth maxWidth="xs">
-        <ModalLayout>
-          <ModalLayoutHeading>
-            <ModalLayoutTitle
-              title="در حال ارسال ویدیو"
-              subtitle="لطفاً تا پایان ارسال ویدیو منتظر بمانید."
-            />
-          </ModalLayoutHeading>
-
-          <ModalLayoutBody>
-            <Stack
-              spacing={3}
-              sx={{
-                alignItems: "center",
-                py: 2,
-              }}
-            >
-              <Typography
-                variant="body2"
-                align="center"
-                sx={{
-                  color: "text.secondary",
-                }}
-              >
-                ویدیوی شما در حال ارسال برای بررسی است.
-              </Typography>
-
-              <LinearProgress
-                sx={{
-                  width: "100%",
-                  height: 6,
-                  borderRadius: 3,
-                }}
-              />
-            </Stack>
-          </ModalLayoutBody>
-        </ModalLayout>
-      </Dialog>
+      <LoadingModal
+        open={mutation.isPending}
+        title="در حال ارسال ویدیو"
+        subtitle="لطفاً تا پایان ارسال ویدیو منتظر بمانید."
+        message="ویدیوی شما در حال ارسال برای بررسی است."
+      />
     </>
   );
 }
