@@ -11,25 +11,18 @@ function LayoutMainPanel({ children }) {
           display: "flex",
           minHeight: "100svh",
           maxWidth: "1880px",
-          padding: "0px 28px",
           mx: "auto",
         }}
       >
         {/* // * --- sidebar --- */}
         <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Box
-            sx={{
-              position: "sticky",
-              top: "20px",
-              height: "calc(100svh - 40px)",
-            }}
-          >
-            <SidebarPanel />
-          </Box>
+          <SidebarPanel />
         </Box>
 
         {/* // * --- main content --- */}
-        <Box sx={{ flex: 1, minWidth: "0px", position: "relative" }}>
+        <Box
+          sx={{ flex: 1, minWidth: "0px", position: "relative", px: "28px" }}
+        >
           <MountainBackground />
           {children}
           <Box

@@ -3,7 +3,6 @@ import BrandName from "@/components/ui/Brand/BrandName";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import { alpha, Box, Stack, StackProps } from "@mui/material";
 import { hideScrollBar } from "@/packages/mui/theme/shared-style";
-import SwitchTheme from "../Button/SwitchTheme";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { getSidebarNavigators } from "@/constant/app/sidebarNavigators";
 import { PanelSidebarDropdown } from "@/components/template/Dropdown/PanelSidebarDropdown";
@@ -14,7 +13,7 @@ import SidebarToggle from "./SidebarToggle";
 import { BrandIcon } from "@/components/ui/Icon";
 import { UserProfileCard } from "@/v2-architecture/src/features/user";
 
-const getSidebarWidth = (collapsed: boolean) => (collapsed ? "80px" : "264px");
+const getSidebarWidth = (collapsed: boolean) => (collapsed ? "78px" : "264px");
 function SidebarPanel(props: StackProps) {
   const { isCollapsed } = useSidebarContext()!;
   const dashboardQuery = useQuery(dashboardInfoConfig());
@@ -23,12 +22,12 @@ function SidebarPanel(props: StackProps) {
     <Box
       component={"aside"}
       sx={{
-        position: "relative",
         width: getSidebarWidth(isCollapsed),
-        height: "100%",
-        overflow: "visible",
+        height: "100svh",
         transition: "width 0.25s ease",
         flexShrink: 0,
+        position: "sticky",
+        top: "0px",
       }}
     >
       <SidebarToggle />
@@ -37,15 +36,14 @@ function SidebarPanel(props: StackProps) {
         {...props}
         sx={(tm) => ({
           ...hideScrollBar,
-          borderRadius: "16px",
           backgroundColor: notDefinedColors["#01050F"],
-          border: "1px solid",
+          borderLeft: "1px solid",
           borderColor: alpha(notDefinedColors["#0D1324"], 0.55),
           maxHeight: "100%",
           height: "100%",
           overflowY: "auto",
           width: "100%",
-          p: isCollapsed ? "39px 12px 18px 12px" : "39px 20px 18px 20px",
+          p: isCollapsed ? "0px 12px 18px 12px" : "0px 20px 18px 20px",
           transition: "padding 0.25s ease",
           ...identifySxProp(tm, props.sx),
         })}
@@ -55,20 +53,22 @@ function SidebarPanel(props: StackProps) {
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            gap: isCollapsed ? 0 : "12px",
+            gap: "12px",
             borderBottom: "1px solid",
             borderColor: notDefinedColors["#0D1324"],
-            pb: "39px",
+            py: "24px",
+            pr: isCollapsed ? 0 : "30px",
+            transition: "padding 0.25s ease",
           }}
         >
-          {!isCollapsed && <BrandName />}
           <BrandIcon
             sx={{
-              width: isCollapsed ? 32 : 51,
-              height: isCollapsed ? 24 : 38,
+              width: 51,
+              height: 38,
             }}
           />
+
+          {!isCollapsed && <BrandName />}
         </Box>
         <Stack
           sx={{ justifyContent: "space-between", flex: 1, minHeight: "0px" }}
@@ -80,8 +80,8 @@ function SidebarPanel(props: StackProps) {
               pb: "20px",
               mb: "50px",
               mt: "32px",
-              borderBottom: "1px solid",
-              borderColor: "border.dark",
+              // borderBottom: "1px solid",
+              // borderColor: "border.dark",
             }}
           >
             {getSidebarNavigators({
@@ -100,7 +100,7 @@ function SidebarPanel(props: StackProps) {
             })}
 
             {/* // * -------- Dark/Light Button -------- */}
-            <Box
+            {/* <Box
               sx={{
                 mt: "calc(32px - 8px)",
                 display: "flex",
@@ -108,7 +108,7 @@ function SidebarPanel(props: StackProps) {
               }}
             >
               <SwitchTheme collapsed={isCollapsed} />
-            </Box>
+            </Box> */}
           </Stack>
 
           {/* // * ----- user profile ------ */}

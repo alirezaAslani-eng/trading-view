@@ -4,7 +4,7 @@ import Alert from "../Alert/Alert";
 import { useTradeMode } from "@/context/feature/trade/TradeMode";
 
 // * Container
-const Page = styled(Box)({ paddingRight: "28px", minHeight: "100svh" });
+const Page = styled(Box)({ minHeight: "100svh" });
 
 // * Container -> Header
 /**

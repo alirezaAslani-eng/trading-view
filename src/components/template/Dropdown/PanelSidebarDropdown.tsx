@@ -3,6 +3,7 @@ import React, { PropsWithChildren, type ReactNode } from "react";
 import { Box, Stack } from "@mui/system";
 import {
   Divider,
+  Fade,
   styled,
   SvgIcon,
   Theme,
@@ -58,12 +59,12 @@ const Nav = styled(NextLink, {
     overflowX: "hidden",
     px: "10px",
 
-    ...(collapsed && {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      padding: "0px",
-    }),
+    // ...(collapsed && {
+    //   display: "flex",
+    //   justifyContent: "center",
+    //   alignItems: "center",
+    //   padding: "0px",
+    // }),
   };
 });
 
@@ -101,17 +102,26 @@ function PanelSidebarDropdown({
       {/* // * ---start--- Parent Link ------ */}
       <Tooltip title={isCollapsed ? text : ""} placement="left">
         <Nav href={href} exact={exact} collapsed={isCollapsed}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            {icon}
-            {!isCollapsed && (
+          {/* {isCollapsed && <SvgIcon>{icon}</SvgIcon>} */}
+
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              justifyContent: "start",
+            }}
+          >
+            <SvgIcon sx={{ flexShrink: 0, flex: 1 }}>{icon}</SvgIcon>
+            <Fade in={!isCollapsed} timeout={200}>
               <Typography
                 variant="button3"
                 className="nav-text"
-                sx={{ color: "text.heading" }}
+                sx={{ color: "text.heading", whiteSpace: "nowrap" }}
               >
                 {text}
               </Typography>
-            )}
+            </Fade>
           </Box>
 
           {!isActiveLink && hasNested && <KeyDownIcon fontSize="small" />}
@@ -121,7 +131,8 @@ function PanelSidebarDropdown({
       {/* // * ---end--- Parent nav ------ */}
 
       {/* // * ---start--- Sub navs ----------  */}
-      {isOpenNested && (
+
+      <Fade in={isOpenNested} timeout={200} unmountOnExit>
         <Box component="ul" sx={{ mt: "18px", mb: "8px", display: "flex" }}>
           <Divider
             flexItem
@@ -139,8 +150,7 @@ function PanelSidebarDropdown({
             })}
           </Stack>
         </Box>
-      )}
-      {/* // * ---end--- Sub navs ----------  */}
+      </Fade>
     </LiOrUl>
   );
 }
