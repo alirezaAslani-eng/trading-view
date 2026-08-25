@@ -51,9 +51,8 @@ const kycStatusConfig = () => {
 const dashboardInfoConfig = () => {
   return queryOptions({
     queryKey: dashboardInfoKey,
-    queryFn: async () => {
-      const res = await dashboardInfo();
-      return res;
+    queryFn: ({ signal }) => {
+      return dashboardInfo({ signal });
     },
   });
 };

@@ -6,7 +6,7 @@ export { default as deleteBankAccount } from "./bank/deleteBankAccount";
 export { default as kycStatus } from "./kyc/kycStatus";
 export { type KycL1Data, type KycL1Variables, kycL1 } from "./kyc/kycL1";
 export { kycL2, type KycL2Variables } from "./kyc/kycL2";
-export { default as dashboardInfo } from "./user/dashboardInfo";
+export { dashboardInfo, type DashboardInfoData } from "./user/dashboardInfo";
 export {
   walletPortfolio,
   type WalletPortfolioQueryParams,
