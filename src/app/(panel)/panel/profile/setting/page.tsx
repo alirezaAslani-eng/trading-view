@@ -1,3 +1,4 @@
+import { AccountSetting } from "@/v2-architecture/src/features/user";
 import {
   PagePaper,
   PagePaperHeading,
@@ -11,7 +12,7 @@ export default function page() {
         <PagePaperTitle>تنظیمات حساب</PagePaperTitle>
       </PagePaperHeading>
 
-      
+      <AccountSetting />
     </PagePaper>
   );
 }
