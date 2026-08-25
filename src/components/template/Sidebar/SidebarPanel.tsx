@@ -4,7 +4,6 @@ import { notDefinedColors } from "@/packages/mui/theme/shades";
 import { alpha, Box, Stack, StackProps } from "@mui/material";
 import { hideScrollBar } from "@/packages/mui/theme/shared-style";
 import SwitchTheme from "../Button/SwitchTheme";
-import UserProfileCard from "@/components/ui/Card/UserProfileCard";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
 import { getSidebarNavigators } from "@/constant/app/sidebarNavigators";
 import { PanelSidebarDropdown } from "@/components/template/Dropdown/PanelSidebarDropdown";
@@ -13,6 +12,7 @@ import { dashboardInfoConfig } from "@/packages/react-query";
 import { useSidebarContext } from "@/context/app/Sidebar";
 import SidebarToggle from "./SidebarToggle";
 import { BrandIcon } from "@/components/ui/Icon";
+import { UserProfileCard } from "@/v2-architecture/src/features/user";
 
 const getSidebarWidth = (collapsed: boolean) => (collapsed ? "80px" : "264px");
 function SidebarPanel(props: StackProps) {

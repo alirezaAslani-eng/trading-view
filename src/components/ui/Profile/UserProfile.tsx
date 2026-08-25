@@ -56,7 +56,12 @@ function UserProfileImage(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
 }
 
 function UserProfileInfo(boxProps: ReplaceSxWithSxOnlyObject<StackProps>) {
-  return <Stack {...boxProps} sx={{ gap: "6px", ...boxProps.sx }} />;
+  return (
+    <Stack
+      {...boxProps}
+      sx={{ gap: "6px", alignItems: "start", ...boxProps.sx }}
+    />
+  );
 }
 
 export { UserProfile, UserProfileImage, UserProfileInfo };
