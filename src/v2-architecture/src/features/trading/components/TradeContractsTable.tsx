@@ -126,11 +126,17 @@ const tradeContractsColumns = buildColumns<TradeContract>(
       field: "remainingDays",
       headerName: "مهلت پرداخت",
       renderCell: (row) => {
-        const color = getRemainingDaysColor(row.remainingDays);
-        const label = getRemainingDaysLabel(row.remainingDays);
+        const { remainingDays } = row;
+        const color = getRemainingDaysColor(remainingDays);
+        const label = getRemainingDaysLabel(remainingDays);
 
         return (
-          <Chip label={label} variant="outlined" color={color} size="small" />
+          <Chip
+            label={label}
+            variant={remainingDays < 0 ? "filled" : "outlined"}
+            color={color}
+            size="small"
+          />
         );
       },
     },
@@ -199,11 +205,15 @@ function getRemainingDaysLabel(days: number) {
   if (days === 0) {
     return "تا پایان امروز";
   }
+  if (days < 0) {
+    const passedDays = Math.abs(days);
+    return `${passedDays} روز گذشته`;
+  }
 
   return `${days} روز تا پرداخت`;
 }
 function getRemainingDaysColor(days: number) {
-  if (days === 0) {
+  if (days <= 0) {
     return "error";
   }
 
