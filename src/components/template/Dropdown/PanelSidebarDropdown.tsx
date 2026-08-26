@@ -30,17 +30,12 @@ interface PanelSidebarDropdownProps {
 const sharedNavStyle = (tm: Theme) => {
   const { palette } = tm;
   return {
-    transition: "background 350ms cubic-bezier(0.22, 1, 0.36, 1)",
+    transition: "background-color 350ms cubic-bezier(0.22, 1, 0.36, 1)",
     "&.Mui-active": {
-      background:
-        "linear-gradient(to right, rgba(2, 27, 67, 0.8), rgba(1, 12, 32, 0.8))",
-    },
-    "&.Mui-active svg": {
-      color: notDefinedColors["#4AACFA"],
+      backgroundColor: palette.background.sidebarActive,
     },
     ":hover": {
-      background:
-        "linear-gradient(to right, rgba(2, 27, 67, 0.8), rgba(1, 12, 32, 0.8))",
+      backgroundColor: palette.background.sidebarActive,
     },
   };
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { alpha, Box, IconButton, SvgIcon } from "@mui/material";
+import { Box, IconButton, SvgIcon } from "@mui/material";
 import { notDefinedColors } from "@/packages/mui/theme/shades";
 import { useSidebarContext } from "@/context/app/Sidebar";
 
@@ -38,9 +38,9 @@ function SidebarToggle() {
           width: "24px",
           height: "28px",
           borderRadius: "6px 0 0 6px",
-          backgroundColor: notDefinedColors["#01050F"],
+          backgroundColor: notDefinedColors["#1B1C20"],
           border: "1px solid",
-          borderColor: alpha(notDefinedColors["#0D1324"], 0.55),
+          borderColor: "border.dark",
           borderRight: "none",
           color: "text.heading",
           overflow: "visible",
