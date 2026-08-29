@@ -18,9 +18,26 @@ import {
   Section,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
-import { Box } from "@mui/material";
+import { Box, Tab } from "@mui/material";
 import DepositForm from "@/components/template/Form/DepositForm";
+import { TabsProvider } from "@/context/app/TabsContext";
+import Tabs from "@/components/ui/Tabs/Tabs";
+import TabContent from "@/components/ui/Tabs/TabContent";
+import { MarginTransferForm } from "@/v2-architecture/src/features/portfolio";
 
+const tabs = [
+  {
+    value: "deposit",
+    label: "واریز به کیف پول",
+    content: <DepositForm />,
+  },
+  {
+    value: "credit",
+    label: "دریافت اعتبار",
+    content: <MarginTransferForm />,
+  },
+];
+const default_label = tabs[0].value;
 function page() {
   return (
     <Page>
@@ -36,7 +53,22 @@ function page() {
               <PagePaper
                 sx={{ height: "fit-content", pt: "calc(20px - 12px)" }}
               >
-                <DepositForm />
+                <TabsProvider defaultState={default_label}>
+                  <Tabs>
+                    {tabs.map((tab) => (
+                      <Tab
+                        key={tab.value}
+                        label={tab.label}
+                        value={tab.value}
+                      />
+                    ))}
+                  </Tabs>
+                  {tabs.map((tab) => (
+                    <TabContent key={tab.value} value={tab.value}>
+                      {tab.content}
+                    </TabContent>
+                  ))}
+                </TabsProvider>
               </PagePaper>
             </SectionContent>
 
