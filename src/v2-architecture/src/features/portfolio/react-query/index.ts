@@ -1,2 +1,2 @@
-export { portfolioTrendConfig } from "./queries";
+export * from "./queries";
 export { marginTransferInConfig } from "./mutations";
