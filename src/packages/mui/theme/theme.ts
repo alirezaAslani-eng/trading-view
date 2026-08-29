@@ -85,9 +85,9 @@ const theme: ThemeOptions = {
           paddingTop: "0px",
           paddingBottom: "0px",
         },
-        paper:{
-          backgroundColor:"transparent"
-        }
+        paper: {
+          backgroundColor: "transparent",
+        },
       },
     },
     MuiStepper: {
@@ -151,6 +151,7 @@ const theme: ThemeOptions = {
             ...typography.button2,
             color: palette.text.secondary,
             userSelect: "none",
+            whiteSpace: "nowrap",
           };
         },
       },
