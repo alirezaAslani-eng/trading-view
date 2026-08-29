@@ -1,5 +1,12 @@
 "use client";
-import { Box, ButtonProps, Stack, styled, Typography } from "@mui/material";
+import {
+  Box,
+  ButtonProps,
+  Stack,
+  styled,
+  Typography,
+  TypographyProps,
+} from "@mui/material";
 import Button from "../Button/Button";
 
 const TransactionFormLayout = styled(Stack)({
@@ -12,17 +19,15 @@ const TransactionFormLayoutFieldContainer = styled(Stack)({
   gap: "4px",
 });
 
-const TransactionFormLayoutFieldAutoFiller = styled("button")(({ theme }) => {
-  const { typography, palette } = theme;
-  return {
-    fontSize: typography.button4.fontSize,
-    fontFamily: typography.button4.fontFamily,
-    lineHeight: typography.button4.lineHeight,
-    color: palette.text.primary2,
-    alignSelf: "end",
-    cursor: "pointer",
-  };
-});
+const TransactionFormLayoutFieldAutoFiller = (props: TypographyProps) => (
+  <Typography
+    variant="body4"
+    component={"button"}
+    type="button"
+    {...props}
+    sx={{ color: "text.primary2", alignSelf: "end" }}
+  />
+);
 
 const TransactionFormLayoutField = styled(Box)({
   display: "flex",

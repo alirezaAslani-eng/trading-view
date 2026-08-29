@@ -95,10 +95,7 @@ function WithdrawForm() {
 
         <TransactionFormLayoutFieldContainer>
           {walletQuery.status !== "success" ? undefined : (
-            <TransactionFormLayoutFieldAutoFiller
-              onClick={selectAllWallet}
-              type="button"
-            >
+            <TransactionFormLayoutFieldAutoFiller onClick={selectAllWallet}>
               {"برداشت کل موجودی"}
             </TransactionFormLayoutFieldAutoFiller>
           )}
