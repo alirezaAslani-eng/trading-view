@@ -20,6 +20,7 @@ import {
 } from "@/v2-architecture/src/features/notification/react-query";
 import NextLink from "@/components/ui/Link/NextLink";
 import { ROUTES } from "@/constant/app/routes";
+import { responsiveIconSize } from "@/packages/mui/theme/overriders";
 
 export default function NotificationsPopover() {
   const { anchoreEl, closeMenu, openMenu, isOpenMenu } = useMuiMenuState();
@@ -43,7 +44,7 @@ export default function NotificationsPopover() {
         sx={{ color: "text.secondary" }}
       >
         <Badge badgeContent={unreadCount} color="error">
-          <NotificationIcon />
+          <NotificationIcon sx={responsiveIconSize({ xs: "x-large" })} />
         </Badge>
       </IconButton>
 

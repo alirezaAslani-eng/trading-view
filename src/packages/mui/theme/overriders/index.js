@@ -4,7 +4,7 @@ export { default as MuiCheckbox } from "./MuiCheckbox";
 export { default as MuiCssBaseline } from "./MuiCssBaseline";
 export { default as MuiFormLabel } from "./MuiFormLabel";
 export { default as MuiPaper } from "./MuiPaper";
-export { default as MuiSvgIcon } from "./MuiSvgIcon";
+export { MuiSvgIcon, responsiveIconSize } from "./MuiSvgIcon";
 export { default as MuiToggleButtonGroup } from "./MuiToggleButtonGroup";
 export { default as MuiToggleButton } from "./MuiToggleButton";
 export { default as MuiAlert } from "./MuiAlert";

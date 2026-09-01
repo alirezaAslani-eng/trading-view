@@ -31,11 +31,15 @@ import {
   Typography,
 } from "@mui/material";
 import NextLink from "@/components/ui/Link/NextLink";
+import { responsiveIconSize } from "@/packages/mui/theme/overriders";
 
 interface PageHeaderProps extends Pick<BoxProps, "sx"> {
   title: string;
   subtitle: string;
 }
+const iconSize = responsiveIconSize({
+  xs: "x-large",
+});
 
 function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
   const router = useRouter();
@@ -67,7 +71,7 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
           {subtitle}
         </Typography>
         <IconButton>
-          <MenuIcon fontSize="large" />
+          <MenuIcon sx={iconSize} />
         </IconButton>
       </Box>
 
@@ -115,7 +119,7 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
         {/* // * ------- User -------- */}
         <NextLink href={ROUTES.PROFILE.ROOT}>
           <IconButton>
-            <UserIcon />
+            <UserIcon sx={iconSize} />
           </IconButton>
         </NextLink>
         {/* // * ------- User -------- */}

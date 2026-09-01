@@ -29,3 +29,9 @@ declare module "@mui/material/Button" {
     "on-surface": true;
   }
 }
+
+declare module "@mui/material/SvgIcon" {
+  interface SvgIconPropsSizeOverrides {
+    "x-large": true;
+  }
+}
