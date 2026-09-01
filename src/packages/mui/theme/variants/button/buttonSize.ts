@@ -6,6 +6,7 @@ function buttonSize({ size, theme }: ButtonSizeProps) {
     small: {
       rootSize: {
         height: "36px",
+        minWidth: "36px",
         borderRadius: "8px",
         padding: "0px 12px",
         fontSize: typography.button4.fontSize,
@@ -17,6 +18,7 @@ function buttonSize({ size, theme }: ButtonSizeProps) {
     medium: {
       rootSize: {
         height: "45px",
+        minWidth: "45px",
         borderRadius: "10px",
         padding: "0px 16px",
         fontSize: typography.button2.fontSize,
@@ -27,6 +29,7 @@ function buttonSize({ size, theme }: ButtonSizeProps) {
     large: {
       rootSize: {
         height: "56px",
+        minWidth: "56px",
         borderRadius: "28px",
         padding: "0px 20px",
         fontSize: typography.button2.fontSize,
