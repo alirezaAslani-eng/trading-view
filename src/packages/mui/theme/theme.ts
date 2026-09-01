@@ -21,12 +21,12 @@ import {
   MuiSwitch,
 } from "./overriders";
 import { notDefinedColors } from "./shades";
-// import breakpoints from "./breakpoints";
+import breakpoints from "./breakpoints";
 
 const theme: ThemeOptions = {
   typography,
   palette: darkPalette, // * darkPalette as defult theme
-  // breakpoints,
+  breakpoints,
   spacing: 4,
   direction: "rtl",
   components: {

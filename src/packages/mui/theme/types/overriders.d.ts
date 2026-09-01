@@ -35,3 +35,14 @@ declare module "@mui/material/SvgIcon" {
     "x-large": true;
   }
 }
+
+declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    "xs-mobile": true;
+    xs: true;
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+  }
+}
