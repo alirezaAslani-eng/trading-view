@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 5173",
+    "dev": "next dev --turbo -p 5173",
     "build": "next build",
     "start": "next start",
     "check": "tsc --noEmit"
@@ -15,8 +15,9 @@
     "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "^5.2.2",
     "@microsoft/signalr": "^10.0.0",
-    "@mui/material": "^9.0.0",
+    "@mui/material": "^9.4.0",
     "@mui/material-nextjs": "^9.0.0",
+    "@mui/system": "^9.4.0",
     "@mui/x-charts": "^9.7.0",
     "@mui/x-date-pickers": "^9.9.0",
     "@reduxjs/toolkit": "^2.12.0",
