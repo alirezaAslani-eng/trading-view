@@ -7,7 +7,12 @@ import { logoutConfig } from "@/packages/react-query";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/constant/app/routes";
 import ToggleButtonGroup from "@/components/ui/ButtonGroup/ToggleButtonGroup";
-import { FlaskIcon, ScanFaceIcon } from "@/components/ui/Icon";
+import {
+  FlaskIcon,
+  MenuIcon,
+  ScanFaceIcon,
+  UserIcon,
+} from "@/components/ui/Icon";
 import { useTradeMode } from "@/context/feature/trade/TradeMode";
 import useKycGuard from "@/hooks/features/kyc/useKycGuard";
 import { KYC_LEVELS } from "@/constant/features/kyc/kycLevelOreder";
@@ -18,12 +23,14 @@ import {
   Box,
   BoxProps,
   IconButton,
+  Stack,
   SvgIcon,
   SxProps,
   Theme,
   ToggleButton,
   Typography,
 } from "@mui/material";
+import NextLink from "@/components/ui/Link/NextLink";
 
 interface PageHeaderProps extends Pick<BoxProps, "sx"> {
   title: string;
@@ -46,24 +53,30 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
         ...identifySxProp(tm, sx),
       })}
     >
-      {/* // * --- Title ----- */}
       <Box component={"aside"}>
-        <Typography variant="h2" sx={{ color: "text.heading" }}>
+        <Typography
+          variant="h2"
+          sx={{ color: "text.heading", display: { xs: "none" } }}
+        >
           {title}
         </Typography>
-        <Typography variant="body1" sx={{ color: "text.heading", mt: "4px" }}>
+        <Typography
+          variant="body1"
+          sx={{ color: "text.heading", mt: "4px", display: { xs: "none" } }}
+        >
           {subtitle}
         </Typography>
+        <IconButton>
+          <MenuIcon fontSize="large" />
+        </IconButton>
       </Box>
 
-      {/* // * --- Search Input ----- */}
-      <Box
+      <Stack
+        direction={"row"}
         component={"aside"}
         sx={{
-          display: "flex",
           alignItems: "center",
-          gap: "18px",
-          height: "fit-content",
+          gap: { xs: "12px" }, // * Desktop : "18px"
         }}
       >
         {/* // * Demo switcher button */}
@@ -76,6 +89,7 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
             <SvgIcon
               sx={{
                 colo: "text.secondary",
+                display: { xs: "none" },
               }}
             >
               <SearchIcon />
@@ -90,6 +104,7 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
               color: "text.heading",
               backgroundColor: "background.surfaceSecondary",
               width: "282px",
+              display: { xs: "none" },
               "::placeholder": {
                 color: "text.secondary",
               },
@@ -97,13 +112,28 @@ function PageHeader({ sx, title, subtitle }: PageHeaderProps) {
           />
         </InputMarker>
 
+        {/* // * ------- User -------- */}
+        <NextLink href={ROUTES.PROFILE.ROOT}>
+          <IconButton>
+            <UserIcon />
+          </IconButton>
+        </NextLink>
+        {/* // * ------- User -------- */}
+
         {/* // * ------- Notifications -------- */}
         <NotificationsPopover />
         {/* // * ------- Notifications -------- */}
-        <IconButton size="small" onClick={() => logoutMutation.mutate()}>
+
+        {/* // * ------- Logout -------- */}
+        <IconButton
+          size="small"
+          onClick={() => logoutMutation.mutate()}
+          sx={{ display: { xs: "none" } }}
+        >
           <LogoutIcon />
         </IconButton>
-      </Box>
+        {/* // * ------- Logout -------- */}
+      </Stack>
     </Box>
   );
 }
@@ -112,6 +142,7 @@ export default PageHeader;
 
 const demoSwitcher_sx: SxProps<Theme> = ({ palette }) => {
   return {
+    display: { xs: "none" },
     backgroundColor: "background.surfaceTertiary",
     borderRadius: "999px",
     "& button": {
