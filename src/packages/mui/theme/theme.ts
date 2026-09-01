@@ -156,6 +156,19 @@ const theme: ThemeOptions = {
         },
       },
     },
+    MuiIconButton: {
+      defaultProps: {
+        color: "secondary",
+      },
+      styleOverrides: {
+        colorSecondary: ({ theme }) => {
+          const { palette } = theme;
+          return {
+            color: palette.text.onPrimary,
+          };
+        },
+      },
+    },
   },
 };
 
