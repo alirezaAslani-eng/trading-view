@@ -14,7 +14,8 @@ type TextVariables = Record<
   | "error"
   | "placeholder"
   | "inputText"
-  | "tertiary",
+  | "tertiary"
+  | "linkDisable",
   string
 >;
 
