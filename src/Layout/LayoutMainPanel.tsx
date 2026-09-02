@@ -1,32 +1,37 @@
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import SidebarPanel from "@/components/template/Sidebar/SidebarPanel";
-import SupportButton from "@/components/template/Button/SupportButton";
-import { HeadPhoneIcon } from "@/components/ui/Icon";
 import NextImage from "@/components/ui/Image/NextImage";
-function LayoutMainPanel({ children }) {
+import { PropsWithChildren } from "react";
+import { BottomNavigation } from "./BottomNavigation";
+
+function LayoutMainPanel({ children }: PropsWithChildren) {
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          minHeight: "100svh",
-          maxWidth: "1880px",
-          mx: "auto",
-        }}
-      >
+      <Stack direction={"row"} sx={{ minHeight: "100svh" }}>
         {/* // * --- sidebar --- */}
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <SidebarPanel />
-        </Box>
 
-        {/* // * --- main content --- */}
+        <Stack sx={{ display: { xs: "none" } }}>
+          <SidebarPanel />
+        </Stack>
+
+        {/* // * Panel Content  */}
         <Box
-          sx={{ flex: 1, minWidth: "0px", position: "relative", px: "28px" }}
+          sx={{ flex: 1, minWidth: "0px", position: "relative", px: { xs: 4 } }}
         >
-          <MountainBackground />
+          {/* <MountainBackground /> */}
+
           {children}
-          <Box
+          {/* // * Mobile Bottom Navigation */}
+          <Stack sx={{ position: "sticky", bottom: "28px" }}>
+            <BottomNavigation />
+          </Stack>
+          {/* // * Mobile Bottom Navigation */}
+
+          {/* // * Support Button  */}
+          {/* <Stack
+            direction={"row"}
             sx={{
+              gap: "10px",
               display: "flex",
               alignItems: "end",
               flexDirection: "column",
@@ -36,12 +41,12 @@ function LayoutMainPanel({ children }) {
             }}
           >
             <SupportButton size="large" sx={{ pointerEvents: "auto" }}>
-              {"پشتیبانی انلاین"}
               <HeadPhoneIcon color="inherit" width="22px" height="22px" />
             </SupportButton>
-          </Box>
+          </Stack> */}
         </Box>
-      </Box>
+        {/* // * Panel Content  */}
+      </Stack>
     </>
   );
 }
