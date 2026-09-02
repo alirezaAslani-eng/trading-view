@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { ROUTES } from "@/constant/app/routes"; // adjust path to wherever routes.ts lives
+import { ROUTES } from "@/constant/app/routes";
+import { ValueOf } from "@/v2-architecture/src/types";
 import {
   ArrowUpDownIcon,
   BoxOutlinedIcon,
@@ -17,6 +18,24 @@ import {
   getPermissionGroup,
   PermissionGroup,
 } from "../features/permission/permissionGroups";
+import { useQuery } from "@tanstack/react-query";
+import { dashboardInfoConfig } from "@/packages/react-query";
+
+const NAV_CATEGORY = {
+  OTHERS: "others",
+  QUICK_ACCESS: "quick-access",
+  ADMIN: "admin",
+  WALLET: "wallet",
+} as const;
+
+type NavCategory = ValueOf<typeof NAV_CATEGORY>;
+
+const NAV_CATEGORY_LABEL: Record<NavCategory, string> = {
+  [NAV_CATEGORY.OTHERS]: "سایر",
+  [NAV_CATEGORY.QUICK_ACCESS]: "دسترسی سریع",
+  [NAV_CATEGORY.ADMIN]: "مدیریت",
+  [NAV_CATEGORY.WALLET]: "کیف پول",
+};
 
 interface SidebarSubMenuItem {
   id: string;
@@ -29,6 +48,7 @@ interface SidebarNavItem {
   text: string;
   link: string;
   icon: ReactNode;
+  category: NavCategory;
   submenus: SidebarSubMenuItem[];
 }
 
@@ -38,6 +58,7 @@ const sidebarNavigators: SidebarNavItem[] = [
     text: "داشبورد",
     icon: <GridIcon />,
     link: ROUTES.PANEL.ROOT,
+    category: NAV_CATEGORY.QUICK_ACCESS,
     submenus: [],
   },
   {
@@ -45,6 +66,7 @@ const sidebarNavigators: SidebarNavItem[] = [
     text: "بازار ها",
     icon: <HomeChartIcon />,
     link: ROUTES.MARKET.ROOT,
+    category: NAV_CATEGORY.QUICK_ACCESS,
     submenus: [],
   },
   {
@@ -52,6 +74,7 @@ const sidebarNavigators: SidebarNavItem[] = [
     text: "دارایی‌ها",
     icon: <WalletIcon />,
     link: ROUTES.ASSETS.ROOT,
+    category: NAV_CATEGORY.WALLET,
     submenus: [
       {
         id: "assets-withdraw",
@@ -70,6 +93,7 @@ const sidebarNavigators: SidebarNavItem[] = [
     text: "تاریخچه",
     icon: <HistoryIcon />,
     link: ROUTES.HISTORY.ROOT,
+    category: NAV_CATEGORY.QUICK_ACCESS,
     submenus: [],
   },
   {
@@ -77,13 +101,15 @@ const sidebarNavigators: SidebarNavItem[] = [
     text: "معامله",
     icon: <ArrowUpDownIcon />,
     link: ROUTES.TRADE.BY_SYMBOL("REBAR"),
+    category: NAV_CATEGORY.QUICK_ACCESS,
     submenus: [],
   },
   {
     id: "products",
-    text: "مدریت محصول",
+    text: "مدیریت محصول",
     icon: <BoxOutlinedIcon />,
     link: ROUTES.PRODUCTS.ROOT,
+    category: NAV_CATEGORY.ADMIN,
     submenus: [],
   },
   {
@@ -91,6 +117,7 @@ const sidebarNavigators: SidebarNavItem[] = [
     text: "سطوح دسترسی",
     icon: <LockIcon />,
     link: ROUTES.PERMISSIONS.ROOT,
+    category: NAV_CATEGORY.ADMIN,
     submenus: [],
   },
   {
@@ -98,13 +125,15 @@ const sidebarNavigators: SidebarNavItem[] = [
     text: "تنظیمات دمو",
     icon: <ToggleIcon />,
     link: ROUTES.ADMIN.DEMO_SETTING,
+    category: NAV_CATEGORY.ADMIN,
     submenus: [],
   },
   {
     id: "loyalty-setting",
-    text: "تنظیمات سطح وفاداری",
+    text: "سطح وفاداری",
     icon: <ReceiptCheckIcon />,
     link: ROUTES.ADMIN.LOYALTY_SETTING,
+    category: NAV_CATEGORY.ADMIN,
     submenus: [],
   },
   {
@@ -112,6 +141,7 @@ const sidebarNavigators: SidebarNavItem[] = [
     text: "پروفایل",
     icon: <UserIcon />,
     link: ROUTES.PROFILE.ROOT,
+    category: NAV_CATEGORY.QUICK_ACCESS,
     submenus: [],
   },
   {
@@ -119,32 +149,51 @@ const sidebarNavigators: SidebarNavItem[] = [
     text: "ربات معامله گر",
     icon: <RobotIcon />,
     link: ROUTES.ROBOT.ROOT,
+    category: NAV_CATEGORY.ADMIN,
     submenus: [],
   },
 ];
 
-interface getSidebarNavigatorsConfig {
+interface GetSidebarNavigatorsConfig {
   permissionGroups: PermissionGroup[] | undefined;
 }
+
 function getSidebarNavigators({
   permissionGroups,
-}: getSidebarNavigatorsConfig): SidebarNavItem[] {
+}: GetSidebarNavigatorsConfig): SidebarNavItem[] {
   // * Returns StandardUser navigators when permissionGroups is pending
-  if (permissionGroups === undefined || !!!permissionGroups?.length)
-    return StandardUserNavs();
+  if (permissionGroups === undefined || !permissionGroups.length) {
+    return getStandardUserNavs();
+  }
 
   const { isStandardUser, isAdmin } = getPermissionGroup(permissionGroups);
 
-  if (isStandardUser && !isAdmin) return StandardUserNavs();
+  if (isStandardUser && !isAdmin) {
+    return getStandardUserNavs();
+  }
 
   return sidebarNavigators;
 }
 
-export { getSidebarNavigators };
-export type { SidebarNavItem, SidebarSubMenuItem };
-
-function StandardUserNavs(): SidebarNavItem[] {
-  return sidebarNavigators.filter(
-    (nav) => !nav.link.startsWith(ROUTES.ADMIN.ROOT),
-  );
+function getStandardUserNavs(): SidebarNavItem[] {
+  return sidebarNavigators.filter((nav) => nav.category !== NAV_CATEGORY.ADMIN);
 }
+
+function useAppNavigators() {
+  const { data: dashboardInfo } = useQuery(dashboardInfoConfig());
+
+  return {
+    navigators: getSidebarNavigators({
+      permissionGroups: dashboardInfo?.userPermissionGroups,
+    }),
+  };
+}
+
+export {
+  getSidebarNavigators,
+  useAppNavigators,
+  NAV_CATEGORY,
+  NAV_CATEGORY_LABEL,
+};
+
+export type { NavCategory, SidebarNavItem, SidebarSubMenuItem };

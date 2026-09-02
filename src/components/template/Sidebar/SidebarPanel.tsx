@@ -4,10 +4,8 @@ import { notDefinedColors } from "@/packages/mui/theme/shades";
 import { Box, Stack, StackProps } from "@mui/material";
 import { hideScrollBar } from "@/packages/mui/theme/shared-style";
 import { identifySxProp } from "@/packages/mui/theme/helpers";
-import { getSidebarNavigators } from "@/constant/app/sidebarNavigators";
+import { useAppNavigators } from "@/constant/app/sidebarNavigators";
 import { PanelSidebarDropdown } from "@/components/template/Dropdown/PanelSidebarDropdown";
-import { useQuery } from "@tanstack/react-query";
-import { dashboardInfoConfig } from "@/packages/react-query";
 import { useSidebarContext } from "@/context/app/Sidebar";
 import SidebarToggle from "./SidebarToggle";
 import { BrandIcon } from "@/components/ui/Icon";
@@ -16,8 +14,7 @@ import { UserProfileCard } from "@/v2-architecture/src/features/user";
 const getSidebarWidth = (collapsed: boolean) => (collapsed ? "78px" : "264px");
 function SidebarPanel(props: StackProps) {
   const { isCollapsed } = useSidebarContext()!;
-  const dashboardQuery = useQuery(dashboardInfoConfig());
-
+  const { navigators } = useAppNavigators();
   return (
     <Box
       component={"aside"}
@@ -83,9 +80,7 @@ function SidebarPanel(props: StackProps) {
               // borderColor: "border.dark",
             }}
           >
-            {getSidebarNavigators({
-              permissionGroups: dashboardQuery.data?.userPermissionGroups,
-            }).map((nav) => {
+            {navigators.map((nav) => {
               return (
                 <PanelSidebarDropdown
                   key={nav.id}
