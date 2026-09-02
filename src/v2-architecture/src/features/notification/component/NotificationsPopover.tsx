@@ -21,6 +21,7 @@ import {
 import NextLink from "@/components/ui/Link/NextLink";
 import { ROUTES } from "@/constant/app/routes";
 import { responsiveIconSize } from "@/packages/mui/theme/overriders";
+import { ResponsiveComponent } from "@/v2-architecture/src/shared/ui";
 
 export default function NotificationsPopover() {
   const { anchoreEl, closeMenu, openMenu, isOpenMenu } = useMuiMenuState();
@@ -38,128 +39,149 @@ export default function NotificationsPopover() {
 
   return (
     <>
+      {/* // * Popover triggerer */}
       <IconButton
         onClick={openMenu}
         aria-label="اعلان‌ها"
-        sx={{ color: "text.secondary" }}
+        sx={{ color: "text.secondary", display: { xs: "none", sm: "flex" } }}
       >
         <Badge badgeContent={unreadCount} color="error">
-          <NotificationIcon sx={responsiveIconSize({ xs: "x-large" })} />
+          <NotificationIcon />
         </Badge>
       </IconButton>
+      {/* // * Popover triggerer */}
 
-      <Popover
-        open={isOpenMenu}
-        anchorEl={anchoreEl}
-        onClose={closeMenu}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        slotProps={{
-          paper: {
-            sx: {
-              mt: 1,
-              width: 380,
-              maxWidth: "calc(100vw - 32px)",
-              borderRadius: 2,
-              overflow: "hidden",
-              backgroundColor: "background.paper",
-              border: "1px solid",
-              borderColor: "border.secondary",
-              boxShadow: 8,
-            },
-          },
-        }}
+      {/* // * Link */}
+      <NextLink
+        href={ROUTES.PROFILE.NOTIFICATIONS}
+        sx={{ display: { xs: "flex", sm: "none" } }}
       >
-        <Box sx={{ width: "100%" }}>
-          {/* Header */}
-          <Stack
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              px: 2,
-              py: 1.75,
+        <IconButton aria-label="اعلان‌ها" sx={{ color: "text.secondary" }}>
+          <Badge badgeContent={unreadCount} color="error">
+            <NotificationIcon sx={responsiveIconSize({ xs: "x-large" })} />
+          </Badge>
+        </IconButton>
+      </NextLink>
+      {/* // * Link */}
+      <ResponsiveComponent
+        xs={null}
+        sm={
+          <Popover
+            open={isOpenMenu}
+            anchorEl={anchoreEl}
+            onClose={closeMenu}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            slotProps={{
+              paper: {
+                sx: {
+                  mt: 1,
+                  width: 380,
+                  maxWidth: "calc(100vw - 32px)",
+                  borderRadius: 2,
+                  overflow: "hidden",
+                  backgroundColor: "background.paper",
+                  border: "1px solid",
+                  borderColor: "border.secondary",
+                  boxShadow: 8,
+                },
+              },
             }}
           >
-            <Typography
-              variant="h7"
-              sx={{
-                color: "text.heading",
-              }}
-            >
-              اعلان‌ها
-            </Typography>
+            <Box sx={{ width: "100%" }}>
+              {/* Header */}
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  px: 2,
+                  py: 1.75,
+                }}
+              >
+                <Typography
+                  variant="h7"
+                  sx={{
+                    color: "text.heading",
+                  }}
+                >
+                  اعلان‌ها
+                </Typography>
 
-            <Button
-              variant="on-surface"
-              size="small"
-              onClick={handleReadAll}
-              disabled={
-                isPending ||
-                notifications.length === 0 ||
-                readAllMutation.isPending
-              }
-            >
-              {readAllMutation.isPending ? "در حال خواندن..." : "خواندن همه"}
-            </Button>
-          </Stack>
+                <Button
+                  variant="on-surface"
+                  size="small"
+                  onClick={handleReadAll}
+                  disabled={
+                    isPending ||
+                    notifications.length === 0 ||
+                    readAllMutation.isPending
+                  }
+                >
+                  {readAllMutation.isPending
+                    ? "در حال خواندن..."
+                    : "خواندن همه"}
+                </Button>
+              </Stack>
 
-          <Divider
-            sx={{
-              borderColor: "border.secondary",
-            }}
-          />
+              <Divider
+                sx={{
+                  borderColor: "border.secondary",
+                }}
+              />
 
-          {/* Notification List */}
-          <Stack
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            {isPending ? (
-              <NotificationListSkeleton />
-            ) : isError ? (
-              <NotificationEmptyState>
-                دریافت اعلان‌ها با خطا مواجه شد.
-              </NotificationEmptyState>
-            ) : notifications.length === 0 ? (
-              <NotificationEmptyState>
-                اعلان جدیدی وجود ندارد.
-              </NotificationEmptyState>
-            ) : (
-              notifications.map((notification) => (
-                <NotificationCard
-                  key={notification.id}
-                  notification={notification}
-                />
-              ))
-            )}
-          </Stack>
+              {/* Notification List */}
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {isPending ? (
+                  <NotificationListSkeleton />
+                ) : isError ? (
+                  <NotificationEmptyState>
+                    دریافت اعلان‌ها با خطا مواجه شد.
+                  </NotificationEmptyState>
+                ) : notifications.length === 0 ? (
+                  <NotificationEmptyState>
+                    اعلان جدیدی وجود ندارد.
+                  </NotificationEmptyState>
+                ) : (
+                  notifications.map((notification) => (
+                    <NotificationCard
+                      key={notification.id}
+                      notification={notification}
+                    />
+                  ))
+                )}
+              </Stack>
 
-          <Divider
-            sx={{
-              borderColor: "border.secondary",
-            }}
-          />
+              <Divider
+                sx={{
+                  borderColor: "border.secondary",
+                }}
+              />
 
-          {/* View All */}
-          <Box sx={{ p: 1 }}>
-            <NextLink href={ROUTES.PROFILE.NOTIFICATIONS}>
-              <Button fullWidth variant="text">
-                مشاهده همه اعلان‌ها
-              </Button>
-            </NextLink>
-          </Box>
-        </Box>
-      </Popover>
+              {/* View All */}
+              <Box sx={{ p: 1 }}>
+                <NextLink href={ROUTES.PROFILE.NOTIFICATIONS}>
+                  <Button fullWidth variant="text">
+                    مشاهده همه اعلان‌ها
+                  </Button>
+                </NextLink>
+              </Box>
+            </Box>
+          </Popover>
+        }
+      />
     </>
   );
 }
