@@ -26,7 +26,9 @@ function page() {
         />
       </Header>
       <Main>
-        <KycPromoBanner />
+        <Section>
+          <KycPromoBanner />
+        </Section>
         <Section>
           <SectionContent>
             <TotalAssetCard />
