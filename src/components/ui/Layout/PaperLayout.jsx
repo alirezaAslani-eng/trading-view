@@ -2,24 +2,36 @@
 import { Box, styled, Typography } from "@mui/material";
 import PanelPaper from "@/components/ui/Paper/PanelPaper";
 
-const PagePaper = styled(PanelPaper)({
-  padding: "20px 16px",
-  width: "100%",
+const PagePaper = styled(PanelPaper)(({ theme }) => {
+  const { breakpoints } = theme;
+  return {
+    padding: "20px 12px",
+    width: "100%",
+    [breakpoints.up("sm")]: {
+      padding: "20px 16px",
+    },
+  };
 });
 
-const PagePaperHeading = styled(Box)({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
+const PagePaperHeading = styled(Box)(({ theme }) => {
+  const { breakpoints } = theme;
+  return {
+    display: "none",
+    justifyContent: "space-between",
+    alignItems: "center",
+    [breakpoints.up("sm")]: {
+      display: "flex",
+    },
+  };
 });
 
 const PagePaperTitle = styled(Typography)(({ theme }) => {
-  const { palette, typography } = theme;
+  const { palette, typography, breakpoints } = theme;
   return {
     color: palette.text.heading,
-    fontSize: typography.h7.fontSize,
-    fontFamily: typography.h7.fontFamily,
-    lineHeight: typography.h7.lineHeight,
+    [breakpoints.up("sm")]: {
+      ...typography.h7,
+    },
   };
 });
 

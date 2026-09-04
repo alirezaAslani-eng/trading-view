@@ -62,12 +62,21 @@ const _Section = (props: BoxProps<"section">) => {
   return <Box component="section" {...props} />;
 };
 
-const Section = styled(_Section)({
-  marginTop: "50px",
+const Section = styled(_Section)(({ theme }) => {
+  const { breakpoints } = theme;
+  return {
+    marginTop: "20px",
 
-  ":first-of-type": {
-    marginTop: "0px",
-  },
+    ":first-of-type": {
+      marginTop: "30px",
+    },
+    [breakpoints.up("sm")]: {
+      marginTop: "50px",
+      ":first-of-type": {
+        marginTop: "0px",
+      },
+    },
+  };
 });
 
 // * Container -> Main -> Section -> SectionContent
@@ -86,10 +95,11 @@ const SectionHeading = styled(Box)({
 
 // * Container -> Main -> Section -> SectionContent -> SectionHeading -> Title
 const SectionTitle = styled(Typography)(({ theme }) => ({
-  fontSize: theme.typography.h6.fontSize,
-  fontFamily: theme.typography.h6.fontFamily,
-  lineHeight: theme.typography.h6.lineHeight,
-  color: theme.palette.text.heading,
+  ...theme.typography.body3,
+color: theme.palette.text.heading,
+  [theme.breakpoints.up("sm")]: {
+    ...theme.typography.h6,
+  },
 }));
 
 export {
