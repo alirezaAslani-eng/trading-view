@@ -1,6 +1,7 @@
 import { TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import Table from "./Table";
 import { ReactNode } from "react";
+import ScrollContainer from "../ScrollContainer/ScrollContainer";
 
 type Column<T> = {
   field?: keyof T;
@@ -21,39 +22,41 @@ function DataTable<T extends object>({
   rows = [],
 }: CustomTableProps<T>) {
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          {columns?.map?.((column, index) => (
-            <TableCell
-              key={String(column?.field ?? index)}
-              align={column.align}
-            >
-              <>{column.headerName}</>
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-
-      <TableBody>
-        {rows?.map?.((row, index) => (
-          <TableRow key={row?.id ?? index}>
-            {columns?.map((column, index) => (
+    <ScrollContainer sx={{ pb: 1 }}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {columns?.map?.((column, index) => (
               <TableCell
-                key={String(column.field ?? index)}
+                key={String(column?.field ?? index)}
                 align={column.align}
               >
-                <>
-                  {column.renderCell
-                    ? column.renderCell(row)
-                    : row[column.field as keyof T]}
-                </>
+                <>{column.headerName}</>
               </TableCell>
             ))}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHead>
+
+        <TableBody>
+          {rows?.map?.((row, index) => (
+            <TableRow key={row?.id ?? index}>
+              {columns?.map((column, index) => (
+                <TableCell
+                  key={String(column.field ?? index)}
+                  align={column.align}
+                >
+                  <>
+                    {column.renderCell
+                      ? column.renderCell(row)
+                      : row[column.field as keyof T]}
+                  </>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </ScrollContainer>
   );
 }
 
