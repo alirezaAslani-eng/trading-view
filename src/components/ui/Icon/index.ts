@@ -59,3 +59,4 @@ export { default as SortIcon } from "./SortIcon";
 export { default as LogoutIcon } from "./Logout";
 export { default as MenuIcon } from "./MenuIcon";
 export { default as HomeIcon } from "./HomeIcon";
+export { default as LeftMinimalIcon } from "./LeftMinimalIcon";
