@@ -80,6 +80,13 @@ const sidebarNavigators: SidebarNavItem[] = [
     submenus: [],
   },
   {
+    id: "delivery",
+    text: "تحویل فیزیکی کالا",
+    icon: <BoxOutlinedIcon />,
+    link: "no-route-yet",
+    submenus: [],
+  },
+  {
     id: "products",
     text: "مدریت محصول",
     icon: <BoxOutlinedIcon />,
