@@ -1,14 +1,20 @@
 const defaultOptions: Intl.NumberFormatOptions = {
   style: "decimal",
-  // maximumFractionDigits: 2,
-  // notation: "compact",
-  // minimumFractionDigits: 0,
-  // useGrouping: true,
 };
+const compactOptions: Intl.NumberFormatOptions = {
+  maximumFractionDigits: 2,
+  notation: "compact",
+  minimumFractionDigits: 0,
+  useGrouping: true,
+};
+
+interface FormatPriceOptions extends Intl.NumberFormatOptions {
+  compact?: boolean;
+}
 
 function formatFaPrice(
   price: number | string | undefined | unknown,
-  options?: Intl.NumberFormatOptions,
+  { compact, ...options }: FormatPriceOptions = {},
 ): string {
   const priceAsNumber = Number(price);
 
@@ -16,6 +22,7 @@ function formatFaPrice(
 
   const mergedOptions: Intl.NumberFormatOptions = {
     ...defaultOptions,
+    ...(compact && compactOptions),
     ...options,
   };
 
