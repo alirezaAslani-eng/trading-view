@@ -1,7 +1,7 @@
 import { defaultTooltipProps } from "@/packages/mui";
-import { PieChart as MuiPieChart, PieArc } from "@mui/x-charts/PieChart";
-import type { PieChartProps } from "@mui/x-charts/PieChart";
-import { useMemo } from "react";
+import { styled } from "@mui/material";
+import { PieChart as _PieChart } from "@mui/x-charts/PieChart";
+import { ComponentProps, useMemo } from "react";
 
 const DEFAULT_SERIES = {
   innerRadius: 60,
@@ -9,7 +9,15 @@ const DEFAULT_SERIES = {
   paddingAngle: 2,
   cornerRadius: 4,
 };
-function PieChart({ slotProps, ...props }: PieChartProps) {
+
+const StyledPieChart = styled(_PieChart)({
+  width: "fit-content",
+});
+
+function PieChart({
+  slotProps,
+  ...props
+}: ComponentProps<typeof StyledPieChart>) {
   const series = useMemo(
     () =>
       props?.series?.map((item) => {
@@ -21,7 +29,7 @@ function PieChart({ slotProps, ...props }: PieChartProps) {
     [props?.series],
   );
   return (
-    <MuiPieChart
+    <StyledPieChart
       {...props}
       series={series}
       slotProps={{
