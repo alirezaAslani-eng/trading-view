@@ -36,7 +36,6 @@ export default function PortfolioOverviewSection() {
   //#endregion // * ------------ Data : Portfolio Trend ------------
 
   //#region // * ------------ Data : Wallet ------------
-
   const portfolioQuery = useQuery(walletPortfolioConfig(isDemo));
   const isSuccessQuery = portfolioQuery.isSuccess;
   const {
@@ -47,17 +46,20 @@ export default function PortfolioOverviewSection() {
     marginCredit = 0,
     assets = [],
   } = portfolioQuery.data ?? {};
+
+  const assetsToPieChart = () => {
+    return assets.map((asset) => ({
+      value: asset.totalValueInIrt,
+      label: asset.assetSymbol,
+    }));
+  };
   //#endregion // * ------------ Data : Wallet ------------
+
   return (
-    <Stack
-      sx={{
-        width: "100%",
-        gap: 2,
-      }}
-    >
+    <Stack sx={{ width: "100%", gap: 2 }}>
       <PagePaper>
-        <Grid container spacing={2}>
-          <Grid size={3}>
+        <Grid container spacing={{ xs: 6, sm: 4 }}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <PortfolioStatItem
               loading={!isSuccessQuery}
               value={totalPortfolioValueIrt}
@@ -65,7 +67,7 @@ export default function PortfolioOverviewSection() {
             />
           </Grid>
 
-          <Grid size={3}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <PortfolioStatItem
               loading={!isSuccessQuery}
               title="کیف پول"
@@ -73,7 +75,7 @@ export default function PortfolioOverviewSection() {
             />
           </Grid>
 
-          <Grid size={3}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <PortfolioStatItem
               loading={!isSuccessQuery}
               title="سود / ضرر 24 ساعته"
@@ -93,7 +95,7 @@ export default function PortfolioOverviewSection() {
             />
           </Grid>
 
-          <Grid size={3}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <PortfolioStatItem
               loading={!isSuccessQuery}
               title="اعتبار معاملاتی"
@@ -101,9 +103,35 @@ export default function PortfolioOverviewSection() {
             />
           </Grid>
         </Grid>
+        <Stack
+          direction={"row"}
+          sx={{
+            display: { xs: "flex", sm: "none" },
+            px: 2,
+            gap: 4,
+            mt: "38px",
+          }}
+        >
+          <NextLink href={ROUTES.ASSETS.WITHDRAW} sx={{ flex: 1 }}>
+            <Button variant="on-surface" fullWidth>
+              <SendIcon sx={{ color: "inherit" }} />
+              {"برداشت"}
+            </Button>
+          </NextLink>
+          <NextLink href={ROUTES.ASSETS.DEPOSIT} sx={{ flex: 1 }}>
+            <Button fullWidth variant="on-surface">
+              <ReceiveIcon sx={{ color: "inherit" }} />
+              {"واریز"}
+            </Button>
+          </NextLink>
+        </Stack>
       </PagePaper>
 
-      <Grid container spacing={2} sx={{ height: "300px" }}>
+      <Grid
+        container
+        spacing={2}
+        sx={{ height: "300px", display: { xs: "none", sm: "flex" } }}
+      >
         <Grid size={6}>
           <PagePaper sx={{ height: "100%" }}>
             <PagePaperHeading sx={{ mb: 4 }}>
@@ -142,10 +170,7 @@ export default function PortfolioOverviewSection() {
                   height={210}
                   series={[
                     {
-                      data: assets.map((asset) => ({
-                        value: asset.totalValueInIrt,
-                        label: asset.assetSymbol,
-                      })),
+                      data: assetsToPieChart(),
                     },
                   ]}
                 />
@@ -182,9 +207,9 @@ function PortfolioStatItem({
   return (
     <Stack sx={{ gap: 0.5 }}>
       <Typography
-        variant="button2"
         sx={{
-          color: "text.caption",
+          color: { xs: "text.tertiary", sm: "text.caption" },
+          typography: { xs: "button5", sm: "button2" },
         }}
       >
         {title}
@@ -194,7 +219,9 @@ function PortfolioStatItem({
         <Skeleton variant="text" height={27} width="70%" />
       ) : typeof value === "string" || typeof value === "number" ? (
         <Price>
-          <PriceAmount>{formatFaPrice(value)}</PriceAmount>
+          <PriceAmount sx={{ typography: { xs: "h7", sm: "" } }}>
+            {formatFaPrice(value)}
+          </PriceAmount>
           <PriceUnit />
         </Price>
       ) : (

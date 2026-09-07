@@ -19,22 +19,28 @@ import {
   PagePaperTitle,
 } from "@/components/ui/Layout/PaperLayout";
 import { TradeContractsTable } from "@/v2-architecture/src/features/trading";
+import { AssetsAnalytics } from "@/components/template/Card/AssetsAnalytics";
 function page() {
   return (
     <Page>
+
+
       <Header>
         <PageHeader title="دارایی‌ها" subtitle="نمای کلی سرمایه و سفارشات" />
       </Header>
+
+
+      
       <Main>
         <Section>
-          <Box>
-            <TotalAssetCard />
-          </Box>
-          {/* <SectionContent>
-            <Box sx={{ width: "34.36%", minHeight: "242px" }}>
-              <ExchangeAssetForm />
-            </Box>
-          </SectionContent> */}
+          <TotalAssetCard />
+        </Section>
+        <Section sx={{ display: { xs: "block", sm: "block" } }}>
+          <SectionHeading>
+            <SectionTitle>{"نمایی از داریی ها"}</SectionTitle>
+          </SectionHeading>
+
+          <AssetsAnalytics />
         </Section>
 
         <Section>
