@@ -12,6 +12,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import ScrollContainer from "../ScrollContainer/ScrollContainer";
 
 function TableFallback(props: ReplaceSxWithSxOnlyObject<BoxProps>) {
   return (
@@ -51,7 +52,7 @@ function TableFallbackLoader({
 }: TableFallbackLoaderProps) {
   const columnsLength = columns.length;
   return (
-    <>
+    <ScrollContainer sx={{pb:2}}>
       <Table>
         <TableHead>
           <TableRow>
@@ -72,7 +73,7 @@ function TableFallbackLoader({
           ))}
         </TableBody>
       </Table>
-    </>
+    </ScrollContainer>
   );
 }
 
