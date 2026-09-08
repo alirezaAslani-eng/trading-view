@@ -14,13 +14,15 @@ import {
 import { useTradeMode } from "@/context/feature/trade/TradeMode";
 import { walletPortfolioConfig } from "@/packages/react-query";
 import { formatFaPrice } from "@/utils";
+import { addAssetColor } from "@/v2-architecture/src/features/portfolio";
+import { Chip } from "@mui/material";
 import { Stack } from "@mui/system";
 import { PieChartProps } from "@mui/x-charts";
 import { useQuery } from "@tanstack/react-query";
 
 const pieChartSeries = {
-  paddingAngle: 0,
-  cornerRadius: 0,
+  paddingAngle: 2,
+  cornerRadius: 2,
   innerRadius: 70,
   outerRadius: 90,
 };
@@ -37,9 +39,10 @@ function AssetsAnalytics() {
 
   const { assets = [], totalPortfolioValueIrt = 0 } = portfolioQuery.data ?? {};
 
-  const pieChartData = assets.map((asset) => ({
+  const pieChartData = addAssetColor(assets).map((asset) => ({
     id: asset.assetSymbol,
     value: asset.totalValueInIrt,
+    color: asset.color,
   }));
 
   const pieChartConfig = {
@@ -58,7 +61,24 @@ function AssetsAnalytics() {
   } satisfies PieChartProps;
   return (
     <PagePaper sx={{ bgcolor: "transparent", backdropFilter: "none" }}>
-      <Stack sx={{ alignItems: "center" }}>
+      <Stack spacing={2} sx={{ alignItems: "center" }}>
+        {/* Asset List */}
+        <Stack
+          direction={"row"}
+          sx={{ flexWrap: "wrap", gap: 2, justifyContent: "center" }}
+        >
+          {addAssetColor(assets).map((asset) => {
+            return (
+              <Chip
+                key={asset.assetSymbol}
+                label={asset.assetSymbol}
+                variant="filled"
+                size="small"
+                sx={{ backgroundColor: asset.color, color: "text.onPrimary" }}
+              />
+            );
+          })}
+        </Stack>
         {/* Pie Chart */}
         <PieChartContainer>
           <PieChart {...pieChartConfig} />
@@ -79,9 +99,6 @@ function AssetsAnalytics() {
             </Price>
           </PieChartCenter>
         </PieChartContainer>
-
-        {/* Asset List */}
-        <Stack></Stack>
       </Stack>
     </PagePaper>
   );
