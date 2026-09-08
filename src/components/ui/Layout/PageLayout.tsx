@@ -3,7 +3,6 @@
 import { Box, styled, Typography, type BoxProps } from "@mui/material";
 import Alert from "../Alert/Alert";
 import { useTradeMode } from "@/context/feature/trade/TradeMode";
-import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 
 // * Container
 const Page = styled(Box)({
@@ -80,9 +79,16 @@ const Section = styled(_Section)(({ theme }) => {
 });
 
 // * Container -> Main -> Section -> SectionContent
-const SectionContent = styled(Box)({
-  display: "flex",
-  gap: "24px",
+const SectionContent = styled(Box)(({ theme }) => {
+  const { breakpoints } = theme;
+  return {
+    flexDirection: "column",
+    display: "flex",
+    gap: "24px",
+    [breakpoints.up("sm")]: {
+      flexDirection: "row",
+    },
+  };
 });
 
 // * Container -> Main -> Section -> SectionContent -> SectionHeading
@@ -96,7 +102,7 @@ const SectionHeading = styled(Box)({
 // * Container -> Main -> Section -> SectionContent -> SectionHeading -> Title
 const SectionTitle = styled(Typography)(({ theme }) => ({
   ...theme.typography.body3,
-color: theme.palette.text.heading,
+  color: theme.palette.text.heading,
   [theme.breakpoints.up("sm")]: {
     ...theme.typography.h6,
   },
