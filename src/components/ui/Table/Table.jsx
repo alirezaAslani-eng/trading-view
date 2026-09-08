@@ -11,6 +11,7 @@ const Table = styled(Table_)(({ theme }) => ({
   // * TableCell Styles
   "& td, & th": {
     textAlign: "center",
+    whiteSpace: "nowrap",
     "& *": {
       margin: "0px auto",
     },
