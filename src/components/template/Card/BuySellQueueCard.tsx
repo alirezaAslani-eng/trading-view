@@ -16,9 +16,13 @@ import { WEIGHT_UNITS } from "@/constant/features/product/weightUnits";
 import getTotalAmountInQueue from "@/utils/features/wallet/getTotalAmountInQueue";
 import { walletPortfolioConfig } from "@/packages/react-query";
 import { useTradeMode } from "@/context/feature/trade/TradeMode";
+import { ComponentProps } from "react";
+import { ReplaceSxWithSxOnlyObject } from "@/packages/mui/theme/types";
 
 const priceUnitDisplay = PRICE_UNITS.IRT.displayName;
-function BuySellQueueCard() {
+function BuySellQueueCard(
+  props: ReplaceSxWithSxOnlyObject<ComponentProps<typeof PanelPaper>>,
+) {
   const { isDemo } = useTradeMode();
   const walletQuery = useQuery(walletPortfolioConfig(isDemo));
 
@@ -28,15 +32,16 @@ function BuySellQueueCard() {
 
   return (
     <PanelPaper
+      {...props}
       sx={{
         p: "48px 34px",
         width: "100%",
-        height: "100%",
         position: "relative",
         overflow: "hidden",
         display: "flex",
         justifyContent: "space-between",
         flexDirection: "column",
+        ...props.sx,
       }}
     >
       <QueueStatItem title="نقدینگی در صف خرید:" amount={totalInBuyQueue} />
@@ -66,7 +71,7 @@ function BuySellQueueCard() {
 
 export default BuySellQueueCard;
 
-function QueueStatItem({ title, amount = 0, unit = priceUnitDisplay }) {
+function QueueStatItem({ title = "", amount = 0, unit = priceUnitDisplay }) {
   return (
     <Stack spacing={1}>
       <Typography variant="button3" sx={{ color: "text.placeHolder" }}>
