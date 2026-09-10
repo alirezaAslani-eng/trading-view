@@ -1,7 +1,14 @@
 "use client";
-import ToggleTabGroup from "@/components/ui/ButtonGroup/ToggleTabGroup";
+import { Box, Divider, Stack, Typography } from "@mui/material";
+import { symbolsWithDefault } from "@/api/trading/symbols";
+import { useCallback, useEffect } from "react";
+import NextLink from "@/components/ui/Link/NextLink";
+import { ROUTES } from "@/constant/app/routes";
+import { MarketTickerInfoResponse } from "@/api/types";
+import useFilter from "@/hooks/app/useFilter";
+import { ProductTrendFilters } from "@/v2-architecture/src/features/product/types";
+import { productTrendConfig } from "@/v2-architecture/src/features/product/react-query/queries";
 import { DashedLine } from "@/components/ui/Icon";
-import { LineChart } from "@mui/x-charts/LineChart";
 import { formatFaPrice, getTrendColor } from "@/utils";
 import Button from "@/components/ui/Button/Button";
 import { useQuery } from "@tanstack/react-query";
@@ -17,21 +24,9 @@ import {
   PagePaperTitle,
 } from "@/components/ui/Layout/PaperLayout";
 import {
-  alpha,
-  Box,
-  Divider,
-  Stack,
-  ToggleButton,
-  Typography,
-} from "@mui/material";
-import { symbolsWithDefault } from "@/api/trading/symbols";
-import { useCallback, useEffect } from "react";
-import NextLink from "@/components/ui/Link/NextLink";
-import { ROUTES } from "@/constant/app/routes";
-import { MarketTickerInfoResponse } from "@/api/types";
-import useFilter from "@/hooks/app/useFilter";
-import { ProductTrendFilters } from "@/v2-architecture/src/features/product/types";
-import { productTrendConfig } from "@/v2-architecture/src/features/product/react-query/queries";
+  LineChart,
+  ResponsiveComponent,
+} from "@/v2-architecture/src/shared/ui";
 
 const DEFAULT_FILTERS: ProductTrendFilters = {
   days: null,
@@ -56,35 +51,28 @@ function ProductTrendChart() {
     ...symbolsConfig(),
     select: symbolsWithDefault,
   });
-  const { defSymbol, symbols } = symbolsQuery.data || {};
-  const defaultSymbol = defSymbol?.name;
+  const { defSymbolName, symbols } = symbolsQuery.data || {};
   useEffect(() => {
-    if (!defaultSymbol) return;
-    symbolHandler(defaultSymbol);
-  }, [defaultSymbol]);
+    if (!defSymbolName) return;
+    symbolHandler(defSymbolName);
+  }, [defSymbolName]);
   //#endregion // * ------------ Data-Symbols ------------
 
   //#region // * ------------ Data-SymbolInfo ------------
-  const symbolInfoQuery = useQuery({
-    ...marketTickerInfoConfig(filters.symbol!),
-    enabled: !!filters.symbol,
-  });
+  const symbolInfoQuery = useQuery(marketTickerInfoConfig(filters.symbol!));
   //#endregion // * ------------ Data-SymbolInfo ------------
 
   return (
-    <PagePaper sx={{ minHeight: "368px" }}>
+    <PagePaper>
       <PagePaperHeading sx={{ mb: "24px" }}>
         <PagePaperTitle>
           {"تحلیل خلاصه‌ای از وضعیت قیمت محصولات"}
         </PagePaperTitle>
       </PagePaperHeading>
 
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
+      <Stack
+        direction={"row"}
+        sx={{ justifyContent: "space-between", alignItems: "center" }}
       >
         <InputSelect
           variant="outlined"
@@ -114,9 +102,9 @@ function ProductTrendChart() {
           <Divider flexItem />
           <ToggleButton value={"2"}>{"سالانه"}</ToggleButton>
         </ToggleTabGroup> */}
-      </Box>
+      </Stack>
 
-      <Box sx={{ display: "flex", mt: "20px" }}>
+      <Stack direction={{ xs: "column", sm: "row" }} sx={{ mt: "20px" }}>
         <SymbolInfoSection
           data={symbolInfoQuery.data}
           isLoading={symbolInfoQuery.isPending}
@@ -124,36 +112,34 @@ function ProductTrendChart() {
         <Divider
           flexItem
           orientation="vertical"
-          sx={{ borderColor: "border.default", mx: "24px" }}
-        />
-        <LineChart
-          slotProps={{
-            tooltip: {
-              container() {
-                return document.body;
-              },
-            },
+          sx={{
+            borderColor: "border.default",
+            mx: "24px",
+            display: { xs: "none", sm: "block" },
           }}
-          xAxis={[
-            {
-              scaleType: "point",
-              data: dates,
-              tickLabelStyle: {
-                fontSize: 12,
-                transform: "rotate(-45deg)",
-              },
-            },
-          ]}
-          series={[
-            {
-              data: prices,
-              area: true,
-              color: alpha("#57A8FF", 0.2),
-            },
-          ]}
-          height={210}
         />
-      </Box>
+
+        {/* // * Chart section */}
+        <ResponsiveComponent
+          sm={
+            <LineChart
+              sx={{ display: { xs: "none", sm: "block" } }}
+              height={210}
+              series={[{ data: prices }]}
+              xAxis={[
+                {
+                  scaleType: "point",
+                  data: dates,
+                  tickLabelStyle: {
+                    fontSize: 12,
+                    transform: "rotate(-45deg)",
+                  },
+                },
+              ]}
+            />
+          }
+        />
+      </Stack>
     </PagePaper>
   );
 }
@@ -176,7 +162,10 @@ function SymbolInfoSection({
     symbol,
   } = data ?? {};
   return (
-    <Stack spacing={12} sx={{ width: "268px" }}>
+    <Stack
+      spacing={{ xs: 6, sm: 12 }}
+      sx={{ width: { xs: "100%", sm: "268px" } }}
+    >
       <Stack sx={{ gap: 3.2 }}>
         <InfoRow label="آخرین قیمت" value={formatFaPrice(lastPrice)} />
         <InfoRow
@@ -195,7 +184,7 @@ function SymbolInfoSection({
       </Stack>
       {!isLoading && (
         <NextLink href={ROUTES.TRADE.BY_SYMBOL(symbol!)}>
-          <Button variant="outlined" fullWidth>
+          <Button variant="outlined" size="small" fullWidth>
             {"معامله"}
           </Button>
         </NextLink>
@@ -203,7 +192,6 @@ function SymbolInfoSection({
     </Stack>
   );
 }
-
 //#endregion // * ------------ Internal Components --------
 
 //#region // * -------- Components that might be generic in the future ---------
