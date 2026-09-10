@@ -1,50 +1,79 @@
 import { InputSizeProps, InputSizeReturn } from "../types";
 
 function inputSize({ theme, size }: InputSizeProps): InputSizeReturn {
+  const { typography, breakpoints } = theme;
+
   const sizes = {
     large: {
       rootSize: {
+        // Shared between breakpoints
+        ...typography.body2,
         borderRadius: "16px",
-        fontSize: theme.typography.body2.fontSize,
-        fontFamily: theme.typography.body3.fontFamily,
-        height: "54px",
-        padding: "0px 14px",
+
+        // Mobile
+        height: "48px",
+        padding: "0px 12px",
+
+        [breakpoints.up("sm")]: {
+          height: "54px",
+          padding: "0px 14px",
+        },
       },
+
       placeholderSize: {
-        fontSize: theme.typography.body2.fontSize,
-        fontFamily: theme.typography.body2.fontFamily,
+        // Shared between breakpoints
+        ...typography.body2,
       },
     } satisfies InputSizeReturn,
+
     // * ------- medium size -------
     medium: {
       rootSize: {
+        // Shared between breakpoints
+        ...typography.body3,
         borderRadius: "10px",
-        fontSize: theme.typography.body3.fontSize,
-        fontFamily: theme.typography.body3.fontFamily,
-        height: "42px",
-        padding: "0px 12px",
+
+        // Mobile
+        height: "40px",
+        padding: "0px 10px",
+
+        [breakpoints.up("sm")]: {
+          height: "42px",
+          padding: "0px 12px",
+        },
       },
+
       placeholderSize: {
-        fontSize: theme.typography.body3.fontSize,
-        fontFamily: theme.typography.body3.fontFamily,
+        // Shared between breakpoints
+        ...typography.body3,
       },
     } satisfies InputSizeReturn,
+
     // * ------- small size -------
     small: {
       rootSize: {
+        // Shared between breakpoints
+        ...typography.button4,
         borderRadius: "10px",
-        fontSize: theme.typography.button4.fontSize,
-        fontFamily: theme.typography.button4.fontFamily,
-        height: "38px",
-        padding: "0px 10px",
+
+        // Mobile
+        height: "36px",
+        padding: "0px 8px",
+
+        [breakpoints.up("sm")]: {
+          height: "38px",
+          padding: "0px 10px",
+        },
       },
+
       placeholderSize: {
-        fontSize: theme.typography.button4.fontSize,
-        fontFamily: theme.typography.button4.fontFamily,
+        // Shared between breakpoints
+        ...typography.button4,
       },
     } satisfies InputSizeReturn,
   };
-  return sizes?.[size] || sizes.medium;
+
+  return sizes[size] || sizes.medium;
 }
 
 export default inputSize;
