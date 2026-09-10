@@ -1,8 +1,11 @@
 import { ChartsTooltipSlotProps } from "@mui/x-charts";
 
-export const defaultTooltipProps = () => {
+export const defaultTooltipProps = (
+  props?: ChartsTooltipSlotProps["tooltip"],
+) => {
   return {
     container: () => document.body,
+    ...props,
   } satisfies ChartsTooltipSlotProps["tooltip"];
 };
 
