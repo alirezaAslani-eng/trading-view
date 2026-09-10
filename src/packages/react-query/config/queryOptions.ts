@@ -94,8 +94,9 @@ const symbolsConfig = () => {
 };
 const marketTickerInfoConfig = (tickerName: string) => {
   return queryOptions({
+    enabled: !!tickerName,
     queryKey: marketTickerInfoDynamicKey(tickerName),
-    refetchOnMount: "always", // * Because signalr updates only the active ticker
+    staleTime: Infinity,
     queryFn: () => marketTickerInfo(tickerName),
   });
 };
