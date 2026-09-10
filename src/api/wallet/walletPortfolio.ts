@@ -28,3 +28,18 @@ export type WalletPortfolioQueryParams = TradeModeQueries;
 //#region // * ------------ Internal types ------------
 type Config = ApiConfig<{ queryParams: WalletPortfolioQueryParams }>;
 //#endregion // * ------------ Internal types ------------
+//#region // * ------------ Shared helpers ------------
+const EMPTY_WALLET_PORTFOLIO: WalletPortfolioResponse = {
+  assets: [],
+  availableCash: 0,
+  buyingPower: 0,
+  marginCredit: 0,
+  totalPortfolioValueIrt: 0,
+  totalProfitLoss24hIrt: 0,
+  totalProfitLoss24hPercentage: 0,
+};
+
+export const getWalletPortfolioData = (
+  data: WalletPortfolioResponse | undefined,
+): WalletPortfolioResponse => data ?? EMPTY_WALLET_PORTFOLIO;
+//#endregion
