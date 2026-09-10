@@ -1,5 +1,4 @@
 "use client";
-
 import { defaultTooltipProps } from "@/packages/mui";
 import {
   SparkLineChart as MuiSparkLineChart,
@@ -11,12 +10,12 @@ function SparkLineChart(props: SparkLineChartProps) {
     <MuiSparkLineChart
       showHighlight
       showTooltip
-      curve="natural"
+      curve="bumpX"
       area
       {...props}
       slotProps={{
         ...props?.slotProps,
-        tooltip: { ...defaultTooltipProps(), ...props?.slotProps?.tooltip },
+        tooltip: defaultTooltipProps(props.slotProps?.tooltip),
       }}
     />
   );
