@@ -39,6 +39,7 @@ declare module "@mui/material/SvgIcon" {
 declare module "@mui/material/styles" {
   interface BreakpointOverrides {
     "xs-mobile": true;
+    "xss-mobile": true;
     xs: true;
     sm: true;
     md: true;
