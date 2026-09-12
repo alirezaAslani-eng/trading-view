@@ -1,5 +1,8 @@
 import PageHeader from "@/components/common/Appbar/PageHeader";
-import TotalAssetCard from "@/components/template/Card/TotalAssetCard";
+import ProductsTable from "@/components/template/Table/ProductsTable";
+import KycPromoBanner from "@/components/template/kycbanner/KycPromoBanner";
+import ProductTrendChart from "@/components/template/product/ProductTrendChart";
+import { PortfolioSummary } from "@/components/PortfolioSummary";
 import {
   Page,
   Main,
@@ -9,10 +12,6 @@ import {
   SectionTitle,
   SectionContent,
 } from "@/components/ui/Layout/PageLayout";
-import ProductsTable from "@/components/template/Table/ProductsTable";
-import KycPromoBanner from "@/components/template/kycbanner/KycPromoBanner";
-import ProductTrendChart from "@/components/template/product/ProductTrendChart";
-import { AssetsAnalytics } from "@/components/template/Card/AssetsAnalytics";
 function page() {
   return (
     <Page>
@@ -27,18 +26,13 @@ function page() {
           <KycPromoBanner />
         </Section>
 
-        <Section>
+        {/* <Section>
           <TotalAssetCard />
+        </Section> */}
+
+        <Section>
+          <PortfolioSummary />
         </Section>
-
-        <Section sx={{ display: { xs: "block", sm: "block" } }}>
-          <SectionHeading>
-            <SectionTitle>{"نمایی از داریی ها"}</SectionTitle>
-          </SectionHeading>
-
-          <AssetsAnalytics />
-        </Section>
-
         <Section>
           <SectionHeading>
             <SectionTitle>{"وضعیت بازار"}</SectionTitle>
@@ -48,8 +42,6 @@ function page() {
           </SectionContent>
         </Section>
 
-
-
         <Section>
           <SectionHeading>
             <SectionTitle>{"قیمت‌های لحظه‌ای بازار"}</SectionTitle>
@@ -58,10 +50,6 @@ function page() {
             <ProductsTable />
           </SectionContent>
         </Section>
-
-
-
-
       </Main>
     </Page>
   );
