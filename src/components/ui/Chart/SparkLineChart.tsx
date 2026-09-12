@@ -5,7 +5,7 @@ import {
   SparkLineChartProps,
 } from "@mui/x-charts";
 
-function SparkLineChart(props: SparkLineChartProps) {
+function SparkLineChart({ slotProps, ...props }: SparkLineChartProps) {
   return (
     <MuiSparkLineChart
       showHighlight
@@ -14,8 +14,11 @@ function SparkLineChart(props: SparkLineChartProps) {
       area
       {...props}
       slotProps={{
-        ...props?.slotProps,
-        tooltip: defaultTooltipProps(props.slotProps?.tooltip),
+        ...slotProps,
+        tooltip: {
+          ...defaultTooltipProps(),
+          ...slotProps?.tooltip,
+        },
       }}
     />
   );

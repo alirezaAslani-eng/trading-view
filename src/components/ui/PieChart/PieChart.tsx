@@ -18,16 +18,10 @@ function PieChart({
   slotProps,
   ...props
 }: ComponentProps<typeof StyledPieChart>) {
-  const series = useMemo(
-    () =>
-      props?.series?.map((item) => {
-        return {
-          ...DEFAULT_SERIES,
-          ...item,
-        };
-      }),
-    [props?.series],
-  );
+  const series = props.series?.map((item) => {
+    return { ...DEFAULT_SERIES, ...item };
+  });
+
   return (
     <StyledPieChart
       {...props}
